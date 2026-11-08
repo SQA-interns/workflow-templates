@@ -22,18 +22,18 @@ Settings of the run. How to fill each line: the table below. Start each session 
 
 | Session | Skill | Agent | Model | Effort | Max turns |
 |---|---|---|---|---|---|
-| G, T | `/grill-me`, `/to-spec` | | claude-opus-5-5 | high | |
+| G, T | `/grill-me`, `/to-spec` | | claude-sonnet-5-5 | medium | |
 | S1 | `/preflight` | | claude-sonnet-5-5 | medium | |
-| S2 | `/clarify` | | claude-opus-5-5 | high | |
-| S3 | `/plan` | | claude-opus-5-5 | high | |
-| W | `/wireframes` | | claude-opus-5-5 | medium | |
-| S4 | `/acceptance-tests` | | claude-opus-5-5 | medium | |
-| S5 | `/implement` | | claude-opus-5-5 | medium | |
-| R | `/review` | | claude-opus-5-5 | high | |
-| D | `/design` | | claude-opus-5-5 | medium | |
+| S2 | `/clarify` | | claude-sonnet-5-5 | medium | |
+| S3 | `/plan` | | claude-sonnet-5-5 | medium | |
+| W | `/wireframes` | | claude-sonnet-5-5 | medium | |
+| S4 | `/acceptance-tests` | | claude-sonnet-5-5 | medium | |
+| S5 | `/implement` | | claude-sonnet-5-5 | medium | |
+| R | `/review` | | claude-sonnet-5-5 | medium | |
+| D | `/design` | | claude-sonnet-5-5 | medium | |
 | S6 | `/quality-gate` | | claude-sonnet-5-5 | medium | |
-| S7 | `/verify` | | claude-opus-5-5 | high | |
-| S8 | `/fix` | | claude-opus-5-5 | medium | |
+| S7 | `/verify` | | claude-sonnet-5-5 | medium | |
+| S8 | `/fix` | | claude-sonnet-5-5 | medium | |
 | S9 | `/release` | | claude-sonnet-5-5 | medium | |
 
 An empty Agent cell uses the default agent. Model and effort are passed to that agent as they are, so write values it understands. `Max turns` caps the model turns of one session (empty: no cap); a session that hits it ends as failed and is retried once with `resume`.
