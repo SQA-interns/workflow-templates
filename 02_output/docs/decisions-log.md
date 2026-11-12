@@ -67,3 +67,58 @@
 - Human response: none
 - Resolution: pending
 - Overrides: `tech-stack.md` dependencies `react-router`, `zod`, tooling `vite`
+
+## D-07: Human answers to D-03, D-04, D-05, D-06
+- Timestamp: 2026-11-12T13:30+01:00
+- Session: S1 /preflight (run 2)
+- Class: allow
+- Type: non-blocking
+- Trigger: `/preflight D-03: 1, D-04: 1, D-05: 1, D-06: 1` ("all recommended").
+- Options: none (records the answers).
+- Human response: D-03 option 1, D-04 option 1, D-05 option 1, D-06 option 1; 2026-11-12.
+- Resolution: D-03 → Node.js 22.23.3. D-04 → trivy 0.67.2, gitleaks 8.28.0 and k6 1.3.0 run from their official images (`aquasec/trivy:0.67.2`, `zricethezav/gitleaks:v8.28.0`, `grafana/k6:1.3.0`). D-05 → Spring Boot 4.1.2 (companions in D-08). D-06 → react-router 7.18.5, zod 4.6.7, vite 7.3.8.
+- Overrides: `tech-stack.md` platform `node` 22.20.0 → 22.23.3; tooling `trivy`, `gitleaks`, `k6` ecosystem binary → container; backend `spring-boot-*` 3.5.7 → 4.1.2; `react-router` 7.9.4 → 7.18.5; `zod` 4.1.12 → 4.6.7; `vite` 7.1.12 → 7.3.8
+
+## D-08: Companion pins for Spring Boot 4.1.2
+- Timestamp: 2026-11-12T13:30+01:00
+- Session: S1 /preflight (run 2)
+- Class: allow
+- Type: non-blocking
+- Trigger: D-05 option 1 asks the agent to re-pin the companions. Spring Boot 4 renames and splits modules. All coordinates resolve on Maven Central (HTTP 200); Trivy scan of the resulting tree: 0 Critical/High/Medium (`out/logs/preflight-trivy-backend.txt`).
+- Options: 1. The pins below (default).
+- Human response: none
+- Resolution: 1 — pending review. `spring-boot-starter-web` → `spring-boot-starter-webmvc` 4.1.2; add `spring-boot-starter-flyway` 4.1.2 (Flyway autoconfiguration is its own module in Boot 4; `flyway-database-postgresql` stays, managed 12.4.0); test slices `spring-boot-starter-webmvc-test`, `spring-boot-starter-security-test`, `spring-boot-starter-data-jpa-test` 4.1.2 (test scope); `org.testcontainers:postgresql` → `org.testcontainers:testcontainers-postgresql` (managed 2.0.5); `springdoc-openapi-starter-webmvc-ui` 2.8.13 → 3.2.0 (built against Boot 4.1.2). Managed by Boot 4.1.2: Spring Framework 7.0.10, Spring Security 7.1.2, Tomcat 11.0.27, Hibernate 7.4.13.Final, Jackson 3.1.7, JUnit Jupiter 6.0.3, pgjdbc 42.7.14. Not yet proven: `pitest-junit5-plugin` 1.2.3 with JUnit 6 (checked when mutation testing first runs).
+- Overrides: `tech-stack.md` backend dependencies as listed
+
+## D-09: Container images replaced by their latest patch of the same line
+- Timestamp: 2026-11-12T13:30+01:00
+- Session: S1 /preflight (run 2)
+- Class: allow
+- Type: non-blocking
+- Trigger: Trivy: `eclipse-temurin:21.0.8_9-jre` scan timed out; `21.0.13_9-jre` (same Java 21.0 line) is clean. `postgres:16.10`: 17 Critical / 109 High (OS) plus Go binary findings; `16.15` (PostgreSQL patch release of the same major 16) leaves 2 High (OS) plus the `gosu` findings (D-11).
+- Options: 1. `eclipse-temurin:21.0.13_9-jre` and `postgres:16.15` (default).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: `tech-stack.md` containers `eclipse-temurin` 21.0.8_9-jre → 21.0.13_9-jre, `postgres` 16.10 → 16.15
+
+## D-10: @grpc/grpc-js 1.9.16 (High) pulled in by the firebase web SDK, no upstream fix
+- Timestamp: 2026-11-12T13:30+01:00
+- Session: S1 /preflight (run 2)
+- Class: block
+- Type: blocking
+- Trigger: Trivy on the frontend lock file: CVE-2026-101916 (High, authentication bypass via improper peer certificate validation) in `@grpc/grpc-js` 1.9.16, fixed in 1.13.6 / 1.14.5. It is required by `@firebase/firestore` (`~1.9.0`) inside `firebase` 12.4.0; the latest `firebase` 12.19.0 and 13.3.0 still require `~1.9.0`. The product uses only Firebase Authentication in the browser; grpc-js is used only by Firestore under Node.js and is not in a browser bundle.
+- Options: 1. Force `@grpc/grpc-js` 1.14.7 with an npm `overrides` entry in the frontend `package.json` (default; nothing we use depends on it). 2. Keep 1.9.16 and lower the finding to Low with the evidence above (no Firestore, browser-only bundle; checked by a test that the production bundle contains no grpc-js). 3. Replace the `firebase` umbrella package with `@firebase/app` + `@firebase/auth` only (different dependencies; needs their pins).
+- Human response: none
+- Resolution: pending
+- Overrides: `tech-stack.md` frontend dependencies (option 1 or 3)
+
+## D-11: Remaining Critical/High findings in the postgres and nginx images
+- Timestamp: 2026-11-12T13:30+01:00
+- Session: S1 /preflight (run 2)
+- Class: block
+- Type: blocking
+- Trigger: Trivy (`--ignore-unfixed`): `postgres:16.15` — 2 High in Debian `zlib1g` (fixed in `+deb13u1`) and, in `/usr/local/bin/gosu` (Go 1.24.6 stdlib), 1 Critical (CVE-2025-68121 crypto/tls) and 25 High; `postgres:16.15-alpine` has 19 High plus the same `gosu`. `nginx:1.29.8-alpine` (latest 1.29) — 1 Critical, 57 High; `nginx:1.30.6-alpine` (stable line, different minor) — 3 High, all in `libxslt` (fixed 1.1.43-r4), a library only the optional XSLT module uses, which we do not load. `gosu` runs once at container start to drop from root to the `postgres` user and makes no network or TLS connection. The database is never exposed outside the Compose network.
+- Options: 1. Use `postgres:16.15` and `nginx:1.30.6-alpine`, each through a small project Dockerfile that runs the distribution's package upgrade at build time (fixes zlib and libxslt), and lower the `gosu` Go-stdlib findings to Low with the evidence above (default). 2. Same images without the package upgrade; lower all remaining image findings to Low with evidence. 3. Other images you name.
+- Human response: none
+- Resolution: pending
+- Overrides: `tech-stack.md` container `nginx` 1.29.2-alpine → 1.30.6-alpine; severity of the listed `gosu` findings (option 1 or 2)

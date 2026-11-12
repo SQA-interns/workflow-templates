@@ -2,52 +2,47 @@
 
 > For: agent (writes), human (reads) · Written in: phase 0 (`/preflight`) · Source: `project/00_setup/*` · Procedure: `skills/preflight` · Agent: writes
 
-Run 1: 2026-11-12, session S1. **Gate not passed.** Decisions D-01 … D-06 in `docs/decisions-log.md`.
+Run 2: 2026-11-12, session S1. **Gate not passed.** Run 1 decisions D-01 … D-06 were answered (D-07); run 2 added D-08 … D-11 (`docs/decisions-log.md`). Versions below are the pins after those decisions.
 
 | Check | Source of truth | Result |
 |---|---|---|
-| Run configuration complete | `project/00_setup/run-config.md` | Pass for this session's scope: "Pre-approved findings" is empty (none apply). |
-| Platforms and tools installed at the listed versions | `project/00_setup/tech-stack.md` | **Fail.** Java runs as 21.0.13 (D-01, non-blocking). Node.js on PATH is 18.19.1 (pin 22.20.0; D-03). `trivy`, `gitleaks`, `k6` not installed (D-04). Maven: no host install needed; the wrapper's Maven 3.9.11 resolves on Maven Central. npm-based tools (vite, eslint, vitest, stryker, playwright, firebase-tools, …) are project-local and resolve; they cannot run until D-03 is decided. |
-| Browser test runner starts and saves a screenshot | `tech-stack.md` (`@playwright/test`) | **Not run:** needs Node.js ≥ 18 with the stack's engines (vite needs ≥ 20.19); waits on D-03. |
-| Local environments and services running or reachable | `project/00_setup/environments.md` | Partial. Docker daemon reachable (server 29.3.1, Compose v5.1.1); the `postgres:16.10` image resolves. Firebase Auth emulator (`firebase-tools`, needs Node ≥ 20) **not run**, waits on D-03. The local stack itself does not exist yet (built from `/implement` on). |
-| Secrets present in `.env` or marked test-only | `project/00_setup/secrets.env.example` | **Fail.** `.env` does not exist, so `DB_PASSWORD` (marked "provided") is missing. `FIREBASE_SERVICE_ACCOUNT_FILE` is marked "not needed until increment 2" and was not checked. |
-| Every listed dependency resolves | `project/00_setup/tech-stack.md` | Pass. All 25 Maven coordinates, 38 npm packages and 3 container images resolve at the pinned version. |
-| No listed dependency has a known Critical or High vulnerability | `project/00_setup/tech-stack.md` | **Fail.** The pinned dependency-scan tool (Trivy) is not installed (D-04). OSV database lookup of the direct dependencies and the main Spring-managed artifacts: Critical/High in Spring Boot 3.5.7 (actuator, managed Tomcat 10.1.48, Spring Framework 6.2.12, Spring Security 6.5.6, pgjdbc 42.7.8), react-router 7.9.4, zod 4.1.12, vite 7.1.12, vitest 3.2.4 (D-02, D-05, D-06). Transitive npm packages are not checked yet (no lock file). Full list: `out/logs/preflight-osv-2026-11-12.txt`. |
-| Clean working tree on the starting commit | repository | Pass: `git status --short` empty at `d95d8fb`; `.env` absent. |
+| Run configuration complete | `project/00_setup/run-config.md` | Pass for this session's scope: "Pre-approved findings" is empty. |
+| Platforms and tools installed at the listed versions | `project/00_setup/tech-stack.md` | **Fail (Node on PATH only).** Java 21.0.13 (D-01). Node.js 22.23.3 (D-07) runs from `~/.nvm/versions/node/v22.23.3/bin`, but `node` on the PATH of non-interactive bash, login bash and zsh is still 18.19.1; nvm is not loaded there, so `nvm alias default` alone does not help. Trivy 0.67.2, gitleaks 8.28.0, k6 1.3.0 run from their images (D-07). npm tools resolve and run with Node 22.23.3 (firebase-tools 14.20.0, Playwright 1.56.1 checked). Maven 3.9.11 (wrapper) resolves. |
+| Browser test runner starts and saves a screenshot | `tech-stack.md` (`@playwright/test`) | Pass. Playwright 1.56.1 with Chromium 141.0.7390.37 saved `out/logs/preflight-screenshot.png` (1440 × 900); second method `playwright screenshot` CLI also succeeded. |
+| Local environments and services running or reachable | `project/00_setup/environments.md` | Pass. Docker daemon reachable; Firebase Auth emulator (firebase-tools 14.20.0, project `demo-contacts`) started, answered `GET /` and `accounts:signUp` with 200, and was stopped. Note: host port 9099 is held by an unrelated container `contacts-auth-1`; the emulator was checked on 9199. The Compose stack must not publish 9099 on the host while that container runs. |
+| Secrets present in `.env` or marked test-only | `project/00_setup/secrets.env.example` | **Fail.** `.env` does not exist (checked twice with `test -f`), so `DB_PASSWORD` is missing. `FIREBASE_SERVICE_ACCOUNT_FILE` is "not needed until increment 2". |
+| Every listed dependency resolves | `project/00_setup/tech-stack.md` | Pass. Spring Boot 4.1.2 starters and companions (D-08), all npm pins (incl. D-02, D-07), and images `postgres:16.15`, `eclipse-temurin:21.0.13_9-jre`, `nginx:1.30.6-alpine` resolve. |
+| No listed dependency has a known Critical or High vulnerability | `project/00_setup/tech-stack.md` | **Fail.** Trivy 0.67.2 (`fs` on throw-away manifests with the full resolved tree; `image` with `--ignore-unfixed`): backend 0 findings; frontend 1 High (`@grpc/grpc-js` via `firebase`, D-10); `eclipse-temurin:21.0.13_9-jre` 0; `postgres:16.15` 2 High + `gosu` 1 Critical / 25 High; `nginx:1.30.6-alpine` 3 High (D-11). Logs: `out/logs/preflight-trivy-*.txt`. |
+| Clean working tree on the starting commit | repository | Pass: `git status --short` empty at `32873a0`. |
 | Input manifest written | `docs/00_input-manifest.sha256` | Not written: the gate did not pass. |
 
-Methods (no values shown): versions with each tool's version command in a non-login `bash -c`; second method for every failure: `type -a`, `command -v` in a login shell, nvm's version list and common install folders. Resolution: HTTP HEAD on the Maven Central `.pom`, `npm view <pkg>@<version> version` (npm 10.9.9 from Node 22.23.3 via nvm), `docker manifest inspect`. Vulnerabilities: OSV `querybatch` API, severity from each advisory's `database_specific.severity`, mapped as `general/quality/severity-scale.md` (MODERATE = Medium). `.env`: existence test only.
+Methods (no values shown): version commands in `bash -c`, `bash -lc` and `zsh -c`; tools in containers with `docker run --rm <image> --version`; Playwright via a script and via its CLI; emulator via HTTP probes. Resolution: HTTP HEAD on Maven Central `.pom`, `npm view`, `npm install --package-lock-only --ignore-scripts` in the scratchpad, `docker manifest inspect`, Docker Hub tag listing. Vulnerabilities: Trivy (primary), OSV API (run 1, second source). `.env`: existence test only; no value read.
 
 ## Dependency results
 
-Only entries with an advisory or a decision are listed separately; every other entry resolves and has no OSV advisory at its pinned version.
+Entries after D-07 … D-09. Every entry not listed resolves with no Critical or High finding.
 
 | id | version | Resolves | Highest vulnerability |
 |---|---|---|---|
-| org.springframework.boot:spring-boot-starter-* (8 entries) | 3.5.7 | yes | High (actuator auth bypass GHSA-8hfc-fq58-r658, GHSA-mgvc-8q2h-5pgc; fixed 3.5.12) |
-| ↳ managed org.apache.tomcat.embed:tomcat-embed-core | 10.1.48 | yes | Critical (8 advisories; the last fixed in 10.1.59; 10.1.61 has none) |
-| ↳ managed org.springframework:spring-webmvc | 6.2.12 | yes | Critical (GHSA-j9f9-w8pj-32f8, GHSA-pc63-qcmh-9cmg: fixed only in 7.0.9; still present in 6.2.19, the last 6.2 release) |
-| ↳ managed org.springframework.security:spring-security-web | 6.5.6 | yes | Critical (GHSA-mf92-479x-3373; fixed 6.5.9) |
-| ↳ managed org.postgresql:postgresql | 42.7.8 | yes | High (fixed 42.7.12) |
-| ↳ managed org.apache.commons:commons-lang3 | 3.17.0 | yes | Medium |
-| com.google.firebase:firebase-admin | 9.5.0 | yes | none found |
-| org.apache.poi:poi-ooxml | 5.4.1 | yes | none found |
-| org.springdoc:springdoc-openapi-starter-webmvc-ui | 2.8.13 | yes | none found |
-| react-router | 7.9.4 | yes | High (8 advisories; fixed by 7.18.2; 7.18.5 latest 7.x) |
-| zod | 4.1.12 | yes | High (GHSA-mrhx-c7xc-m3w5; fixed 4.6.6) |
-| vite | 7.1.12 | yes | High (dev server; fixed 7.3.7; 7.3.8 latest 7.3.x) |
-| vitest, @vitest/coverage-v8 | 3.2.4 | yes | Critical (GHSA-5xrq-8626-4rwp, UI server; fixed 3.2.6) |
-| postgres (container) | 16.10 | yes | not scanned (needs Trivy, D-04) |
-| eclipse-temurin (container) | 21.0.8_9-jre | yes | not scanned (needs Trivy, D-04) |
-| nginx (container) | 1.29.2-alpine | yes | not scanned (needs Trivy, D-04) |
-| apache-maven (wrapper) | 3.9.11 | yes | none found |
-| all other Maven and npm entries | as listed | yes | none found |
+| org.springframework.boot starters (webmvc, validation, data-jpa, security, actuator, flyway, test slices, testcontainers) | 4.1.2 | yes | none (Trivy on the full tree) |
+| org.springdoc:springdoc-openapi-starter-webmvc-ui | 3.2.0 | yes | none |
+| com.google.firebase:firebase-admin, poi-ooxml, bucket4j, archunit | as listed | yes | none |
+| firebase (→ @firebase/firestore → @grpc/grpc-js 1.9.16) | 12.4.0 | yes | High (CVE-2026-101916; D-10) |
+| react-router / zod / vite / vitest | 7.18.5 / 4.6.7 / 7.3.8 / 3.2.7 | yes | none |
+| firebase-tools (dev; its own @grpc/grpc-js 1.14.7) | 14.20.0 | yes | none |
+| eclipse-temurin (container) | 21.0.13_9-jre | yes | none |
+| postgres (container) | 16.15 | yes | Critical (`gosu`, Go stdlib CVE-2025-68121); High (`zlib1g`, `gosu`) — D-11 |
+| nginx (container) | 1.30.6-alpine | yes | High (`libxslt`, 3) — D-11 |
+| trivy / gitleaks / k6 (tool images) | 0.67.2 / v8.28.0 / 1.3.0 | yes | not part of the product |
 
 ## Asked the human
 
 | When | What was missing | Answer | Re-check |
 |---|---|---|---|
-| 2026-11-12 | Node.js 22 on PATH (D-03) | | Node version, Playwright screenshot, Firebase emulator, npm tool versions |
-| 2026-11-12 | Trivy, gitleaks, k6 (D-04) | | Tool versions, dependency scan |
-| 2026-11-12 | `.env` with `DB_PASSWORD` | | Secret presence |
-| 2026-11-12 | Backend stack line (D-05), frontend bumps (D-06) | | Resolution and scan of the approved versions |
+| 2026-11-12 run 1 | Node.js 22 on PATH (D-03) | D-03: 1 (Node 22.23.3) | Run 2: approved version runs; still not first on PATH |
+| 2026-11-12 run 1 | Trivy, gitleaks, k6 (D-04) | D-04: 1 (images) | Run 2: pass |
+| 2026-11-12 run 1 | `.env` with `DB_PASSWORD` | not yet | Run 2: still missing |
+| 2026-11-12 run 1 | Backend line (D-05), frontend bumps (D-06) | D-05: 1, D-06: 1 | Run 2: backend clean; frontend D-10 |
+| 2026-11-12 run 2 | Node 22.23.3 first on PATH in non-interactive shells | | Node version in `bash -c` and `zsh -c` |
+| 2026-11-12 run 2 | `.env` with `DB_PASSWORD` | | Secret presence |
+| 2026-11-12 run 2 | D-10 (grpc-js), D-11 (images) | | Trivy re-scan of the chosen option |

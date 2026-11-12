@@ -5,17 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S1 /preflight
+- Session: S1 /preflight (run 2)
 - Result: blocked
-- Gate: phase 0 not passed (tools, secrets, dependency vulnerabilities)
+- Gate: phase 0 not passed (Node on PATH, `.env` DB_PASSWORD, D-10, D-11)
 - Notes for the next session:
-  - Re-run only the failed checks (`docs/00_preflight-report.md`): Node version, npm tools, Playwright screenshot, Firebase emulator, Trivy/gitleaks/k6, `.env` DB_PASSWORD, resolution and scan of the versions approved in D-02, D-05, D-06.
-  - Run the Trivy scan on a throw-away manifest in the scratchpad (no lock file exists yet); transitive npm packages are unchecked so far.
-  - Then write `docs/00_input-manifest.sha256`.
+  - Pins in effect are `tech-stack.md` plus decisions D-01, D-02, D-07, D-08, D-09 (decisions-log); apply them, do not re-ask.
+  - Re-check only: `node --version` in `bash -c` and `zsh -c` (expect 22.23.3); `.env` DB_PASSWORD; Trivy re-scan for the options chosen in D-10 and D-11.
+  - Scan inputs: throw-away manifests (pom.xml, package.json + lock) were built in the session scratchpad; rebuild them from the pins if gone. Trivy runs as `aquasec/trivy:0.67.2` with the `trivy-cache` Docker volume.
+  - Host port 9099 is held by an unrelated container `contacts-auth-1`.
+  - Then write `docs/00_input-manifest.sha256` and commit.
 
 ## Next
 - Command: /preflight
-- Waiting for: D-03, D-04, D-05, D-06, `.env` with DB_PASSWORD
+- Waiting for: D-10, D-11, Node 22.23.3 on PATH, `.env` with DB_PASSWORD
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
