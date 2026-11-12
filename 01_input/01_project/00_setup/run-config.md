@@ -54,11 +54,10 @@ The Codex reasoning-effort key (`model_reasoning_effort`) is not confirmed in th
 
 Findings the human already decided for this project, so the agent does not stop to ask. For an item below, record a **non-blocking** decision that cites this file, apply the action and continue. Apply an item only when the evidence matches the row exactly (same finding, same artifact); anything else is a normal decision (`general/rules/decisions.md`).
 
-<!-- One row per finding: ID PA-nn, the finding (CVE, scanner rule, version difference …), the evidence that must match exactly, and the action (classify, suppress for one artifact, accept, approve). -->
-
 | ID | Finding | Evidence that it matches | Action |
 |---|---|---|---|
-| PA-01 | | | |
+
+None yet.
 
 Not pre-approved: any Critical finding, any finding on a different artifact, and any change to a technology, version or service not listed above.
 
@@ -66,4 +65,8 @@ Not pre-approved: any Critical finding, any finding on a different artifact, and
 
 Commands Claude Code sessions may run without asking, in permission-rule syntax, one per line; `system/run.mjs` adds the base set (git, node, npm, npx, docker, file listing and hashing). Add the build, test and scan commands of the stack. `/to-spec` proposes them; the developer confirms. Codex and other agents use their own sandbox instead.
 
-- `Bash(<command> *)`
+- `Bash(./mvnw *)`
+- `Bash(java -version)`
+- `Bash(trivy *)`
+- `Bash(gitleaks *)`
+- `Bash(k6 *)`
