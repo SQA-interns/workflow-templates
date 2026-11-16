@@ -68,7 +68,7 @@ export function UserMenu() {
                   className="w-full justify-start"
                   aria-pressed={language === code}
                   onKeyDown={closeOnEscape}
-                  onClick={() => changeLanguage.mutate(code)}
+                  onClick={() => changeLanguage.mutate(code, { onSuccess: () => setOpen(false) })}
                 >
                   <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
                   {name}

@@ -88,12 +88,24 @@ describe("language (R-020-01, R-020-02)", () => {
 
     expect(apiRequest).toHaveBeenCalledWith("PATCH", "/me", { language: "sl" });
     await waitFor(() => expect(i18n.language).toBe("sl"));
+    await userEvent.click(screen.getByRole("button", { name: "Ana Kovač" }));
     expect(screen.getByRole("button", { name: "Slovenščina" }).getAttribute("aria-pressed")).toBe(
       "true",
     );
     expect(screen.getByRole("button", { name: "English" }).getAttribute("aria-pressed")).toBe(
       "false",
     );
+  });
+
+  it("D-48 choosing a language closes the menu once it is saved", async () => {
+    renderMenu();
+    const menu = await screen.findByRole("button", { name: "Ana Kovač" });
+    await userEvent.click(menu);
+
+    await userEvent.click(screen.getByRole("button", { name: "Slovenščina" }));
+
+    await waitFor(() => expect(menu.getAttribute("aria-expanded")).toBe("false"));
+    expect(screen.queryByRole("button", { name: "Odjava" })).toBeNull();
   });
 
   it("R-020-02 when saving fails the language stays and the menu says so", async () => {
