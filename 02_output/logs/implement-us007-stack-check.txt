@@ -1,0 +1,23 @@
+
+Running 2 tests using 1 worker
+
+AC-007-01 [200,"janez@novak.si","2 edited Marko Kranjc [{\"item\": \"email\", \"newValue\": \"janez@novak.si\", \"oldValue\": \"janez.novak@example.si\"}]"]
+AC-007-02 [409,{"type":"about:blank","title":"Conflict","status":409,"code":"version.conflict","params":{"changedBy":"Marko Kranjc"}},3]
+AC-007-03 [400,{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"name","code":"contact.nameRequired"}]}]
+AC-007-04 [409,"contact.noChanges",3]
+AC-007-05 [403,"auth.forbidden"]
+EX-007-01 [200,"4 edited Marko Kranjc [{\"item\": \"jobTitle\", \"newValue\": \"CEO\", \"oldValue\": null}, {\"item\": \"city\", \"newValue\": \"Koper\", \"oldValue\": \"Maribor\"}]"]
+EX-007-02 [409,"contact.noChanges"]
+EX-007-04 [409,{"type":"about:blank","title":"Conflict","status":409,"code":"version.conflict","params":{"changedBy":"Marko Kranjc"}}]
+EX-007-05 [404,404]
+EX-007-03 [409,"contact.inRecycleBin"]
+  ✓  1 [chromium] › reports/us007-check/us007.spec.ts:47:1 › API AC-007-01..05, EX-007-01..05 (2.3s)
+axe loaded: none
+UI AC-007-01 2 edited Marko Kranjc [{"item": "email", "newValue": "janez@novak.si", "oldValue": "janez.novak@example.si"}]
+axe conflict: none
+axe name-required: none
+axe no-changes: none
+
+  ✓  2 [chromium] › reports/us007-check/us007.spec.ts:120:1 › UI AC-007-01..04 (8.8s)
+
+  2 passed (12.6s)

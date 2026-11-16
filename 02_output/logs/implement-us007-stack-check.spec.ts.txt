@@ -1,0 +1,175 @@
+import { execFileSync } from "node:child_process";
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, createContact, createGroup, editContact, getContact,
+  resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+function query(statement: string): string {
+  return execFileSync("docker", ["exec", "kontakti-postgres-1", "psql", "-At", "-U", "contacts",
+    "-d", "contacts", "-c", statement]).toString().trim();
+}
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+
+async function janez(t: Awaited<ReturnType<typeof team>>) {
+  return createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si" },
+  });
+}
+
+function versions(id: string): string[] {
+  const rows = query(`SELECT number || ' ' || kind || ' ' || (SELECT display_name FROM app_user u WHERE u.id = changed_by) || ' ' || changes::text FROM contact_version WHERE contact_id = '${id}' ORDER BY number`);
+  return rows ? rows.split("\n") : [];
+}
+
+async function put(u: any, t: any, id: string, change: (b: any) => void) {
+  const c = await getContact(u, t.groupId, id);
+  const body = { fields: { ...c.fields }, attributes: [], tags: [], versionNumber: c.versionNumber };
+  change(body);
+  return api(u, "PUT", `/groups/${t.groupId}/contacts/${id}`, body);
+}
+
+test("API AC-007-01..05, EX-007-01..05", async () => {
+  const t = await team();
+  const id = await janez(t);
+  const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+
+  let r = await put(t.marko, t, id, (b) => (b.fields.email = "janez@novak.si"));
+  log("AC-007-01", [r.status, r.json.fields.email, versions(id).at(-1)]);
+  expect(r.status).toBe(200);
+  expect(versions(id).at(-1)).toContain("2 edited Marko Kranjc");
+
+  const stale = await getContact(t.ana, t.groupId, id);
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.city = "Maribor"));
+  r = await api(t.ana, "PUT", `/groups/${t.groupId}/contacts/${id}`, {
+    fields: { ...stale.fields, jobTitle: "CEO" }, attributes: [], tags: [], versionNumber: stale.versionNumber });
+  log("AC-007-02", [r.status, r.json, versions(id).length]);
+  expect(r.status).toBe(409);
+  expect(r.json.params.changedBy).toBe("Marko Kranjc");
+  expect(versions(id).length).toBe(3);
+
+  r = await put(t.marko, t, id, (b) => ((b.fields.firstName = ""), (b.fields.lastName = "")));
+  log("AC-007-03", [r.status, r.json]);
+  expect(r.json.errors[0].code).toBe("contact.nameRequired");
+
+  r = await put(t.marko, t, id, () => {});
+  log("AC-007-04", [r.status, r.json.code, versions(id).length]);
+  expect(r.json.code).toBe("contact.noChanges");
+
+  r = await put(t.petra, t, id, (b) => (b.fields.city = "Celje"));
+  log("AC-007-05", [r.status, r.json.code]);
+  expect(r.status).toBe(403);
+
+  r = await put(t.marko, t, id, (b) => ((b.fields.city = "Koper"), (b.fields.jobTitle = "CEO")));
+  log("EX-007-01", [r.status, versions(id).at(-1)]);
+  expect(versions(id).length).toBe(4);
+
+  r = await put(t.marko, t, id, (b) => (b.fields.firstName = "Janez "));
+  log("EX-007-02", [r.status, r.json.code]);
+  expect(r.json.code).toBe("contact.noChanges");
+
+  r = await put(t.marko, t, id, (b) => ((b.fields.city = "Kranj"), (b.versionNumber = 9)));
+  log("EX-007-04", [r.status, r.json]);
+  expect(r.json.code).toBe("version.conflict");
+
+  const nina = await user("nina.kos@example.si", "Nina Kos");
+  const other = await createGroup(nina, "Podjetje Beta");
+  const maja = await createContact(nina, other, { fields: { firstName: "Maja", lastName: "Zupan" } });
+  const body = { fields: { firstName: "Maja", city: "Maribor" }, attributes: [], tags: [], versionNumber: 1 };
+  const direct = await api(t.marko, "PUT", `/groups/${other}/contacts/${maja}`, body);
+  const own = await api(t.marko, "PUT", `/groups/${t.groupId}/contacts/${maja}`, body);
+  log("EX-007-05", [direct.status, own.status]);
+  expect([direct.status, own.status]).toEqual([404, 404]);
+
+  // EX-007-03: recycle bin by SQL until US-012 (state and Version as the move would leave them).
+  const v = (await getContact(t.marko, t.groupId, id)).versionNumber;
+  sql(`UPDATE contact SET state = 'inRecycleBin', version_number = ${v + 1}, deleted_at = now() WHERE id = '${id}'`);
+  r = await put(t.marko, t, id, (b) => (b.fields.city = "Ptuj"));
+  log("EX-007-03", [r.status, r.json.code]);
+  expect(r.json.code).toBe("contact.inRecycleBin");
+});
+
+async function shot(page: Page, name: string) {
+  const dir = "../../../logs/screens/WF-08_contact-form";
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.screenshot({ path: `${dir}/edit-${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("UI AC-007-01..04", async ({ page }) => {
+  const t = await team();
+  const id = await janez(t);
+  await signIn(page, t.marko);
+
+  await page.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await page.getByRole("link", { name: "Edit" }).click();
+  await expect(page.getByLabel("E-mail")).toHaveValue("janez.novak@example.si");
+  await shot(page, "loaded");
+  await page.getByLabel("E-mail").fill("janez@novak.si");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, id)).versionNumber).toBe(2);
+  await expect(page).toHaveURL(new RegExp(`/contacts/${id}$`));
+  await expect(page.getByText("janez@novak.si")).toBeVisible();
+  console.log("UI AC-007-01", versions(id).at(-1));
+
+  // AC-007-02 as Ana with a stale form
+  await editContact(t.ana, t.groupId, id, (u) => (u.fields.phone = "+386 41 123 456"));
+  const ana = await (await page.context().browser()!.newContext({ baseURL: process.env.E2E_BASE_URL })).newPage();
+  await signIn(ana, t.ana);
+  await ana.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await expect(ana.getByLabel("Phone")).toHaveValue("+386 41 123 456");
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.city = "Maribor"));
+  await ana.getByLabel("Job title").fill("CEO");
+  await ana.getByRole("button", { name: "Save" }).click();
+  await expect(ana.getByText(/Contact was changed by Marko Kranjc, reload/)).toBeVisible();
+  await shot(ana, "conflict");
+  const now = await getContact(t.ana, t.groupId, id);
+  expect([now.versionNumber, now.fields.jobTitle ?? ""]).toEqual([4, ""]);
+  await ana.getByRole("button", { name: "Reload" }).click();
+  await expect(ana.getByLabel("City")).toHaveValue("Maribor");
+  await expect(ana.getByLabel("Job title")).toHaveValue("");
+
+  // AC-007-03
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await page.getByLabel("First name").fill("");
+  await page.getByLabel("Last name").fill("");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("Enter a first name, last name or company.").first()).toBeVisible();
+  await shot(page, "name-required");
+
+  // AC-007-04
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await expect(page.getByLabel("City")).toHaveValue("Maribor");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("No changes to save.")).toBeVisible();
+  await shot(page, "no-changes");
+  expect(versions(id).length).toBe(4);
+
+  // Viewer: no Edit on the details
+  const petra = await (await page.context().browser()!.newContext({ baseURL: process.env.E2E_BASE_URL })).newPage();
+  await signIn(petra, t.petra);
+  await petra.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await expect(petra.getByRole("heading", { level: 1, name: "Janez Novak" })).toBeVisible();
+  await expect(petra.getByRole("link", { name: "Edit" })).toHaveCount(0);
+});

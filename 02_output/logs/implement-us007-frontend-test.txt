@@ -1,0 +1,86 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1410ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  316ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-03 lists the User's Groups in the order of the API, the current one marked  454ms
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (8 tests) 1375ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  498ms
+ ✓ src/app/UserMenu.test.tsx (7 tests) 2012ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  417ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  400ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  412ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 when saving fails the language stays and the menu says so  307ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (11 tests) 2273ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  563ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  532ms
+ ✓ src/app/AppLayout.test.tsx (15 tests) 2014ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  358ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 68ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 364ms
+ ✓ src/features/contacts/EditContactPage.test.tsx (6 tests) 4151ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  896ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  1181ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  790ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  644ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  611ms
+ ✓ src/api/apiClient.test.ts (6 tests) 41ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 2050ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  1048ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  604ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 2428ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  2056ms
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 3007ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  875ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  1114ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > R-002-02 the server's group.nameLength shows the same text  328ms
+ ✓ src/features/contacts/ContactTable.test.tsx (5 tests) 774ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  342ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 591ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  314ms
+ ✓ src/features/contacts/fieldMessages.test.ts (6 tests) 17ms
+ ✓ src/auth/firebase.test.ts (8 tests) 11ms
+ ✓ src/i18n/catalogs.test.ts (4 tests) 43ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 30ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 14ms
+ ✓ src/features/contacts/listQuery.test.ts (5 tests) 12ms
+ ✓ src/api/problem.test.ts (4 tests) 12ms
+ ✓ src/i18n/format.test.ts (4 tests) 7ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1616ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  955ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  529ms
+ ✓ src/api/retry.test.ts (2 tests) 5ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 11110ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  2454ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  391ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  766ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  848ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  596ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  734ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  594ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  575ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  2040ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  770ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 an e-mail without a match shows no warning  528ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 a blank or invalid e-mail is not looked up  525ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 324ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  322ms
+
+ Test Files  26 passed (26)
+      Tests  168 passed (168)
+   Start at  22:09:05
+   Duration  14.79s (transform 2.21s, setup 7.62s, collect 11.14s, tests 35.76s, environment 26.32s, prepare 5.05s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 97.53% ( 1662/1704 )
+Branches     : 96.37% ( 425/441 )
+Functions    : 93.08% ( 148/159 )
+Lines        : 97.53% ( 1662/1704 )
+================================================================================
