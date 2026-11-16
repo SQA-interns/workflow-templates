@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "export-xlsx.schema.json",
+  "title": "Export file layout (.xlsx), as read by tests",
+  "description": "Interface Export (backend → User, ADR-09). The workbook has one sheet; tests read it into this JSON form (every cell as text) and validate it. Column order R-016-03; header language R-016-04; country as ISO code (R-016-04, D-24); formula-like values stored as text (SR-07). File name `kontakti-<Group name>-<yyyy-mm-dd>.xlsx` (R-016-06, D-24).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["fileName", "sheetCount", "header", "rows"],
+  "properties": {
+    "fileName": { "type": "string", "pattern": "^kontakti-[^\\\\/:*?\"<>|]*-\\d{4}-\\d{2}-\\d{2}\\.xlsx$" },
+    "sheetCount": { "const": 1 },
+    "header": {
+      "type": "array",
+      "minItems": 12,
+      "prefixItems": [
+        { "enum": ["Ime", "First name"] },
+        { "enum": ["Priimek", "Last name"] },
+        { "enum": ["E-pošta", "E-mail"] },
+        { "enum": ["Telefon", "Phone"] },
+        { "enum": ["Podjetje", "Company"] },
+        { "enum": ["Delovno mesto", "Job title"] },
+        { "enum": ["Ulica", "Street"] },
+        { "enum": ["Poštna številka", "Postal code"] },
+        { "enum": ["Kraj", "City"] },
+        { "enum": ["Država", "Country"] },
+        { "enum": ["Opomba", "Note"] }
+      ],
+      "items": { "type": "string", "minLength": 1 },
+      "description": "11 Field columns, then one column per Attribute key A–Z, then the Tags column (\"Značke\" / \"Tags\") last."
+    },
+    "rows": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "type": "array", "items": { "type": "string" } }
+    }
+  },
+  "examples": [
+    {
+      "fileName": "kontakti-Konferenca 2025-2026-03-05.xlsx",
+      "sheetCount": 1,
+      "header": ["First name", "Last name", "E-mail", "Phone", "Company", "Job title", "Street", "Postal code", "City", "Country", "Note", "jezik", "kompetenca", "Tags"],
+      "rows": [["Janez", "Novak", "janez.novak@example.si", "", "", "", "", "", "", "SI", "", "", "spletnoProgramiranje", "udelezenec2025, vip"]]
+    }
+  ]
+}
