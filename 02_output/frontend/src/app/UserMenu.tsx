@@ -26,16 +26,17 @@ export function UserMenu() {
   }
 
   return (
-    <div className="relative">
+    <div className="relative min-w-0">
       <Button
         variant="ghost"
+        className="max-w-full px-2 md:px-4"
         aria-expanded={open}
         aria-controls={menuId}
         onKeyDown={closeOnEscape}
         onClick={() => setOpen((value) => !value)}
       >
         <UserRound aria-hidden="true" />
-        <span>{me.data?.displayName ?? t("app.userMenu")}</span>
+        <span className="truncate">{me.data?.displayName ?? t("app.userMenu")}</span>
         <ChevronDown aria-hidden="true" />
       </Button>
       {open && (

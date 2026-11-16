@@ -18,7 +18,7 @@ export function AppLayout() {
   return (
     <div className="flex min-h-dvh flex-col">
       <header className="border-b bg-surface">
-        <div className="mx-auto flex max-w-[1200px] items-center gap-4 px-4 py-2 md:px-6">
+        <div className="mx-auto flex max-w-[1200px] items-center gap-2 px-4 py-2 md:gap-4 md:px-6">
           <span className="rounded-md border px-2 py-1 text-lg font-semibold">
             {t("app.productName")}
           </span>
@@ -41,7 +41,7 @@ export function AppLayout() {
               {t("nav.contacts")}
             </NavLink>
           </nav>
-          <div className="md:ml-auto">
+          <div className="min-w-0 md:ml-auto">
             <UserMenu />
           </div>
         </div>
