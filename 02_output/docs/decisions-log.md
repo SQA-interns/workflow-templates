@@ -287,3 +287,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-27: Human answers to D-15 … D-21
+- Timestamp: 2026-11-16T11:00+01:00
+- Session: S2 /clarify (run 2)
+- Class: allow
+- Type: non-blocking
+- Trigger: `/clarify D-15: 1, D-16: 1, D-17: 1, D-18: 1, D-19: 1, D-20: 1, D-21: 1.`
+- Options: none (records the answers).
+- Human response: option 1 for each of D-15, D-16, D-17, D-18, D-19, D-20, D-21; 2026-11-16.
+- Resolution: D-15 → roles and rights as written (several Groups per User; creator sole Owner; Owner manages Group, Members, Invitations, permanent delete; Owner and Editor change, tag, restore, use the recycle bin, merge, undo; Viewer reads, sees History, exports; only the Owner sees the Member list; no ownership handover; non-Members get HTTP 404). D-16 → e-mail/password and Google; e-mail verification required, unverified Users may call only `GET /api/v1/me` (else HTTP 403); 100 requests per minute per User; ASVS 5.0 Level 2. D-17 → Invitations Owner-only, single use, 7 days, bound to the invitee's e-mail (case-insensitive), a new one revokes the open one; Audit entries for creation, every revocation (also automatic) and acceptance. D-18 → recycle bin 30 days for Contacts and Groups; permanent delete Owner-only and only from the recycle bin; removal at least hourly; a Contact's removal date keeps running while its Group is in the recycle bin. D-19 → Group is controller, we are processor; permanent delete erases all Versions; Group erasure (BR-08) also removes its Audit entries and Merge records; no Audit UI in this release. D-20 → US-021 kept (increment 2); a deleted User is anonymised (e-mail and display name erased, id and Firebase uid kept, marked deleted); any token of a deleted User gets HTTP 401 and never re-creates the User. D-21 → permanently deleting a Primary contact (Owner or BR-08) also permanently deletes every Contact merged into it, each with an Audit entry; the confirmation names them; R-013-04 dropped.
+- Overrides: R-001-05 ("every other request" = all except `GET /api/v1/me`); BR-10 (adds automatic Invitation revocation and Invitation acceptance); BR-08 (adds Audit entries and Merge records of an erased Group; adds Contacts merged into an erased Primary contact); R-021-01 (anonymise instead of delete the User); R-001-04 (no re-creation of a deleted User); R-013-04 (dropped); project-wide fact "recycle bin period" confirmed 30 days; every `OPEN — needs customer` item listed in D-15 … D-21 confirmed
