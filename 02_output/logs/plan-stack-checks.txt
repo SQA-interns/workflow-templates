@@ -1,0 +1,14 @@
+GET / -> 200
+GET /groups/x (SPA fallback) -> 200 text/html
+GET /api/v1/groups (no token) -> 401
+headers:
+Server: nginx
+Content-Security-Policy: default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com http://localhost:9199; frame-src https://localhost; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+X-Frame-Options: DENY
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+config.json valid against contract
+emulator -> 200
+backend user: app
+frontend user: nginx
+firebase-emulator user: node

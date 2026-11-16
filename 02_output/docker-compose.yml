@@ -1,0 +1,61 @@
+# Local stack (environments.md "local", ADR-11, D-32). Start with: scripts/up.sh  (passes --env-file ../.env)
+# Host ports: APP_HOST_PORT (default 8080), EMULATOR_HOST_PORT (default 9199).
+name: kontakti
+
+services:
+  postgres:
+    build: docker/postgres
+    image: contacts-postgres:16.15
+    environment:
+      POSTGRES_DB: contacts
+      POSTGRES_USER: contacts
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD missing - run with --env-file ../.env}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contacts -d contacts"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  firebase-emulator:
+    build: docker/firebase-emulator
+    image: contacts-firebase-emulator:14.20.0
+    # Host port 9199 for the browser; 9099 on the host is taken (preflight). Backend uses firebase-emulator:9099.
+    ports:
+      - "127.0.0.1:${EMULATOR_HOST_PORT:-9199}:9099"
+    restart: unless-stopped
+
+  backend:
+    build: backend
+    image: contacts-backend:local
+    environment:
+      SPRING_PROFILES_ACTIVE: local
+      DB_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD missing}"
+      FIREBASE_AUTH_EMULATOR_HOST: firebase-emulator:9099
+      APP_PUBLIC_URL: http://localhost:${APP_HOST_PORT:-8080}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      firebase-emulator:
+        condition: service_started
+    restart: unless-stopped
+
+  frontend:
+    build: frontend
+    image: contacts-frontend:local
+    environment:
+      FIREBASE_WEB_API_KEY: fake-api-key
+      FIREBASE_AUTH_DOMAIN: localhost
+      FIREBASE_PROJECT_ID: demo-contacts
+      AUTH_EMULATOR_URL: http://localhost:${EMULATOR_HOST_PORT:-9199}
+    ports:
+      - "127.0.0.1:${APP_HOST_PORT:-8080}:8080"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:

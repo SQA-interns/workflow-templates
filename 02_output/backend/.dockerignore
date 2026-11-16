@@ -1,0 +1,4 @@
+target/*
+!target/contacts-backend.jar
+src
+.mvn
