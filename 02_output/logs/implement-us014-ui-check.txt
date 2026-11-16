@@ -1,0 +1,38 @@
+
+Running 6 tests using 1 worker
+
+AC-014-01 [33m3[39m [ [32m'Žiga Čuk'[39m, [32m'Janez Novak'[39m, [32m'Maja Zupan'[39m ] [{"id":"00000000-0000-4000-8000-0000000d0001","name":"udelezenec2025"}]
+R-014-06 [33m200[39m {"id":"3c509a36-e3be-4fe6-89c9-8351365494e4","versionNumber":1,"state":"active","fields":{"firstName":"Janez","lastName":"Novak","email":"janez.novak@example.si","phone":null,"company":"Podjetje d.o.o
+  ✓  1 reports/us014-check/us014-api.spec.ts:8:1 › US-014 API (2.9s)
+
+  ✓  2 reports/us014-check/us014-api.spec.ts:45:1 › AC-014-05 EX-014-01 Pages (1.5s)
+
+  ✓  3 reports/us014-check/us014-ui.spec.ts:9:1 › AC-014-01 steps (2.1s)
+
+  ✓  4 reports/us014-check/us014-ui.spec.ts:25:1 › AC-014-04 AC-014-02 steps (2.7s)
+
+  ✓  5 reports/us014-check/us014-ui.spec.ts:40:1 › EX-014-02 R-014-06 steps (2.1s)
+WF-06_contact-list empty mobile axe: none overflow: [33mfalse[39m
+WF-06_contact-list empty tablet axe: none overflow: [33mfalse[39m
+WF-06_contact-list empty desktop axe: none overflow: [33mfalse[39m
+WF-06_contact-list list mobile axe: none overflow: [33mfalse[39m
+WF-06_contact-list list tablet axe: none overflow: [33mfalse[39m
+WF-06_contact-list list desktop axe: none overflow: [33mfalse[39m
+WF-06_contact-list no-match mobile axe: none overflow: [33mfalse[39m
+WF-06_contact-list no-match tablet axe: none overflow: [33mfalse[39m
+WF-06_contact-list no-match desktop axe: none overflow: [33mfalse[39m
+WF-06_contact-list error mobile axe: none overflow: [33mfalse[39m
+WF-06_contact-list error tablet axe: none overflow: [33mfalse[39m
+WF-06_contact-list error desktop axe: none overflow: [33mfalse[39m
+WF-06_contact-list pages mobile axe: none overflow: [33mfalse[39m
+WF-06_contact-list pages tablet axe: none overflow: [33mfalse[39m
+WF-06_contact-list pages desktop axe: none overflow: [33mfalse[39m
+WF-07_contact-details details mobile axe: none overflow: [33mfalse[39m
+WF-07_contact-details details tablet axe: none overflow: [33mfalse[39m
+WF-07_contact-details details desktop axe: none overflow: [33mfalse[39m
+WF-07_contact-details not-found mobile axe: none overflow: [33mfalse[39m
+WF-07_contact-details not-found tablet axe: none overflow: [33mfalse[39m
+WF-07_contact-details not-found desktop axe: none overflow: [33mfalse[39m
+  ✓  6 reports/us014-check/us014-ui.spec.ts:72:1 › screens (39.8s)
+
+  6 passed (52.5s)

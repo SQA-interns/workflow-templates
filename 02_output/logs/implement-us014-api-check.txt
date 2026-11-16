@@ -1,0 +1,10 @@
+
+Running 2 tests using 1 worker
+
+AC-014-01 [33m3[39m [ [32m'Žiga Čuk'[39m, [32m'Janez Novak'[39m, [32m'Maja Zupan'[39m ] [{"id":"00000000-0000-4000-8000-0000000d0001","name":"udelezenec2025"}]
+R-014-06 [33m200[39m {"id":"538479cb-654e-4901-987e-e8de18f741d1","versionNumber":1,"state":"active","fields":{"firstName":"Janez","lastName":"Novak","email":"janez.novak@example.si","phone":null,"company":"Podjetje d.o.o
+  ✓  1 reports/us014-check/us014-api.spec.ts:8:1 › US-014 API (1.9s)
+
+  ✓  2 reports/us014-check/us014-api.spec.ts:45:1 › AC-014-05 EX-014-01 Pages (1.4s)
+
+  2 passed (4.4s)
