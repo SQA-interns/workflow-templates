@@ -1,5 +1,6 @@
 package app.contacts.repository;
 
+import app.contacts.domain.ContactAttributeRow;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
 import app.contacts.domain.ContactTagRow;
@@ -141,5 +142,32 @@ public class ContactQueryRepository {
       tags.add(new ContactTagRow((UUID) row[0], (UUID) row[1], (String) row[2]));
     }
     return tags;
+  }
+
+  /**
+   * The Attributes of one Contact of the Group, by key A–Z in Slovenian collation (R-014-06,
+   * R-008-06).
+   *
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @return the Attributes; none for a Contact of another Group
+   */
+  public List<ContactAttributeRow> findAttributes(UUID groupId, UUID contactId) {
+    Query query =
+        entityManager
+            .createNativeQuery(
+                """
+                SELECT key, value FROM attribute
+                WHERE group_id = :groupId AND contact_id = :contactId
+                ORDER BY key COLLATE "sl-x-icu", id
+                """)
+            .setParameter("groupId", groupId)
+            .setParameter("contactId", contactId);
+    List<ContactAttributeRow> attributes = new ArrayList<>();
+    for (Object result : query.getResultList()) {
+      Object[] row = (Object[]) result;
+      attributes.add(new ContactAttributeRow((String) row[0], (String) row[1]));
+    }
+    return attributes;
   }
 }

@@ -3,6 +3,7 @@ package app.contacts.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import app.contacts.domain.Contact;
+import app.contacts.domain.ContactAttributeRow;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
@@ -210,6 +211,28 @@ class ContactQueryRepositoryIT {
     assertThat(query.findTags(groupId, List.of(janez.getId())))
         .containsExactly(new ContactTagRow(janez.getId(), tag, "udelezenec2025"));
     assertThat(query.findTags(groupId, List.of())).isEmpty();
+  }
+
+  @Test
+  void r01406ReadsTheAttributesOfAContactByKey() {
+    Contact janez = add("Janez", "Novak");
+    entityManager.flush();
+    for (String[] attribute : new String[][] {{"velikost", "L"}, {"kompetenca", "splet"}}) {
+      jdbc.update(
+          "INSERT INTO attribute (id, group_id, contact_id, key, value) VALUES (?, ?, ?, ?, ?)",
+          UUID.randomUUID(),
+          groupId,
+          janez.getId(),
+          attribute[0],
+          attribute[1]);
+    }
+    UUID beta = groups.save(Group.create("Podjetje Beta", ana, NOW)).getId();
+
+    assertThat(query.findAttributes(groupId, janez.getId()))
+        .containsExactly(
+            new ContactAttributeRow("kompetenca", "splet"),
+            new ContactAttributeRow("velikost", "L"));
+    assertThat(query.findAttributes(beta, janez.getId())).isEmpty();
   }
 
   @Test
