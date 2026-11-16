@@ -298,3 +298,25 @@
 - Human response: option 1 for each of D-15, D-16, D-17, D-18, D-19, D-20, D-21; 2026-11-16.
 - Resolution: D-15 → roles and rights as written (several Groups per User; creator sole Owner; Owner manages Group, Members, Invitations, permanent delete; Owner and Editor change, tag, restore, use the recycle bin, merge, undo; Viewer reads, sees History, exports; only the Owner sees the Member list; no ownership handover; non-Members get HTTP 404). D-16 → e-mail/password and Google; e-mail verification required, unverified Users may call only `GET /api/v1/me` (else HTTP 403); 100 requests per minute per User; ASVS 5.0 Level 2. D-17 → Invitations Owner-only, single use, 7 days, bound to the invitee's e-mail (case-insensitive), a new one revokes the open one; Audit entries for creation, every revocation (also automatic) and acceptance. D-18 → recycle bin 30 days for Contacts and Groups; permanent delete Owner-only and only from the recycle bin; removal at least hourly; a Contact's removal date keeps running while its Group is in the recycle bin. D-19 → Group is controller, we are processor; permanent delete erases all Versions; Group erasure (BR-08) also removes its Audit entries and Merge records; no Audit UI in this release. D-20 → US-021 kept (increment 2); a deleted User is anonymised (e-mail and display name erased, id and Firebase uid kept, marked deleted); any token of a deleted User gets HTTP 401 and never re-creates the User. D-21 → permanently deleting a Primary contact (Owner or BR-08) also permanently deletes every Contact merged into it, each with an Audit entry; the confirmation names them; R-013-04 dropped.
 - Overrides: R-001-05 ("every other request" = all except `GET /api/v1/me`); BR-10 (adds automatic Invitation revocation and Invitation acceptance); BR-08 (adds Audit entries and Merge records of an erased Group; adds Contacts merged into an erased Primary contact); R-021-01 (anonymise instead of delete the User); R-001-04 (no re-creation of a deleted User); R-013-04 (dropped); project-wide fact "recycle bin period" confirmed 30 days; every `OPEN — needs customer` item listed in D-15 … D-21 confirmed
+
+## D-28: Dev-only tools for contract validation, CI syntax and the Maven wrapper
+- Timestamp: 2026-11-16T11:30+01:00
+- Session: S3 /plan
+- Class: allow
+- Type: non-blocking
+- Trigger: phase 2 needs a parser for the OpenAPI contract, a syntax check for the CI workflow and the Maven wrapper files; `tech-stack.md` lists none of these. Rule: dev-only tooling may be added with an exact version and a non-blocking record (`tech-stack.md` Rules).
+- Options: 1. `@redocly/cli` 2.76.0 via `npx` (OpenAPI lint), Python `jsonschema` already on the host (JSON Schema meta-validation), `rhysd/actionlint:1.7.8` image (workflow syntax), `maven:3.9.11-eclipse-temurin-21` image run once to generate the Maven wrapper for Maven 3.9.11 (default). 2. Validate by hand.
+- Human response: none
+- Resolution: 1 — pending review. None of these ships with the product; versions older than one week chosen on purpose.
+- Overrides: none
+
+## D-29: Firebase Auth emulator image for the local stack and tests
+- Timestamp: 2026-11-16T11:30+01:00
+- Session: S3 /plan
+- Class: allow
+- Type: non-blocking
+- Trigger: environments.md runs the Auth emulator (`firebase-tools` 14.20.0) in Docker Compose; the emulator needs Node.js and Java, and no pinned image provides both. Host port 9099 is held by another container (preflight).
+- Options: 1. Project image `02_output/docker/firebase-emulator/Dockerfile`: `eclipse-temurin:21.0.13_9-jre` plus the Node.js 22.23.3 binary copied from `node:22.23.3-bookworm-slim` plus `firebase-tools@14.20.0`; exposed to the browser on host port 9199, to the backend on `firebase-emulator:9099` (default). 2. Run the emulator on the host.
+- Human response: none
+- Resolution: 1 — pending review. Local and test only, never deployed; scanned with the other images in phase 6.
+- Overrides: `tech-stack.md` adds container `node` 22.23.3-bookworm-slim (build stage of the emulator image only)
