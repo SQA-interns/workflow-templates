@@ -529,3 +529,25 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-49: Frozen tests of US-006 set up Roles through Invitations and read the Contact list, details and History
+- Timestamp: 2026-11-16T16:18+01:00
+- Session: S5 /implement US-006
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01 needs every frozen test of US-006 to pass. Both suites build their team with `team()` (`AcceptanceTest.team`, `acceptance/support/api.ts`), which makes Marko Editor and Petra Viewer through `POST /groups/{id}/invitations` and `POST /invitations/{token}/accept` (US-004); this session all 15 API tests (`Us006AddContactAcceptanceIT`) and all 5 UI tests (`us006-add-contact.spec.ts`) fail there (404 `notFound`), before any US-006 call (logs `out/logs/implement-us006-backend-full.txt`, `out/logs/implement-us006-ui-acceptance.txt`). After the setup they also read the Contact list (`GET …/contacts`, WF-06: US-014), one Contact (`GET …/contacts/{id}`: US-014 R-014-06) and the History (`GET …/versions`, WF-09: US-010). The US-006 behaviour itself was checked on the local stack with throwaway scripts that set the Roles by SQL: every AC and EX of the API (`out/logs/implement-us006-api-check.txt`) and the UI steps of AC-006-01, -03, -04, -05 (`out/logs/implement-us006-ui-check.txt`); unit and integration tests cover each rule.
+- Options: 1. Build US-006 to T-09 and T-10 only; US-006 stays "in progress" until `/implement US-014`, `/implement US-010` and `/implement US-004` re-run both US-006 suites and set it to done when they pass (as D-39, D-44, D-46) (default). 2. Build Invitations, the Contact list and History now (crosses story boundaries; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-50: Details of adding a Contact not stated in the inputs
+- Timestamp: 2026-11-16T16:18+01:00
+- Session: S5 /implement US-006
+- Class: open
+- Type: non-blocking
+- Trigger: R-006-01 … R-006-07, WF-08, specification §3 to §5 and the contract leave open: the error field of R-006-02, an unknown Field name in the body, how `search_text` joins its Fields, the name of a ContactRef, when and how the e-mail warning is shown, where a saved Contact leads, how the country is chosen and named, how lengths are counted, and the Slovenian wording.
+- Options: 1. [ASSUMPTION] (a) the problem of R-006-02 has `field` = `name` (the Name parts as a whole); every invalid Field gets its own error at once, a Field longer than its maximum only `field.tooLong`; (b) an unknown Field name or a body without `fields` → 400 `validation` without errors (contract `additionalProperties: false`); `attributes` and `tags` are read from US-008/US-009 on; (c) `search_text` joins the Normalised Fields with spaces, as `seed/seed.sql` does; lengths count characters (code points, as PostgreSQL `varchar(n)`), trimming uses Unicode white space; (d) ContactRef `name` = first and last name joined by a space, else company; several matches of R-006-06 are named in one warning, oldest first, joined by ", "; (e) the e-mail is looked up when the User leaves its box, only when it is a valid address; `excludeContactId` is built with the edit form (US-007); (f) after saving, WF-08 opens the Group's Contact list (the new Contact is listed there; WF-07 details come with US-014); (g) the country is a native select of the ISO 3166-1 alpha-2 codes of `java.util.Locale.getISOCountries()` (the list the API checks), named by `Intl.DisplayNames` in the User's language and sorted by its collation, empty by default; (h) numbers in hints and errors use the formatter of R-020-03 (Slovenian CLDR leaves four digits ungrouped: "2000", English "2,000"); (i) Slovenian texts: "Dodaj kontakt", "Podatki", "Ime", "Priimek", "E-pošta", "Telefon", "Podjetje", "Delovno mesto", "Ulica", "Poštna številka", "Kraj", "Država", "Opomba", "Največ {{max}} znakov", "Števke, presledki in + - ( ) /", "Vnesite vsaj ime, priimek ali podjetje.", "Izberite …", "Shrani", "Prekliči", "Vnesite ime, priimek ali podjetje.", "{{field}} ima lahko največ {{max}} znakov.", "Vnesite veljavno telefonsko številko.", "Kontakt s tem e-poštnim naslovom že obstaja: {{name}}."; (j) the method the specification calls `VersionWriter.write` is named `record`, because SpotBugs takes a `write…` method as a sign of a mutable class (EI_EXPOSE_REP2 on every service holding it); (k) WF-08 for adding loads no data, so its loading and empty states (UI-14) come with the edit form (US-007); a failed save is its error state (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
