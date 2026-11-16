@@ -1,0 +1,137 @@
+package app.contacts.service;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
+import static org.mockito.Mockito.when;
+
+import app.contacts.domain.Contact;
+import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactVersion;
+import app.contacts.domain.Role;
+import app.contacts.repository.ContactRepository;
+import java.time.Clock;
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+
+class ContactServiceTest {
+
+  private static final Instant NOW = Instant.parse("2026-03-05T10:00:00Z");
+  private static final UUID GROUP_ID = UUID.randomUUID();
+  private static final UUID MARKO = UUID.randomUUID();
+  private static final UUID PETRA = UUID.randomUUID();
+
+  private final ContactRepository contacts = mock(ContactRepository.class);
+  private final VersionWriter versionWriter = mock(VersionWriter.class);
+  private final AccessGuard guard = mock(AccessGuard.class);
+  private final ContactService service =
+      new ContactService(
+          contacts,
+          versionWriter,
+          guard,
+          new ContactValidator(),
+          new Normaliser(),
+          Clock.fixed(NOW, ZoneOffset.UTC));
+
+  @BeforeEach
+  void markoIsEditor() {
+    when(guard.require(GROUP_ID, MARKO, Permission.CHANGE_CONTACT)).thenReturn(Role.EDITOR);
+    when(contacts.add(eq(GROUP_ID), any(Contact.class))).thenAnswer(call -> call.getArgument(1));
+  }
+
+  @Test
+  void r00601EditorCreatesTheContactWithVersionOneCreated() {
+    ContactView created =
+        service.create(
+            GROUP_ID, MARKO, Map.of("firstName", "Janez", "lastName", "Novak", "country", "SI"));
+
+    ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
+    verify(contacts).add(eq(GROUP_ID), stored.capture());
+    verify(versionWriter).record(stored.getValue(), ContactVersion.CREATED, ContactFields.EMPTY);
+    assertThat(created.id()).isEqualTo(stored.getValue().getId());
+    assertThat(created.versionNumber()).isEqualTo(1);
+    assertThat(created.state()).isEqualTo("active");
+    assertThat(created.fields()).containsEntry("lastName", "Novak").containsEntry("email", null);
+    assertThat(created.createdAt()).isEqualTo(NOW);
+    assertThat(created.updatedAt()).isEqualTo(NOW);
+  }
+
+  @Test
+  void r00601StoresTheDerivedSearchTextAndSortName() {
+    service.create(GROUP_ID, MARKO, Map.of("firstName", "Žiga", "lastName", "Čuk"));
+
+    ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
+    verify(contacts).add(eq(GROUP_ID), stored.capture());
+    assertThat(stored.getValue().getSearchText()).isEqualTo("ziga\ncuk");
+    assertThat(stored.getValue().getSortName()).isEqualTo("Čuk");
+  }
+
+  @Test
+  void r00607StoresTheTrimmedFields() {
+    ContactView created = service.create(GROUP_ID, MARKO, Map.of("firstName", "  Janez "));
+
+    assertThat(created.fields()).containsEntry("firstName", "Janez");
+  }
+
+  @Test
+  void r00602InvalidFieldsStoreNothing() {
+    assertThatThrownBy(() -> service.create(GROUP_ID, MARKO, Map.of("email", "info@example.si")))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void r00601UnknownFieldNamesAreRejected() {
+    assertThatThrownBy(
+            () -> service.create(GROUP_ID, MARKO, Map.of("firstName", "Janez", "nickname", "J")))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void r00601MissingFieldsAreRejected() {
+    assertThatThrownBy(() -> service.create(GROUP_ID, MARKO, null))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void r00601NullFieldValuesAreEmptyFields() {
+    Map<String, String> fields = new HashMap<>();
+    fields.put("company", "Podjetje d.o.o.");
+    fields.put("firstName", null);
+
+    assertThat(service.create(GROUP_ID, MARKO, fields).fields())
+        .containsEntry("company", "Podjetje d.o.o.");
+  }
+
+  @Test
+  void ac00606ViewerIsForbiddenBeforeAnyCheckAndNothingIsStored() {
+    when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
+        .thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.create(GROUP_ID, PETRA, Map.of()))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void ex00609NonMemberGetsNotFoundAndNothingIsStored() {
+    UUID other = UUID.randomUUID();
+    when(guard.require(other, MARKO, Permission.CHANGE_CONTACT)).thenThrow(new NotFoundException());
+
+    assertThatThrownBy(() -> service.create(other, MARKO, Map.of("firstName", "Janez")))
+        .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+}

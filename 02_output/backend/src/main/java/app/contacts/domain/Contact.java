@@ -104,6 +104,14 @@ public class Contact implements GroupOwned {
     return versionNumber;
   }
 
+  public String getSearchText() {
+    return searchText;
+  }
+
+  public String getSortName() {
+    return sortName;
+  }
+
   public Instant getCreatedAt() {
     return createdAt;
   }
