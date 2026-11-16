@@ -106,6 +106,7 @@
       "city": "City",
       "country": "Country",
       "note": "Note"
-    }
+    },
+    "countryPlaceholder": "Select …"
   }
 }

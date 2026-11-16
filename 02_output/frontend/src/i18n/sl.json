@@ -106,6 +106,7 @@
       "city": "Kraj",
       "country": "Država",
       "note": "Opomba"
-    }
+    },
+    "countryPlaceholder": "Izberite …"
   }
 }
