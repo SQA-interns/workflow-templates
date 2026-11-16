@@ -1,0 +1,23 @@
+2026-11-16T08:35:50Z	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-16T08:35:51Z	INFO	Detected OS	family="alpine" version="3.24.4"
+2026-11-16T08:35:51Z	WARN	This OS version is not on the EOL list	family="alpine" version="3.24"
+2026-11-16T08:35:51Z	INFO	[alpine] Detecting vulnerabilities...	os_version="3.24" repository="3.24" pkg_num=71
+2026-11-16T08:35:51Z	INFO	Number of language-specific files	num=0
+
+📣 [34mNotices:[0m
+  - Version 0.76.2 of Trivy is now available, current version is 0.67.2
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+
+
+Report Summary
+
+┌───────────────────────────────────────────────┬────────┬─────────────────┐
+│                    Target                     │  Type  │ Vulnerabilities │
+├───────────────────────────────────────────────┼────────┼─────────────────┤
+│ preflight-nginx:1.30.6-alpine (alpine 3.24.4) │ alpine │        0        │
+└───────────────────────────────────────────────┴────────┴─────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+

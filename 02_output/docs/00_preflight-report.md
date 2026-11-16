@@ -47,6 +47,7 @@ Entries after D-07 … D-09. Every entry not listed resolves with no Critical or
 | 2026-11-12 run 2 | `.env` with `DB_PASSWORD` | | Secret presence |
 | 2026-11-12 run 2 | D-10 (grpc-js), D-11 (images) | | Trivy re-scan of the chosen option |
 | 2026-11-16 run 3 | Same three items (no answer given with `/preflight`) | none | Re-checked: unchanged |
+| 2026-11-16 run 4 | D-13 (dev-tooling findings), D-14 (`.env` not git-ignored) | D-12: D-10 1, D-11 1; D-13: 1; D-14: 1 | Run 4: all pass |
 
 ## Run 3 (2026-11-16, session S1)
 
@@ -58,3 +59,22 @@ Entries after D-07 … D-09. Every entry not listed resolves with no Critical or
 | `.env` gives `DB_PASSWORD` | `test -f .env` → missing | `ls -a` → no `.env` | **Fail** |
 | D-10, D-11 | — | — | **Waiting** (no human response) |
 | Clean working tree | `git status --short` empty at `6a8edad` | — | Pass |
+
+## Run 4 (2026-11-16, session S1)
+
+**Gate passed.** Answers: D-12 (D-10 option 1, D-11 option 1), D-13 option 1, D-14 option 1. Only the checks that failed in run 2/3 were re-run.
+
+| Check | Method 1 | Method 2 | Result |
+|---|---|---|---|
+| Node.js 22.23.3 on PATH | `node --version` in `bash -c`, `bash -lc`, `zsh -c` → v22.23.3 | `command -v node` → `~/.nvm/versions/node/v22.23.3/bin/node` in all three | Pass |
+| `.env` gives `DB_PASSWORD` | skill's `sed … \| grep -q .` presence test (no value shown) | `grep -c '^DB_PASSWORD='` → 1 line | Pass. `FIREBASE_SERVICE_ACCOUNT_FILE`: not needed until increment 2. |
+| `.env` not committable | `git check-ignore -v .env` → `.gitignore:1` (D-14) | `git status --short` does not list `.env` | Pass |
+| Frontend dependencies, D-10 | Lock rebuilt from the pins with `overrides` `@grpc/grpc-js` 1.14.7 (`npm install --package-lock-only`); resolved version 1.14.7 read from the lock | Trivy 0.67.2 `fs` (product deps, Trivy default): 0 findings — `out/logs/preflight-trivy-frontend-run4.txt` | Pass |
+| Frontend dev tooling | Trivy `fs --include-dev-deps`: 3 Critical, 12 High in `tar`, `tinypool`, `minimatch`, `basic-ftp` (table `out/logs/preflight-trivy-frontend-run4-incl-dev.txt`) | Same scan as JSON — `out/logs/preflight-trivy-frontend-run4-dev-critical-high.txt` | Pass after D-13 (lowered to Medium; not shipped; re-scan in phase 6) |
+| `postgres:16.15`, D-11 | Built `FROM postgres:16.15` + `apt-get -y upgrade`; Trivy `image --ignore-unfixed`: Debian 13.7 layer 0 | `gosu`: 56 Go stdlib 1.24.6 findings (1 Critical, 25 High, rest Medium) + 1 Medium `moby/sys/user` — `out/logs/preflight-trivy-image-preflight-postgres-16.15-run4.txt` | Pass after D-12 (`gosu` stdlib findings lowered to Low) |
+| `nginx:1.30.6-alpine`, D-11 | Built `FROM nginx:1.30.6-alpine` + `apk upgrade`; Trivy `image --ignore-unfixed`: 0 | — | Pass |
+| `eclipse-temurin:21.0.13_9-jre` (re-scan) | Trivy `image --ignore-unfixed`: 0 Critical/High, 25 Medium | — | Pass |
+| Clean working tree | `git status --short` at `9fd02f6`: only untracked `.env` before this run's writes | — | Pass |
+| Input manifest written | `docs/00_input-manifest.sha256`: 166 files (`01_input/`, `.claude/skills/`, `system/`, `AGENTS.md`, `CLAUDE.md`, `README.md`, `Run_Guide.md`), CR stripped before hashing, `sha256sum` format | — | Written |
+
+Notes for the implementation: the project Dockerfiles for `postgres` and `nginx` must run the package upgrade (`apt-get -y upgrade` / `apk upgrade --no-cache`) at build time (D-11/D-12); the frontend `package.json` must carry `"overrides": { "@grpc/grpc-js": "1.14.7" }` (D-10/D-12).

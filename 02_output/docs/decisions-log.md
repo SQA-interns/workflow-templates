@@ -122,3 +122,36 @@
 - Human response: none
 - Resolution: pending
 - Overrides: `tech-stack.md` container `nginx` 1.29.2-alpine → 1.30.6-alpine; severity of the listed `gosu` findings (option 1 or 2)
+
+## D-12: Human answers to D-10, D-11
+- Timestamp: 2026-11-16T09:40+01:00
+- Session: S1 /preflight (run 4)
+- Class: allow
+- Type: non-blocking
+- Trigger: `/preflight` with "i agree with all the defaults for d 10 and d11"; human also created `.env` and put Node.js 22.23.3 first on PATH.
+- Options: none (records the answers).
+- Human response: D-10 option 1, D-11 option 1; 2026-11-16.
+- Resolution: D-10 → npm `overrides` `@grpc/grpc-js` 1.14.7 in the frontend `package.json`. D-11 → `postgres:16.15` and `nginx:1.30.6-alpine` built through project Dockerfiles that run the distribution package upgrade at build time; the `gosu` Go-stdlib findings in the postgres image are lowered to Low with the D-11 evidence (runs once at start to drop privileges, no network/TLS, database not exposed outside the Compose network). Verified by the Trivy re-scan of this run.
+- Overrides: `tech-stack.md` frontend dependencies (add override `@grpc/grpc-js` 1.14.7); severity of the `gosu` findings in `postgres:16.15`
+
+## D-13: Critical/High findings in frontend dev tooling only
+- Timestamp: 2026-11-16T10:05+01:00
+- Session: S1 /preflight (run 4)
+- Class: block
+- Type: approval
+- Trigger: Trivy 0.67.2 `fs` on the frontend lock: product (runtime) dependencies 0 findings (`out/logs/preflight-trivy-frontend-run4.txt`, Trivy default suppresses dev dependencies, as in run 2). With `--include-dev-deps`: 3 Critical, 12 High, all in transitive packages of dev tooling (`out/logs/preflight-trivy-frontend-run4-dev-critical-high.txt`): `tar` 6.2.1 (via firebase-tools, node-gyp; CVE-2026-59873 Critical + 8 High, extraction DoS / file overwrite), `tinypool` 1.1.1 (via vitest 3.2.7; CVE-2026-104848, CVE-2026-104849 Critical), `minimatch` 10.0.3 (via eslint, Stryker, firebase-tools, test-exclude; 3 High ReDoS), `basic-ftp` 5.3.1 (via get-uri; 1 High DoS). None is in the browser bundle or any container image; they run only on the developer machine and in CI on project-controlled input. Fixes need new majors for `tar`, `tinypool`, `basic-ftp`.
+- Options: 1. Lower to Medium with this evidence (not shipped, no attacker-controlled input); the phase 0 gate counts product dependencies; re-scan in phase 6 (default). 2. npm overrides to the fixed versions (three new majors; may break firebase-tools or vitest). 3. Block and propose newer tooling pins.
+- Human response: option 1; 2026-11-16 (asked with the four packages; the full CVE list above covers the same packages).
+- Resolution: 1 — the 15 findings are Medium for this run; phase 6 re-scans with `--include-dev-deps` and re-evaluates if a finding reaches a shipped artifact.
+- Overrides: severity of the listed dev-tooling findings
+
+## D-14: `.env` was not git-ignored
+- Timestamp: 2026-11-16T10:05+01:00
+- Session: S1 /preflight (run 4)
+- Class: block
+- Type: blocking
+- Trigger: the repository has no `.gitignore`; `git check-ignore .env` fails, so `.env` (holds `DB_PASSWORD`) could be committed by `git add -A` (`general/rules/secrets.md`). `.gitignore` is not in the preflight "Writes" list.
+- Options: 1. Agent adds `.gitignore` with `.env` and commits it with the preflight report (default). 2. Human adds it. 3. Leave it.
+- Human response: option 1; 2026-11-16.
+- Resolution: 1 — `.gitignore` created containing `.env`; `git check-ignore .env` succeeds.
+- Overrides: preflight "Writes" list, for `.gitignore` only, this once

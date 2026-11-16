@@ -5,20 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S1 /preflight (run 3)
-- Result: blocked
-- Gate: phase 0 not passed (Node on PATH, `.env` DB_PASSWORD, D-10, D-11)
+- Session: S1 /preflight (run 4)
+- Result: done
+- Gate: phase 0 passed
 - Notes for the next session:
-  - Pins in effect are `tech-stack.md` plus decisions D-01, D-02, D-07, D-08, D-09 (decisions-log); apply them, do not re-ask.
-  - Run 3 (2026-11-16) re-checked the failures without answers: unchanged.
-  - Re-check only: `node --version` in `bash -c` and `zsh -c` (expect 22.23.3); `.env` DB_PASSWORD; Trivy re-scan for the options chosen in D-10 and D-11.
-  - Scan inputs: throw-away manifests (pom.xml, package.json + lock) were built in the session scratchpad; rebuild them from the pins if gone. Trivy runs as `aquasec/trivy:0.67.2` with the `trivy-cache` Docker volume.
-  - Host port 9099 is held by an unrelated container `contacts-auth-1`.
-  - Then write `docs/00_input-manifest.sha256` and commit.
+  - Pins in effect: `tech-stack.md` plus D-01, D-02, D-07, D-08, D-09, D-12 (decisions-log); D-13 lowers dev-tooling findings, D-14 added `.gitignore` (`.env`).
+  - Build obligations: frontend `package.json` `overrides` `@grpc/grpc-js` 1.14.7; project Dockerfiles for `postgres:16.15` and `nginx:1.30.6-alpine` run the distribution package upgrade at build time.
+  - Host port 9099 is held by an unrelated container `contacts-auth-1`; do not publish the emulator on host 9099.
+  - Trivy runs as `aquasec/trivy:0.67.2` with the `trivy-cache` Docker volume; Node.js 22.23.3 is first on PATH.
+  - Input manifest: `docs/00_input-manifest.sha256` (166 files).
 
 ## Next
-- Command: /preflight
-- Waiting for: D-10, D-11, Node 22.23.3 on PATH, `.env` with DB_PASSWORD
+- Command: /clarify
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
