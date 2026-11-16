@@ -1,0 +1,13 @@
+
+> contacts-frontend@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+✓ 1871 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-ClpDQavJ.css   12.18 kB │ gzip:   3.21 kB
+dist/assets/index-2EKye0yS.js   338.36 kB │ gzip: 109.89 kB
+✓ built in 2.93s

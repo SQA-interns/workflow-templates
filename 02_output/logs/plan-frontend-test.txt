@@ -1,0 +1,24 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/i18n/catalogs.test.ts (2 tests) 7ms
+ ✓ src/app/AppLayout.test.tsx (3 tests) 405ms
+
+ Test Files  2 passed (2)
+      Tests  5 passed (5)
+   Start at  10:11:07
+   Duration  2.14s (transform 105ms, setup 355ms, collect 412ms, tests 412ms, environment 1.24s, prepare 214ms)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 100% ( 89/89 )
+Branches     : 100% ( 8/8 )
+Functions    : 100% ( 5/5 )
+Lines        : 100% ( 89/89 )
+================================================================================

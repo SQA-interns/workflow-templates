@@ -1,0 +1,6 @@
+{
+  "firebaseApiKey": "fake-api-key",
+  "firebaseAuthDomain": "localhost",
+  "firebaseProjectId": "demo-contacts",
+  "authEmulatorUrl": "http://localhost:9199"
+}
