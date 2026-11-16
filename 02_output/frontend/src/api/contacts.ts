@@ -2,6 +2,24 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiRequest } from "./apiClient";
 
+/** A Tag (`Tag` of the contract). */
+export interface Tag {
+  id: string;
+  name: string;
+}
+
+/** One row of the Contact list (`ContactListItem` of the contract, R-014-01). */
+export interface ContactListItem {
+  id: string;
+  firstName: string | null;
+  lastName: string | null;
+  company: string | null;
+  email: string | null;
+  phone: string | null;
+  tags: Tag[];
+  updatedAt: string;
+}
+
 /** A Contact as the API answers it (`Contact` of the contract), as far as the UI reads it. */
 export interface Contact {
   id: string;

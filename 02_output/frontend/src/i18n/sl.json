@@ -120,6 +120,15 @@
     "countryPlaceholder": "Izberite …",
     "save": "Shrani",
     "cancel": "Prekliči",
-    "emailExists": "Kontakt s tem e-poštnim naslovom že obstaja: {{name}}."
+    "emailExists": "Kontakt s tem e-poštnim naslovom že obstaja: {{name}}.",
+    "list": {
+      "column": {
+        "name": "Ime",
+        "company": "Podjetje",
+        "email": "E-pošta",
+        "phone": "Telefon",
+        "tags": "Značke"
+      }
+    }
   }
 }

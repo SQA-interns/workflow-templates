@@ -120,6 +120,15 @@
     "countryPlaceholder": "Select …",
     "save": "Save",
     "cancel": "Cancel",
-    "emailExists": "A Contact with this e-mail already exists: {{name}}."
+    "emailExists": "A Contact with this e-mail already exists: {{name}}.",
+    "list": {
+      "column": {
+        "name": "Name",
+        "company": "Company",
+        "email": "E-mail",
+        "phone": "Phone",
+        "tags": "Tags"
+      }
+    }
   }
 }

@@ -105,3 +105,13 @@ export function countryOptions(language: string): { code: string; name: string }
     collator.compare(a.name, b.name),
   );
 }
+
+/** The name of a Contact: first and last name, else the company (R-014-01, EX-014-04). */
+export function contactName(contact: {
+  firstName: string | null;
+  lastName: string | null;
+  company: string | null;
+}): string {
+  const person = [contact.firstName, contact.lastName].filter(Boolean).join(" ");
+  return person || (contact.company ?? "");
+}
