@@ -573,3 +573,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-53: Frozen tests and details of editing a Contact (US-007) not stated in the inputs
+- Timestamp: 2026-11-16T21:15+01:00
+- Session: S5 /implement US-007
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01: all 10 API tests (`Us007EditContactAcceptanceIT`) and 4 UI tests (`us007-edit-contact.spec.ts`) build their team with Invitations (US-004) and fail there (logs `out/logs/implement-us007-backend-full.txt`, `implement-us007-ui-acceptance.txt`); after that AC-007-01, -02, -04 and EX-007-01, -02 read the History (`GET …/versions`, US-010) and EX-007-03 moves the Contact to the recycle bin (US-012). The steps were run on the stack with the team's Memberships, the History (table `contact_version`) and the recycle-bin state set up or read by SQL: all 10 API cases and the UI steps of AC-007-01 … AC-007-04 pass, axe finds nothing (throwaway; `out/logs/implement-us007-stack-check.txt`, screens `out/logs/screens/WF-08_contact-form/edit/`). Port 8080 of the host was taken by another project's container, so this check ran the stack with `APP_HOST_PORT=8090` (an existing compose variable; no setup change). The rules leave open the details in option 1.
+- Options: 1. [ASSUMPTION] (a) US-007 stays "in progress" until `/implement US-004`, `US-010` and `US-012` re-run both US-007 suites (as D-46, D-49, D-52); (b) order of the checks of `PUT …/contacts/{contactId}`: Role (403) → body: missing `versionNumber`, unknown Field name, invalid Fields (400) → Contact of the Group (404) → Version number (409 `version.conflict`) → state (409 `contact.inRecycleBin`, `contact.merged`) → changed items (409 `contact.noChanges`); (c) `changedBy` is the display name of the User of the current Version (`Contact.updatedBy`); the name of a deleted User ("Deleted user", R-021-03) is left to US-021; (d) the save locks the Contact row (`SELECT … FOR UPDATE`, specification §4); (e) `attributes` and `tags` of the body are accepted and ignored until US-008 and US-009, and a Version's snapshot holds no Attributes or Tags until then; (f) the form sends the Attributes and Tag names read with the Contact unchanged; "Reload" reads the current Version and starts the form again from it, dropping what was typed; "No changes to save." comes from the API and stands beside Save (WF-08); other save errors stand above the form; after a save the Contact details open; the edit form has no duplicate e-mail warning (R-006-06 belongs to adding); (g) WF-07 shows "Edit" beside History for Owners and Editors only; (h) Slovenian texts: "Uredi kontakt", "Uredi", "Osveži", "Ni sprememb za shranjevanje.", "Kontakt je spremenil {{changedBy}}, osvežite", "Ta kontakt je v košu.", "Ta kontakt je bil združen z drugim kontaktom." (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
