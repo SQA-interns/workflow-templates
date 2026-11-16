@@ -35,6 +35,7 @@ class ContactServiceTest {
   private static final UUID GROUP_ID = UUID.randomUUID();
   private static final UUID MARKO = UUID.randomUUID();
   private static final UUID PETRA = UUID.randomUUID();
+  private static final UUID ANA = UUID.randomUUID();
 
   private final ContactRepository contacts = mock(ContactRepository.class);
   private final VersionWriter versionWriter = mock(VersionWriter.class);
@@ -207,6 +208,98 @@ class ContactServiceTest {
 
     assertThatThrownBy(() -> service.get(GROUP_ID, PETRA, unknown))
         .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void r00701EditorSavesChangedFieldsAsOneVersionEdited() {
+    Contact janez =
+        stored(
+            Map.of("firstName", "Janez", "lastName", "Novak", "email", "janez.novak@example.si"));
+    ContactFields before = janez.getFields();
+
+    ContactView saved =
+        service.update(
+            GROUP_ID,
+            MARKO,
+            janez.getId(),
+            1,
+            Map.of("firstName", "Janez", "lastName", "Novak", "email", " janez@novak.si "));
+
+    verify(versionWriter).record(janez, ContactVersion.EDITED, before);
+    assertThat(saved.versionNumber()).isEqualTo(2);
+    assertThat(saved.fields()).containsEntry("email", "janez@novak.si");
+    assertThat(janez.getUpdatedBy()).isEqualTo(MARKO);
+    assertThat(janez.getSearchText()).isEqualTo("janez novak janez@novak.si");
+    assertThat(janez.getSortName()).isEqualTo("Novak");
+  }
+
+  @Test
+  void r00701TheSavedContactKeepsItsAttributesAndTags() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    when(contactQueries.findAttributes(GROUP_ID, janez.getId()))
+        .thenReturn(List.of(new ContactAttributeRow("kompetenca", "spletnoProgramiranje")));
+
+    ContactView saved =
+        service.update(
+            GROUP_ID, MARKO, janez.getId(), 1, Map.of("firstName", "Janez", "city", "Maribor"));
+
+    assertThat(saved.attributes())
+        .containsExactly(new AttributeView("kompetenca", "spletnoProgramiranje"));
+  }
+
+  @Test
+  void r00702InvalidEditedFieldsChangeNothing() {
+    Contact janez = stored(Map.of("firstName", "Janez", "lastName", "Novak"));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID, MARKO, janez.getId(), 1, Map.of("firstName", " ", "lastName", "")))
+        .isInstanceOf(ValidationException.class);
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    assertThat(janez.getFields().lastName()).isEqualTo("Novak");
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void r00702UnknownFieldNamesOrNoVersionNumberAreRejected() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+
+    assertThatThrownBy(
+            () -> service.update(GROUP_ID, MARKO, janez.getId(), 1, Map.of("nickname", "J")))
+        .isInstanceOf(ValidationException.class);
+    assertThatThrownBy(
+            () -> service.update(GROUP_ID, MARKO, janez.getId(), null, Map.of("firstName", "J")))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void ac00705ViewerCannotEditAndNothingIsRead() {
+    when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
+        .thenThrow(new ForbiddenException());
+    UUID contactId = UUID.randomUUID();
+
+    assertThatThrownBy(
+            () -> service.update(GROUP_ID, PETRA, contactId, 1, Map.of("city", "Maribor")))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void ex00705ContactOfAnotherGroupIsNotFound() {
+    UUID other = UUID.randomUUID();
+    when(contacts.findForUpdate(GROUP_ID, other)).thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> service.update(GROUP_ID, MARKO, other, 1, Map.of("firstName", "Maja")))
+        .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(versionWriter);
+  }
+
+  private Contact stored(Map<String, String> fields) {
+    Contact contact = Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", ANA, NOW);
+    when(contacts.findForUpdate(GROUP_ID, contact.getId())).thenReturn(Optional.of(contact));
+    return contact;
   }
 
   private static Contact contact(Map<String, String> fields) {

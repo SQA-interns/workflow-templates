@@ -13,12 +13,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-014). */
+/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-007, US-014). */
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/contacts")
 public class ContactController {
@@ -110,5 +111,24 @@ public class ContactController {
       @PathVariable UUID groupId,
       @PathVariable UUID contactId) {
     return ContactResponse.of(contacts.get(groupId, current.id(), contactId));
+  }
+
+  /**
+   * Saves edited Fields of a Contact as one Version {@code edited} (R-007-01).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @param body the Fields and the Version number read
+   * @return the saved Contact
+   */
+  @PutMapping("/{contactId}")
+  public ContactResponse update(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID contactId,
+      @RequestBody ContactUpdateRequest body) {
+    return ContactResponse.of(
+        contacts.update(groupId, current.id(), contactId, body.versionNumber(), body.fields()));
   }
 }

@@ -83,6 +83,25 @@ public class Contact implements GroupOwned {
     return contact;
   }
 
+  /**
+   * Stores the checked Fields as the next Version (R-007-01).
+   *
+   * @param fields the checked Fields
+   * @param searchText the search text of the Fields
+   * @param sortName the sort name of the Fields
+   * @param userId the User who saves them
+   * @param now the time
+   */
+  public void edit(
+      ContactFields fields, String searchText, String sortName, UUID userId, Instant now) {
+    this.fields = fields;
+    this.searchText = searchText;
+    this.sortName = sortName;
+    this.versionNumber++;
+    this.updatedAt = now;
+    this.updatedBy = userId;
+  }
+
   public UUID getId() {
     return id;
   }

@@ -1,9 +1,11 @@
 package app.contacts.repository;
 
 import app.contacts.domain.Contact;
+import jakarta.persistence.LockModeType;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -34,4 +36,16 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
    * @return the Contact, empty when it is not one of the Group's (BR-02)
    */
   Optional<Contact> findByGroupIdAndId(UUID groupId, UUID id);
+
+  /**
+   * A Contact of the Group in any state, locked until the transaction ends so that two saves of it
+   * run one after the other (specification §4, BR-06).
+   *
+   * @param groupId the Group
+   * @param id the Contact
+   * @return the Contact, empty when it is not one of the Group's (BR-02)
+   */
+  @Lock(LockModeType.PESSIMISTIC_WRITE)
+  @Query("SELECT c FROM Contact c WHERE c.groupId = :groupId AND c.id = :id")
+  Optional<Contact> findForUpdate(UUID groupId, UUID id);
 }

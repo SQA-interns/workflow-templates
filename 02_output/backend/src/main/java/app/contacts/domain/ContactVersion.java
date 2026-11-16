@@ -22,6 +22,9 @@ public class ContactVersion implements GroupOwned {
   /** Kind of the Version that adds a Contact (R-006-01). */
   public static final String CREATED = "created";
 
+  /** Kind of the Version that saves edited Fields (R-007-01). */
+  public static final String EDITED = "edited";
+
   @Id
   @Column(name = "contact_id")
   private UUID contactId;

@@ -67,6 +67,23 @@ class ContactControllerTest {
   }
 
   @Test
+  void r00701PutContactSavesTheFieldsWithTheVersionNumberRead() {
+    SequencedMap<String, String> fields = new LinkedHashMap<>();
+    fields.put("firstName", "Janez");
+    fields.put("city", "Maribor");
+    Map<String, String> sent = Map.of("firstName", "Janez", "city", "Maribor");
+    when(contacts.update(GROUP_ID, MARKO_ID, CONTACT_ID, 1, sent))
+        .thenReturn(
+            new ContactView(CONTACT_ID, 2, "active", fields, List.of(), List.of(), NOW, NOW));
+
+    ContactResponse saved =
+        controller.update(MARKO, GROUP_ID, CONTACT_ID, new ContactUpdateRequest(sent, 1));
+
+    assertThat(saved.versionNumber()).isEqualTo(2);
+    assertThat(saved.fields()).containsExactlyEntriesOf(fields);
+  }
+
+  @Test
   void r00606GetEmailMatchesListsTheMatchingContacts() {
     when(contacts.findByEmail(GROUP_ID, MARKO_ID, "Janez.Novak@example.si"))
         .thenReturn(List.of(new ContactRefView(CONTACT_ID, "Janez Novak")));

@@ -12,7 +12,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Adds Contacts to a Group, reads one and finds them by e-mail (US-006, US-014). */
+/** Adds Contacts to a Group, edits, reads and finds them by e-mail (US-006, US-007, US-014). */
 @Service
 public class ContactService {
 
@@ -66,10 +66,7 @@ public class ContactService {
   @Transactional
   public ContactView create(UUID groupId, UUID userId, Map<String, String> fields) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
-    if (fields == null || !ContactFields.NAMES.containsAll(fields.keySet())) {
-      throw new ValidationException(List.of());
-    }
-    ContactFields checked = validator.check(ContactFields.ofNames(fields));
+    ContactFields checked = checked(fields);
     Contact contact =
         Contact.create(
             groupId,
@@ -120,6 +117,61 @@ public class ContactService {
     guard.require(groupId, userId, Permission.READ);
     Contact contact =
         contacts.findByGroupIdAndId(groupId, contactId).orElseThrow(NotFoundException::new);
+    return view(contact);
+  }
+
+  /**
+   * Saves edited Fields of a Contact as one Version {@code edited} (R-007-01), in one transaction
+   * with the Contact locked (specification §4).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param versionNumber the Version number the client read (BR-06)
+   * @param fields Field name to value as sent; a missing or {@code null} value is an empty Field
+   * @return the saved Contact
+   * @throws NotFoundException for a non-Member or a Contact that is not the Group's (BR-02)
+   * @throws ForbiddenException for a Viewer (BR-03, AC-007-05)
+   * @throws ValidationException for a missing Version number, an unknown Field name or invalid
+   *     Fields (R-007-02)
+   */
+  @Transactional
+  public ContactView update(
+      UUID groupId,
+      UUID userId,
+      UUID contactId,
+      Integer versionNumber,
+      Map<String, String> fields) {
+    guard.require(groupId, userId, Permission.CHANGE_CONTACT);
+    ContactFields edited = checked(fields);
+    if (versionNumber == null) {
+      throw new ValidationException(List.of());
+    }
+    Contact contact =
+        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    ContactFields before = contact.getFields();
+    contact.edit(
+        edited,
+        normaliser.searchText(edited),
+        normaliser.sortName(edited),
+        userId,
+        clock.instant());
+    versionWriter.record(contact, ContactVersion.EDITED, before);
+    return view(contact);
+  }
+
+  /** The Fields as sent, trimmed and checked (R-006-02 … R-006-07). */
+  private ContactFields checked(Map<String, String> fields) {
+    if (fields == null || !ContactFields.NAMES.containsAll(fields.keySet())) {
+      throw new ValidationException(List.of());
+    }
+    return validator.check(ContactFields.ofNames(fields));
+  }
+
+  /** The Contact with its Attributes and Tags. */
+  private ContactView view(Contact contact) {
+    UUID groupId = contact.getGroupId();
+    UUID contactId = contact.getId();
     List<AttributeView> attributes =
         contactQueries.findAttributes(groupId, contactId).stream()
             .map(row -> new AttributeView(row.key(), row.value()))

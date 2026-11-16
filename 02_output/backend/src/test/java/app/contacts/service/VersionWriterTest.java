@@ -22,6 +22,8 @@ class VersionWriterTest {
   private static final Instant NOW = Instant.parse("2026-03-05T10:00:00Z");
   private static final UUID GROUP_ID = UUID.randomUUID();
   private static final UUID MARKO = UUID.randomUUID();
+  private static final UUID ANA = UUID.randomUUID();
+  private static final Instant LATER = Instant.parse("2026-03-06T09:00:00Z");
 
   private final JsonMapper json = JsonMapper.builder().build();
   private final ContactVersionRepository versions = mock(ContactVersionRepository.class);
@@ -77,5 +79,32 @@ class VersionWriterTest {
 
     assertThat(changes.size()).isEqualTo(1);
     assertThat(changes.get(0).path("item").asString()).isEqualTo("email");
+  }
+
+  @Test
+  void ex00701TwoFieldsChangedInOneSaveGiveOneVersionEditedWithBothItems() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", ANA, NOW);
+    ContactFields before = contact.getFields();
+    ContactFields after =
+        ContactFields.ofNames(
+            Map.of(
+                "firstName", "Janez",
+                "lastName", "Novak",
+                "email", "janez.novak@example.si",
+                "city", "Maribor",
+                "jobTitle", "CEO"));
+    contact.edit(after, "janez novak", "Novak", MARKO, LATER);
+
+    writer.record(contact, ContactVersion.EDITED, before);
+
+    ArgumentCaptor<ContactVersion> version = ArgumentCaptor.forClass(ContactVersion.class);
+    verify(versions).add(eq(GROUP_ID), version.capture());
+    assertThat(version.getValue().getNumber()).isEqualTo(2);
+    assertThat(version.getValue().getKind()).isEqualTo("edited");
+    JsonNode changes = json.readTree(version.getValue().getChanges());
+    assertThat(changes.size()).isEqualTo(2);
+    assertThat(changes.findValuesAsString("item")).containsExactly("jobTitle", "city");
+    assertThat(changes.get(1).path("oldValue").isNull()).isTrue();
+    assertThat(changes.get(1).path("newValue").asString()).isEqualTo("Maribor");
   }
 }
