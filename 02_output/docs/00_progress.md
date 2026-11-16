@@ -5,40 +5,41 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S2 /clarify (run 2)
+- Session: S3 /plan
 - Result: done
-- Gate: phase 1 passed
+- Gate: phase 2 passed except the wireframes (they follow in `/wireframes`)
 - Notes for the next session:
-  - Human answered D-15 … D-21 with option 1 (D-27); D-27 lists the input entries it overrides (R-001-04, R-001-05, R-013-04 dropped, R-021-01, BR-08, BR-10). Apply them; never edit `01_input/`.
-  - Non-blocking defaults D-22 … D-26 apply (pending review); D-25 (d): split US-018 into tasks in `/plan`.
-  - Findings and the rule → criteria map: `docs/01_requirements-check.md`. Rules without a criterion are tested by their `R` id.
-  - Increment 1 = MVP (US-001 … US-016, US-020); increment 2 = US-017 … US-019, US-021 (intent.md).
+  - Screens to draw: `docs/02_specification.md` §9.1 (WF-01 … WF-20, no WF-12), navigation §9.2, tokens §9.3; wireframe theme is active in `frontend/src/styles/tokens.css`.
+  - Decisions this session: D-28 … D-33 (D-30 CSRF and D-33 gitleaks approved by the human in session).
+  - Local stack: `02_output/scripts/up.sh`, seed `scripts/seed-local.sh`. An unrelated stack `contacts` holds host 8080/9099: use `APP_HOST_PORT=8180`, `E2E_BASE_URL=http://localhost:8180` (D-32). Stack stopped at session end; volume `kontakti_pgdata` kept.
+  - Backend commands in `backend/README.md`, frontend in `frontend/README.md`; both check, test and build pass; CI `.github/workflows/ci.yml` validated with actionlint (no runner pinned).
+  - Tasks T-01 … T-53 in `docs/02_tasks.md`; implement order = INC-1 row.
 
 ## Next
-- Command: /plan
+- Command: /wireframes
 - Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
 |---|---|---|---|
-| US-001 | 1 | ready | |
-| US-002 | 1 | ready | |
-| US-003 | 1 | ready | |
-| US-004 | 1 | ready | |
-| US-005 | 1 | ready | |
-| US-006 | 1 | ready | |
-| US-007 | 1 | ready | |
-| US-008 | 1 | ready | |
-| US-009 | 1 | ready | |
-| US-010 | 1 | ready | |
-| US-011 | 1 | ready | |
-| US-012 | 1 | ready | |
-| US-013 | 1 | ready | |
-| US-014 | 1 | ready | |
-| US-015 | 1 | ready | |
-| US-016 | 1 | ready | |
-| US-017 | 2 | ready | |
-| US-018 | 2 | ready | |
-| US-019 | 2 | ready | |
-| US-020 | 1 | ready | |
-| US-021 | 2 | ready | |
+| US-001 | INC-1 | ready | |
+| US-002 | INC-1 | ready | |
+| US-003 | INC-1 | ready | |
+| US-004 | INC-1 | ready | |
+| US-005 | INC-1 | ready | |
+| US-006 | INC-1 | ready | |
+| US-007 | INC-1 | ready | |
+| US-008 | INC-1 | ready | |
+| US-009 | INC-1 | ready | |
+| US-010 | INC-1 | ready | |
+| US-011 | INC-1 | ready | |
+| US-012 | INC-1 | ready | |
+| US-013 | INC-1 | ready | |
+| US-014 | INC-1 | ready | |
+| US-015 | INC-1 | ready | |
+| US-016 | INC-1 | ready | |
+| US-017 | INC-2 | ready | |
+| US-018 | INC-2 | ready | |
+| US-019 | INC-2 | ready | |
+| US-020 | INC-1 | ready | |
+| US-021 | INC-2 | ready | |
