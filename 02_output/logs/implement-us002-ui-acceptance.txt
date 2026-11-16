@@ -1,0 +1,248 @@
+
+Running 15 tests using 1 worker
+
+
+  ✓   1 [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. (2.1s)
+
+  ✓   2 [chromium] › acceptance/us001-sign-in.spec.ts:53:1 › AC-001-02 Sign in with Google: signed in, GET /me has the Google e-mail (1.8s)
+
+  ✓   3 [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 (830ms)
+
+  ✓   4 [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token (1.1s)
+
+  ✓   5 [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in (790ms)
+
+  ✓   6 [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account (735ms)
+
+  ✘   7 [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. (11.1s)
+
+  ✘   8 [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only (1.4s)
+
+  ✓   9 [chromium] › acceptance/us002-groups.spec.ts:49:1 › AC-002-04 a blank Group name: Enter a name of 1 to 100 characters. (2.1s)
+
+  ✓  10 [chromium] › acceptance/us002-groups.spec.ts:61:1 › AC-002-05 after signing in again the Group selected last is current (2.1s)
+
+  ✘  11 [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups (2.1s)
+
+  ✓  12 [chromium] › acceptance/us020-language.spec.ts:19:1 › AC-020-01 a new User sees the Contact list titled Kontakti (1.7s)
+
+  ✘  13 [chromium] › acceptance/us020-language.spec.ts:29:1 › AC-020-02 choosing English switches at once and is kept after signing in again (16.8s)
+
+  ✘  14 [chromium] › acceptance/us020-language.spec.ts:57:1 › AC-020-03 in English the time of a Version reads 05.03.2026 10:00 (982ms)
+
+  ✘  15 [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English (11.2s)
+
+
+  1) [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('No Contacts yet.')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByText('No Contacts yet.')[22m
+
+
+      26 |   await expect(page).toHaveURL(/\/groups\/[0-9a-f-]{36}\/contacts/);
+      27 |   await expect(page.getByLabel("Group switcher")).toContainText("Konferenca 2025");
+    > 28 |   await expect(page.getByText("No Contacts yet.")).toBeVisible();
+         |                                                    ^
+      29 |   await expect(page.getByRole("button", { name: "Add a Contact" }).first()).toBeVisible();
+      30 |   const groups = await api(ana, "GET", "/groups");
+      31 |   expect(groups.json.map((g: { role: string }) => g.role)).toEqual(["OWNER"]);
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us002-groups.spec.ts:28:52
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-AC-91e53-a-is-Owner-No-Contacts-yet--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us002-groups-AC-91e53-a-is-Owner-No-Contacts-yet--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-AC-91e53-a-is-Owner-No-Contacts-yet--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us002-groups-AC-91e53-a-is-Owner-No-Contacts-yet--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at createContact (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:247:11)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us002-groups.spec.ts:38:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-AC-6ffdd-her-shows-its-Contacts-only-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-AC-6ffdd-her-shows-its-Contacts-only-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us002-groups-AC-6ffdd-her-shows-its-Contacts-only-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m204[39m
+    Received: [31m404[39m
+
+      84 |   await expect(page).toHaveURL((url) => url.pathname === listPath(alfa));
+      85 |   await signOut(page, "Ana Kovač");
+    > 86 |   expect((await api(ana, "POST", `/groups/${alfa}/move-to-recycle-bin`)).status).toBe(204);
+         |                                                                                  ^
+      87 |
+      88 |   await signIn(page, ana);
+      89 |   await expect(page).toHaveURL((url) => url.pathname === listPath(konferenca));
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us002-groups.spec.ts:86:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › acceptance/us020-language.spec.ts:29:1 › AC-020-02 choosing English switches at once and is kept after signing in again 
+
+    TimeoutError: locator.click: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for getByRole('menuitem', { name: 'Sign out' }).or(getByRole('link', { name: 'Sign out' })).or(getByRole('button', { name: 'Sign out' })).first()[22m
+
+
+       at acceptance/support/stack.ts:82
+
+      80 |     .or(page.getByRole("button", { name: "Sign out" }))
+      81 |     .first()
+    > 82 |     .click();
+         |      ^
+      83 |   await expect(page).toHaveURL(/\/sign-in/);
+      84 | }
+      85 |
+        at signOut (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/stack.ts:82:6)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us020-language.spec.ts:51:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--6889e-kept-after-signing-in-again-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us020-language--6889e-kept-after-signing-in-again-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--6889e-kept-after-signing-in-again-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us020-language--6889e-kept-after-signing-in-again-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › acceptance/us020-language.spec.ts:57:1 › AC-020-03 in English the time of a Version reads 05.03.2026 10:00 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at createContact (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:247:11)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us020-language.spec.ts:60:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--c2215-sion-reads-05-03-2026-10-00-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--c2215-sion-reads-05-03-2026-10-00-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us020-language--c2215-sion-reads-05-03-2026-10-00-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('main').getByText(/10\.000/).first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('main').getByText(/10\.000/).first()[22m
+
+
+      108 |       .getByText(/10\.000/)
+      109 |       .first(),
+    > 110 |   ).toBeVisible();
+          |     ^
+      111 |
+      112 |   expect((await api(ana, "PATCH", "/me", { language: "en" })).status).toBe(200);
+      113 |   await page.reload();
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us020-language.spec.ts:110:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6 failed
+    [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. 
+    [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only 
+    [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups 
+    [chromium] › acceptance/us020-language.spec.ts:29:1 › AC-020-02 choosing English switches at once and is kept after signing in again 
+    [chromium] › acceptance/us020-language.spec.ts:57:1 › AC-020-03 in English the time of a Version reads 05.03.2026 10:00 
+    [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English 
+  9 passed (1.1m)
