@@ -54,6 +54,10 @@ public record ContactFields(
           "country",
           "note");
 
+  /** A Contact without any Field: the content before it was created. */
+  public static final ContactFields EMPTY =
+      new ContactFields(null, null, null, null, null, null, null, null, null, null, null);
+
   /**
    * The Fields from their names; a missing name is an empty Field.
    *
