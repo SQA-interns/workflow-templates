@@ -228,6 +228,28 @@ public abstract class AcceptanceTest extends StackTest {
     return value == null ? "" : value;
   }
 
+  /**
+   * Merges the Other contact into the Primary contact with their current Version numbers; the
+   * choices body may hold {@code fieldChoices} and {@code attributeChoices} (or be null).
+   */
+  protected Res merge(
+      TestUser user, String groupId, String primaryId, String otherId, ObjectNode choices) {
+    ObjectNode request =
+        Json.obj(
+            "primaryId",
+            primaryId,
+            "otherId",
+            otherId,
+            "primaryVersionNumber",
+            getContact(user, groupId, primaryId).path("versionNumber").asInt(),
+            "otherVersionNumber",
+            getContact(user, groupId, otherId).path("versionNumber").asInt());
+    if (choices != null) {
+      request.setAll(choices);
+    }
+    return api.post(user, "/groups/" + groupId + "/merges", request);
+  }
+
   /** The Tag id of a Tag name in the Group, through the suggestions (R-009-02). */
   protected String tagId(TestUser user, String groupId, String name) {
     Res res = api.get(user, "/groups/" + groupId + "/tags?q=" + name);
