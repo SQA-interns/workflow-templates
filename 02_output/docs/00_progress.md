@@ -5,27 +5,26 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-001
-- Result: blocked
-- Gate: DoD-S not passed (DoD-S-01 frozen tests, DoD-S-03 spotbugs:check)
+- Session: S5 /implement US-001 (resumed with D-40: 1, D-41: 1, recorded as D-43)
+- Result: done
+- Gate: DoD-S not passed (DoD-S-01: frozen tests waiting for US-020 and US-002, D-39)
 - Notes for the next session:
-  - T-01 … T-05 built test-first (commits `f4a078b` … `4c88016`): token filter, User provisioning, e-mail gate, deleted User 401, rate limit, ProblemHandler, apiClient, WF-01/02/03/05, user menu with Sign out, routes. Unit tests green (backend 38, frontend 57).
-  - Frozen US-001 now passing: API AC-001-05, EX-001-03 (+ US-020 AC-020-01 by GET /me); UI AC-001-02. The rest fail only at `POST/GET /groups` (US-002) or `PATCH /me` (US-020), D-39, and on the e-mail locator, D-40.
-  - D-40 (approval): frozen `getByRole("textbox")` also matches the password field in Playwright; blocks almost every UI test. D-41 (approval): 3 SpotBugs Low findings need exclusions; adding them was refused by the tool's permission check.
-  - Flows checked by script on the stack: AC-001-01 (until PATCH /me), AC-001-05, AC-001-06, EX-001-01, EX-001-05 pass with an `input[type="email"]` locator; screenshots and axe (0 violations) in `out/logs/screens/WF-0*`.
-  - Fixed on the way: CSP `frame-src` now includes `AUTH_EMULATOR_URL` (Google popup with the emulator), Slovenian Google button keeps the word "Google".
-  - Not drawn yet: WF-05 illustration placeholder (no asset before `/design`); the skeleton nav link stays until US-002.
+  - T-01 … T-05 built test-first (`f4a078b` … `3ee361e`); unit tests green (backend 38, frontend 57); backend check (spotless, checkstyle, spotbugs) clean after the D-41 exclusions (`d03e50c`); gitleaks clean.
+  - D-40 applied (`28bf9aa`): five sign-in locators use `input[type="email"]`; acceptance manifest regenerated and valid.
+  - Frozen US-001 passing: API AC-001-05, EX-001-03; UI AC-001-02, AC-001-05. All others fail only at `PATCH /me` (US-020: UI AC-001-01, 06, EX-001-01, 05) or `POST/GET /groups` (US-002: API AC-001-01 … 04, 06, EX-001-02, 04). Re-run them in `/implement US-020` and `/implement US-002`; set US-001 to done when they pass (D-39).
+  - `UserMenu.tsx` has only Sign out; US-020 adds the language items. `/` always shows WF-05 until US-002 decides by `GET /groups`.
+  - WF-05 illustration placeholder not drawn (no asset before `/design`). Screens and axe results: `out/logs/screens/WF-0*`.
   - Commit `ffa2f0f` has 16 files / 584 lines, above the 400-line limit (history not rewritten).
   - The `kontakti` stack runs on 8180/9199 with this session's build.
 
 ## Next
-- Command: /implement US-001 D-40: 1, D-41: 1
-- Waiting for: D-40, D-41
+- Command: /implement US-020
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
 |---|---|---|---|
-| US-001 | INC-1 | in progress | DoD-S-01, -03 open (D-39, D-40, D-41) |
+| US-001 | INC-1 | in progress | DoD-S-01 open until US-020 and US-002 (D-39); others met |
 | US-002 | INC-1 | ready | |
 | US-003 | INC-1 | ready | |
 | US-004 | INC-1 | ready | |
