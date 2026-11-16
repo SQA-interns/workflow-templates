@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -102,6 +102,19 @@ describe("WF-06 Contact list (US-014)", () => {
     expect(await screen.findByText("10.000 kontaktov")).toBeTruthy();
   });
 
+  it("AC-014-02 typing a search asks for the matching Contacts from Page 1", async () => {
+    answer("VIEWER", (path) =>
+      pageOf(path.includes("q=cuk") ? [THREE[0] as ContactListItem] : THREE),
+    );
+    const router = renderPage(`${LIST}?page=2`);
+
+    await userEvent.type(await screen.findByLabelText("Search"), "cuk");
+
+    expect(await screen.findByText("1 Contact")).toBeTruthy();
+    expect(listCalls()).toContain(`${LIST}?q=cuk&sort=name&dir=asc&page=1`);
+    expect(router.state.location.search).toBe("?q=cuk");
+  });
+
   it("AC-014-04 no match: No Contacts match. and Clear search shows the whole list", async () => {
     answer("VIEWER", (path) => (path.includes("q=xyz") ? pageOf([]) : pageOf(THREE)));
     const router = renderPage(`${LIST}?q=xyz`);
@@ -111,6 +124,7 @@ describe("WF-06 Contact list (US-014)", () => {
 
     expect(await screen.findByText("3 Contacts")).toBeTruthy();
     expect(router.state.location.search).toBe("");
+    expect((screen.getByLabelText("Search") as HTMLInputElement).value).toBe("");
   });
 
   it("EX-014-02 an empty Group: No Contacts yet. and Add a Contact opens the form", async () => {
@@ -153,6 +167,17 @@ describe("WF-06 Contact list (US-014)", () => {
 
     expect(await screen.findByText("50 Contacts")).toBeTruthy();
     expect(screen.queryByRole("button", { name: "Next" })).toBeNull();
+  });
+
+  it("R-014-03 Sort by and Order ask for the whole list in that order", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?page=2`);
+
+    await userEvent.selectOptions(await screen.findByLabelText("Sort by"), "Company");
+    await userEvent.selectOptions(screen.getByLabelText("Order"), "Descending");
+
+    await waitFor(() => expect(router.state.location.search).toBe("?sort=company&dir=desc"));
+    expect(listCalls()).toContain(`${LIST}?q=&sort=company&dir=desc&page=1`);
   });
 
   it("UI-14 an error shows Something went wrong. and Try again asks again", async () => {

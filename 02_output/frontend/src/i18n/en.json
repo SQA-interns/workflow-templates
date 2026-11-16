@@ -129,6 +129,19 @@
         "phone": "Phone",
         "tags": "Tags"
       },
+      "controls": "Search and sort",
+      "search": "Search",
+      "searchHint": "Name, e-mail, phone, company or city",
+      "sortBy": "Sort by",
+      "sort": {
+        "name": "Name",
+        "company": "Company",
+        "email": "E-mail",
+        "updatedAt": "Last changed"
+      },
+      "order": "Order",
+      "ascending": "Ascending",
+      "descending": "Descending",
       "add": "Add a Contact",
       "count_one": "{{formatted}} Contact",
       "count_other": "{{formatted}} Contacts",

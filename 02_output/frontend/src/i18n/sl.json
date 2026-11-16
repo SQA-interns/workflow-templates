@@ -129,6 +129,19 @@
         "phone": "Telefon",
         "tags": "Značke"
       },
+      "controls": "Iskanje in razvrščanje",
+      "search": "Iskanje",
+      "searchHint": "Ime, e-pošta, telefon, podjetje ali kraj",
+      "sortBy": "Razvrsti po",
+      "sort": {
+        "name": "Ime",
+        "company": "Podjetje",
+        "email": "E-pošta",
+        "updatedAt": "Zadnja sprememba"
+      },
+      "order": "Vrstni red",
+      "ascending": "Naraščajoče",
+      "descending": "Padajoče",
       "add": "Dodaj kontakt",
       "count_one": "{{formatted}} kontakt",
       "count_two": "{{formatted}} kontakta",
