@@ -69,6 +69,15 @@ class ContactValidatorAttributesTest {
   }
 
   @Test
+  void r00802MissingAttributeIsABlankKey() {
+    List<AttributeView> sent = new ArrayList<>();
+    sent.add(null);
+
+    assertThat(problemsOf(sent))
+        .containsExactly(new FieldProblem("attributes[0].key", "attribute.keyLength", Map.of()));
+  }
+
+  @Test
   void ex00803ValueOf500CharactersIsAcceptedOf501Rejected() {
     assertThat(problemsOf(attributesOf("opis", "v".repeat(500)))).isEmpty();
     assertThat(problemsOf(attributesOf("opis", "v".repeat(501))))

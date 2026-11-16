@@ -40,6 +40,9 @@ public class ContactValidator {
 
   private static final int MAX_ATTRIBUTES = 50;
 
+  /** A missing Attribute of the request, checked as one with a blank key. */
+  private static final AttributeView BLANK = new AttributeView("", "");
+
   /**
    * Syntax rules: e-mail with one {@code @}, a local part and a dot in the domain, no spaces
    * (R-006-04); phone of digits, spaces and {@code + - ( ) /} (D-23); ISO 3166-1 alpha-2 country
@@ -90,6 +93,7 @@ public class ContactValidator {
   public List<AttributeView> checkAttributes(List<AttributeView> sent) {
     List<AttributeView> attributes =
         sent.stream()
+            .map(attribute -> attribute == null ? BLANK : attribute)
             .map(attribute -> new AttributeView(strip(attribute.key()), strip(attribute.value())))
             .toList();
     List<FieldProblem> problems = new ArrayList<>();
