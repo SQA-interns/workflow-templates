@@ -135,8 +135,8 @@ class ContactRepositoryIT {
 
   @Test
   void r00606FindsActiveContactsOfTheGroupByEmailIgnoringCase() {
-    Contact janez = added(groupId, "janez.novak@example.si", NOW);
-    Contact second = added(groupId, "JANEZ.NOVAK@example.si", NOW.plusSeconds(1));
+    final Contact janez = added(groupId, "janez.novak@example.si", NOW);
+    final Contact second = added(groupId, "JANEZ.NOVAK@example.si", NOW.plusSeconds(1));
     added(groupId, "maja.zupan@example.si", NOW);
     Contact inRecycleBin = added(groupId, "janez.novak@example.si", NOW);
     UUID otherGroup = groups.save(Group.create("Podjetje Beta", marko, NOW)).getId();
