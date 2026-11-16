@@ -5,20 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-002
+- Session: S5 /implement US-006
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-002 wait for US-006, US-014, US-003, D-46)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-006 wait for US-004, US-014, US-010, D-49; DoD-S-07: see notes)
 - Notes for the next session:
-  - T-07 backend: `Group`, `Membership`, `Role`, `GroupRepository.findActiveGroupsOf` (sl-x-icu), `MembershipRepository.findActiveRole`, `AccessGuard.require(groupId, userId, Permission)` with the ADR-04 table (`Permission`), `GroupService`, `GroupController`. Use `AccessGuard` first in every Group-owned service method.
-  - T-08 frontend: `api/groups.ts` (`useGroups`, `useCreateGroup`), `features/groups/{CreateGroupPage,GroupSwitcher,GroupStart,GroupRoute,currentGroup}`; `/groups/:groupId/*` routes nest under `GroupRoute` (non-Member → not found, remembers the Group). `/groups/:groupId/contacts` shows `ContactListPlaceholder` (`app/pages.tsx`): US-014 replaces it with WF-06 (D-46).
-  - Frozen API US-002 7/10, UI 2/5; the rest fail only at Contacts (US-006), the Contact list (US-014) or the Group recycle bin (US-003). Re-run both US-002 suites there; set US-002 done when they pass.
-  - US-001 now passes all frozen tests (API 9/9, UI 6/6): done. US-020 UI 1/4: AC-020-02 also needs the user menu to close after choosing a language (D-48, a `fix:` in US-020's scope).
-  - Full backend run: no regressions (`out/logs/implement-us002-backend-full.txt`; Us004 ac00406 now errors later, at Invitations); backend check, frontend lint/types/prettier on `src`, 89 unit tests, gitleaks clean. Screens + axe: `out/logs/screens/WF-04_create-group/`, `WF-06_contact-list/`, `WF-05_no-groups/groups-error/`.
-  - Commit `ec5a95d` lacks the blank line after its subject (subject reads over 72 characters); not rewritten (commits.md).
-  - Stack: `npm run build`, then `APP_HOST_PORT=8180 docker compose -p kontakti --env-file ../.env up -d --build`; UI tests with `E2E_BASE_URL=http://localhost:8180`.
+  - T-09 backend: `ContactFields` (embedded record, `byName()`, `name()`), `Contact`, `ContactVersion`; Group-owned repositories extend `Repository` + `GroupOwnedStore.add(groupId, item)` (no generic save, AR-04); `ContactValidator`, `Normaliser` (search text space-joined as seed.sql), `VersionWriter.record(contact, kind, before)` (D-50 j), `ContactService.create`/`findByEmail`, `ContactController` (`POST …/contacts`, `GET …/contacts/email-matches`; `excludeContactId` is for US-007). `ContactResponse` returns empty attributes/tags/mergedFrom until US-008/009/018.
+  - T-10 frontend: `api/contacts.ts` (`useCreateContact`, `useEmailMatches`), `features/contacts/{contactFields,fieldMessages,ContactFieldInput,ContactForm,NewContactPage}`; route `/groups/:groupId/contacts/new`; saving opens the Contact list (D-50 f). US-014 adds the "Add a Contact" action on WF-06; US-007 reuses `ContactForm` for edit.
+  - Frozen US-006: API 0/15, UI 0/5, all stop in `team()` at Invitations (US-004) and then need the list, details and History (D-49). Checked instead on the stack with Roles set by SQL: `out/logs/implement-us006-api-check.txt`, `implement-us006-ui-check.txt`. Re-run both US-006 suites in /implement US-014, US-010, US-004; set US-006 done when they pass. US-002 UI AC-002-02 now gets past adding Contacts and stops at the list (US-014).
+  - No regressions: backend acceptance per class identical to US-002's run, 137 unit/IT green (`implement-us006-backend-full.txt`); frontend 128 tests, lint/types/prettier on `src`; `prettier --check .` warns on `frontend/README.md` (untouched, as before); gitleaks clean. Screens + axe (no violation): `out/logs/screens/WF-08_contact-form/`.
+  - DoD-S-07 deviations, not rewritten (commits.md): 596b51c has 418 lines (> 400) and its Red lines for 7 guard tests (accepted values) are wrong: those passed against the stub; 8bc5f54 left a checkstyle warning, fixed in 81af9e9. 47295a9 tests were written after its code (stated in the commit).
 
 ## Next
-- Command: /implement US-006
+- Command: /implement US-014
 - Waiting for: nothing
 
 ## Stories
@@ -29,7 +27,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-003 | INC-1 | ready | |
 | US-004 | INC-1 | ready | |
 | US-005 | INC-1 | ready | |
-| US-006 | INC-1 | ready | |
+| US-006 | INC-1 | in progress | DoD-S-01 open until US-004, US-014, US-010 (D-49); DoD-S-07 see notes; others met |
 | US-007 | INC-1 | ready | |
 | US-008 | INC-1 | ready | |
 | US-009 | INC-1 | ready | |
