@@ -11,7 +11,9 @@
     "members": "Člani"
   },
   "page": {
-    "contacts": { "title": "Kontakti" },
+    "contacts": {
+      "title": "Kontakti"
+    },
     "notFound": {
       "title": "Ni najdeno",
       "body": "Strani ni mogoče najti.",
@@ -22,5 +24,14 @@
     "loading": "Nalaganje …",
     "error": "Nekaj je šlo narobe.",
     "retry": "Poskusi znova"
+  },
+  "errors": {
+    "auth": {
+      "emailNotVerified": "Potrdite svoj e-poštni naslov: poslali smo vam povezavo.",
+      "forbidden": "Tega ne smete storiti."
+    },
+    "notFound": "Strani ni mogoče najti.",
+    "rateLimited": "Preveč zahtev. Poskusite znova čez minuto.",
+    "internal": "Nekaj je šlo narobe."
   }
 }

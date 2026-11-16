@@ -1,0 +1,38 @@
+import { describe, expect, it } from "vitest";
+import i18n from "../i18n";
+import { ApiError, messageKey } from "./problem";
+
+describe("problem codes → catalog (ADR-06, UI-30)", () => {
+  it("R-001-05 the code auth.emailNotVerified has the story's text", () => {
+    const error = new ApiError(403, { code: "auth.emailNotVerified" });
+
+    expect(i18n.getFixedT("en")(messageKey(error.code))).toBe(
+      "Confirm your e-mail address: we sent you a link.",
+    );
+  });
+
+  it("BR-02 notFound and SR-03 rateLimited have their §5 texts", () => {
+    const en = i18n.getFixedT("en");
+    expect(en(messageKey("notFound"))).toBe("This page cannot be found.");
+    expect(en(messageKey("rateLimited"))).toBe("Too many requests. Try again in a minute.");
+    expect(en(messageKey("auth.forbidden"))).toBe("You are not allowed to do this.");
+  });
+
+  it("an unknown code falls back to the generic error text", () => {
+    expect(i18n.getFixedT("en")(messageKey("no.such.code"))).toBe("Something went wrong.");
+  });
+
+  it("keeps params and field errors of the problem", () => {
+    const error = new ApiError(400, {
+      code: "validation",
+      errors: [{ field: "firstName", code: "field.tooLong", params: { max: 100 } }],
+    });
+
+    expect(error.errors[0]).toEqual({
+      field: "firstName",
+      code: "field.tooLong",
+      params: { max: 100 },
+    });
+    expect(error.params).toEqual({});
+  });
+});

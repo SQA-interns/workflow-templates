@@ -11,7 +11,9 @@
     "members": "Members"
   },
   "page": {
-    "contacts": { "title": "Contacts" },
+    "contacts": {
+      "title": "Contacts"
+    },
     "notFound": {
       "title": "Not found",
       "body": "This page cannot be found.",
@@ -22,5 +24,14 @@
     "loading": "Loading …",
     "error": "Something went wrong.",
     "retry": "Try again"
+  },
+  "errors": {
+    "auth": {
+      "emailNotVerified": "Confirm your e-mail address: we sent you a link.",
+      "forbidden": "You are not allowed to do this."
+    },
+    "notFound": "This page cannot be found.",
+    "rateLimited": "Too many requests. Try again in a minute.",
+    "internal": "Something went wrong."
   }
 }
