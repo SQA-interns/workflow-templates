@@ -55,6 +55,19 @@
     "signUp": {
       "title": "Create an account",
       "haveAccount": "Already have an account?"
+    },
+    "signOut": "Sign out",
+    "verify": {
+      "title": "Confirm your e-mail",
+      "sentTo": "Sent to {{email}}",
+      "confirmed": "I confirmed my e-mail"
+    }
+  },
+  "groups": {
+    "none": {
+      "title": "You have no Groups yet.",
+      "body": "A Group keeps the Contacts of one project or company.",
+      "create": "Create a Group"
     }
   }
 }

@@ -55,6 +55,19 @@
     "signUp": {
       "title": "Ustvari račun",
       "haveAccount": "Že imate račun?"
+    },
+    "signOut": "Odjava",
+    "verify": {
+      "title": "Potrdite svoj e-poštni naslov",
+      "sentTo": "Poslano na {{email}}",
+      "confirmed": "E-poštni naslov je potrjen"
+    }
+  },
+  "groups": {
+    "none": {
+      "title": "Nimate še nobene skupine.",
+      "body": "Skupina hrani kontakte enega projekta ali podjetja.",
+      "create": "Ustvari skupino"
     }
   }
 }
