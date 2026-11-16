@@ -155,3 +155,135 @@
 - Human response: option 1; 2026-11-16.
 - Resolution: 1 — `.gitignore` created containing `.env`; `git check-ignore .env` succeeds.
 - Overrides: preflight "Writes" list, for `.gitignore` only, this once
+
+## D-15: Roles and rights (Owner, Editor, Viewer)
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: rights and access still `OPEN — needs customer`: OQ-P-02, OQ-002-01, OQ-005-01, OQ-005-02, OQ-011-01, OQ-018-01 (Q-07, Q-17, Q-18); BR-03, BR-04 open; `[ASSUMPTION]`s BR-02 (404 rather than 403 for non-Members), exactly one Owner per Group, an Invitation never grants Owner (Data model), R-005-01 (only the Owner sees the Member list), R-005-05 (no handover of ownership), R-012-02 (Viewers do not see the recycle bin). R-016-01 lets every Member, Viewers included, export Contacts' personal data.
+- Options: 1. Confirm the model as written: several Groups per User; creator is the only Owner; Owner manages Group, Members, Invitations and permanent delete; Owner and Editor add, change, tag, restore Versions, use the recycle bin, merge and undo; Viewer reads, searches, filters, sees History and exports; only the Owner sees the Member list; no handover in this release; non-Members get 404 (default). 2. As 1, but Viewers may not export. 3. As 1, but Editors and Viewers see the Member list (display names only, no e-mails). 4. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: none
+
+## D-16: Sign-in, e-mail verification, rate limit, verification level
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: OQ-P-05, OQ-001-01, OQ-001-02 `OPEN — needs customer` (Q-34); R-001-05 `[ASSUMPTION]` (unverified e-mail blocks use) and ambiguous: "reject every other request" names no allowed request, so the UI could not even load the User (`GET /api/v1/me`); SR-03 (100 requests per minute) open; ASVS Level 2 `[ASSUMPTION]` (security-requirements).
+- Options: 1. E-mail/password and Google; e-mail verification required, and while unverified the backend answers only `GET /api/v1/me` (everything else HTTP 403); 100 requests per minute per User; ASVS 5.0 Level 2 (default). 2. As 1 without e-mail verification (R-001-05 dropped; Invitations then rely on Firebase e-mail ownership only). 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: R-001-05 wording (option 1 settles "every other request")
+
+## D-17: Invitation links
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: OQ-004-01 `OPEN — needs customer` (Q-35); `[ASSUMPTION]` R-004-03 (a new Invitation revokes the open one for the same e-mail) and R-004-05 (link bound to the invitee's e-mail); BR-10 does not say whether the automatic revocation of R-004-03, or an accepted Invitation (a new Member), writes an Audit entry.
+- Options: 1. Owner only, single use, 7 days, copied by the Owner, bound to the invitee's e-mail (case-insensitive), a new Invitation revokes the open one; Audit entries for creation, every revocation (also automatic) and acceptance (default). 2. As 1, Audit entries only for creation and manual revocation (BR-10 as written). 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: BR-10 (option 1 adds automatic revocation and acceptance to the audited actions)
+
+## D-18: Recycle bin and permanent delete
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: OQ-P-03, OQ-003-01, OQ-012-01, OQ-013-01 `OPEN — needs customer` (Q-22, Q-33); project-wide fact "recycle bin period" 30 days OPEN; BR-08 open; `[ASSUMPTION]` R-012-05 (removal at least hourly, so data can live up to 1 hour past the removal date), R-013-03 (permanent delete only from the recycle bin). Gap: while a Group is in the recycle bin, its own Contacts in the recycle bin reach their removal date; R-003-05 promises "all its Contacts as they were", BR-08 deletes them.
+- Options: 1. 30 days for Contacts and Groups; permanent delete Owner-only and only from the recycle bin; removal job at least hourly; a Contact's own removal date keeps running while its Group is in the recycle bin (it is erased on time; restoring the Group does not bring it back) (default). 2. As 1, but a Contact's removal clock pauses while its Group is in the recycle bin. 3. Other period or rights (state them).
+- Human response: none
+- Resolution: pending
+- Overrides: none
+
+## D-19: Personal data roles, erasure, retention and audit
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: OQ-P-04 `OPEN — needs customer` (Q-32, Q-33): each Group controller, we processor; permanent delete erases all Versions (SR-06); retention table rows `[ASSUMPTION]` (Invitation e-mails and Audit entries kept until the Group is erased; Audit entries shown to nobody in the UI). BR-10 audited actions open (Q-34, OQ-P-05). Gap: BR-08 lists what a Group's erasure removes but not its Audit entries and Merge records, while the Data model keeps Audit entries "while the Group exists".
+- Options: 1. Confirm as written; erasing a Group (BR-08) also removes its Audit entries and Merge records; Audit entries have no UI in this release (default). 2. As 1, but Audit entries outlive the Group for a fixed period (state it). 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: none
+
+## D-20: Deleting a User account (US-021, increment 2)
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: OQ-021-01 `OPEN — needs customer` (Q-33); `[ASSUMPTION]` priority `should`, increment 2, R-021-02, R-021-03 ("Deleted user"). Gaps: (a) R-021-01 "delete the User" conflicts with Versions, Audit entries, Groups and Invitations that reference the User id; (b) a Firebase ID token stays valid for up to 1 hour after the Firebase account is deleted, so under R-001-02 and R-001-04 such a token would be accepted and the User created again, contrary to EX-021-03.
+- Options: 1. Keep US-021 as written; the User record is anonymised instead of removed (e-mail and display name erased, id and Firebase uid kept, marked deleted); any token of a deleted User gets HTTP 401 and never re-creates the User (default). 2. Drop US-021 from this release. 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: R-021-01 ("delete the User" read as anonymise), R-001-04 (no re-creation of a deleted User)
+
+## D-21: Erasing Contacts involved in a Merge (increment 2)
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: block
+- Type: blocking
+- Trigger: gap between US-012, US-013, US-018 and BR-08: a `merged` Contact can never be moved to the recycle bin (R-012-01 needs `active`), so its personal data can be erased only through Undo merge (R-019-02 blocks that after any later change of the Primary contact). A Primary contact with Contacts merged into it can be moved to the recycle bin; R-013-04 then blocks a manual permanent delete, but BR-08 would erase it after 30 days and leave the merged Contacts pointing at nothing.
+- Options: 1. Permanently deleting a Primary contact (by the Owner from the recycle bin, or by BR-08) also permanently deletes every Contact merged into it, each with its own Audit entry; R-013-04 is dropped; the confirmation names the merged Contacts (default). 2. Keep R-013-04; BR-08 skips a Primary contact with merged Contacts until the Merge is undone (the data outlives 30 days). 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: R-013-04 (option 1)
+
+## D-22: Non-blocking `[ASSUMPTION]`s and story open questions accepted as written
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: open
+- Type: non-blocking
+- Trigger: DoR-S-07, DoR-S-09: every `[ASSUMPTION]` and `OPEN` item not on a `Block` topic needs a recorded default.
+- Options: 1. Use each as written (default): project-wide facts time format, number format, language kept per User, working hours; BR-09; Data model displayName fallback, Group name 1–100 and not unique, Contact Field lengths, e-mail syntax check only, phone characters; R-002-02, R-002-03, R-002-05, R-006-07, R-007-03, EX-007-03, R-008-03, R-008-06, R-009-05, R-011-04, US-014 Page size, columns, default sort and searched Fields, R-015-01 … R-015-04, R-016-03 … R-016-07, R-017-03, R-018-01, R-018-03, R-018-05, R-019-02; NFR-02 data shape, NFR-05; E2E-06 … E2E-08; US-021 in increment 2. Story questions take their proposals: OQ-009-01 no bulk tagging; OQ-015-01 "has Tags" = all; OQ-017-01 no dismissing; OQ-017-02 no local/international phone matching. 2. Name the items to change.
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-23: Contact Fields and saves that the rules leave open
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: open
+- Type: non-blocking
+- Trigger: (a) "Field" = "fixed data items of a Contact (Data model)", and the Contact form shows "all Fields" (US-006), but the Data model Contact also holds id, groupId, state, deletedAt, mergedInto, versionNumber, created/updated: form, Export columns (R-016-03) and Merge choices (R-018-01) differ with the reading. (b) The Data model restricts phone characters, but no rule or edge case rejects others (US-006, DoR-S-05). (c) Editing, tagging, restoring a Version of, or moving to the recycle bin a `merged` Contact is not covered (US-007 … US-012 cover `inRecycleBin` only).
+- Options: 1. (a) Fields = firstName, lastName, email, phone, company, jobTitle, street, postalCode, city, country, note, in that order; (b) a phone with another character is rejected with "Enter a valid phone number." and nothing is stored; (c) every change to a `merged` Contact is rejected with HTTP 409 and nothing changes (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-24: Contact list and Export details
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: open
+- Type: non-blocking
+- Trigger: (a) R-014-03 "sort by name" with the name column showing "first last": by first or last name? (b) Checked contacts (R-016-02): kept across Pages, search and filter changes? (c) R-016-06 "characters not allowed in file names" names no set. (d) R-016-04 (country as ISO code) and R-016-06 (date `yyyy-mm-dd` in the file name, AC-016-01) differ from the project-wide facts (country shown as a name; dates `dd.mm.yyyy`), which no story may override.
+- Options: 1. (a) "name" sorts like R-014-02 (last name, first name, company); (b) Checked contacts are kept across Pages and cleared when search or filters change; (c) `\ / : * ? " < > |` and control characters become `-`; (d) the Export file is a machine-readable exception: keep R-016-04, R-016-06 and AC-016-01 as written (default). 2. As 1, but (d) follows the project-wide facts (country name in the User's language, `dd.mm.yyyy` in the file name), which changes AC-016-01. 3. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: project-wide facts "Date and time format" and "country codes", for the Export file only (option 1 (d))
+
+## D-25: Duplicates, Merge and Undo merge details (increment 2)
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: open
+- Type: non-blocking
+- Trigger: (a) "Name similarity" (US-017) does not define the trigram measure; with PostgreSQL `pg_trgm` similarity, AC-017-03 ("Janez Novak" / "Janez Novack") scores 0.67 < 0.8 and fails; Sørensen–Dice over the character trigrams of the whole Normalised full name scores 0.84 (computed in this session). (b) R-018-01 "the first Contact" of a pair is undefined. (c) EX-019-01 ("This Merge was already undone.", HTTP 409) has no rule and collides with R-019-02; Undo merge is not covered by BR-06 (stale Version) nor by a Primary contact that was itself merged later. (d) US-018 (8 points) is more than a third of increment 2 (19 points) (DoR-S-02).
+- Options: 1. (a) Sørensen–Dice of the character-trigram sets of the two Normalised full names, threshold 0.8; (b) the first Contact is the one first in the R-014-02 order; (c) checks in order: already undone → HTTP 409 "This Merge was already undone."; Primary or Other not `active` → rejected as R-019-03 (recycle bin) or HTTP 409 (merged); stale Version → BR-06; then R-019-02; (d) keep US-018 as one story; `/plan` splits it into tasks (Field choice and Merge; Tags and Attributes) (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-26: How Audit entries and security requirements are verified
+- Timestamp: 2026-11-16T10:30+01:00
+- Session: S2 /clarify
+- Class: open
+- Type: non-blocking
+- Trigger: (a) AC-003-03, AC-003-04, AC-004-01, AC-004-06, AC-005-02, AC-005-03, AC-013-01, AC-016-01, AC-018-01, AC-019-01 expect an Audit entry, but Audit entries have no UI or API (security-requirements, Personal data), so they are not observable through a public interface (requirements-standard, Acceptance criteria). (b) DoR-R-05: SR-01 and SR-03 … SR-09 do not say how they are checked.
+- Options: 1. (a) Audit entries are checked in backend integration tests through the database, the Operator's interface; (b) SR-01 API tests with no, expired, foreign and tampered tokens; SR-03 the 101st request in a minute gets 429 with `Retry-After`; SR-04 no endpoint changes or deletes an Audit entry (API test, architecture test); SR-05 test of token length, hashed storage, single use, expiry; SR-06 database check after permanent delete and after BR-08; SR-07 Export test (EX-016-03, also tab and carriage return); SR-08 log capture during the acceptance tests contains no Contact data, e-mail or token; SR-09 runtime demonstration on staging (HTTPS only, CORS rejects another origin) (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
