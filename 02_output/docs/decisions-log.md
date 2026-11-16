@@ -584,3 +584,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-54: Frozen tests and details of Attributes (US-008) not stated in the inputs
+- Timestamp: 2026-11-16T22:58+01:00
+- Session: S5 /implement US-008
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01: all 11 API tests (`Us008AttributesAcceptanceIT`) and 4 UI tests × 3 browsers (`us008-attributes.spec.ts`) build their team with Invitations (US-004) and fail there (logs `out/logs/implement-us008-backend-full.txt`, `implement-us008-ui-acceptance.txt`); the UI tests AC-008-01, -02 and -04 then read the History page (US-010). The steps were run on the stack with the team's Memberships set and the Versions (`contact_version`) read by SQL: all 11 API cases and the UI steps of AC-008-01, -03, -04 pass, axe finds nothing (throwaway; `out/logs/implement-us008-stack-check.txt`, spec `implement-us008-stack-check.spec.ts.txt`, screens `out/logs/screens/WF-08_contact-form/attributes/`). The rules leave open the details in option 1.
+- Options: 1. [ASSUMPTION] (a) US-008 stays "in progress" until `/implement US-004` and `US-010` re-run both US-008 suites (as D-46, D-49, D-52, D-53); (b) values are trimmed like keys (specification §3 "after trimming every text"); a missing value is empty (R-008-03); an `attributes` entry of `null` is a blank key (400 `attribute.keyLength`); (c) error fields `attributes[i].key`, `attributes[i].value`, and `attributes` for R-008-05; `attribute.keyTwice` names the later of the two keys as entered ("Kompetenca", AC-008-03); one problem per row part, all reported at once, after the Field checks; (d) an update without `attributes` keeps the stored Attributes (the conservative reading of a missing list); a create without it has none; (e) the Version items compare keys exactly: a key whose spelling changes only in case is listed as removed and added (`attribute:<old>`, `attribute:<new>`); items follow the Fields, Attributes by key A–Z; the snapshot holds the Attributes by key A–Z in Slovenian collation (Java `Collator` "sl"); a save whose Fields and Attributes (in any order) equal the stored ones is `contact.noChanges` (R-007-03); (f) a save that changes Attributes replaces the stored rows (delete then insert in the same transaction); (g) the form shows the Attributes in the order read, a new row at the end; Remove takes a row out at once (saved only with Save); the browser repeats R-008-02 … R-008-05 and focuses the first invalid control; the API's limit of 50 stands under the section above "Add an Attribute"; (h) Slovenian texts: "Atributi", "Ključ", "Vrednost", "Odstrani", "Dodaj atribut", "Ključ mora imeti od 1 do 50 znakov.", "Vrednost ima lahko največ 500 znakov.", "Ključ {{key}} je uporabljen dvakrat.", "Kontakt ima lahko največ 50 atributov." (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
