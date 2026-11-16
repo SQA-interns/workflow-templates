@@ -1,0 +1,151 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< app.contacts:contacts-backend >--------------------
+[INFO] Building contacts-backend 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (prepare-unit) @ contacts-backend ---
+[INFO] argLine set to -javaagent:/home/tjan-kazar/.m2/repository/org/jacoco/org.jacoco.agent/0.8.13/org.jacoco.agent-0.8.13-runtime.jar=destfile=/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/jacoco.exec
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ contacts-backend ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ contacts-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 64 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ contacts-backend ---
+[INFO] skip non existing resourceDirectory /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ contacts-backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 52 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ contacts-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running app.contacts.repository.ContactRepositoryIT
+15:49:46.299 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.repository.ContactRepositoryIT]: ContactRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:49:46.535 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+15:49:46.541 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+15:49:46.584 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+15:49:48.215 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Docker accessed via Unix socket (/home/tjan-kazar/.docker/desktop/docker.sock)
+15:49:48.217 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+15:49:48.250 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.3.1
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 31283 MB
+  Labels: 
+    com.docker.desktop.address=unix:///home/tjan-kazar/.docker/desktop/docker-cli.sock
+15:49:49.163 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+15:49:49.406 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 84cb5ae00e1881d1209a470dfe329e2a6c29df97f01373e9e96637ce5f958896
+15:49:50.296 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT1.131837278S
+15:49:50.307 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+15:49:50.307 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+15:49:50.309 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+15:49:50.309 [main] INFO tc.postgres:16.15 -- Creating container for image: postgres:16.15
+15:49:50.594 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 is starting: b1163283f6eb3fffd8db57c4c28ae58d949c8065db42bd6823e3a11f5ea5bf78
+15:49:52.309 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 started in PT1.999855591S
+15:49:52.310 [main] INFO tc.postgres:16.15 -- Container is started (JDBC URL: jdbc:postgresql://localhost:34449/test?loggerLevel=OFF)
+15:49:52.465 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.repository.ContactRepositoryIT
+15:49:52.469 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.repository.ContactRepositoryIT]: ContactRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:49:52.509 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.repository.ContactRepositoryIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-16T15:49:53.297+01:00  INFO 2498602 --- [contacts-backend] [           main] a.c.repository.ContactRepositoryIT       : Starting ContactRepositoryIT using Java 21.0.13.0.3 with PID 2498602 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-16T15:49:53.299+01:00  INFO 2498602 --- [contacts-backend] [           main] a.c.repository.ContactRepositoryIT       : No active profile set, falling back to 1 default profile: "default"
+2026-11-16T15:49:53.931+01:00  INFO 2498602 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-16T15:49:54.035+01:00  INFO 2498602 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 90 ms. Found 5 JPA repository interfaces.
+2026-11-16T15:49:55.147+01:00  INFO 2498602 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:34449/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-16T15:49:55.228+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-16T15:49:55.235+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.029s)
+2026-11-16T15:49:55.256+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-16T15:49:55.352+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-16T15:49:55.390+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-16T15:49:55.495+01:00  INFO 2498602 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.081s)
+2026-11-16T15:49:55.672+01:00  INFO 2498602 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-16T15:49:55.759+01:00  INFO 2498602 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-16T15:49:56.425+01:00  INFO 2498602 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-16T15:49:56.480+01:00  INFO 2498602 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-16T15:49:56.527+01:00  INFO 2498602 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3b4004cd
+2026-11-16T15:49:56.530+01:00  INFO 2498602 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-16T15:49:56.650+01:00  INFO 2498602 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:34449/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-16T15:49:58.087+01:00  INFO 2498602 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-16T15:49:58.165+01:00  INFO 2498602 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-16T15:49:58.310+01:00  INFO 2498602 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-16T15:49:59.974+01:00  INFO 2498602 --- [contacts-backend] [           main] a.c.repository.ContactRepositoryIT       : Started ContactRepositoryIT in 7.341 seconds (process running for 15.875)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact_version (changed_at,changed_by,changes,group_id,kind,snapshot,contact_id,number) values (?,?,?,?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select c1_0.id,c1_0.created_at,c1_0.created_by,c1_0.first_name,c1_0.last_name,c1_0.email,c1_0.phone,c1_0.company,c1_0.job_title,c1_0.street,c1_0.postal_code,c1_0.city,c1_0.country,c1_0.note,c1_0.group_id,c1_0.search_text,c1_0.sort_name,c1_0.state,c1_0.updated_at,c1_0.updated_by,c1_0.version_number from contact c1_0 where c1_0.group_id=? and c1_0.state='active' and lower(c1_0.email)=lower(?) order by c1_0.created_at,c1_0.id
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 14.98 s -- in app.contacts.repository.ContactRepositoryIT
+[INFO] Running app.contacts.ArchitectureTest
+2026-11-16T15:50:00.958+01:00  INFO 2498602 --- [contacts-backend] [           main] com.tngtech.archunit.core.PluginLoader   : Detected Java version 21.0.13.0.3
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.984 s -- in app.contacts.ArchitectureTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 9, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.330 s
+[INFO] Finished at: 2026-11-16T15:50:04+01:00
+[INFO] ------------------------------------------------------------------------

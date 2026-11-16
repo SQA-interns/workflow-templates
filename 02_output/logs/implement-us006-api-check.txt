@@ -1,0 +1,17 @@
+
+Running 1 test using 1 worker
+
+AC-006-01 [33m201[39m {"id":"25e3921d-ed71-4dc6-8fbf-0ede7fd4b89a","versionNumber":1,"state":"active","fields":{"firstName":"Janez","lastName":"Novak","email":"janez.novak@example.si","phone":"+386 41 123 456","company":"Podjetje d.o.o.","jobTitle":"Direktor","street":"Slovenska cesta 1","postalCode":"1000","city":"Ljubljana","country":"SI","note":"Govornik"},"attributes":[],"tags":[],"createdAt":"2026-11-16T15:01:35.994095237Z","updatedAt":"2026-11-16T15:01:35.994095237Z","mergedFrom":[],"mergedInto":null}
+  version row: 1|created|Marko Kranjc|[{"item": "firstName", "newValue": "Janez", "oldValue": null}, {"item": "lastName", "newValue": "Novak", "oldValue": null}, {"item": "email", "newValue": "janez.novak@example.si", "oldValue": null}, {"item": "phone", "newValue": "+386 41 123 456", "oldValue": null}, {"item": "company", "newValue": "Podjetje d.o.o.", "oldValue": null}, {"item": "jobTitle", "newValue": "Direktor", "oldValue": null}, {"item": "street", "newValue": "Slovenska cesta 1", "oldValue": null}, {"item": "postalCode", "newValue": "1000", "oldValue": null}, {"item": "city", "newValue": "Ljubljana", "oldValue": null}, {"item": "country", "newValue": "SI", "oldValue": null}, {"item": "note", "newValue": "Govornik", "oldValue": null}]
+  snapshot: {"tags": [], "fields": {"city": "Ljubljana", "note": "Govornik", "email": "janez.novak@example.si", "phone": "+386 41 123 456", "street": "Slovenska cesta 1", "company": "Podjetje d.o.o.", "country": "SI", "jobTitle": "Direktor", "lastName": "Novak", "firstName": "Janez", "postalCode": "1000"}, "attributes": []}
+  derived: janez novak janez.novak@example.si +386 41 123 456 podjetje d.o.o. ljubljana | Novak
+AC-006-03 [33m400[39m {"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"name","code":"contact.nameRequired"}]}
+AC-006-05 [33m200[39m [{"id":"25e3921d-ed71-4dc6-8fbf-0ede7fd4b89a","name":"Janez Novak"}]
+AC-006-06 [33m403[39m {"type":"about:blank","title":"Forbidden","status":403,"code":"auth.forbidden"}
+EX-006-02 [33m400[39m {"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"firstName","code":"field.tooLong","params":{"field":"firstName","max":100}}]}
+EX-006-06 [33m400[39m {"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"country","code":"field.countryInvalid"}]}
+unknown field [33m400[39m {"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[]}
+
+  ✓  1 reports/us006-check/us006-api.spec.ts:11:1 › US-006 API (4.9s)
+
+  1 passed (6.1s)

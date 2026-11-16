@@ -1,0 +1,30 @@
+
+Running 1 test using 1 worker
+
+form mobile axe: none
+form mobile horizontal overflow: [33mfalse[39m
+form tablet axe: none
+form tablet horizontal overflow: [33mfalse[39m
+form desktop axe: none
+form desktop horizontal overflow: [33mfalse[39m
+error mobile axe: none
+error mobile horizontal overflow: [33mfalse[39m
+error tablet axe: none
+error tablet horizontal overflow: [33mfalse[39m
+error desktop axe: none
+error desktop horizontal overflow: [33mfalse[39m
+email-exists mobile axe: none
+email-exists mobile horizontal overflow: [33mfalse[39m
+email-exists tablet axe: none
+email-exists tablet horizontal overflow: [33mfalse[39m
+email-exists desktop axe: none
+email-exists desktop horizontal overflow: [33mfalse[39m
+filled mobile axe: none
+filled mobile horizontal overflow: [33mfalse[39m
+filled tablet axe: none
+filled tablet horizontal overflow: [33mfalse[39m
+filled desktop axe: none
+filled desktop horizontal overflow: [33mfalse[39m
+  ✓  1 reports/us006-check/wf08-screens.spec.ts:30:1 › WF-08 screens (18.9s)
+
+  1 passed (20.6s)

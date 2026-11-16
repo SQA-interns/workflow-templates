@@ -1,0 +1,11 @@
+
+Running 3 tests using 1 worker
+
+
+  ✓  1 reports/us006-check/us006-ui.spec.ts:21:1 › AC-006-01 steps (2.3s)
+
+  ✓  2 reports/us006-check/us006-ui.spec.ts:41:1 › AC-006-03 AC-006-04 steps (1.8s)
+
+  ✓  3 reports/us006-check/us006-ui.spec.ts:56:1 › AC-006-05 steps (1.7s)
+
+  3 passed (7.4s)

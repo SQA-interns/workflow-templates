@@ -1,0 +1,81 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 2850ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  1568ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  1099ms
+ ✓ src/app/UserMenu.test.tsx (6 tests) 2839ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  704ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  514ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  735ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 when saving fails the language stays and the menu says so  589ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 3114ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  1453ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  967ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 3813ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-01 typing reports the value  391ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  3208ms
+ ✓ src/app/AppLayout.test.tsx (15 tests) 3208ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  606ms
+   ✓ base layout (UI-10, R-020-01) > UI-23 the menu button toggles the navigation  318ms
+   ✓ routes of US-001 > R-001-04 the user menu is named by the display name  414ms
+   ✓ header of US-002 > R-002-04 the header carries the Group switcher with the current Group  339ms
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 4975ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  1188ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-04 a blank name: Enter a name of 1 to 100 characters. and nothing is sent  556ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  2025ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > R-002-02 the server's group.nameLength shows the same text  508ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > UI-14 any other failure shows the error state and keeps the form  571ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 70ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 539ms
+   ✓ route guard (R-001-03, R-001-05, R-001-06) > UI-14 shows the loading state until Firebase knows the account  405ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 496ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  493ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 866ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  486ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 61ms
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1798ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  426ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-03 lists the User's Groups in the order of the API, the current one marked  514ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-02 selecting a Group opens its Contact list and closes the switcher  362ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-01 Create a Group opens WF-04  305ms
+ ✓ src/i18n/catalogs.test.ts (3 tests) 26ms
+ ✓ src/features/contacts/fieldMessages.test.ts (5 tests) 46ms
+ ✓ src/api/apiClient.test.ts (6 tests) 86ms
+ ✓ src/api/problem.test.ts (4 tests) 20ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 15ms
+ ✓ src/auth/firebase.test.ts (8 tests) 9ms
+ ✓ src/i18n/format.test.ts (4 tests) 8ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 13925ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  4209ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  538ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  1037ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  1114ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  891ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  973ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  796ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  708ms
+   ✓ WF-08 Add a Contact (US-006) > UI-12 Cancel returns to the Contact list without saving  317ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  1840ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  564ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 an e-mail without a match shows no warning  483ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 a blank or invalid e-mail is not looked up  448ms
+
+ Test Files  20 passed (20)
+      Tests  128 passed (128)
+   Start at  16:18:08
+   Duration  18.37s (transform 1.57s, setup 7.73s, collect 11.01s, tests 38.76s, environment 27.40s, prepare 5.39s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 96.57% ( 1184/1226 )
+Branches     : 95.19% ( 297/312 )
+Functions    : 91.52% ( 108/118 )
+Lines        : 96.57% ( 1184/1226 )
+================================================================================
