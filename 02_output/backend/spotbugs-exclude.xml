@@ -1,3 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Findings excluded from SpotBugs, each with its reason. Empty: nothing is excluded. -->
-<FindBugsFilter/>
+<!-- Findings excluded from SpotBugs, each with its reason and decision. -->
+<FindBugsFilter>
+  <!-- D-30: stateless Bearer-token API without cookies or sessions; CSRF does not apply. Evidence kept by ApplicationIT.d30ApiSetsNoCookie. -->
+  <Match>
+    <Class name="app.contacts.config.SecurityConfig"/>
+    <Bug pattern="SPRING_CSRF_PROTECTION_DISABLED"/>
+  </Match>
+  <!-- D-30: the signature follows HttpSecurity.build() throws Exception (Spring API). -->
+  <Match>
+    <Class name="app.contacts.config.SecurityConfig"/>
+    <Method name="securityFilterChain"/>
+    <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>
+  </Match>
+</FindBugsFilter>
