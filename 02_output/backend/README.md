@@ -44,4 +44,4 @@ Health: `GET /actuator/health` (public, ES-09). OpenAPI at runtime: `GET /api/v1
 ## Troubleshooting
 
 - Integration tests fail to start: Docker must be running and able to pull `postgres:16.15`.
-- `spotbugs:check` fails: every exclusion in `spotbugs-exclude.xml` needs a decision (D-30 is the only one).
+- `spotbugs:check` fails: every exclusion in `spotbugs-exclude.xml` needs a decision (D-30, D-41).
