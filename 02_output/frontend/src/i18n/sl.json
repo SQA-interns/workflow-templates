@@ -40,6 +40,21 @@
       "emailInUse": "Račun s tem e-poštnim naslovom že obstaja.",
       "emailInvalid": "Vnesite veljaven e-poštni naslov.",
       "weakPassword": "Geslo mora imeti vsaj 6 znakov."
+    },
+    "field": {
+      "email": "E-pošta",
+      "password": "Geslo"
+    },
+    "google": "Prijava z Googlom",
+    "signIn": {
+      "title": "Prijava",
+      "withEmail": "Prijava z e-pošto",
+      "submit": "Prijava",
+      "noAccount": "Še nimate računa?"
+    },
+    "signUp": {
+      "title": "Ustvari račun",
+      "haveAccount": "Že imate račun?"
     }
   }
 }

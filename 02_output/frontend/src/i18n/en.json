@@ -40,6 +40,21 @@
       "emailInUse": "An account with this e-mail already exists.",
       "emailInvalid": "Enter a valid e-mail address.",
       "weakPassword": "The password must have at least 6 characters."
+    },
+    "field": {
+      "email": "E-mail",
+      "password": "Password"
+    },
+    "google": "Sign in with Google",
+    "signIn": {
+      "title": "Sign in",
+      "withEmail": "Sign in with e-mail",
+      "submit": "Sign in",
+      "noAccount": "No account yet?"
+    },
+    "signUp": {
+      "title": "Create an account",
+      "haveAccount": "Already have an account?"
     }
   }
 }
