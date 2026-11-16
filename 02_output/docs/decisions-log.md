@@ -364,3 +364,14 @@
 - Human response: option 1; 2026-11-16 (asked in session).
 - Resolution: 1 — `.gitleaksignore` holds the one fingerprint; the scan passes (`out/logs/plan-ci-gitleaks.txt`).
 - Overrides: severity of this gitleaks finding (High → Low)
+
+## D-34: Approve wireframes
+- Timestamp: 2026-11-16T15:00+01:00
+- Session: W /wireframes
+- Class: block
+- Type: approval
+- Trigger: `docs/wireframes/` holds 19 screens (WF-01 … WF-20, no WF-12; index in `docs/wireframes/README.md`) at mobile 375, tablet 768 and desktop 1440 px. Image files: `WF-01_sign-in_desktop.png`, `WF-01_sign-in_mobile.png`, `WF-01_sign-in_tablet.png`, `WF-02_sign-up_desktop.png`, `WF-02_sign-up_mobile.png`, `WF-02_sign-up_tablet.png`, `WF-03_confirm-email_desktop.png`, `WF-03_confirm-email_mobile.png`, `WF-03_confirm-email_tablet.png`, `WF-04_create-group_desktop.png`, `WF-04_create-group_mobile.png`, `WF-04_create-group_tablet.png`, `WF-05_no-groups_desktop.png`, `WF-05_no-groups_mobile.png`, `WF-05_no-groups_tablet.png`, `WF-06_contact-list_desktop.png`, `WF-06_contact-list_mobile.png`, `WF-06_contact-list_tablet.png`, `WF-07_contact-details_desktop.png`, `WF-07_contact-details_mobile.png`, `WF-07_contact-details_tablet.png`, `WF-08_contact-form_desktop.png`, `WF-08_contact-form_mobile.png`, `WF-08_contact-form_tablet.png`, `WF-09_history_desktop.png`, `WF-09_history_mobile.png`, `WF-09_history_tablet.png`, `WF-10_version_desktop.png`, `WF-10_version_mobile.png`, `WF-10_version_tablet.png`, `WF-11_recycle-bin_desktop.png`, `WF-11_recycle-bin_mobile.png`, `WF-11_recycle-bin_tablet.png`, `WF-13_members_desktop.png`, `WF-13_members_mobile.png`, `WF-13_members_tablet.png`, `WF-14_group-settings_desktop.png`, `WF-14_group-settings_mobile.png`, `WF-14_group-settings_tablet.png`, `WF-15_deleted-groups_desktop.png`, `WF-15_deleted-groups_mobile.png`, `WF-15_deleted-groups_tablet.png`, `WF-16_invitation_desktop.png`, `WF-16_invitation_mobile.png`, `WF-16_invitation_tablet.png`, `WF-17_possible-duplicates_desktop.png`, `WF-17_possible-duplicates_mobile.png`, `WF-17_possible-duplicates_tablet.png`, `WF-18_merge_desktop.png`, `WF-18_merge_mobile.png`, `WF-18_merge_tablet.png`, `WF-19_account_desktop.png`, `WF-19_account_mobile.png`, `WF-19_account_tablet.png`, `WF-20_not-found_desktop.png`, `WF-20_not-found_mobile.png`, `WF-20_not-found_tablet.png`.
+- Options: 1. Approved with the customer (default). 2. Approved by the developer only. 3. Change: what, per `WF-nn`.
+- Human response: none
+- Resolution: pending
+- Overrides: none
