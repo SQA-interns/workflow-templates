@@ -11,6 +11,7 @@ import { ApiError, messageKey } from "../../api/problem";
 /** Longest Group name after trimming (R-002-02, specification §3). */
 const NAME_MAX = 100;
 const NAME_LENGTH = "group.nameLength";
+const NAME_LENGTH_KEY = `errors.${NAME_LENGTH}`;
 
 /** R-002-02: 1 to 100 characters after trimming, counted as characters. */
 function nameIsValid(name: string): boolean {
@@ -21,7 +22,7 @@ function nameIsValid(name: string): boolean {
 /** The catalog key of a failed create: the name rule, or the problem's own text (UI-13). */
 function errorKeyOf(error: unknown): string {
   if (error instanceof ApiError && error.errors.some((e) => e.code === NAME_LENGTH)) {
-    return `errors.${NAME_LENGTH}`;
+    return NAME_LENGTH_KEY;
   }
   return error instanceof ApiError ? messageKey(error.code) : "state.error";
 }
@@ -39,7 +40,7 @@ export function CreateGroupPage() {
     event.preventDefault();
     const trimmed = name.trim();
     if (!nameIsValid(trimmed)) {
-      setErrorKey(`errors.${NAME_LENGTH}`);
+      setErrorKey(NAME_LENGTH_KEY);
       return;
     }
     setErrorKey(null);
@@ -63,7 +64,7 @@ export function CreateGroupPage() {
               id={`${id}-name`}
               autoComplete="off"
               aria-required="true"
-              aria-invalid={errorKey === `errors.${NAME_LENGTH}`}
+              aria-invalid={errorKey === NAME_LENGTH_KEY}
               aria-describedby={`${id}-hint`}
               value={name}
               onChange={(e) => setName(e.target.value)}
