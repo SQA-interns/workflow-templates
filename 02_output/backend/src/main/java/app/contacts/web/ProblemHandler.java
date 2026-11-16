@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
@@ -29,18 +30,29 @@ public class ProblemHandler {
   private static final Logger LOG = LoggerFactory.getLogger(ProblemHandler.class);
 
   /**
-   * 404 for unknown items and other Groups' data (BR-02), for unknown paths and for an id in the
-   * path that is not a UUID (no such item).
+   * 404 for unknown items and other Groups' data (BR-02) and for unknown paths.
    *
    * @return the problem
    */
-  @ExceptionHandler({
-    NotFoundException.class,
-    NoResourceFoundException.class,
-    MethodArgumentTypeMismatchException.class
-  })
+  @ExceptionHandler({NotFoundException.class, NoResourceFoundException.class})
   public ResponseEntity<Map<String, Object>> notFound() {
     return problem(HttpStatus.NOT_FOUND, "notFound");
+  }
+
+  /**
+   * An id in the path that is not a UUID is no such item (404); a query parameter of the wrong type
+   * is an invalid request (400 {@code validation}, contract responses {@code Invalid}).
+   *
+   * @param mismatch the exception
+   * @return the problem
+   */
+  @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+  public ResponseEntity<Map<String, Object>> mismatch(
+      MethodArgumentTypeMismatchException mismatch) {
+    if (mismatch.getParameter().hasParameterAnnotation(PathVariable.class)) {
+      return notFound();
+    }
+    return validation(List.of());
   }
 
   /**

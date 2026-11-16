@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 class ProblemHandlerTest {
@@ -73,6 +74,13 @@ class ProblemHandlerTest {
   }
 
   @Test
+  void sb01MalformedQueryParameterIs400Validation() throws Exception {
+    mvc.perform(get("/pages").param("page", "abc"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.code").value("validation"));
+  }
+
+  @Test
   void sb07UnexpectedErrorIs500InternalWithoutDetails() throws Exception {
     mvc.perform(get("/boom"))
         .andExpect(status().isInternalServerError())
@@ -106,6 +114,11 @@ class ProblemHandlerTest {
     @GetMapping("/items/{id}")
     String item(@PathVariable UUID id) {
       return id.toString();
+    }
+
+    @GetMapping("/pages")
+    String pages(@RequestParam Integer page) {
+      return page.toString();
     }
 
     @GetMapping("/boom")
