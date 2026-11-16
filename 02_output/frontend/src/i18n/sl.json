@@ -33,5 +33,13 @@
     "notFound": "Strani ni mogoče najti.",
     "rateLimited": "Preveč zahtev. Poskusite znova čez minuto.",
     "internal": "Nekaj je šlo narobe."
+  },
+  "account": {
+    "error": {
+      "wrongCredentials": "Napačen e-poštni naslov ali geslo.",
+      "emailInUse": "Račun s tem e-poštnim naslovom že obstaja.",
+      "emailInvalid": "Vnesite veljaven e-poštni naslov.",
+      "weakPassword": "Geslo mora imeti vsaj 6 znakov."
+    }
   }
 }

@@ -33,5 +33,13 @@
     "notFound": "This page cannot be found.",
     "rateLimited": "Too many requests. Try again in a minute.",
     "internal": "Something went wrong."
+  },
+  "account": {
+    "error": {
+      "wrongCredentials": "Wrong e-mail or password.",
+      "emailInUse": "An account with this e-mail already exists.",
+      "emailInvalid": "Enter a valid e-mail address.",
+      "weakPassword": "The password must have at least 6 characters."
+    }
   }
 }
