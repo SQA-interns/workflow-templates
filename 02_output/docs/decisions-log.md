@@ -320,3 +320,14 @@
 - Human response: none
 - Resolution: 1 — pending review. Local and test only, never deployed; scanned with the other images in phase 6.
 - Overrides: `tech-stack.md` adds container `node` 22.23.3-bookworm-slim (build stage of the emulator image only)
+
+## D-30: SpotBugs SPRING_CSRF_PROTECTION_DISABLED (High) on the stateless API
+- Timestamp: 2026-11-16T12:30+01:00
+- Session: S3 /plan
+- Class: block
+- Type: approval
+- Trigger: `./mvnw spotbugs:check` (FindSecBugs 1.14.0): High `SPRING_CSRF_PROTECTION_DISABLED` at `app.contacts.config.SecurityConfig`. The API is stateless (`SessionCreationPolicy.STATELESS`), authenticates only with a Firebase Bearer token in the `Authorization` header (ADR-03) and sets no cookies, so a cross-site request carries no credential. Lowering a High needs approval (`general/quality/severity-scale.md`).
+- Options: 1. Lower to Low (false positive) with this evidence; exclude only this pattern on `SecurityConfig` in `spotbugs-exclude.xml`; a skeleton test checks that API responses set no cookie and create no session (default). 2. Enable CSRF tokens for the API.
+- Human response: option 1; 2026-11-16 (asked in session).
+- Resolution: 1 — excluded in `02_output/backend/spotbugs-exclude.xml` citing D-30; `ApplicationIT.d30ApiSetsNoCookie` keeps the evidence checked. Also excluded (Low): `THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION` on `SecurityConfig.securityFilterChain`, whose signature follows `HttpSecurity.build() throws Exception`.
+- Overrides: severity of SPRING_CSRF_PROTECTION_DISABLED at SecurityConfig (High → Low)
