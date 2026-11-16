@@ -1,0 +1,431 @@
+
+Running 15 tests using 1 worker
+
+
+  ✘   1 [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added (1.4s)
+
+  ✘   2 [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 (699ms)
+
+  ✘   3 [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling (720ms)
+
+  ✘   4 [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed (683ms)
+
+  ✘   5 [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. (775ms)
+
+  ✘   6 [firefox] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added (271ms)
+
+  ✘   7 [firefox] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 (250ms)
+
+  ✘   8 [firefox] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling (253ms)
+
+  ✘   9 [firefox] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed (264ms)
+
+  ✘  10 [firefox] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. (261ms)
+
+  ✘  11 [webkit] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added (243ms)
+
+  ✘  12 [webkit] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 (242ms)
+
+  ✘  13 [webkit] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling (243ms)
+
+  ✘  14 [webkit] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed (251ms)
+
+  ✘  15 [webkit] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. (257ms)
+
+
+  1) [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:30:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:46:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:63:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:80:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:96:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [firefox] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [firefox] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [firefox] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [firefox] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [firefox] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [webkit] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [webkit] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [webkit] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [webkit] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [webkit] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15 failed
+    [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+    [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+    [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+    [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+    [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+    [firefox] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+    [firefox] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 ─
+    [firefox] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+    [firefox] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+    [firefox] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+    [webkit] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+    [webkit] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 ──
+    [webkit] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+    [webkit] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+    [webkit] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 

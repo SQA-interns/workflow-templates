@@ -1,0 +1,26 @@
+
+Running 2 tests using 1 worker
+
+AC-008-01 [200,[{"key":"kompetenca","value":"spletnoProgramiranje"}],"2 edited [{\"item\": \"attribute:kompetenca\", \"newValue\": \"spletnoProgramiranje\", \"oldValue\": null}]"]
+AC-008-02 [200,"3 edited [{\"item\": \"attribute:kompetenca\", \"newValue\": \"mobilnoProgramiranje\", \"oldValue\": \"spletnoProgramiranje\"}]"]
+AC-008-03 [400,{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"attributes[1].key","code":"attribute.keyTwice","params":{"key":"Kompetenca"}}]}]
+AC-008-04 [200,[],"2 edited [{\"item\": \"attribute:kompetenca\", \"newValue\": null, \"oldValue\": \"mobilnoProgramiranje\"}]"]
+EX-008-01 [200,400,[{"field":"attributes[0].key","code":"attribute.keyLength"}]]
+EX-008-02 [400,[{"field":"attributes[0].key","code":"attribute.keyLength"}]]
+EX-008-03 [200,400,[{"field":"attributes[0].value","code":"attribute.valueTooLong"}]]
+EX-008-04 [200,[{"key":"kompetenca","value":""}]]
+EX-008-05 [200,400,[{"field":"attributes","code":"attribute.tooMany"}],50]
+EX-008-06 ["1 created [{\"item\": \"firstName\", \"newValue\": \"Janez\", \"oldValue\": null}, {\"item\": \"lastName\", \"newValue\": \"Novak\", \"oldValue\": null}]","2 edited [{\"item\": \"city\", \"newValue\": \"Maribor\", \"oldValue\": null}, {\"item\": \"attribute:kompetenca\", \"newValue\": \"java\", \"oldValue\": null}]"]
+EX-008-07 [409,{"type":"about:blank","title":"Conflict","status":409,"code":"version.conflict","params":{"changedBy":"Ana Kovač"}}]
+R-008-06 [["cena","Čas","drža"],"[{\"key\": \"cena\", \"value\": \"1\"}, {\"key\": \"Čas\", \"value\": \"2\"}, {\"key\": \"drža\", \"value\": \"3\"}]"]
+  ✓  1 [chromium] › reports/us008-recheck/us008.spec.ts:58:1 › API AC-008-01..04, EX-008-01..07 (2.7s)
+axe empty: none
+axe added: none
+UI AC-008-01 2 edited [{"item": "attribute:kompetenca", "newValue": "spletnoProgramiranje", "oldValue": null}]
+axe loaded: none
+axe key-twice: none
+UI AC-008-04 2 edited [{"item": "attribute:kompetenca", "newValue": null, "oldValue": "mobilnoProgramiranje"}]
+axe too-many: none
+  ✓  2 [chromium] › reports/us008-recheck/us008.spec.ts:147:1 › UI AC-008-01..04 (10.8s)
+
+  2 passed (14.8s)

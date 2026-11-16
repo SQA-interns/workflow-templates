@@ -1,0 +1,27 @@
+
+Running 2 tests using 1 worker
+
+AC-009-01 [200,["udelezenec2025"],"2 edited tag:udelezenec2025","[\"udelezenec2025\"]"]
+AC-009-02 ["udelezenec2025"]
+AC-009-03 [200,["udelezenec2025"],["udelezenec2025"]]
+AC-009-04 [200,["udelezenec2025"],"2 edited tag:neObvescaj"]
+AC-009-05 [400,{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"tags[0]","code":"tag.invalid"}]}]
+EX-009-01 [200,400,["validation","tag.invalid"]]
+EX-009-02 [400,["validation","tag.invalid"]]
+EX-009-03 ["vip"]
+EX-009-04 [[],true]
+EX-009-05 []
+EX-009-06 ["udeležba"]
+EX-009-07 [409,{"type":"about:blank","title":"Conflict","status":409,"code":"version.conflict","params":{"changedBy":"Ana Kovač"}}]
+  ✓  1 [chromium] › reports/us009-check/us009.spec.ts:61:1 › API AC-009-01..05, EX-009-01..07 (5.5s)
+axe empty: none
+UI AC-009-01 2 edited tag:udelezenec2025
+axe suggestions: none
+UI AC-009-03 ["udelezenec2025"]
+axe loaded: none
+UI AC-009-04 2 edited tag:neObvescaj
+axe invalid: none
+UI AC-009-05 shown at once, nothing stored
+  ✓  2 [chromium] › reports/us009-check/us009.spec.ts:167:1 › UI AC-009-01..05 (12.2s)
+
+  2 passed (19.2s)

@@ -1,0 +1,221 @@
+import { execFileSync } from "node:child_process";
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, createContact, createGroup, editContact, getContact,
+  resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+function query(statement: string): string {
+  return execFileSync("docker", ["exec", "kontakti-postgres-1", "psql", "-At", "-U", "contacts",
+    "-d", "contacts", "-c", statement]).toString().trim();
+}
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+
+async function person(t: Team, firstName: string, lastName: string, tags: string[] = []) {
+  return createContact(t.ana, t.groupId, { fields: { firstName, lastName }, tags });
+}
+
+/** The Versions as "<number> <kind> <items>", oldest first (History by SQL until US-010). */
+function versions(id: string): string[] {
+  const rows = query(`SELECT number || ' ' || kind || ' ' || (SELECT string_agg(c->>'item', ',') FROM jsonb_array_elements(changes) c) FROM contact_version WHERE contact_id = '${id}' ORDER BY number`);
+  return rows ? rows.split("\n") : [];
+}
+
+function snapshotTags(id: string): string {
+  return query(`SELECT snapshot->'tags' FROM contact_version WHERE contact_id = '${id}' ORDER BY number DESC LIMIT 1`);
+}
+
+async function withTags(t: Team, id: string, tags: string[]) {
+  const c = await getContact(t.marko, t.groupId, id);
+  return api(t.marko, "PUT", `/groups/${t.groupId}/contacts/${id}`,
+    { fields: c.fields, attributes: c.attributes, tags, versionNumber: c.versionNumber });
+}
+
+const names = async (t: Team, id: string) =>
+  (await getContact(t.ana, t.groupId, id)).tags.map((x: { name: string }) => x.name);
+const suggested = async (u: Parameters<typeof api>[0], groupId: string, q: string) => {
+  const r = await api(u, "GET", `/groups/${groupId}/tags?q=${encodeURIComponent(q)}`);
+  expect(r.status).toBe(200);
+  return r.json.map((x: { name: string }) => x.name);
+};
+const codes = (r: { json: { code: string; errors?: { code: string }[] } }) =>
+  [r.json.code, ...(r.json.errors ?? []).map((e) => e.code)];
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+
+test("API AC-009-01..05, EX-009-01..07", async () => {
+  const t = await team();
+
+  let id = await person(t, "Janez", "Novak");
+  let r = await withTags(t, id, ["udelezenec2025"]);
+  log("AC-009-01", [r.status, await names(t, id), versions(id).at(-1), snapshotTags(id)]);
+  expect(r.status).toBe(200);
+  expect(await names(t, id)).toEqual(["udelezenec2025"]);
+  expect(versions(id).at(-1)).toBe("2 edited tag:udelezenec2025");
+
+  await resetStack();
+  let u = await team();
+  await person(u, "Janez", "Novak", ["udelezenec2025"]);
+  await person(u, "Maja", "Zupan");
+  log("AC-009-02", await suggested(u.marko, u.groupId, "udel"));
+  expect(await suggested(u.marko, u.groupId, "udel")).toEqual(["udelezenec2025"]);
+
+  const maja = (await api(u.ana, "GET", `/groups/${u.groupId}/contacts?q=maja`)).json.items[0].id;
+  r = await withTags(u, maja, ["Udelezenec2025"]);
+  log("AC-009-03", [r.status, await names(u, maja), await suggested(u.ana, u.groupId, "udelezenec2025")]);
+  expect(await names(u, maja)).toEqual(["udelezenec2025"]);
+  expect(await suggested(u.ana, u.groupId, "udelezenec2025")).toEqual(["udelezenec2025"]);
+  expect(query(`SELECT count(*) FROM tag WHERE group_id = '${u.groupId}'`)).toBe("1");
+
+  id = await person(u, "Janez", "Novak", ["udelezenec2025", "neObvescaj"]);
+  r = await withTags(u, id, ["udelezenec2025"]);
+  log("AC-009-04", [r.status, await names(u, id), versions(id).at(-1)]);
+  expect(versions(id).at(-1)).toBe("2 edited tag:neObvescaj");
+
+  id = await person(u, "Janez", "Novak");
+  let before = JSON.stringify(await getContact(u.ana, u.groupId, id));
+  r = await withTags(u, id, ["vip, 2025"]);
+  log("AC-009-05", [r.status, r.json]);
+  expect([r.status, codes(r)]).toEqual([400, ["validation", "tag.invalid"]]);
+  expect(JSON.stringify(await getContact(u.ana, u.groupId, id))).toBe(before);
+
+  const ok = await withTags(u, id, ["t".repeat(50)]);
+  before = JSON.stringify(await getContact(u.ana, u.groupId, id));
+  r = await withTags(u, id, ["t".repeat(51)]);
+  log("EX-009-01", [ok.status, r.status, codes(r)]);
+  expect([ok.status, r.status, codes(r)]).toEqual([200, 400, ["validation", "tag.invalid"]]);
+  r = await withTags(u, id, ["   "]);
+  log("EX-009-02", [r.status, codes(r)]);
+  expect(codes(r)).toContain("tag.invalid");
+  expect(JSON.stringify(await getContact(u.ana, u.groupId, id))).toBe(before);
+
+  id = await person(u, "Janez", "Novak");
+  await withTags(u, id, ["vip", "vip"]);
+  log("EX-009-03", await names(u, id));
+  expect(await names(u, id)).toEqual(["vip"]);
+
+  await resetStack();
+  u = await team();
+  const nina = await user("nina.kos@example.si", "Nina Kos");
+  const beta = await createGroup(nina, "Podjetje Beta");
+  await createContact(nina, beta, { fields: { firstName: "Maja", lastName: "Zupan" }, tags: ["udelezenec2025"] });
+  id = await person(u, "Janez", "Novak");
+  const empty = await suggested(u.marko, u.groupId, "udel");
+  await withTags(u, id, ["udelezenec2025"]);
+  const ours = (await api(u.marko, "GET", `/groups/${u.groupId}/tags?q=udelezenec2025`)).json[0].id;
+  const theirs = (await api(nina, "GET", `/groups/${beta}/tags?q=udelezenec2025`)).json[0].id;
+  log("EX-009-04", [empty, ours !== theirs]);
+  expect(empty).toEqual([]);
+  expect(ours).not.toBe(theirs);
+
+  await resetStack();
+  u = await team();
+  id = await person(u, "Janez", "Novak", ["udelezenec2025"]);
+  await withTags(u, id, []);
+  log("EX-009-05", await suggested(u.marko, u.groupId, "udel"));
+  expect(await suggested(u.marko, u.groupId, "udel")).toEqual([]);
+
+  await withTags(u, id, ["udeležba"]);
+  log("EX-009-06", await names(u, id));
+  expect(await names(u, id)).toEqual(["udeležba"]);
+
+  id = await person(u, "Janez", "Novak");
+  const stale = await getContact(u.marko, u.groupId, id);
+  await editContact(u.ana, u.groupId, id, (c) => (c.fields.city = "Maribor"));
+  before = JSON.stringify(await getContact(u.ana, u.groupId, id));
+  r = await api(u.marko, "PUT", `/groups/${u.groupId}/contacts/${id}`,
+    { fields: stale.fields, attributes: [], tags: ["vip"], versionNumber: stale.versionNumber });
+  log("EX-009-07", [r.status, r.json]);
+  expect([r.status, r.json.code]).toEqual([409, "version.conflict"]);
+  expect(JSON.stringify(await getContact(u.ana, u.groupId, id))).toBe(before);
+});
+
+async function shot(page: Page, name: string) {
+  const dir = "../logs/screens/WF-08_contact-form/tags";
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+async function addTag(page: Page, name: string) {
+  await page.getByLabel("Add a Tag").fill(name);
+  await page.getByLabel("Add a Tag").press("Enter");
+}
+
+test("UI AC-009-01..05", async ({ page }) => {
+  const t = await team();
+  const janez = await person(t, "Janez", "Novak");
+  await signIn(page, t.marko);
+  const edit = (id: string) => `/groups/${t.groupId}/contacts/${id}/edit`;
+
+  // AC-009-01
+  await page.goto(edit(janez));
+  await expect(page.getByLabel("Add a Tag")).toBeVisible();
+  await shot(page, "empty");
+  await addTag(page, "udelezenec2025");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, janez)).versionNumber).toBe(2);
+  await page.goto(`/groups/${t.groupId}/contacts/${janez}`);
+  await expect(page.getByRole("main").getByText("udelezenec2025", { exact: true })).toBeVisible();
+  console.log("UI AC-009-01", versions(janez).at(-1));
+  expect(versions(janez).at(-1)).toBe("2 edited tag:udelezenec2025");
+
+  // AC-009-02, AC-009-03
+  const maja = await person(t, "Maja", "Zupan");
+  await page.goto(edit(maja));
+  await page.getByLabel("Add a Tag").fill("udel");
+  await expect(page.getByRole("option", { name: "udelezenec2025" })).toBeVisible();
+  await shot(page, "suggestions");
+  await page.getByLabel("Add a Tag").fill("");
+  await addTag(page, "Udelezenec2025");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, maja)).versionNumber).toBe(2);
+  await page.goto(`/groups/${t.groupId}/contacts/${maja}`);
+  await expect(page.getByRole("main").getByText("udelezenec2025", { exact: true })).toBeVisible();
+  const tags = await api(t.ana, "GET", `/groups/${t.groupId}/tags?q=udelezenec2025`);
+  console.log("UI AC-009-03", JSON.stringify(tags.json.map((x: { name: string }) => x.name)));
+  expect(tags.json.map((x: { name: string }) => x.name)).toEqual(["udelezenec2025"]);
+
+  // AC-009-04
+  const two = await person(t, "Janez", "Novak", ["udelezenec2025", "neObvescaj"]);
+  await page.goto(edit(two));
+  await expect(page.getByRole("button", { name: /neObvescaj/ })).toBeVisible();
+  await shot(page, "loaded");
+  await page.getByRole("button", { name: /neObvescaj/ }).click();
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, two)).tags.length).toBe(1);
+  console.log("UI AC-009-04", versions(two).at(-1));
+  expect(versions(two).at(-1)).toBe("2 edited tag:neObvescaj");
+
+  // AC-009-05
+  const three = await person(t, "Janez", "Novak");
+  const before = await getContact(t.ana, t.groupId, three);
+  await page.goto(edit(three));
+  await addTag(page, "vip, 2025");
+  await expect(page.getByText("A Tag must have 1 to 50 characters and no comma.").first()).toBeVisible();
+  await shot(page, "invalid");
+  expect(await getContact(t.ana, t.groupId, three)).toEqual(before);
+  console.log("UI AC-009-05 shown at once, nothing stored");
+});

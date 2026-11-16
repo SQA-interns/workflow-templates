@@ -1,0 +1,9 @@
+Checking formatting...
+All matched files use Prettier code style!
+
+> contacts-frontend@0.1.0 check
+> prettier --check . && eslint . --max-warnings 0 && tsc --noEmit -p tsconfig.json
+
+Checking formatting...
+[warn] README.md
+[warn] Code style issues found in the above file. Run Prettier with --write to fix.
