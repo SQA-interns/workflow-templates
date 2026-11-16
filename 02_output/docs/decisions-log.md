@@ -353,3 +353,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: D-29 (image base), environments.md local port (configurable, default unchanged)
+
+## D-33: gitleaks finding in a frozen input skill file
+- Timestamp: 2026-11-16T13:40+01:00
+- Session: S3 /plan
+- Class: block
+- Type: approval
+- Trigger: the CI secret scan (gitleaks 8.28.0, rule `generic-api-key`) flags `.claude/skills/firebase-ai-logic-basics/SKILL.md` line 232 (commit `d95d8fb`, before preflight): the documentation example `AppCheck debug token: "123a4567-b89c-12d3-e456-789012345678"`, a placeholder in a Firebase tutorial, not a credential. The file is a frozen input (`AGENTS.md`, Never).
+- Options: 1. False positive (Low); allowlist its exact fingerprint in a root `.gitleaksignore`, so any other finding still fails (default). 2. Exclude `.claude/skills/` from the scan.
+- Human response: option 1; 2026-11-16 (asked in session).
+- Resolution: 1 — `.gitleaksignore` holds the one fingerprint; the scan passes (`out/logs/plan-ci-gitleaks.txt`).
+- Overrides: severity of this gitleaks finding (High → Low)
