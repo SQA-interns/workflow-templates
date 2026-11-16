@@ -2,14 +2,17 @@ package app.contacts.web;
 
 import app.contacts.auth.CurrentUser;
 import app.contacts.service.ContactService;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006). */
@@ -44,5 +47,23 @@ public class ContactController {
     ContactResponse created =
         ContactResponse.of(contacts.create(groupId, current.id(), body.fields()));
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
+  }
+
+  /**
+   * The active Contacts with this e-mail, for the warning of R-006-06.
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param email the e-mail entered
+   * @return the matching Contacts
+   */
+  @GetMapping("/email-matches")
+  public List<ContactRefResponse> emailMatches(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @RequestParam String email) {
+    return contacts.findByEmail(groupId, current.id(), email).stream()
+        .map(match -> new ContactRefResponse(match.id(), match.name()))
+        .toList();
   }
 }

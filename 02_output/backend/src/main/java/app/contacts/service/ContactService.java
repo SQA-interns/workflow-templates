@@ -11,7 +11,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Adds Contacts to a Group (US-006). */
+/** Adds Contacts to a Group and finds them by e-mail (US-006). */
 @Service
 public class ContactService {
 
@@ -76,5 +76,27 @@ public class ContactService {
     contacts.add(groupId, contact);
     versionWriter.record(contact, ContactVersion.CREATED, ContactFields.EMPTY);
     return ContactView.of(contact);
+  }
+
+  /**
+   * The active Contacts of the Group with this e-mail, for the warning of R-006-06; any Member may
+   * ask.
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param email the e-mail, compared trimmed and case-insensitively (BR-11)
+   * @return the matching Contacts, oldest first; none for a blank e-mail
+   * @throws NotFoundException for a non-Member (BR-02)
+   */
+  @Transactional(readOnly = true)
+  public List<ContactRefView> findByEmail(UUID groupId, UUID userId, String email) {
+    guard.require(groupId, userId, Permission.READ);
+    String trimmed = email == null ? "" : email.strip();
+    if (trimmed.isEmpty()) {
+      return List.of();
+    }
+    return contacts.findActiveByEmail(groupId, trimmed).stream()
+        .map(contact -> new ContactRefView(contact.getId(), contact.getFields().name()))
+        .toList();
   }
 }

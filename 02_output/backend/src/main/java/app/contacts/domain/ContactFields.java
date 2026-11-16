@@ -5,7 +5,10 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.SequencedMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -103,5 +106,16 @@ public record ContactFields(
       byName.put(NAMES.get(i), values.get(i));
     }
     return byName;
+  }
+
+  /**
+   * The name of the Contact: first and last name, else the company (contract {@code ContactRef}).
+   *
+   * @return the name
+   */
+  public String name() {
+    String person =
+        Stream.of(firstName, lastName).filter(Objects::nonNull).collect(Collectors.joining(" "));
+    return person.isEmpty() ? company : person;
   }
 }

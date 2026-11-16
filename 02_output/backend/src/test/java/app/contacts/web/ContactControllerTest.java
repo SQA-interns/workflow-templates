@@ -5,11 +5,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactService;
 import app.contacts.service.ContactView;
 import app.contacts.service.UserView;
 import java.time.Instant;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.SequencedMap;
 import java.util.UUID;
@@ -54,5 +56,14 @@ class ContactControllerTest {
     assertThat(body.mergedInto()).isNull();
     assertThat(body.createdAt()).isEqualTo(NOW);
     assertThat(body.updatedAt()).isEqualTo(NOW);
+  }
+
+  @Test
+  void r00606GetEmailMatchesListsTheMatchingContacts() {
+    when(contacts.findByEmail(GROUP_ID, MARKO_ID, "Janez.Novak@example.si"))
+        .thenReturn(List.of(new ContactRefView(CONTACT_ID, "Janez Novak")));
+
+    assertThat(controller.emailMatches(MARKO, GROUP_ID, "Janez.Novak@example.si"))
+        .containsExactly(new ContactRefResponse(CONTACT_ID, "Janez Novak"));
   }
 }

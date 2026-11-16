@@ -18,6 +18,7 @@ import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
@@ -133,5 +134,43 @@ class ContactServiceTest {
     assertThatThrownBy(() -> service.create(other, MARKO, Map.of("firstName", "Janez")))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(contacts, versionWriter);
+  }
+
+  @Test
+  void r00606ListsTheActiveContactsWithTheEmailForAnyMember() {
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
+    Contact janez = contact(Map.of("firstName", "Janez", "lastName", "Novak"));
+    Contact company = contact(Map.of("company", "Podjetje d.o.o."));
+    Contact first = contact(Map.of("firstName", "Janez"));
+    when(contacts.findActiveByEmail(GROUP_ID, "Janez.Novak@example.si"))
+        .thenReturn(List.of(janez, company, first));
+
+    assertThat(service.findByEmail(GROUP_ID, PETRA, " Janez.Novak@example.si "))
+        .containsExactly(
+            new ContactRefView(janez.getId(), "Janez Novak"),
+            new ContactRefView(company.getId(), "Podjetje d.o.o."),
+            new ContactRefView(first.getId(), "Janez"));
+  }
+
+  @Test
+  void r00606BlankEmailMatchesNothing() {
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
+
+    assertThat(service.findByEmail(GROUP_ID, PETRA, "  ")).isEmpty();
+    verifyNoInteractions(contacts);
+  }
+
+  @Test
+  void br02NonMemberGetsNotFoundForEmailMatches() {
+    UUID other = UUID.randomUUID();
+    when(guard.require(other, PETRA, Permission.READ)).thenThrow(new NotFoundException());
+
+    assertThatThrownBy(() -> service.findByEmail(other, PETRA, "janez.novak@example.si"))
+        .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(contacts);
+  }
+
+  private static Contact contact(Map<String, String> fields) {
+    return Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", MARKO, NOW);
   }
 }
