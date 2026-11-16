@@ -15,4 +15,9 @@ void i18n.use(initReactI18next).init({
   returnNull: false,
 });
 
+/** The page language follows the chosen language (UI-19: the right voice for screen readers). */
+i18n.on("languageChanged", (language) => {
+  document.documentElement.lang = language;
+});
+
 export default i18n;

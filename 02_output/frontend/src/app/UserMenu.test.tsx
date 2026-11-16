@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import i18n from "../i18n";
@@ -19,14 +19,19 @@ function renderMenu(client = new QueryClient()) {
   return client;
 }
 
+const ana = {
+  id: "u1",
+  email: "ana.kovac@example.si",
+  displayName: "Ana Kovač",
+  language: "en",
+  emailVerified: true,
+};
+
 beforeEach(async () => {
-  vi.mocked(apiRequest).mockResolvedValue({
-    id: "u1",
-    email: "ana.kovac@example.si",
-    displayName: "Ana Kovač",
-    language: "sl",
-    emailVerified: true,
-  });
+  vi.mocked(apiRequest).mockReset();
+  vi.mocked(apiRequest).mockImplementation(async (method: string, _path: string, body?: unknown) =>
+    method === "PATCH" ? { ...ana, ...(body as object) } : ana,
+  );
   await i18n.changeLanguage("en");
 });
 afterEach(async () => {
@@ -62,5 +67,46 @@ describe("user menu (R-001-04, R-001-06)", () => {
 
     expect(button.getAttribute("aria-expanded")).toBe("false");
     expect(screen.queryByRole("button", { name: "Sign out" })).toBeNull();
+  });
+});
+
+describe("language (R-020-01, R-020-02)", () => {
+  it("R-020-01 the texts follow the language of GET /me, Slovenian for a new User", async () => {
+    vi.mocked(apiRequest).mockResolvedValue({ ...ana, language: "sl" });
+
+    renderMenu();
+
+    await waitFor(() => expect(i18n.language).toBe("sl"));
+    expect(document.documentElement.lang).toBe("sl");
+  });
+
+  it("R-020-02 choosing Slovenščina saves it and switches every text at once", async () => {
+    renderMenu();
+    await userEvent.click(await screen.findByRole("button", { name: "Ana Kovač" }));
+
+    await userEvent.click(screen.getByRole("button", { name: "Slovenščina" }));
+
+    expect(apiRequest).toHaveBeenCalledWith("PATCH", "/me", { language: "sl" });
+    await waitFor(() => expect(i18n.language).toBe("sl"));
+    expect(screen.getByRole("button", { name: "Slovenščina" }).getAttribute("aria-pressed")).toBe(
+      "true",
+    );
+    expect(screen.getByRole("button", { name: "English" }).getAttribute("aria-pressed")).toBe(
+      "false",
+    );
+  });
+
+  it("R-020-02 when saving fails the language stays and the menu says so", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (method: string) => {
+      if (method === "PATCH") throw new Error("offline");
+      return ana;
+    });
+    renderMenu();
+    await userEvent.click(await screen.findByRole("button", { name: "Ana Kovač" }));
+
+    await userEvent.click(screen.getByRole("button", { name: "Slovenščina" }));
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+    expect(i18n.language).toBe("en");
   });
 });

@@ -3,7 +3,8 @@
     "productName": "Kontakti",
     "openMenu": "Odpri meni",
     "userMenu": "Uporabniški meni",
-    "mainNavigation": "Glavna navigacija"
+    "mainNavigation": "Glavna navigacija",
+    "language": "Jezik"
   },
   "nav": {
     "contacts": "Kontakti",

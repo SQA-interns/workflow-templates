@@ -1,16 +1,30 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ChevronDown, LogOut, UserRound } from "lucide-react";
-import { type KeyboardEvent, useId, useState } from "react";
+import { Check, ChevronDown, LogOut, UserRound } from "lucide-react";
+import { type KeyboardEvent, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
-import { useMe } from "../api/me";
+import { useChangeLanguage, useMe } from "../api/me";
 import { signOutAccount } from "../auth/firebase";
+import { type Language } from "../i18n";
 
-/** The user menu of the header, named by the display name (UI-10); items per story. */
+/** Each language is named in itself, so a User finds it in any language (R-020-02). */
+const languageNames: [Language, string][] = [
+  ["sl", "Slovenščina"],
+  ["en", "English"],
+];
+
+/** The user menu of the header, named by the display name (UI-10): language, Sign out. */
 export function UserMenu() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const me = useMe();
+  const changeLanguage = useChangeLanguage();
+  const language = me.data?.language;
+
+  /** Every text follows the User's language: Slovenian for a new User (R-020-01, R-020-02). */
+  useEffect(() => {
+    if (language) void i18n.changeLanguage(language);
+  }, [i18n, language]);
   const [open, setOpen] = useState(false);
   const menuId = useId();
 
@@ -44,7 +58,30 @@ export function UserMenu() {
           id={menuId}
           className="absolute right-0 z-10 mt-1 min-w-48 rounded-md border bg-surface-raised p-1"
         >
-          <li>
+          <li className="border-b pb-1">
+            <div role="group" aria-label={t("app.language")}>
+              {languageNames.map(([code, name]) => (
+                <Button
+                  key={code}
+                  variant="ghost"
+                  lang={code}
+                  className="w-full justify-start"
+                  aria-pressed={language === code}
+                  onKeyDown={closeOnEscape}
+                  onClick={() => changeLanguage.mutate(code)}
+                >
+                  <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
+                  {name}
+                </Button>
+              ))}
+            </div>
+            {changeLanguage.isError && (
+              <p role="alert" className="px-3 py-1 text-sm text-danger">
+                {t("state.error")}
+              </p>
+            )}
+          </li>
+          <li className="pt-1">
             <Button
               variant="ghost"
               className="w-full justify-start"
