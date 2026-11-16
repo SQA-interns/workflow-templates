@@ -121,12 +121,15 @@ export function TagsField({
           }}
           onKeyDown={onKeyDown}
         />
+        <p id={hintId} className="text-sm text-text-muted">
+          {t("contacts.tags.hint")}
+        </p>
         <ul
           id={listId}
           role="listbox"
           aria-label={t("contacts.tags.suggestions")}
           hidden={!open}
-          className="flex flex-col rounded-md border border-border bg-surface py-1 shadow-sm"
+          className="flex flex-col rounded-md border border-border bg-surface py-1 shadow-sm md:max-w-md"
         >
           {options.map((tag, index) => (
             // The keyboard stays on the combobox input (ARIA combobox pattern): Arrow keys and Enter
@@ -145,9 +148,6 @@ export function TagsField({
             </li>
           ))}
         </ul>
-        <p id={hintId} className="text-sm text-text-muted">
-          {t("contacts.tags.hint")}
-        </p>
         {error && (
           <p
             id={errorId}
