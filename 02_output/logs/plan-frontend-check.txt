@@ -1,0 +1,6 @@
+
+> contacts-frontend@0.1.0 check
+> prettier --check . && eslint . --max-warnings 0 && tsc --noEmit -p tsconfig.json
+
+Checking formatting...
+All matched files use Prettier code style!
