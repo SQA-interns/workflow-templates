@@ -31,7 +31,7 @@ describe("texts of Field problems (specification §5)", () => {
     );
   });
 
-  it("SB-01 the Field problems of a 400 answer go to their Fields", () => {
+  it("SB-01 the Field and Attribute problems of a 400 answer go to their places", () => {
     const error = new ApiError(400, {
       code: "validation",
       errors: [
@@ -40,12 +40,18 @@ describe("texts of Field problems (specification §5)", () => {
       ],
     });
 
-    expect(problemsOfError(error)).toEqual({ fields: [tooLong], general: null, params: {} });
+    expect(problemsOfError(error)).toEqual({
+      fields: [tooLong],
+      attributes: [{ field: "attributes", code: "attribute.tooMany" }],
+      general: null,
+      params: {},
+    });
   });
 
   it("BR-03 a problem without Fields is one general text", () => {
     expect(problemsOfError(new ApiError(403, { code: "auth.forbidden" }))).toEqual({
       fields: [],
+      attributes: [],
       general: "errors.auth.forbidden",
       params: {},
     });
@@ -59,6 +65,7 @@ describe("texts of Field problems (specification §5)", () => {
 
     expect(problemsOfError(conflict)).toEqual({
       fields: [],
+      attributes: [],
       general: "errors.version.conflict",
       params: { changedBy: "Marko Kranjc" },
     });
@@ -67,6 +74,7 @@ describe("texts of Field problems (specification §5)", () => {
   it("UI-14 a failure without a problem shows the generic error text", () => {
     expect(problemsOfError(new TypeError("Failed to fetch"))).toEqual({
       fields: [],
+      attributes: [],
       general: "state.error",
       params: {},
     });

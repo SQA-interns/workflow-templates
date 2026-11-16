@@ -2,6 +2,7 @@ import type { TFunction } from "i18next";
 import { ApiError, messageKey } from "../../api/problem";
 import type { Language } from "../../i18n";
 import { formatNumber } from "../../i18n/format";
+import type { AttributeProblem } from "./attributes";
 import { FIELD_NAMES, type FieldName, type FieldProblem } from "./contactFields";
 
 /** The text of a Field problem; `field.tooLong` names the Field and its maximum (R-006-03). */
@@ -19,19 +20,34 @@ function isFieldProblem(problem: { field: string }): problem is FieldProblem {
   return problem.field === "name" || (FIELD_NAMES as readonly string[]).includes(problem.field);
 }
 
-/** The problems of a failed save: per Field, or one general text and its values (UI-13, UI-14). */
+/** The text of an Attribute problem; `attribute.keyTwice` names the key (R-008-04). */
+export function attributeProblemText(t: TFunction, problem: AttributeProblem): string {
+  return t(messageKey(problem.code), problem.params);
+}
+
+/**
+ * The problems of a failed save: per Field, per Attribute, or one general text and its values
+ * (UI-13, UI-14).
+ */
 export function problemsOfError(error: unknown): {
   fields: FieldProblem[];
+  attributes: AttributeProblem[];
   general: string | null;
   params: Record<string, unknown>;
 } {
-  if (!(error instanceof ApiError)) return { fields: [], general: "state.error", params: {} };
+  if (!(error instanceof ApiError)) {
+    return { fields: [], attributes: [], general: "state.error", params: {} };
+  }
   const fields = error.errors
     .filter(isFieldProblem)
     .map((e) => ({ field: e.field, code: e.code, params: maxOf(e.params) }));
+  const attributes = error.errors
+    .filter((e) => e.field.startsWith("attributes"))
+    .map((e) => ({ field: e.field, code: e.code, params: keyOf(e.params) }));
   return {
     fields,
-    general: fields.length > 0 ? null : messageKey(error.code),
+    attributes,
+    general: fields.length + attributes.length > 0 ? null : messageKey(error.code),
     params: error.params,
   };
 }
@@ -39,6 +55,10 @@ export function problemsOfError(error: unknown): {
 /** Whether the error is the API problem with this code. */
 export function isProblem(error: unknown, code: string): boolean {
   return error instanceof ApiError && error.code === code;
+}
+
+function keyOf(params: Record<string, unknown> | undefined): { key: string } | undefined {
+  return typeof params?.key === "string" ? { key: params.key } : undefined;
 }
 
 function maxOf(params: Record<string, unknown> | undefined): { max: number } | undefined {

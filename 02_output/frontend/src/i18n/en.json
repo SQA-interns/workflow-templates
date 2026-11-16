@@ -48,6 +48,12 @@
       "emailInvalid": "Enter a valid e-mail address.",
       "phoneInvalid": "Enter a valid phone number."
     },
+    "attribute": {
+      "keyLength": "A key must have 1 to 50 characters.",
+      "valueTooLong": "A value may have at most 500 characters.",
+      "keyTwice": "The key {{key}} is used twice.",
+      "tooMany": "A Contact may have at most 50 Attributes."
+    },
     "version": {
       "conflict": "Contact was changed by {{changedBy}}, reload"
     }
@@ -108,6 +114,13 @@
     },
     "back": "Contacts",
     "fields": "Fields",
+    "attributes": {
+      "title": "Attributes",
+      "key": "Key",
+      "value": "Value",
+      "remove": "Remove",
+      "add": "Add an Attribute"
+    },
     "field": {
       "firstName": "First name",
       "lastName": "Last name",

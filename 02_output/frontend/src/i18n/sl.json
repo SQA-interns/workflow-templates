@@ -48,6 +48,12 @@
       "emailInvalid": "Vnesite veljaven e-poštni naslov.",
       "phoneInvalid": "Vnesite veljavno telefonsko številko."
     },
+    "attribute": {
+      "keyLength": "Ključ mora imeti od 1 do 50 znakov.",
+      "valueTooLong": "Vrednost ima lahko največ 500 znakov.",
+      "keyTwice": "Ključ {{key}} je uporabljen dvakrat.",
+      "tooMany": "Kontakt ima lahko največ 50 atributov."
+    },
     "version": {
       "conflict": "Kontakt je spremenil {{changedBy}}, osvežite"
     }
@@ -108,6 +114,13 @@
     },
     "back": "Kontakti",
     "fields": "Podatki",
+    "attributes": {
+      "title": "Atributi",
+      "key": "Ključ",
+      "value": "Vrednost",
+      "remove": "Odstrani",
+      "add": "Dodaj atribut"
+    },
     "field": {
       "firstName": "Ime",
       "lastName": "Priimek",
