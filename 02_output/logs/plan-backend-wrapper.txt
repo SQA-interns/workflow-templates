@@ -1,0 +1,36 @@
+Unable to find image 'maven:3.9.11-eclipse-temurin-21' locally
+3.9.11-eclipse-temurin-21: Pulling from library/maven
+b7f312f519fb: Pulling fs layer
+8167b4f972e8: Pulling fs layer
+583816d0be0c: Pulling fs layer
+4f4fb700ef54: Pulling fs layer
+8349365ad94c: Pulling fs layer
+20043066d3d5: Pulling fs layer
+54b92ed1102d: Pulling fs layer
+8583823b4441: Pulling fs layer
+919c22d58535: Pulling fs layer
+388658fb69f5: Pulling fs layer
+4f4fb700ef54: Already exists
+8167b4f972e8: Download complete
+583816d0be0c: Download complete
+54b92ed1102d: Download complete
+919c22d58535: Download complete
+afb74ae916d2: Download complete
+f68b4ebf8aca: Download complete
+8583823b4441: Download complete
+8349365ad94c: Download complete
+b7f312f519fb: Download complete
+20043066d3d5: Download complete
+20043066d3d5: Pull complete
+b7f312f519fb: Pull complete
+388658fb69f5: Download complete
+388658fb69f5: Pull complete
+54b92ed1102d: Pull complete
+919c22d58535: Pull complete
+8349365ad94c: Pull complete
+8167b4f972e8: Pull complete
+8583823b4441: Pull complete
+4f4fb700ef54: Pull complete
+583816d0be0c: Pull complete
+Digest: sha256:6fdc855a6ed81d288ca7ca37ac6ff5e9308b612485c0801d70b25a858c83d237
+Status: Downloaded newer image for maven:3.9.11-eclipse-temurin-21
