@@ -3,6 +3,7 @@ package app.contacts.service;
 import app.contacts.domain.ContactFields;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -11,7 +12,10 @@ import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
-/** Checks the Fields of a Contact after trimming them (specification §3, R-006-02 … R-006-07). */
+/**
+ * Checks the Fields and Attributes of a Contact after trimming them (specification §3, R-006-02 …
+ * R-006-07, R-008-02 … R-008-05).
+ */
 @Component
 public class ContactValidator {
 
@@ -28,6 +32,13 @@ public class ContactValidator {
           "postalCode", 20,
           "city", 100,
           "note", 2000);
+
+  /** Longest Attribute key and value in characters, most Attributes per Contact (Data model). */
+  private static final int MAX_KEY_LENGTH = 50;
+
+  private static final int MAX_VALUE_LENGTH = 500;
+
+  private static final int MAX_ATTRIBUTES = 50;
 
   /**
    * Syntax rules: e-mail with one {@code @}, a local part and a dot in the domain, no spaces
@@ -64,6 +75,55 @@ public class ContactValidator {
       throw new ValidationException(problems);
     }
     return fields;
+  }
+
+  /**
+   * The Attributes with key and value trimmed (R-006-07), a missing value empty (R-008-03), if they
+   * are valid.
+   *
+   * @param sent the Attributes as sent
+   * @return the trimmed Attributes in the order sent
+   * @throws ValidationException with one problem per invalid key or value ({@code
+   *     attributes[i].key}, {@code attributes[i].value}) and {@code attributes} for too many
+   *     (R-008-02 … R-008-05)
+   */
+  public List<AttributeView> checkAttributes(List<AttributeView> sent) {
+    List<AttributeView> attributes =
+        sent.stream()
+            .map(attribute -> new AttributeView(strip(attribute.key()), strip(attribute.value())))
+            .toList();
+    List<FieldProblem> problems = new ArrayList<>();
+    if (attributes.size() > MAX_ATTRIBUTES) {
+      problems.add(new FieldProblem("attributes", "attribute.tooMany", Map.of()));
+    }
+    Set<String> keys = new HashSet<>();
+    for (int i = 0; i < attributes.size(); i++) {
+      attributeProblemOf(i, attributes.get(i), keys, problems);
+    }
+    if (!problems.isEmpty()) {
+      throw new ValidationException(problems);
+    }
+    return attributes;
+  }
+
+  private static void attributeProblemOf(
+      int index, AttributeView attribute, Set<String> keys, List<FieldProblem> problems) {
+    String key = attribute.key();
+    String at = "attributes[" + index + "].";
+    int keyLength = key.codePointCount(0, key.length());
+    if (keyLength < 1 || keyLength > MAX_KEY_LENGTH) {
+      problems.add(new FieldProblem(at + "key", "attribute.keyLength", Map.of()));
+    } else if (!keys.add(key.toLowerCase(Locale.ROOT))) {
+      problems.add(new FieldProblem(at + "key", "attribute.keyTwice", Map.of("key", key)));
+    }
+    String value = attribute.value();
+    if (value.codePointCount(0, value.length()) > MAX_VALUE_LENGTH) {
+      problems.add(new FieldProblem(at + "value", "attribute.valueTooLong", Map.of()));
+    }
+  }
+
+  private static String strip(String text) {
+    return text == null ? "" : text.strip();
   }
 
   private static ContactFields trimmed(ContactFields sent) {
