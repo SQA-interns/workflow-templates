@@ -1,0 +1,380 @@
+
+Running 12 tests using 1 worker
+
+[1A[2K[1/12] [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K  1) [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:23:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[2/12] [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K  2) [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:41:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[3/12] [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K  3) [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:59:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[4/12] [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K  4) [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:75:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[5/12] [firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K  5) [firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[6/12] [firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K  6) [firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[7/12] [firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K  7) [firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[8/12] [firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K  8) [firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[9/12] [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K  9) [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[10/12] [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K  10) [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[11/12] [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K  11) [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[12/12] [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K  12) [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  12 failed
+    [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+    [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+    [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+    [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+    [firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+    [firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+    [firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+    [firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+    [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+    [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+    [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+    [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 

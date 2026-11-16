@@ -1,0 +1,196 @@
+import { execFileSync } from "node:child_process";
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, createContact, createGroup, editContact, getContact,
+  resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+function query(statement: string): string {
+  return execFileSync("docker", ["exec", "kontakti-postgres-1", "psql", "-At", "-U", "contacts",
+    "-d", "contacts", "-c", statement]).toString().trim();
+}
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+type Attr = { key: string; value: string };
+
+async function janez(t: Team, attributes: Attr[] = []) {
+  return createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "Novak" }, attributes });
+}
+
+/** The Versions as "<number> <kind> <changes>", oldest first (History by SQL until US-010). */
+function versions(id: string): string[] {
+  const rows = query(`SELECT number || ' ' || kind || ' ' || changes::text FROM contact_version WHERE contact_id = '${id}' ORDER BY number`);
+  return rows ? rows.split("\n") : [];
+}
+
+function snapshot(id: string): string {
+  return query(`SELECT snapshot->'attributes' FROM contact_version WHERE contact_id = '${id}' ORDER BY number DESC LIMIT 1`);
+}
+
+/** Saves the Contact as Marko read it with other Attributes. */
+async function withAttributes(t: Team, id: string, attributes: Attr[]) {
+  const c = await getContact(t.marko, t.groupId, id);
+  return api(t.marko, "PUT", `/groups/${t.groupId}/contacts/${id}`,
+    { fields: c.fields, attributes, tags: [], versionNumber: c.versionNumber });
+}
+
+function numbered(count: number): Attr[] {
+  return Array.from({ length: count }, (_, i) => ({ key: `kljuc${String(i + 1).padStart(2, "0")}`, value: "v" }));
+}
+
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+
+test("API AC-008-01..04, EX-008-01..07", async () => {
+  const t = await team();
+
+  let id = await janez(t);
+  let r = await withAttributes(t, id, [{ key: "kompetenca", value: "spletnoProgramiranje" }]);
+  log("AC-008-01", [r.status, (await getContact(t.petra, t.groupId, id)).attributes, versions(id).at(-1)]);
+  expect(r.status).toBe(200);
+  expect(versions(id).at(-1)).toBe('2 edited [{"item": "attribute:kompetenca", "newValue": "spletnoProgramiranje", "oldValue": null}]');
+
+  r = await withAttributes(t, id, [{ key: "kompetenca", value: "mobilnoProgramiranje" }]);
+  log("AC-008-02", [r.status, versions(id).at(-1)]);
+  expect(versions(id).at(-1)).toBe('3 edited [{"item": "attribute:kompetenca", "newValue": "mobilnoProgramiranje", "oldValue": "spletnoProgramiranje"}]');
+
+  id = await janez(t, [{ key: "kompetenca", value: "mobilnoProgramiranje" }]);
+  let before = await getContact(t.ana, t.groupId, id);
+  r = await withAttributes(t, id, [{ key: "kompetenca", value: "mobilnoProgramiranje" }, { key: "Kompetenca", value: "java" }]);
+  log("AC-008-03", [r.status, r.json]);
+  expect([r.status, r.json.errors[0].code, r.json.errors[0].params.key]).toEqual([400, "attribute.keyTwice", "Kompetenca"]);
+  expect(await getContact(t.ana, t.groupId, id)).toEqual(before);
+
+  r = await withAttributes(t, id, []);
+  log("AC-008-04", [r.status, (await getContact(t.ana, t.groupId, id)).attributes, versions(id).at(-1)]);
+  expect(versions(id).at(-1)).toBe('2 edited [{"item": "attribute:kompetenca", "newValue": null, "oldValue": "mobilnoProgramiranje"}]');
+
+  id = await janez(t);
+  const ok = await withAttributes(t, id, [{ key: "k".repeat(50), value: "v" }]);
+  before = await getContact(t.ana, t.groupId, id);
+  r = await withAttributes(t, id, [{ key: "k".repeat(51), value: "v" }]);
+  log("EX-008-01", [ok.status, r.status, r.json.errors]);
+  expect([ok.status, r.json.errors[0].code]).toEqual([200, "attribute.keyLength"]);
+  r = await withAttributes(t, id, [{ key: "   ", value: "v" }]);
+  log("EX-008-02", [r.status, r.json.errors]);
+  expect(r.json.errors[0].code).toBe("attribute.keyLength");
+  expect(await getContact(t.ana, t.groupId, id)).toEqual(before);
+
+  id = await janez(t);
+  const ok500 = await withAttributes(t, id, [{ key: "opis", value: "v".repeat(500) }]);
+  r = await withAttributes(t, id, [{ key: "opis", value: "v".repeat(501) }]);
+  log("EX-008-03", [ok500.status, r.status, r.json.errors]);
+  expect([ok500.status, r.json.errors[0].code]).toEqual([200, "attribute.valueTooLong"]);
+
+  id = await janez(t);
+  r = await withAttributes(t, id, [{ key: "kompetenca", value: "" }]);
+  log("EX-008-04", [r.status, (await getContact(t.ana, t.groupId, id)).attributes]);
+  expect((await getContact(t.ana, t.groupId, id)).attributes).toEqual([{ key: "kompetenca", value: "" }]);
+
+  id = await janez(t);
+  await withAttributes(t, id, numbered(49));
+  const fiftieth = await withAttributes(t, id, numbered(50));
+  r = await withAttributes(t, id, numbered(51));
+  const count = (await getContact(t.ana, t.groupId, id)).attributes.length;
+  log("EX-008-05", [fiftieth.status, r.status, r.json.errors, count]);
+  expect([fiftieth.status, r.json.errors[0].code, count]).toEqual([200, "attribute.tooMany", 50]);
+
+  id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => ((u.fields.city = "Maribor"), (u.attributes = [{ key: "kompetenca", value: "java" }])));
+  log("EX-008-06", versions(id));
+  expect(versions(id).length).toBe(2);
+  expect(versions(id)[1]).toBe('2 edited [{"item": "city", "newValue": "Maribor", "oldValue": null}, {"item": "attribute:kompetenca", "newValue": "java", "oldValue": null}]');
+
+  id = await janez(t);
+  const stale = await getContact(t.marko, t.groupId, id);
+  await editContact(t.ana, t.groupId, id, (u) => (u.fields.city = "Maribor"));
+  before = await getContact(t.ana, t.groupId, id);
+  r = await api(t.marko, "PUT", `/groups/${t.groupId}/contacts/${id}`,
+    { fields: stale.fields, attributes: [{ key: "kompetenca", value: "java" }], tags: [], versionNumber: stale.versionNumber });
+  log("EX-008-07", [r.status, r.json]);
+  expect([r.status, r.json.code, r.json.params.changedBy]).toEqual([409, "version.conflict", "Ana Kovač"]);
+  expect(await getContact(t.ana, t.groupId, id)).toEqual(before);
+
+  // R-008-06 order and spelling; snapshot holds the Attributes
+  id = await janez(t, [{ key: "drža", value: "3" }, { key: "Čas", value: "2" }, { key: "cena", value: "1" }]);
+  log("R-008-06", [(await getContact(t.ana, t.groupId, id)).attributes.map((a: Attr) => a.key), snapshot(id)]);
+  expect((await getContact(t.ana, t.groupId, id)).attributes.map((a: Attr) => a.key)).toEqual(["cena", "Čas", "drža"]);
+});
+
+async function shot(page: Page, name: string) {
+  const dir = "../logs/screens/WF-08_contact-form/attributes";
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.screenshot({ path: `${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("UI AC-008-01..04", async ({ page }) => {
+  const t = await team();
+  let id = await janez(t);
+  await signIn(page, t.marko);
+
+  // AC-008-01 (steps of the frozen test; History by SQL)
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await expect(page.getByLabel("First name")).toHaveValue("Janez");
+  await shot(page, "empty");
+  await page.getByRole("button", { name: "Add an Attribute" }).click();
+  await page.getByLabel("Key").last().fill("kompetenca");
+  await page.getByLabel("Value").last().fill("spletnoProgramiranje");
+  await shot(page, "added");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, id)).versionNumber).toBe(2);
+  await page.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await expect(page.getByText("spletnoProgramiranje")).toBeVisible();
+  console.log("UI AC-008-01", versions(id).at(-1));
+
+  // AC-008-03
+  id = await janez(t, [{ key: "kompetenca", value: "mobilnoProgramiranje" }]);
+  const before = await getContact(t.ana, t.groupId, id);
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await expect(page.getByLabel("Key")).toHaveValue("kompetenca");
+  await shot(page, "loaded");
+  await page.getByRole("button", { name: "Add an Attribute" }).click();
+  await page.getByLabel("Key").last().fill("Kompetenca");
+  await page.getByLabel("Value").last().fill("java");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("The key Kompetenca is used twice.")).toBeVisible();
+  await shot(page, "key-twice");
+  expect(await getContact(t.ana, t.groupId, id)).toEqual(before);
+
+  // AC-008-04
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await page.getByRole("button", { name: "Remove", exact: true }).click();
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, id)).attributes.length).toBe(0);
+  console.log("UI AC-008-04", versions(id).at(-1));
+
+  // R-008-05: the API's limit shown in the section (the browser check stops it first)
+  id = await janez(t, numbered(50));
+  await page.goto(`/groups/${t.groupId}/contacts/${id}/edit`);
+  await page.getByRole("button", { name: "Add an Attribute" }).click();
+  await page.getByLabel("Key").last().fill("kljuc51");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByText("A Contact may have at most 50 Attributes.")).toBeVisible();
+  await shot(page, "too-many");
+
+});
