@@ -20,6 +20,7 @@ import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -168,6 +169,28 @@ class ContactServiceTest {
     assertThatThrownBy(() -> service.findByEmail(other, PETRA, "janez.novak@example.si"))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(contacts);
+  }
+
+  @Test
+  void r01406AnyMemberReadsContactOfTheGroup() {
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
+    Contact janez = contact(Map.of("firstName", "Janez", "lastName", "Novak"));
+    when(contacts.findByGroupIdAndId(GROUP_ID, janez.getId())).thenReturn(Optional.of(janez));
+
+    ContactView view = service.get(GROUP_ID, PETRA, janez.getId());
+
+    assertThat(view.id()).isEqualTo(janez.getId());
+    assertThat(view.fields()).containsEntry("lastName", "Novak");
+  }
+
+  @Test
+  void br02AnUnknownContactOrOneOfAnotherGroupIsNotFound() {
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
+    UUID unknown = UUID.randomUUID();
+    when(contacts.findByGroupIdAndId(GROUP_ID, unknown)).thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> service.get(GROUP_ID, PETRA, unknown))
+        .isInstanceOf(NotFoundException.class);
   }
 
   private static Contact contact(Map<String, String> fields) {

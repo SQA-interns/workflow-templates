@@ -2,6 +2,7 @@ package app.contacts.repository;
 
 import app.contacts.domain.Contact;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -24,4 +25,13 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
       ORDER BY c.createdAt, c.id
       """)
   List<Contact> findActiveByEmail(UUID groupId, String email);
+
+  /**
+   * A Contact of the Group in any state (R-014-06).
+   *
+   * @param groupId the Group
+   * @param id the Contact
+   * @return the Contact, empty when it is not one of the Group's (BR-02)
+   */
+  Optional<Contact> findByGroupIdAndId(UUID groupId, UUID id);
 }

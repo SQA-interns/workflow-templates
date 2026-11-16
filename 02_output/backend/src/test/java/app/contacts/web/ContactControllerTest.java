@@ -79,4 +79,18 @@ class ContactControllerTest {
 
     assertThat(controller.list(MARKO, GROUP_ID, "novak", "company", "desc", 2)).isSameAs(page);
   }
+
+  @Test
+  void r01406GetContactAnswersTheContact() {
+    SequencedMap<String, String> fields = new LinkedHashMap<>();
+    fields.put("firstName", "Janez");
+    when(contacts.get(GROUP_ID, MARKO_ID, CONTACT_ID))
+        .thenReturn(new ContactView(CONTACT_ID, 2, "active", fields, NOW, NOW));
+
+    ContactResponse contact = controller.get(MARKO, GROUP_ID, CONTACT_ID);
+
+    assertThat(contact.id()).isEqualTo(CONTACT_ID);
+    assertThat(contact.versionNumber()).isEqualTo(2);
+    assertThat(contact.fields()).containsEntry("firstName", "Janez");
+  }
 }

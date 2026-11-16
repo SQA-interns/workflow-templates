@@ -152,6 +152,20 @@ class ContactRepositoryIT {
         .containsExactly(janez.getId(), second.getId());
   }
 
+  @Test
+  void r01406FindsAContactOnlyInItsGroup() {
+    Contact janez = added(groupId, "janez.novak@example.si", NOW);
+    final UUID otherGroup = groups.save(Group.create("Podjetje Beta", marko, NOW)).getId();
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(contacts.findByGroupIdAndId(groupId, janez.getId()))
+        .get()
+        .extracting(Contact::getFields)
+        .isEqualTo(janez.getFields());
+    assertThat(contacts.findByGroupIdAndId(otherGroup, janez.getId())).isEmpty();
+  }
+
   private Contact added(UUID group, String email, Instant createdAt) {
     ContactFields fields =
         new ContactFields("Janez", "Novak", email, null, null, null, null, null, null, null, null);

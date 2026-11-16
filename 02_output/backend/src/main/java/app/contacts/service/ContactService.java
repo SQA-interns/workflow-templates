@@ -11,7 +11,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Adds Contacts to a Group and finds them by e-mail (US-006). */
+/** Adds Contacts to a Group, reads one and finds them by e-mail (US-006, US-014). */
 @Service
 public class ContactService {
 
@@ -98,5 +98,23 @@ public class ContactService {
     return contacts.findActiveByEmail(groupId, trimmed).stream()
         .map(contact -> new ContactRefView(contact.getId(), contact.getFields().name()))
         .toList();
+  }
+
+  /**
+   * One Contact of the Group, for its details (R-014-06); any Member may read it.
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @return the Contact
+   * @throws NotFoundException for a non-Member or a Contact that is not the Group's (BR-02)
+   */
+  @Transactional(readOnly = true)
+  public ContactView get(UUID groupId, UUID userId, UUID contactId) {
+    guard.require(groupId, userId, Permission.READ);
+    return contacts
+        .findByGroupIdAndId(groupId, contactId)
+        .map(ContactView::of)
+        .orElseThrow(NotFoundException::new);
   }
 }

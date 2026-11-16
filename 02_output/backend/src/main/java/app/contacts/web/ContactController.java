@@ -95,4 +95,20 @@ public class ContactController {
         .map(match -> new ContactRefResponse(match.id(), match.name()))
         .toList();
   }
+
+  /**
+   * One Contact of the Group, for its details (R-014-06).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @return the Contact
+   */
+  @GetMapping("/{contactId}")
+  public ContactResponse get(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID contactId) {
+    return ContactResponse.of(contacts.get(groupId, current.id(), contactId));
+  }
 }
