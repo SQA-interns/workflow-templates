@@ -1,0 +1,96 @@
+package app.contacts.service;
+
+import app.contacts.domain.Group;
+import app.contacts.domain.Membership;
+import app.contacts.domain.Role;
+import app.contacts.repository.GroupRepository;
+import app.contacts.repository.MembershipRepository;
+import java.time.Clock;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+/** Groups: create, the Group switcher list and one Group (US-002). */
+@Service
+public class GroupService {
+
+  /** Longest Group name after trimming (R-002-02, specification §3). */
+  static final int NAME_MAX = 100;
+
+  private final GroupRepository groups;
+  private final MembershipRepository memberships;
+  private final AccessGuard guard;
+  private final Clock clock;
+
+  /**
+   * The service.
+   *
+   * @param groups the Group repository
+   * @param memberships the Membership repository
+   * @param guard the access check
+   * @param clock the clock
+   */
+  public GroupService(
+      GroupRepository groups, MembershipRepository memberships, AccessGuard guard, Clock clock) {
+    this.groups = groups;
+    this.memberships = memberships;
+    this.guard = guard;
+    this.clock = clock;
+  }
+
+  /**
+   * Creates a Group with the User as its Owner (R-002-01); names need not be unique (EX-002-04).
+   *
+   * @param userId the signed-in User
+   * @param name the name; trimmed, then 1 to 100 characters
+   * @return the new Group
+   * @throws ValidationException {@code group.nameLength} otherwise (R-002-02)
+   */
+  @Transactional
+  public GroupView create(UUID userId, String name) {
+    String trimmed = checkedName(name);
+    Group group = groups.save(Group.create(trimmed, userId, clock.instant()));
+    memberships.save(Membership.of(group.getId(), userId, Role.OWNER));
+    return new GroupView(group.getId(), group.getName(), Role.OWNER.name());
+  }
+
+  /**
+   * The active Groups of which the User is a Member, by name A–Z (R-002-03).
+   *
+   * @param userId the signed-in User
+   * @return the Groups with the User's Role
+   */
+  @Transactional(readOnly = true)
+  public List<GroupView> listGroups(UUID userId) {
+    return groups.findActiveGroupsOf(userId).stream()
+        .map(row -> new GroupView(row.getId(), row.getName(), row.getRole()))
+        .toList();
+  }
+
+  /**
+   * One Group of the User.
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @return the Group with the User's Role
+   * @throws NotFoundException for a non-Member (BR-02, EX-002-05)
+   */
+  @Transactional(readOnly = true)
+  public GroupView getGroup(UUID groupId, UUID userId) {
+    Role role = guard.require(groupId, userId, Permission.READ);
+    Group group = groups.findById(groupId).orElseThrow(NotFoundException::new);
+    return new GroupView(group.getId(), group.getName(), role.name());
+  }
+
+  private static String checkedName(String name) {
+    String trimmed = name == null ? "" : name.strip();
+    int length = trimmed.codePointCount(0, trimmed.length());
+    if (length == 0 || length > NAME_MAX) {
+      throw new ValidationException(
+          List.of(new FieldProblem("name", "group.nameLength", Map.of())));
+    }
+    return trimmed;
+  }
+}
