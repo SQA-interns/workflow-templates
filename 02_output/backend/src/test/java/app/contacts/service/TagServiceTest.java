@@ -72,7 +72,7 @@ class TagServiceTest {
   }
 
   @Test
-  void r00904NewNameCreatesATagOfTheGroupAsEntered() {
+  void r00904NewNameCreatesTheGroupsTagAsEntered() {
     List<Tag> resolved = service.resolve(GROUP_ID, List.of("udeležba"));
 
     ArgumentCaptor<Tag> created = ArgumentCaptor.forClass(Tag.class);

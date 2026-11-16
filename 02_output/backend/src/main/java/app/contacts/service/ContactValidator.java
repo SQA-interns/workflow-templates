@@ -85,16 +85,6 @@ public class ContactValidator {
   }
 
   /**
-   * The Attributes with key and value trimmed (R-006-07), a missing value empty (R-008-03), if they
-   * are valid.
-   *
-   * @param sent the Attributes as sent
-   * @return the trimmed Attributes in the order sent
-   * @throws ValidationException with one problem per invalid key or value ({@code
-   *     attributes[i].key}, {@code attributes[i].value}) and {@code attributes} for too many
-   *     (R-008-02 … R-008-05)
-   */
-  /**
    * The Tag names trimmed (R-006-07), each name once compared case-insensitively with the first
    * spelling kept (R-009-06, BR-11), if they are valid.
    *
@@ -120,6 +110,16 @@ public class ContactValidator {
     return List.copyOf(names.values());
   }
 
+  /**
+   * The Attributes with key and value trimmed (R-006-07), a missing value empty (R-008-03), if they
+   * are valid.
+   *
+   * @param sent the Attributes as sent
+   * @return the trimmed Attributes in the order sent
+   * @throws ValidationException with one problem per invalid key or value ({@code
+   *     attributes[i].key}, {@code attributes[i].value}) and {@code attributes} for too many
+   *     (R-008-02 … R-008-05)
+   */
   public List<AttributeView> checkAttributes(List<AttributeView> sent) {
     List<AttributeView> attributes =
         sent.stream()
