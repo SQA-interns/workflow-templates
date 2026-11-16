@@ -30,8 +30,10 @@ function renderPage() {
   return router;
 }
 
+/** Pastes the value: typing eleven Fields one key at a time is too slow under coverage. */
 async function fill(label: string, value: string) {
-  await userEvent.type(screen.getByLabelText(label), value);
+  await userEvent.click(screen.getByLabelText(label));
+  await userEvent.paste(value);
 }
 
 async function save() {
