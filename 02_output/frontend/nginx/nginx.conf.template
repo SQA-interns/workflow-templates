@@ -21,7 +21,7 @@ http {
     listen 8080;
     root /usr/share/nginx/html;
 
-    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com ${AUTH_EMULATOR_URL}; frame-src https://${FIREBASE_AUTH_DOMAIN}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com ${AUTH_EMULATOR_URL}; frame-src https://${FIREBASE_AUTH_DOMAIN} ${AUTH_EMULATOR_URL}; frame-ancestors 'none'; base-uri 'self'; form-action 'self'" always;
     add_header X-Frame-Options "DENY" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
