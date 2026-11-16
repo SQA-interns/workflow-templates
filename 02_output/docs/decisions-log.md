@@ -331,3 +331,14 @@
 - Human response: option 1; 2026-11-16 (asked in session).
 - Resolution: 1 — excluded in `02_output/backend/spotbugs-exclude.xml` citing D-30; `ApplicationIT.d30ApiSetsNoCookie` keeps the evidence checked. Also excluded (Low): `THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION` on `SecurityConfig.securityFilterChain`, whose signature follows `HttpSecurity.build() throws Exception`.
 - Overrides: severity of SPRING_CSRF_PROTECTION_DISABLED at SecurityConfig (High → Low)
+
+## D-31: Frontend dev packages not listed in tech-stack.md
+- Timestamp: 2026-11-16T12:45+01:00
+- Session: S3 /plan
+- Class: allow
+- Type: non-blocking
+- Trigger: the frontend build needs type definitions and ESLint flat-config helpers that `tech-stack.md` does not list; `shadcn` 3.5.0 components need `tw-animate-css`. Rule: a dependency not listed may be added with an exact version and a non-blocking record (`tech-stack.md` Rules). `firebase-tools` is installed only in the emulator image (D-29), not in the frontend package. `npm install` notes that `eslint` 9.38.0 is out of upstream support (a pin; replacing it needs a decision).
+- Options: 1. Add, dev scope only, versions older than two weeks: `@types/react` 18.3.31, `@types/react-dom` 18.3.7, `@types/node` 22.20.5, `@eslint/js` 9.38.0 (matches `eslint`), `globals` 16.5.0, `tw-animate-css` 1.4.0 (MIT each) (default). 2. Do without them (no type checking of React, no shadcn animations).
+- Human response: none
+- Resolution: 1 — pending review; scanned in phase 6 with `--include-dev-deps`.
+- Overrides: none
