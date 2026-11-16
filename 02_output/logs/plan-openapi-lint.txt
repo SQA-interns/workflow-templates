@@ -1,0 +1,7 @@
+No configurations were provided -- using built in recommended configuration by default.
+
+validating 02_output/docs/02_contracts/openapi.yaml...
+02_output/docs/02_contracts/openapi.yaml: validated in 132ms
+
+Woohoo! Your API description is valid. 🎉
+

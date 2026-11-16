@@ -1,0 +1,791 @@
+openapi: 3.1.0
+info:
+  title: Contacts API
+  version: 1.0.0
+  summary: REST API of the multi-tenant contact management product (AR-01, AR-02).
+  description: |
+    Contract of `docs/02_specification.md`. Every request except `/actuator/health` needs
+    `Authorization: Bearer <Firebase ID token>` (SR-01). Errors are RFC 9457 problems with a
+    stable `code` (ADR-06). Data of a Group the caller is not a Member of, or of a Group in the
+    recycle bin, is answered with 404 (BR-02, R-003-03).
+  license:
+    name: Proprietary
+    identifier: LicenseRef-Proprietary
+servers:
+  - url: /api/v1
+security:
+  - firebaseIdToken: []
+tags:
+  - name: Me
+    description: 'The signed-in User (US-001, US-020, US-021)'
+  - name: Groups
+    description: 'Groups and Deleted Groups (US-002, US-003)'
+  - name: Members
+    description: 'Members and Roles (US-005)'
+  - name: Invitations
+    description: 'Invitations (US-004)'
+  - name: Contacts
+    description: 'Contacts, Attributes, Tags, Contact list (US-006 … US-009, US-014, US-015)'
+  - name: History
+    description: 'Versions and restore (US-010, US-011)'
+  - name: RecycleBin
+    description: 'Recycle bin and permanent delete (US-012, US-013)'
+  - name: Export
+    description: 'Export to .xlsx (US-016)'
+  - name: Duplicates
+    description: 'Possible duplicates, Merge, Undo merge (US-017 … US-019)'
+paths:
+  /me:
+    get:
+      tags: [Me]
+      operationId: getMe
+      summary: The signed-in User; created on first call (R-001-04). Allowed while the e-mail is unverified (D-16).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    patch:
+      tags: [Me]
+      operationId: updateMe
+      summary: Choose the language (R-020-02).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/MeUpdate' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Me' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    delete:
+      tags: [Me]
+      operationId: deleteMyAccount
+      summary: Delete my account (US-021; anonymise, D-20).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/AccountDeletion' } } } }
+      responses:
+        '204': { description: Deleted }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups:
+    get:
+      tags: [Groups]
+      operationId: listGroups
+      summary: Active Groups of which the User is a Member, by name A–Z (R-002-03).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Group' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    post:
+      tags: [Groups]
+      operationId: createGroup
+      summary: Create a Group; the caller becomes its Owner (R-002-01).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/GroupName' } } } }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Group' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Groups]
+      operationId: getGroup
+      summary: One Group of the caller (404 for others, BR-02).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Group' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    patch:
+      tags: [Groups]
+      operationId: renameGroup
+      summary: Rename the Group; Owner only (R-003-01, BR-04).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/GroupName' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Group' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/move-to-recycle-bin:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    post:
+      tags: [Groups]
+      operationId: moveGroupToRecycleBin
+      summary: Owner moves the Group to the recycle bin (R-003-02, BR-10).
+      responses:
+        '204': { description: Moved }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /deleted-groups:
+    get:
+      tags: [Groups]
+      operationId: listDeletedGroups
+      summary: The Owner's Groups in the recycle bin with removal date (R-003-04).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/DeletedGroup' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /deleted-groups/{groupId}/restore:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    post:
+      tags: [Groups]
+      operationId: restoreGroup
+      summary: Owner restores the Group before its removal date (R-003-05, R-003-06, BR-10).
+      responses:
+        '200': { description: Restored, content: { application/json: { schema: { $ref: '#/components/schemas/Group' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/members:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Members]
+      operationId: listMembers
+      summary: Members with display name, e-mail and Role; Owner only (R-005-01).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Member' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/members/{userId}:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/userId' } ]
+    patch:
+      tags: [Members]
+      operationId: changeRole
+      summary: Change a Member between Editor and Viewer (R-005-02, R-005-05, BR-10).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/RoleChange' } } } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Member' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    delete:
+      tags: [Members]
+      operationId: removeMember
+      summary: Remove a Member from the Group (R-005-03, R-005-05, BR-10).
+      responses:
+        '204': { description: Removed }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/invitations:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Invitations]
+      operationId: listOpenInvitations
+      summary: Open Invitations with e-mail, Role and expiry; Owner only (R-004-08).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Invitation' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    post:
+      tags: [Invitations]
+      operationId: createInvitation
+      summary: Create an Invitation; the link is returned only here (R-004-01 … R-004-03, SR-05, BR-10).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/InvitationRequest' } } } }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/InvitationCreated' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/invitations/{invitationId}:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { name: invitationId, in: path, required: true, schema: { type: string, format: uuid } } ]
+    delete:
+      tags: [Invitations]
+      operationId: revokeInvitation
+      summary: Revoke an open Invitation (R-004-09, BR-10).
+      responses:
+        '204': { description: Revoked }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /invitations/{token}:
+    parameters: [ { $ref: '#/components/parameters/token' } ]
+    get:
+      tags: [Invitations]
+      operationId: viewInvitation
+      summary: Show an Invitation to the signed-in invitee (R-004-05 … R-004-07).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/InvitationView' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /invitations/{token}/accept:
+    parameters: [ { $ref: '#/components/parameters/token' } ]
+    post:
+      tags: [Invitations]
+      operationId: acceptInvitation
+      summary: Accept; the caller becomes a Member with the Invitation's Role (R-004-04, BR-10 via D-27).
+      responses:
+        '200': { description: Accepted, content: { application/json: { schema: { $ref: '#/components/schemas/Group' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Contacts]
+      operationId: listContacts
+      summary: One Page of the Contact list with search, sort and filters (US-014, US-015, BR-09).
+      parameters:
+        - $ref: '#/components/parameters/q'
+        - $ref: '#/components/parameters/sort'
+        - $ref: '#/components/parameters/dir'
+        - $ref: '#/components/parameters/hasTagIds'
+        - $ref: '#/components/parameters/withoutTagIds'
+        - $ref: '#/components/parameters/attributeKey'
+        - $ref: '#/components/parameters/attributeValue'
+        - $ref: '#/components/parameters/company'
+        - $ref: '#/components/parameters/country'
+        - { name: page, in: query, schema: { type: integer, minimum: 1, default: 1 } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/ContactPage' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    post:
+      tags: [Contacts]
+      operationId: createContact
+      summary: Add a Contact with Version 1 `created` (R-006-01 … R-006-07, R-008, R-009).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ContactWrite' } } } }
+      responses:
+        '201': { description: Created, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/email-matches:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Contacts]
+      operationId: findContactsByEmail
+      summary: Active Contacts with this e-mail, for the warning of R-006-06.
+      parameters:
+        - { name: email, in: query, required: true, schema: { type: string, maxLength: 254 } }
+        - { name: excludeContactId, in: query, schema: { type: string, format: uuid } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/ContactRef' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/{contactId}:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' } ]
+    get:
+      tags: [Contacts]
+      operationId: getContact
+      summary: Contact details with Attributes, Tags and Merge links (R-014-06, R-018-05).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+    put:
+      tags: [Contacts]
+      operationId: updateContact
+      summary: Save Fields, Attributes and Tags as one Version `edited` (R-007, R-008, R-009, BR-06).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ContactUpdate' } } } }
+      responses:
+        '200': { description: Saved, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/{contactId}/move-to-recycle-bin:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' } ]
+    post:
+      tags: [RecycleBin]
+      operationId: moveContactToRecycleBin
+      summary: Move an active Contact to the recycle bin (R-012-01, BR-06).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/VersionNumberRequest' } } } }
+      responses:
+        '200': { description: Moved, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/recycle-bin:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [RecycleBin]
+      operationId: listRecycleBin
+      summary: Contacts in the recycle bin, newest first; Owner and Editor (R-012-02).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/RecycleBinEntry' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/recycle-bin/{contactId}/restore:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' } ]
+    post:
+      tags: [RecycleBin]
+      operationId: restoreContactFromRecycleBin
+      summary: Restore before the removal date (R-012-03, R-012-04, BR-06).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/VersionNumberRequest' } } } }
+      responses:
+        '200': { description: Restored, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/recycle-bin/{contactId}:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' } ]
+    delete:
+      tags: [RecycleBin]
+      operationId: permanentlyDeleteContact
+      summary: Owner permanently deletes a Contact in the recycle bin, with Contacts merged into it (R-013-01 … R-013-03, D-21, SR-06, BR-10).
+      responses:
+        '204': { description: Deleted }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/{contactId}/versions:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' } ]
+    get:
+      tags: [History]
+      operationId: getHistory
+      summary: All Versions newest first (R-010-01).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/VersionSummary' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/{contactId}/versions/{number}:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' }, { $ref: '#/components/parameters/number' } ]
+    get:
+      tags: [History]
+      operationId: getVersion
+      summary: The full content after Version n, read-only (R-010-02).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { $ref: '#/components/schemas/Version' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/contacts/{contactId}/versions/{number}/restore:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { $ref: '#/components/parameters/contactId' }, { $ref: '#/components/parameters/number' } ]
+    post:
+      tags: [History]
+      operationId: restoreVersion
+      summary: Make Version n current as a new Version `restored` (R-011-01 … R-011-04, BR-06).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/VersionNumberRequest' } } } }
+      responses:
+        '200': { description: Restored, content: { application/json: { schema: { $ref: '#/components/schemas/Contact' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/tags:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Contacts]
+      operationId: suggestTags
+      summary: Tags of the Group on at least one active Contact containing the text (R-009-02).
+      parameters:
+        - { name: q, in: query, schema: { type: string, maxLength: 50 } }
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/Tag' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/exports:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    post:
+      tags: [Export]
+      operationId: exportContacts
+      summary: Export the Export scope to `.xlsx` (US-016, SR-07, BR-10; layout `export-xlsx.schema.json`).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/ExportRequest' } } } }
+      responses:
+        '200':
+          description: The file; `Content-Disposition` carries the file name of R-016-06.
+          headers:
+            Content-Disposition: { schema: { type: string } }
+          content:
+            application/vnd.openxmlformats-officedocument.spreadsheetml.sheet: { schema: { type: string, contentMediaType: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/duplicates:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    get:
+      tags: [Duplicates]
+      operationId: listPossibleDuplicates
+      summary: Pairs of Possible duplicates with every reason (R-017-01 … R-017-05).
+      responses:
+        '200': { description: OK, content: { application/json: { schema: { type: array, items: { $ref: '#/components/schemas/DuplicateCandidate' } } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/merges:
+    parameters: [ { $ref: '#/components/parameters/groupId' } ]
+    post:
+      tags: [Duplicates]
+      operationId: merge
+      summary: Merge two active Contacts into the Primary contact (R-018-02 … R-018-07, BR-10).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/MergeRequest' } } } }
+      responses:
+        '201': { description: Merged, content: { application/json: { schema: { $ref: '#/components/schemas/Merge' } } } }
+        '400': { $ref: '#/components/responses/Invalid' }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+  /groups/{groupId}/merges/{mergeId}/undo:
+    parameters: [ { $ref: '#/components/parameters/groupId' }, { name: mergeId, in: path, required: true, schema: { type: string, format: uuid } } ]
+    post:
+      tags: [Duplicates]
+      operationId: undoMerge
+      summary: Undo a Merge (R-019-01 … R-019-03, D-25, BR-10).
+      requestBody: { required: true, content: { application/json: { schema: { $ref: '#/components/schemas/VersionNumberRequest' } } } }
+      responses:
+        '200': { description: Undone, content: { application/json: { schema: { $ref: '#/components/schemas/Merge' } } } }
+        '401': { $ref: '#/components/responses/Unauthenticated' }
+        '403': { $ref: '#/components/responses/Forbidden' }
+        '404': { $ref: '#/components/responses/NotFound' }
+        '409': { $ref: '#/components/responses/Conflict' }
+        '429': { $ref: '#/components/responses/RateLimited' }
+components:
+  securitySchemes:
+    firebaseIdToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Firebase ID token (claims used are in `id-token-claims.schema.json`).
+  parameters:
+    groupId: { name: groupId, in: path, required: true, schema: { type: string, format: uuid } }
+    contactId: { name: contactId, in: path, required: true, schema: { type: string, format: uuid } }
+    userId: { name: userId, in: path, required: true, schema: { type: string, format: uuid } }
+    number: { name: number, in: path, required: true, schema: { type: integer, minimum: 1 } }
+    token: { name: token, in: path, required: true, description: 'base64url, at least 128 bits (SR-05)', schema: { type: string, pattern: '^[A-Za-z0-9_-]{22,128}$' } }
+    q: { name: q, in: query, description: 'Search text, trimmed (R-014-04)', schema: { type: string, maxLength: 200 } }
+    sort: { name: sort, in: query, schema: { type: string, enum: [name, company, email, updatedAt], default: name } }
+    dir: { name: dir, in: query, schema: { type: string, enum: [asc, desc], default: asc } }
+    hasTagIds: { name: hasTagIds, in: query, style: form, explode: true, schema: { type: array, items: { type: string, format: uuid } } }
+    withoutTagIds: { name: withoutTagIds, in: query, style: form, explode: true, schema: { type: array, items: { type: string, format: uuid } } }
+    attributeKey: { name: attributeKey, in: query, schema: { type: string, maxLength: 50 } }
+    attributeValue: { name: attributeValue, in: query, schema: { type: string, maxLength: 500 } }
+    company: { name: company, in: query, schema: { type: string, maxLength: 200 } }
+    country: { name: country, in: query, schema: { $ref: '#/components/schemas/CountryCode' } }
+  responses:
+    Invalid: { description: Validation failed (400), content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    Unauthenticated: { description: 'No valid ID token, or a deleted User (401)', content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    Forbidden: { description: 'Role lacks the permission, or e-mail not verified (403)', content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    NotFound: { description: Not found or not a Member (404), content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    Conflict: { description: State conflict (409), content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } } }
+    RateLimited:
+      description: More than RATE_LIMIT_PER_MINUTE requests (429, SR-03)
+      headers:
+        Retry-After: { schema: { type: integer, minimum: 1 } }
+      content: { application/problem+json: { schema: { $ref: '#/components/schemas/Problem' } } }
+  schemas:
+    Problem:
+      type: object
+      required: [type, title, status, code]
+      properties:
+        type: { type: string }
+        title: { type: string }
+        status: { type: integer }
+        code: { type: string, description: 'Catalog key, e.g. contact.nameRequired, version.conflict (specification, Error model)' }
+        params: { type: object, additionalProperties: true }
+        errors:
+          type: array
+          items:
+            type: object
+            required: [field, code]
+            properties:
+              field: { type: string }
+              code: { type: string }
+              params: { type: object, additionalProperties: true }
+    Language: { type: string, enum: [sl, en] }
+    Role: { type: string, enum: [OWNER, EDITOR, VIEWER] }
+    InvitableRole: { type: string, enum: [EDITOR, VIEWER] }
+    CountryCode: { type: string, pattern: '^[A-Z]{2}$', description: ISO 3166-1 alpha-2; checked against the ISO list }
+    Me:
+      type: object
+      required: [id, email, displayName, language, emailVerified]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string, format: email }
+        displayName: { type: string, maxLength: 100 }
+        language: { $ref: '#/components/schemas/Language' }
+        emailVerified: { type: boolean }
+    MeUpdate:
+      type: object
+      required: [language]
+      additionalProperties: false
+      properties:
+        language: { $ref: '#/components/schemas/Language' }
+    AccountDeletion:
+      type: object
+      required: [confirmEmail]
+      properties:
+        confirmEmail: { type: string, maxLength: 254 }
+    GroupName:
+      type: object
+      required: [name]
+      additionalProperties: false
+      properties:
+        name: { type: string, maxLength: 1000, description: 1–100 characters after trimming (R-002-02) }
+    Group:
+      type: object
+      required: [id, name, role]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        role: { $ref: '#/components/schemas/Role' }
+    DeletedGroup:
+      type: object
+      required: [id, name, deletedAt, removalAt]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        deletedAt: { type: string, format: date-time }
+        removalAt: { type: string, format: date-time }
+    Member:
+      type: object
+      required: [userId, displayName, email, role]
+      properties:
+        userId: { type: string, format: uuid }
+        displayName: { type: string }
+        email: { type: string }
+        role: { $ref: '#/components/schemas/Role' }
+    RoleChange:
+      type: object
+      required: [role]
+      properties:
+        role: { $ref: '#/components/schemas/InvitableRole' }
+    InvitationRequest:
+      type: object
+      required: [email, role]
+      properties:
+        email: { type: string, maxLength: 254 }
+        role: { $ref: '#/components/schemas/InvitableRole' }
+    Invitation:
+      type: object
+      required: [id, email, role, expiresAt]
+      properties:
+        id: { type: string, format: uuid }
+        email: { type: string }
+        role: { $ref: '#/components/schemas/InvitableRole' }
+        expiresAt: { type: string, format: date-time }
+    InvitationCreated:
+      type: object
+      required: [invitation, link]
+      properties:
+        invitation: { $ref: '#/components/schemas/Invitation' }
+        link: { type: string, format: uri, description: '<APP_PUBLIC_URL>/invitations/<token>, shown once' }
+    InvitationView:
+      type: object
+      required: [groupName, role, expiresAt]
+      properties:
+        groupName: { type: string }
+        role: { $ref: '#/components/schemas/InvitableRole' }
+        expiresAt: { type: string, format: date-time }
+    ContactFields:
+      type: object
+      description: The Fields (D-23), in this order. Blank strings mean empty. Lengths after trimming (R-006-03).
+      additionalProperties: false
+      properties:
+        firstName: { type: [string, 'null'], maxLength: 1000 }
+        lastName: { type: [string, 'null'], maxLength: 1000 }
+        email: { type: [string, 'null'], maxLength: 1000 }
+        phone: { type: [string, 'null'], maxLength: 1000 }
+        company: { type: [string, 'null'], maxLength: 1000 }
+        jobTitle: { type: [string, 'null'], maxLength: 1000 }
+        street: { type: [string, 'null'], maxLength: 1000 }
+        postalCode: { type: [string, 'null'], maxLength: 1000 }
+        city: { type: [string, 'null'], maxLength: 1000 }
+        country: { type: [string, 'null'], maxLength: 2 }
+        note: { type: [string, 'null'], maxLength: 10000 }
+    Attribute:
+      type: object
+      required: [key, value]
+      properties:
+        key: { type: string, maxLength: 1000 }
+        value: { type: string, maxLength: 10000 }
+    Tag:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+    ContactWrite:
+      type: object
+      required: [fields]
+      properties:
+        fields: { $ref: '#/components/schemas/ContactFields' }
+        attributes: { type: array, maxItems: 1000, items: { $ref: '#/components/schemas/Attribute' } }
+        tags: { type: array, maxItems: 1000, items: { type: string, maxLength: 1000 }, description: 'Tag names (R-009-03, R-009-04)' }
+    ContactUpdate:
+      allOf:
+        - $ref: '#/components/schemas/ContactWrite'
+        - type: object
+          required: [versionNumber]
+          properties:
+            versionNumber: { type: integer, minimum: 1 }
+    ContactRef:
+      type: object
+      required: [id, name]
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string, description: 'first and last name, else company' }
+    Contact:
+      type: object
+      required: [id, versionNumber, state, fields, attributes, tags, createdAt, updatedAt, mergedFrom]
+      properties:
+        id: { type: string, format: uuid }
+        versionNumber: { type: integer, minimum: 1 }
+        state: { type: string, enum: [active, inRecycleBin, merged] }
+        fields: { $ref: '#/components/schemas/ContactFields' }
+        attributes: { type: array, items: { $ref: '#/components/schemas/Attribute' }, description: sorted by key A–Z (R-008-06) }
+        tags: { type: array, items: { $ref: '#/components/schemas/Tag' } }
+        createdAt: { type: string, format: date-time }
+        updatedAt: { type: string, format: date-time }
+        mergedFrom:
+          type: array
+          items:
+            type: object
+            required: [mergeId, contact, undone]
+            properties:
+              mergeId: { type: string, format: uuid }
+              contact: { $ref: '#/components/schemas/ContactRef' }
+              undone: { type: boolean }
+        mergedInto: { oneOf: [ { $ref: '#/components/schemas/ContactRef' }, { type: 'null' } ] }
+    ContactListItem:
+      type: object
+      required: [id, firstName, lastName, company, email, phone, tags, updatedAt]
+      properties:
+        id: { type: string, format: uuid }
+        firstName: { type: [string, 'null'] }
+        lastName: { type: [string, 'null'] }
+        company: { type: [string, 'null'] }
+        email: { type: [string, 'null'] }
+        phone: { type: [string, 'null'] }
+        tags: { type: array, items: { $ref: '#/components/schemas/Tag' } }
+        updatedAt: { type: string, format: date-time }
+    ContactPage:
+      type: object
+      required: [items, total, page, pageSize]
+      properties:
+        items: { type: array, items: { $ref: '#/components/schemas/ContactListItem' } }
+        total: { type: integer, minimum: 0 }
+        page: { type: integer, minimum: 1 }
+        pageSize: { type: integer, const: 50 }
+    VersionNumberRequest:
+      type: object
+      required: [versionNumber]
+      properties:
+        versionNumber: { type: integer, minimum: 1, description: The current Version number the client read (BR-06) }
+    Change:
+      type: object
+      required: [item]
+      properties:
+        item: { type: string, description: 'Field name, attribute:<key> or tag:<name>' }
+        oldValue: { type: [string, 'null'] }
+        newValue: { type: [string, 'null'] }
+    VersionSummary:
+      type: object
+      required: [number, kind, changedBy, changedAt, changes]
+      properties:
+        number: { type: integer, minimum: 1 }
+        kind: { type: string, enum: [created, edited, restored, movedToRecycleBin, restoredFromRecycleBin, merged, mergeUndone] }
+        changedBy: { type: string, description: 'Display name, or the catalog key `user.deleted` (R-021-03)' }
+        changedAt: { type: string, format: date-time }
+        restoredFrom: { type: [integer, 'null'] }
+        changes: { type: array, items: { $ref: '#/components/schemas/Change' } }
+    Version:
+      allOf:
+        - $ref: '#/components/schemas/VersionSummary'
+        - type: object
+          required: [snapshot]
+          properties:
+            snapshot:
+              type: object
+              required: [fields, attributes, tags]
+              properties:
+                fields: { $ref: '#/components/schemas/ContactFields' }
+                attributes: { type: array, items: { $ref: '#/components/schemas/Attribute' } }
+                tags: { type: array, items: { type: string } }
+    RecycleBinEntry:
+      type: object
+      required: [contact, versionNumber, deletedBy, deletedAt, removalAt]
+      properties:
+        contact: { $ref: '#/components/schemas/ContactRef' }
+        versionNumber: { type: integer, minimum: 1 }
+        deletedBy: { type: string }
+        deletedAt: { type: string, format: date-time }
+        removalAt: { type: string, format: date-time }
+    ExportRequest:
+      type: object
+      properties:
+        q: { type: string, maxLength: 200 }
+        sort: { type: string, enum: [name, company, email, updatedAt] }
+        dir: { type: string, enum: [asc, desc] }
+        hasTagIds: { type: array, items: { type: string, format: uuid } }
+        withoutTagIds: { type: array, items: { type: string, format: uuid } }
+        attributeKey: { type: string, maxLength: 50 }
+        attributeValue: { type: string, maxLength: 500 }
+        company: { type: string, maxLength: 200 }
+        country: { $ref: '#/components/schemas/CountryCode' }
+        contactIds: { type: array, maxItems: 10000, items: { type: string, format: uuid }, description: '"Export checked" (R-016-02); applied within the list query' }
+    DuplicateCandidate:
+      type: object
+      required: [first, second, reasons]
+      properties:
+        first: { $ref: '#/components/schemas/ContactRef' }
+        second: { $ref: '#/components/schemas/ContactRef' }
+        reasons: { type: array, minItems: 1, items: { type: string, enum: [sameEmail, samePhone, similarNameSameCompany] } }
+    Choice: { type: string, enum: [primary, other] }
+    MergeRequest:
+      type: object
+      required: [primaryId, otherId, primaryVersionNumber, otherVersionNumber]
+      properties:
+        primaryId: { type: string, format: uuid }
+        otherId: { type: string, format: uuid }
+        primaryVersionNumber: { type: integer, minimum: 1 }
+        otherVersionNumber: { type: integer, minimum: 1 }
+        fieldChoices: { type: object, propertyNames: { enum: [firstName, lastName, email, phone, company, jobTitle, street, postalCode, city, country, note] }, additionalProperties: { $ref: '#/components/schemas/Choice' } }
+        attributeChoices: { type: object, additionalProperties: { $ref: '#/components/schemas/Choice' }, description: Required for every key with two different values (R-018-03) }
+    Merge:
+      type: object
+      required: [id, primaryId, otherId, mergedAt, undone]
+      properties:
+        id: { type: string, format: uuid }
+        primaryId: { type: string, format: uuid }
+        otherId: { type: string, format: uuid }
+        mergedAt: { type: string, format: date-time }
+        undone: { type: boolean }
