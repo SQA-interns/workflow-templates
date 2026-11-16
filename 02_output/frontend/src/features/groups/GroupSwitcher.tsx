@@ -28,24 +28,24 @@ export function GroupSwitcher() {
   }
 
   return (
-    <div className="relative min-w-0">
+    <div className="relative min-w-0 grow basis-44 md:grow-0 md:basis-auto">
       <Button
         variant="secondary"
-        className="max-w-full px-2 md:px-3"
+        className="w-full max-w-full justify-start px-2 md:w-auto md:max-w-72 md:px-3"
         aria-label={t("groups.switcher.label", { name: current.name })}
         aria-expanded={open}
         aria-controls={listId}
         onKeyDown={closeOnEscape}
         onClick={() => setOpen((value) => !value)}
       >
-        <FolderOpen aria-hidden="true" />
+        <FolderOpen aria-hidden="true" className="shrink-0" />
         <span className="truncate">{current.name}</span>
-        <ChevronDown aria-hidden="true" />
+        <ChevronDown aria-hidden="true" className="ml-auto shrink-0" />
       </Button>
       {open && (
         <ul
           id={listId}
-          className="absolute left-0 z-10 mt-1 max-h-96 min-w-56 overflow-y-auto rounded-md border bg-surface-raised p-1"
+          className="absolute right-0 left-0 z-20 mt-1 max-h-96 min-w-56 overflow-y-auto rounded-md border bg-surface-raised p-1 md:right-auto md:w-max md:max-w-[calc(100vw-3rem)]"
         >
           {groups.map((group) => (
             <li key={group.id}>

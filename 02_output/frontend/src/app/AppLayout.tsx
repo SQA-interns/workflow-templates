@@ -18,8 +18,8 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b bg-surface">
-        <div className="mx-auto flex max-w-[1200px] items-center gap-2 px-4 py-2 md:gap-4 md:px-6">
+      <header className="relative border-b bg-surface">
+        <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-2 px-4 py-2 md:flex-nowrap md:gap-4 md:px-6">
           <span className="rounded-md border px-2 py-1 text-lg font-semibold">
             {t("app.productName")}
           </span>
@@ -37,7 +37,7 @@ export function AppLayout() {
           <nav
             id="main-navigation"
             aria-label={t("app.mainNavigation")}
-            className={`${menuOpen ? "flex" : "hidden"} absolute top-14 right-0 left-0 flex-col gap-1 border-b bg-surface p-4 md:static md:ml-4 md:flex md:flex-row md:border-0 md:p-0`}
+            className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface p-4 md:static md:ml-4 md:flex md:flex-row md:border-0 md:p-0`}
           >
             <NavLink to="/" className="rounded-md px-3 py-2 text-sm font-semibold">
               {t("nav.contacts")}
