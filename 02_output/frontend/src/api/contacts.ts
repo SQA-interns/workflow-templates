@@ -1,5 +1,6 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import type { ContactFields } from "../features/contacts/contactFields";
+import { apiPath, type ListQuery } from "../features/contacts/listQuery";
 import { apiRequest } from "./apiClient";
 
 /** A Tag (`Tag` of the contract). */
@@ -55,5 +56,22 @@ export function useEmailMatches(groupId: string, email: string | null) {
         `/groups/${groupId}/contacts/email-matches?email=${encodeURIComponent(email ?? "")}`,
       ),
     enabled: email !== null,
+  });
+}
+
+/** One Page of the Contact list (`ContactPage` of the contract). */
+export interface ContactPage {
+  items: ContactListItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+}
+
+/** One Page of the Group's Contact list for the query (R-014-01 … R-014-04). */
+export function useContactList(groupId: string, query: ListQuery) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", "list", query],
+    queryFn: () => apiRequest<ContactPage>("GET", apiPath(groupId, query)),
+    placeholderData: keepPreviousData,
   });
 }

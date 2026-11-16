@@ -128,7 +128,17 @@
         "email": "E-mail",
         "phone": "Phone",
         "tags": "Tags"
-      }
+      },
+      "add": "Add a Contact",
+      "count_one": "{{formatted}} Contact",
+      "count_other": "{{formatted}} Contacts",
+      "empty": "No Contacts yet.",
+      "noMatch": "No Contacts match.",
+      "clearSearch": "Clear search",
+      "pages": "Pages",
+      "previous": "Previous",
+      "next": "Next",
+      "pageOf": "Page {{page}} of {{pages}}"
     }
   }
 }

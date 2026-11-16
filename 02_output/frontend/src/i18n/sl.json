@@ -128,7 +128,19 @@
         "email": "E-pošta",
         "phone": "Telefon",
         "tags": "Značke"
-      }
+      },
+      "add": "Dodaj kontakt",
+      "count_one": "{{formatted}} kontakt",
+      "count_two": "{{formatted}} kontakta",
+      "count_few": "{{formatted}} kontakti",
+      "count_other": "{{formatted}} kontaktov",
+      "empty": "Ni še kontaktov.",
+      "noMatch": "Noben kontakt se ne ujema.",
+      "clearSearch": "Počisti iskanje",
+      "pages": "Strani",
+      "previous": "Prejšnja",
+      "next": "Naslednja",
+      "pageOf": "Stran {{page}} od {{pages}}"
     }
   }
 }
