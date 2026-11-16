@@ -134,6 +134,7 @@ public class ContactService {
    * @throws ForbiddenException for a Viewer (BR-03, AC-007-05)
    * @throws ValidationException for a missing Version number, an unknown Field name or invalid
    *     Fields (R-007-02)
+   * @throws ConflictException {@code contact.noChanges} when no Field changed (R-007-03)
    */
   @Transactional
   public ContactView update(
@@ -150,6 +151,9 @@ public class ContactService {
     Contact contact =
         contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
     ContactFields before = contact.getFields();
+    if (edited.equals(before)) {
+      throw new ConflictException("contact.noChanges", Map.of());
+    }
     contact.edit(
         edited,
         normaliser.searchText(edited),

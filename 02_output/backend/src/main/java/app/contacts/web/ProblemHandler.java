@@ -1,6 +1,7 @@
 package app.contacts.web;
 
 import app.contacts.auth.Problems;
+import app.contacts.service.ConflictException;
 import app.contacts.service.FieldProblem;
 import app.contacts.service.ForbiddenException;
 import app.contacts.service.NotFoundException;
@@ -63,6 +64,22 @@ public class ProblemHandler {
   @ExceptionHandler(ForbiddenException.class)
   public ResponseEntity<Map<String, Object>> forbidden() {
     return problem(HttpStatus.FORBIDDEN, "auth.forbidden");
+  }
+
+  /**
+   * 409 when the change does not fit the current state, with the values its message names (BR-06,
+   * R-007-03).
+   *
+   * @param conflict the exception
+   * @return the problem
+   */
+  @ExceptionHandler(ConflictException.class)
+  public ResponseEntity<Map<String, Object>> conflict(ConflictException conflict) {
+    Map<String, Object> body = Problems.body(HttpStatus.CONFLICT, conflict.getCode());
+    if (!conflict.getParams().isEmpty()) {
+      body.put("params", conflict.getParams());
+    }
+    return respond(HttpStatus.CONFLICT, body);
   }
 
   /**

@@ -296,6 +296,25 @@ class ContactServiceTest {
     verifyNoInteractions(versionWriter);
   }
 
+  @Test
+  void r00703SaveWithoutChangedItemIsRejectedAndCreatesNoVersion() {
+    Contact janez = stored(Map.of("firstName", "Janez", "lastName", "Novak"));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID,
+                    MARKO,
+                    janez.getId(),
+                    1,
+                    Map.of("firstName", "Janez ", "lastName", "Novak")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "contact.noChanges");
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    assertThat(janez.getUpdatedBy()).isEqualTo(ANA);
+    verifyNoInteractions(versionWriter);
+  }
+
   private Contact stored(Map<String, String> fields) {
     Contact contact = Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", ANA, NOW);
     when(contacts.findForUpdate(GROUP_ID, contact.getId())).thenReturn(Optional.of(contact));

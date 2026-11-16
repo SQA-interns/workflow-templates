@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import app.contacts.service.ConflictException;
 import app.contacts.service.FieldProblem;
 import app.contacts.service.ForbiddenException;
 import app.contacts.service.NotFoundException;
@@ -60,6 +61,23 @@ class ProblemHandlerTest {
   }
 
   @Test
+  void br06ConflictIs409WithItsCodeAndParams() throws Exception {
+    mvc.perform(get("/conflict"))
+        .andExpect(status().isConflict())
+        .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+        .andExpect(jsonPath("$.code").value("version.conflict"))
+        .andExpect(jsonPath("$.params.changedBy").value("Marko Kranjc"));
+  }
+
+  @Test
+  void r00703ConflictWithoutParamsHasNone() throws Exception {
+    mvc.perform(get("/no-changes"))
+        .andExpect(status().isConflict())
+        .andExpect(jsonPath("$.code").value("contact.noChanges"))
+        .andExpect(jsonPath("$.params").doesNotExist());
+  }
+
+  @Test
   void sb01UnreadableBodyIs400Validation() throws Exception {
     mvc.perform(post("/echo").contentType(MediaType.APPLICATION_JSON).content("{not json"))
         .andExpect(status().isBadRequest())
@@ -104,6 +122,16 @@ class ProblemHandlerTest {
     void invalid() {
       throw new ValidationException(
           List.of(new FieldProblem("firstName", "field.tooLong", Map.of("max", 100))));
+    }
+
+    @GetMapping("/conflict")
+    void conflict() {
+      throw new ConflictException("version.conflict", Map.of("changedBy", "Marko Kranjc"));
+    }
+
+    @GetMapping("/no-changes")
+    void noChanges() {
+      throw new ConflictException("contact.noChanges", Map.of());
     }
 
     @PostMapping("/echo")
