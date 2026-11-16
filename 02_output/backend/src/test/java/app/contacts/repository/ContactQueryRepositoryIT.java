@@ -6,6 +6,7 @@ import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
+import app.contacts.domain.ContactTagRow;
 import app.contacts.domain.Group;
 import app.contacts.domain.User;
 import jakarta.persistence.EntityManager;
@@ -191,6 +192,24 @@ class ContactQueryRepositoryIT {
     assertThat(names(query.findPage(groupId, "%novak%", ContactSort.NAME, false, 0, 50)))
         .containsExactly("Janez Novak");
     assertThat(query.count(groupId, "%novak%")).isEqualTo(1);
+  }
+
+  @Test
+  void r01401ListsTheTagsOfTheContactsOnThePage() {
+    Contact janez = add("Janez", "Novak");
+    entityManager.flush();
+    UUID tag = UUID.randomUUID();
+    jdbc.update(
+        "INSERT INTO tag (id, group_id, name) VALUES (?, ?, 'udelezenec2025')", tag, groupId);
+    jdbc.update(
+        "INSERT INTO contact_tag (group_id, contact_id, tag_id) VALUES (?, ?, ?)",
+        groupId,
+        janez.getId(),
+        tag);
+
+    assertThat(query.findTags(groupId, List.of(janez.getId())))
+        .containsExactly(new ContactTagRow(janez.getId(), tag, "udelezenec2025"));
+    assertThat(query.findTags(groupId, List.of())).isEmpty();
   }
 
   @Test

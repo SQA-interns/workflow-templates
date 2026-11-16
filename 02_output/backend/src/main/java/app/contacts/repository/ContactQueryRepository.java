@@ -2,6 +2,7 @@ package app.contacts.repository;
 
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
+import app.contacts.domain.ContactTagRow;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
@@ -110,5 +111,35 @@ public class ContactQueryRepository {
             .setParameter("pattern", pattern)
             .getSingleResult();
     return ((Number) total).longValue();
+  }
+
+  /**
+   * The Tags of the given Contacts of the Group, by name A–Z.
+   *
+   * @param groupId the Group
+   * @param contactIds the Contacts
+   * @return one row per Tag of a Contact
+   */
+  public List<ContactTagRow> findTags(UUID groupId, List<UUID> contactIds) {
+    if (contactIds.isEmpty()) {
+      return List.of();
+    }
+    Query query =
+        entityManager
+            .createNativeQuery(
+                """
+                SELECT ct.contact_id, t.id, t.name
+                FROM contact_tag ct JOIN tag t ON t.id = ct.tag_id
+                WHERE ct.group_id = :groupId AND ct.contact_id IN (:contactIds)
+                ORDER BY t.name COLLATE "sl-x-icu", t.id
+                """)
+            .setParameter("groupId", groupId)
+            .setParameter("contactIds", contactIds);
+    List<ContactTagRow> tags = new ArrayList<>();
+    for (Object result : query.getResultList()) {
+      Object[] row = (Object[]) result;
+      tags.add(new ContactTagRow((UUID) row[0], (UUID) row[1], (String) row[2]));
+    }
+    return tags;
   }
 }
