@@ -2,6 +2,7 @@ package app.contacts.config;
 
 import app.contacts.auth.FirebaseTokenFilter;
 import app.contacts.auth.ProblemEntryPoint;
+import app.contacts.auth.RateLimitFilter;
 import app.contacts.auth.TokenVerifier;
 import app.contacts.service.UserService;
 import org.springframework.context.annotation.Bean;
@@ -25,18 +26,22 @@ public class SecurityConfig {
    * @param http the security builder
    * @param verifier checks ID tokens
    * @param users provisions Users
+   * @param properties the settings (rate limit)
    * @return the filter chain
    * @throws Exception when the configuration is invalid
    */
   @Bean
   public SecurityFilterChain securityFilterChain(
-      HttpSecurity http, TokenVerifier verifier, UserService users) throws Exception {
+      HttpSecurity http, TokenVerifier verifier, UserService users, AppProperties properties)
+      throws Exception {
     http.csrf(csrf -> csrf.disable())
         .httpBasic(basic -> basic.disable())
         .formLogin(form -> form.disable())
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .addFilterBefore(
             new FirebaseTokenFilter(verifier, users), AnonymousAuthenticationFilter.class)
+        .addFilterAfter(
+            new RateLimitFilter(properties.rateLimitPerMinute()), FirebaseTokenFilter.class)
         .exceptionHandling(e -> e.authenticationEntryPoint(new ProblemEntryPoint()))
         .authorizeHttpRequests(
             a ->
