@@ -12,4 +12,19 @@
     <Method name="securityFilterChain"/>
     <Bug pattern="THROWS_METHOD_THROWS_CLAUSE_BASIC_EXCEPTION"/>
   </Match>
+  <!-- D-41/D-43: the ID token must be read from the Authorization header; it is verified (signature, project, expiry) before any use (ADR-03, SR-01). -->
+  <Match>
+    <Class name="app.contacts.auth.FirebaseTokenFilter"/>
+    <Bug pattern="SERVLET_HEADER"/>
+  </Match>
+  <!-- D-41/D-43: service exceptions are never serialised; their data goes only into the HTTP problem. -->
+  <Match>
+    <Package name="app.contacts.service"/>
+    <Bug pattern="SE_TRANSIENT_FIELD_NOT_RESTORED"/>
+  </Match>
+  <!-- D-41/D-43: informational marker of every controller; access is enforced by SecurityConfig (SR-01) and AccessGuard (SR-02). -->
+  <Match>
+    <Package name="app.contacts.web"/>
+    <Bug pattern="SPRING_ENDPOINT"/>
+  </Match>
 </FindBugsFilter>
