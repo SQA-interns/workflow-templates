@@ -1,0 +1,4 @@
+02_output/docs/02_contracts/export-xlsx.schema.json schema valid; examples valid: 1
+02_output/docs/02_contracts/id-token-claims.schema.json schema valid; examples valid: 1
+02_output/docs/02_contracts/runtime-config.schema.json schema valid; examples valid: 1
+openapi.yaml parses as YAML; paths: 27 schemas: 36
