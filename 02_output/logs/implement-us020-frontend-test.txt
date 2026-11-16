@@ -1,0 +1,41 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 359ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 424ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  419ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 605ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  346ms
+ ✓ src/app/AppLayout.test.tsx (8 tests) 1179ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  376ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1649ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  940ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  591ms
+ ✓ src/app/UserMenu.test.tsx (6 tests) 1719ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  406ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  410ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  381ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 1874ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  969ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  543ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 24ms
+ ✓ src/api/apiClient.test.ts (6 tests) 22ms
+ ✓ src/api/problem.test.ts (4 tests) 12ms
+ ✓ src/auth/firebase.test.ts (8 tests) 7ms
+ ✓ src/i18n/catalogs.test.ts (3 tests) 10ms
+ ✓ src/i18n/format.test.ts (4 tests) 5ms
+
+ Test Files  13 passed (13)
+      Tests  64 passed (64)
+   Start at  14:18:35
+   Duration  5.88s (transform 1.02s, setup 3.40s, collect 4.80s, tests 7.89s, environment 11.29s, prepare 2.35s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 93.74% ( 599/639 )
+Branches     : 96% ( 120/125 )
+Functions    : 85.71% ( 54/63 )
+Lines        : 93.74% ( 599/639 )
+================================================================================
