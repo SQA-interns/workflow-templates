@@ -36,6 +36,14 @@
     "internal": "Nekaj je šlo narobe.",
     "group": {
       "nameLength": "Vnesite ime z 1 do 100 znaki."
+    },
+    "contact": {
+      "nameRequired": "Vnesite ime, priimek ali podjetje."
+    },
+    "field": {
+      "tooLong": "{{field}} ima lahko največ {{max}} znakov.",
+      "emailInvalid": "Vnesite veljaven e-poštni naslov.",
+      "phoneInvalid": "Vnesite veljavno telefonsko številko."
     }
   },
   "account": {
@@ -83,6 +91,21 @@
     "switcher": {
       "label": "Izbira skupine: {{name}}",
       "create": "Ustvari skupino"
+    }
+  },
+  "contacts": {
+    "field": {
+      "firstName": "Ime",
+      "lastName": "Priimek",
+      "email": "E-pošta",
+      "phone": "Telefon",
+      "company": "Podjetje",
+      "jobTitle": "Delovno mesto",
+      "street": "Ulica",
+      "postalCode": "Poštna številka",
+      "city": "Kraj",
+      "country": "Država",
+      "note": "Opomba"
     }
   }
 }

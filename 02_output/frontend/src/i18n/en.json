@@ -36,6 +36,14 @@
     "internal": "Something went wrong.",
     "group": {
       "nameLength": "Enter a name of 1 to 100 characters."
+    },
+    "contact": {
+      "nameRequired": "Enter a first name, last name or company."
+    },
+    "field": {
+      "tooLong": "{{field}} may have at most {{max}} characters.",
+      "emailInvalid": "Enter a valid e-mail address.",
+      "phoneInvalid": "Enter a valid phone number."
     }
   },
   "account": {
@@ -83,6 +91,21 @@
     "switcher": {
       "label": "Group switcher: {{name}}",
       "create": "Create a Group"
+    }
+  },
+  "contacts": {
+    "field": {
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "E-mail",
+      "phone": "Phone",
+      "company": "Company",
+      "jobTitle": "Job title",
+      "street": "Street",
+      "postalCode": "Postal code",
+      "city": "City",
+      "country": "Country",
+      "note": "Note"
     }
   }
 }
