@@ -5,19 +5,17 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S3 /plan
-- Result: done
-- Gate: phase 2 passed except the wireframes (they follow in `/wireframes`)
+- Session: W /wireframes
+- Result: blocked
+- Gate: phase 2 not passed (wireframe approval D-34)
 - Notes for the next session:
-  - Screens to draw: `docs/02_specification.md` §9.1 (WF-01 … WF-20, no WF-12), navigation §9.2, tokens §9.3; wireframe theme is active in `frontend/src/styles/tokens.css`.
-  - Decisions this session: D-28 … D-33 (D-30 CSRF and D-33 gitleaks approved by the human in session).
-  - Local stack: `02_output/scripts/up.sh`, seed `scripts/seed-local.sh`. An unrelated stack `contacts` holds host 8080/9099: use `APP_HOST_PORT=8180`, `E2E_BASE_URL=http://localhost:8180` (D-32). Stack stopped at session end; volume `kontakti_pgdata` kept.
-  - Backend commands in `backend/README.md`, frontend in `frontend/README.md`; both check, test and build pass; CI `.github/workflows/ci.yml` validated with actionlint (no runner pinned).
-  - Tasks T-01 … T-53 in `docs/02_tasks.md`; implement order = INC-1 row.
+  - Wireframes: `docs/wireframes/` (19 pages, 57 images, index README.md). Generated pages are static HTML with `wireframe.css`; edit them directly for changes, then re-render each changed page at 375, 768, 1440 px full page with `@playwright/test` Chromium from `02_output/frontend/node_modules`.
+  - On the answer: record it as Human response of D-34; apply only the listed changes (option 3); on 1 or 2 hand over to `/acceptance-tests`.
+  - For `/implement` (build-ui): `frontend/src/styles/theme-wireframe.css` uses slightly bluish greys (#f3f4f6, #9ca3af, #1f2937, #4b5563, #374151); the approved wireframes use neutral greys (#f5f5f5, #a3a3a3, #262626, #525252, #404040, #d4d4d4) per UI-26. Align the token file when the first screen is built.
 
 ## Next
 - Command: /wireframes
-- Waiting for: nothing
+- Waiting for: D-34
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
