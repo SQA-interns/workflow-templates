@@ -463,3 +463,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-43: Answers to D-40 and D-41
+- Timestamp: 2026-11-16T13:10+01:00
+- Session: S5 /implement US-001 (resumed)
+- Class: allow
+- Type: non-blocking
+- Trigger: developer answer "d-40 a and d-41 a" (a = the first, default option).
+- Options: none (records the answer).
+- Human response: D-40 option 1, D-41 option 1; 2026-11-16.
+- Resolution: D-40 → the five frozen e-mail locators (`acceptance/support/stack.ts:16`, `acceptance/us001-sign-in.spec.ts:25, 111, 119`, `e2e/e2e-01-sign-up-to-excel.spec.ts:20`) become `page.locator('input[type="email"]')`, nothing else in the tests changes, and `docs/03_acceptance-manifest.sha256` is regenerated, in one `test:` commit of this session. D-41 → `backend/spotbugs-exclude.xml` excludes exactly `SERVLET_HEADER` (`auth.FirebaseTokenFilter`), `SE_TRANSIENT_FIELD_NOT_RESTORED` (package `app.contacts.service`) and `SPRING_ENDPOINT` (package `app.contacts.web`), each with its reason.
+- Overrides: frozen test files listed above (approved change, D-40)
