@@ -13,23 +13,57 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-/** Tags of a Group: finds or creates them by name and puts them on Contacts (US-009). */
+/**
+ * Tags of a Group: finds or creates them by name, puts them on Contacts and suggests them (US-009).
+ */
 @Service
 public class TagService {
 
+  /** Longest typed text, as long as a Tag name (contract parameter {@code q}, R-009-05). */
+  static final int TEXT_MAX = 50;
+
   private final TagRepository tags;
   private final ContactTagRepository contactTags;
+  private final AccessGuard guard;
 
   /**
    * The service.
    *
    * @param tags the Tags
    * @param contactTags the Tags put on Contacts
+   * @param guard the access check
    */
-  public TagService(TagRepository tags, ContactTagRepository contactTags) {
+  public TagService(TagRepository tags, ContactTagRepository contactTags, AccessGuard guard) {
     this.tags = tags;
     this.contactTags = contactTags;
+    this.guard = guard;
+  }
+
+  /**
+   * The Tags to suggest for the typed text: those of the Group on at least one active Contact whose
+   * name contains the text case-insensitively (R-009-02); any Member may ask.
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param text the typed text, trimmed; {@code null} or empty for every such Tag
+   * @return the Tags by name A–Z
+   * @throws NotFoundException for a non-Member (BR-02)
+   * @throws ValidationException {@code field.tooLong} on {@code q} for a text of more than 50
+   *     characters (contract parameter {@code q})
+   */
+  @Transactional(readOnly = true)
+  public List<TagView> suggest(UUID groupId, UUID userId, String text) {
+    guard.require(groupId, userId, Permission.READ);
+    String typed = text == null ? "" : text.strip();
+    if (typed.codePointCount(0, typed.length()) > TEXT_MAX) {
+      throw new ValidationException(
+          List.of(new FieldProblem("q", "field.tooLong", Map.of("field", "q", "max", TEXT_MAX))));
+    }
+    return tags.suggest(groupId, typed).stream()
+        .map(tag -> new TagView(tag.getId(), tag.getName()))
+        .toList();
   }
 
   /**

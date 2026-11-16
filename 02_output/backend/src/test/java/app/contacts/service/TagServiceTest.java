@@ -1,6 +1,7 @@
 package app.contacts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -12,6 +13,7 @@ import static org.mockito.Mockito.when;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactTag;
+import app.contacts.domain.Role;
 import app.contacts.domain.Tag;
 import app.contacts.repository.ContactTagRepository;
 import app.contacts.repository.TagRepository;
@@ -21,6 +23,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import org.assertj.core.api.InstanceOfAssertFactories;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -29,10 +32,12 @@ class TagServiceTest {
 
   private static final Instant NOW = Instant.parse("2026-03-05T10:00:00Z");
   private static final UUID GROUP_ID = UUID.randomUUID();
+  private static final UUID PETRA = UUID.randomUUID();
 
   private final TagRepository tags = mock(TagRepository.class);
   private final ContactTagRepository contactTags = mock(ContactTagRepository.class);
-  private final TagService service = new TagService(tags, contactTags);
+  private final AccessGuard guard = mock(AccessGuard.class);
+  private final TagService service = new TagService(tags, contactTags, guard);
 
   private final Contact janez =
       Contact.create(
@@ -106,5 +111,41 @@ class TagServiceTest {
     service.retag(janez, Set.of(), List.of(vip));
 
     verify(contactTags, never()).discardOfContact(any(), any(), any());
+  }
+
+  @Test
+  void r00902AnyMemberGetsTheTagsContainingTheTrimmedText() {
+    Tag udelezenec = existing("udelezenec2025");
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
+    when(tags.suggest(GROUP_ID, "udel")).thenReturn(List.of(udelezenec));
+
+    assertThat(service.suggest(GROUP_ID, PETRA, " udel "))
+        .containsExactly(new TagView(udelezenec.getId(), "udelezenec2025"));
+  }
+
+  @Test
+  void r00902WithoutTextEveryTagOnAnActiveContactIsSuggested() {
+    service.suggest(GROUP_ID, PETRA, null);
+
+    verify(tags).suggest(GROUP_ID, "");
+  }
+
+  @Test
+  void r00902TextOverFiftyCharactersIsInvalid() {
+    assertThatThrownBy(() -> service.suggest(GROUP_ID, PETRA, "t".repeat(51)))
+        .isInstanceOf(ValidationException.class)
+        .extracting("problems")
+        .asInstanceOf(InstanceOfAssertFactories.LIST)
+        .containsExactly(new FieldProblem("q", "field.tooLong", Map.of("field", "q", "max", 50)));
+    verify(tags, never()).suggest(any(), any());
+  }
+
+  @Test
+  void br02NonMemberGetsNotFoundAndNoTags() {
+    when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenThrow(new NotFoundException());
+
+    assertThatThrownBy(() -> service.suggest(GROUP_ID, PETRA, "udel"))
+        .isInstanceOf(NotFoundException.class);
+    verify(tags, never()).suggest(any(), any());
   }
 }

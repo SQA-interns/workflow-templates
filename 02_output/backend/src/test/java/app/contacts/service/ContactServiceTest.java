@@ -63,7 +63,7 @@ class ContactServiceTest {
       new ContactService(
           contacts,
           attributes,
-          new TagService(tags, contactTags),
+          new TagService(tags, contactTags, guard),
           contactQueries,
           users,
           versionWriter,
