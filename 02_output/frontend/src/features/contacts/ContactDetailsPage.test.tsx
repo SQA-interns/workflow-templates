@@ -33,6 +33,13 @@ const JANEZ = {
   mergedInto: null,
 };
 
+/** Answers GET /groups with the User's Role and every other read with the Contact. */
+function answer(contact: unknown, role = "EDITOR") {
+  vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+    Promise.resolve(path === "/groups" ? [{ id: "g1", name: "Konferenca 2025", role }] : contact),
+  );
+}
+
 function renderPage() {
   const router = createMemoryRouter(
     [{ path: "/groups/:groupId/contacts/:contactId", element: <ContactDetailsPage /> }],
@@ -49,7 +56,7 @@ function renderPage() {
 
 beforeEach(async () => {
   vi.mocked(apiRequest).mockReset();
-  vi.mocked(apiRequest).mockResolvedValue(JANEZ);
+  answer(JANEZ);
   await i18n.changeLanguage("en");
 });
 afterEach(async () => {
@@ -93,11 +100,26 @@ describe("WF-07 Contact details (R-014-06)", () => {
   });
 
   it("R-014-06 without Attributes or Tags it says so", async () => {
-    vi.mocked(apiRequest).mockResolvedValue({ ...JANEZ, attributes: [], tags: [] });
+    answer({ ...JANEZ, attributes: [], tags: [] });
     renderPage();
 
     expect(await screen.findByText("No Attributes.")).toBeTruthy();
     expect(screen.getByText("No Tags.")).toBeTruthy();
+  });
+
+  it("US-007 an Owner or Editor gets Edit, which opens the Contact form", async () => {
+    renderPage();
+
+    const edit = await screen.findByRole("link", { name: "Edit" });
+    expect(edit.getAttribute("href")).toBe("/groups/g1/contacts/c1/edit");
+  });
+
+  it("BR-03 a Viewer gets no Edit", async () => {
+    answer(JANEZ, "VIEWER");
+    renderPage();
+
+    await screen.findByRole("heading", { level: 1, name: "Janez Novak" });
+    expect(screen.queryByRole("link", { name: "Edit" })).toBeNull();
   });
 
   it("BR-02 an unknown Contact: This page cannot be found.", async () => {

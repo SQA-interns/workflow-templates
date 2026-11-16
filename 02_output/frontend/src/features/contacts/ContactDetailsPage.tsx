@@ -7,17 +7,20 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { type Contact, useContact } from "../../api/contacts";
+import { useGroups } from "../../api/groups";
 import { ApiError } from "../../api/problem";
 import { NotFoundPage } from "../../app/pages";
 import { formatDateTime } from "../../i18n/format";
 import { GroupsPending } from "../groups/GroupsPending";
 import { contactName, countryName, FIELD_NAMES } from "./contactFields";
 
-/** WF-07 Contact details (R-014-06): Fields, Attributes, Tags and the way to the History. */
+/** WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit and the way to the History. */
 export function ContactDetailsPage() {
   const { t } = useTranslation();
   const { groupId = "", contactId = "" } = useParams();
   const contact = useContact(groupId, contactId);
+  const role = useGroups().data?.find((group) => group.id === groupId)?.role;
+  const canEdit = role === "OWNER" || role === "EDITOR";
   const path = `/groups/${groupId}/contacts`;
 
   if (contact.error instanceof ApiError && contact.error.status === 404) return <NotFoundPage />;
@@ -31,9 +34,16 @@ export function ContactDetailsPage() {
       </Link>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <h1 className="text-2xl font-semibold break-words">{contactName(contact.data.fields)}</h1>
-        <Link to={history} className={buttonVariants({ variant: "secondary" })}>
-          {t("contacts.details.history")}
-        </Link>
+        <div className="flex flex-wrap gap-2">
+          {canEdit && (
+            <Link to={`${path}/${contactId}/edit`} className={buttonVariants()}>
+              {t("contacts.details.edit")}
+            </Link>
+          )}
+          <Link to={history} className={buttonVariants({ variant: "secondary" })}>
+            {t("contacts.details.history")}
+          </Link>
+        </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <FieldsCard contact={contact.data} />
