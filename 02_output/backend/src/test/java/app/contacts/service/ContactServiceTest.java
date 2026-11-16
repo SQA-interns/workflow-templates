@@ -15,8 +15,10 @@ import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactTagRow;
 import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Role;
+import app.contacts.domain.User;
 import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
+import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
@@ -41,10 +43,12 @@ class ContactServiceTest {
   private final VersionWriter versionWriter = mock(VersionWriter.class);
   private final AccessGuard guard = mock(AccessGuard.class);
   private final ContactQueryRepository contactQueries = mock(ContactQueryRepository.class);
+  private final UserRepository users = mock(UserRepository.class);
   private final ContactService service =
       new ContactService(
           contacts,
           contactQueries,
+          users,
           versionWriter,
           guard,
           new ContactValidator(),
@@ -312,6 +316,43 @@ class ContactServiceTest {
         .hasFieldOrPropertyWithValue("code", "contact.noChanges");
     assertThat(janez.getVersionNumber()).isEqualTo(1);
     assertThat(janez.getUpdatedBy()).isEqualTo(ANA);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void br06StaleVersionIsRejectedWithTheNameOfWhoChangedIt() {
+    Contact janez = stored(Map.of("firstName", "Janez", "lastName", "Novak"));
+    janez.edit(
+        ContactFields.ofNames(Map.of("firstName", "Janez", "lastName", "Novak", "city", "Maribor")),
+        "",
+        "",
+        MARKO,
+        NOW);
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(MARKO)).thenReturn(Optional.of(marko));
+    Map<String, String> anasForm =
+        Map.of("firstName", "Janez", "lastName", "Novak", "jobTitle", "CEO");
+
+    assertThatThrownBy(() -> service.update(GROUP_ID, ANA, janez.getId(), 1, anasForm))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict")
+        .hasFieldOrPropertyWithValue("params", Map.of("changedBy", "Marko Kranjc"));
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+    assertThat(janez.getFields().jobTitle()).isNull();
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void ex00704VersionNumberHigherThanCurrentIsRejectedAsBr06() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ANA)).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(
+            () -> service.update(GROUP_ID, MARKO, janez.getId(), 5, Map.of("firstName", "Jan")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict");
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
     verifyNoInteractions(versionWriter);
   }
 

@@ -3,8 +3,10 @@ package app.contacts.service;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
+import app.contacts.domain.User;
 import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
+import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +20,7 @@ public class ContactService {
 
   private final ContactRepository contacts;
   private final ContactQueryRepository contactQueries;
+  private final UserRepository users;
   private final VersionWriter versionWriter;
   private final AccessGuard guard;
   private final ContactValidator validator;
@@ -29,6 +32,7 @@ public class ContactService {
    *
    * @param contacts the Contact repository
    * @param contactQueries reads Attributes and Tags for the details
+   * @param users names the User of the current Version (BR-06)
    * @param versionWriter writes the Version of every change
    * @param guard the access check
    * @param validator checks the Fields
@@ -38,6 +42,7 @@ public class ContactService {
   public ContactService(
       ContactRepository contacts,
       ContactQueryRepository contactQueries,
+      UserRepository users,
       VersionWriter versionWriter,
       AccessGuard guard,
       ContactValidator validator,
@@ -45,6 +50,7 @@ public class ContactService {
       Clock clock) {
     this.contacts = contacts;
     this.contactQueries = contactQueries;
+    this.users = users;
     this.versionWriter = versionWriter;
     this.guard = guard;
     this.validator = validator;
@@ -134,7 +140,8 @@ public class ContactService {
    * @throws ForbiddenException for a Viewer (BR-03, AC-007-05)
    * @throws ValidationException for a missing Version number, an unknown Field name or invalid
    *     Fields (R-007-02)
-   * @throws ConflictException {@code contact.noChanges} when no Field changed (R-007-03)
+   * @throws ConflictException {@code version.conflict} for a Version number that is not current
+   *     (BR-06), {@code contact.noChanges} when no Field changed (R-007-03)
    */
   @Transactional
   public ContactView update(
@@ -150,6 +157,7 @@ public class ContactService {
     }
     Contact contact =
         contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    requireCurrent(contact, versionNumber);
     ContactFields before = contact.getFields();
     if (edited.equals(before)) {
       throw new ConflictException("contact.noChanges", Map.of());
@@ -162,6 +170,15 @@ public class ContactService {
         clock.instant());
     versionWriter.record(contact, ContactVersion.EDITED, before);
     return view(contact);
+  }
+
+  /** Rejects a change sent with a Version number that is not the current one (BR-06). */
+  private void requireCurrent(Contact contact, int versionNumber) {
+    if (contact.getVersionNumber() != versionNumber) {
+      String changedBy =
+          users.findById(contact.getUpdatedBy()).map(User::getDisplayName).orElseThrow();
+      throw new ConflictException("version.conflict", Map.of("changedBy", changedBy));
+    }
   }
 
   /** The Fields as sent, trimmed and checked (R-006-02 … R-006-07). */
