@@ -14,9 +14,10 @@ import {
   type FieldName,
   type FieldProblem,
   type FieldValues,
+  valuesOf,
 } from "./contactFields";
 import { ContactFieldInput, type FieldProps } from "./ContactFieldInput";
-import { problemsOfError, problemText } from "./fieldMessages";
+import { isProblem, problemsOfError, problemText } from "./fieldMessages";
 
 /** Hints under a Field (WF-08): the limits a User may run into. */
 const HINTS = new Map<FieldName, { key: string; max?: number }>([
@@ -27,21 +28,26 @@ const HINTS = new Map<FieldName, { key: string; max?: number }>([
 
 interface ContactFormProps {
   title: string;
+  /** The saved Fields to edit; an empty form without them. */
+  initial?: ContactFields;
   backTo: string;
   busy: boolean;
   /** The error of the last save, if it failed. */
   error: unknown;
   onSave: (fields: ContactFields) => void;
   onCancel: () => void;
-  /** Called with the e-mail when the User leaves its box (R-006-06). */
-  onEmailLeave: (email: string) => void;
+  /** Called with the e-mail when the User leaves its box (R-006-06); no lookup without it. */
+  onEmailLeave?: (email: string) => void;
   /** The warning under the e-mail, "" for none (R-006-06). */
-  emailNotice: string;
+  emailNotice?: string;
+  /** Reads the current Version again after a conflict (BR-06); no Reload without it. */
+  onReload?: () => void;
 }
 
 /** WF-08 Contact form: the Fields in form order with inline errors (UI-13). */
 export function ContactForm({
   title,
+  initial,
   backTo,
   busy,
   error,
@@ -49,11 +55,14 @@ export function ContactForm({
   onCancel,
   onEmailLeave,
   emailNotice,
+  onReload,
 }: ContactFormProps) {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Language;
   const id = useId();
-  const [values, setValues] = useState(() => new Map(Object.entries(emptyFields())));
+  const [values, setValues] = useState(
+    () => new Map(Object.entries(initial ? valuesOf(initial) : emptyFields())),
+  );
   const [problems, setProblems] = useState<FieldProblem[]>([]);
   const server = problemsOfError(error);
   const shown = problems.length > 0 || !error ? problems : server.fields;
@@ -61,8 +70,11 @@ export function ContactForm({
   const general = nameProblem
     ? problemText(t, language, nameProblem)
     : error && server.general
-      ? t(server.general)
+      ? t(server.general, server.params)
       : null;
+  /** R-007-03: "No changes to save." stands beside Save (WF-08). */
+  const atSave = !nameProblem && isProblem(error, "contact.noChanges");
+  const reload = onReload && !nameProblem && isProblem(error, "version.conflict");
 
   function submit(event: FormEvent) {
     event.preventDefault();
@@ -87,10 +99,11 @@ export function ContactForm({
       onChange: (value) => setValues((current) => new Map(current).set(name, value)),
       hint: hint && t(hint.key, { max: hint.max && formatNumber(hint.max, language) }),
       error: problem && problemText(t, language, problem),
-      ...(name === "email" && {
-        onBlur: () => onEmailLeave(values.get("email") ?? ""),
-        notice: emailNotice,
-      }),
+      ...(name === "email" &&
+        onEmailLeave && {
+          onBlur: () => onEmailLeave(values.get("email") ?? ""),
+          notice: emailNotice,
+        }),
     };
   }
 
@@ -101,10 +114,18 @@ export function ContactForm({
         {t("contacts.back")}
       </Link>
       <h1 className="text-2xl font-semibold">{title}</h1>
-      {general && (
-        <p role="alert" className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger">
-          {general}
-        </p>
+      {general && !atSave && (
+        <div
+          role="alert"
+          className="flex flex-wrap items-center gap-2 border-l-4 border-danger pl-3"
+        >
+          <p className="text-sm font-semibold text-danger">{general}</p>
+          {reload && (
+            <Button type="button" variant="secondary" onClick={onReload}>
+              {t("contacts.reload")}
+            </Button>
+          )}
+        </div>
       )}
       <Card className="flex flex-col gap-4">
         <h2 className="text-xl font-semibold">{t("contacts.fields")}</h2>
@@ -122,6 +143,11 @@ export function ContactForm({
         <Button type="button" variant="ghost" onClick={onCancel}>
           {t("contacts.cancel")}
         </Button>
+        {atSave && (
+          <p role="status" className="text-sm text-text-muted">
+            {general}
+          </p>
+        )}
       </div>
     </form>
   );

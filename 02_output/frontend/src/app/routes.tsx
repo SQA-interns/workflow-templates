@@ -5,6 +5,7 @@ import { SignUpPage } from "../features/account/SignUpPage";
 import { VerifyEmailPage } from "../features/account/VerifyEmailPage";
 import { ContactDetailsPage } from "../features/contacts/ContactDetailsPage";
 import { ContactListPage } from "../features/contacts/ContactListPage";
+import { EditContactPage } from "../features/contacts/EditContactPage";
 import { NewContactPage } from "../features/contacts/NewContactPage";
 import { CreateGroupPage } from "../features/groups/CreateGroupPage";
 import { GroupRoute } from "../features/groups/GroupRoute";
@@ -53,6 +54,7 @@ export const routes: RouteObject[] = [
           { path: "contacts", element: <ContactListPage /> },
           { path: "contacts/new", element: <NewContactPage /> },
           { path: "contacts/:contactId", element: <ContactDetailsPage /> },
+          { path: "contacts/:contactId/edit", element: <EditContactPage /> },
         ],
       },
       { path: "*", element: <NotFoundPage /> },

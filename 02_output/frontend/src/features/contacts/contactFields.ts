@@ -66,6 +66,14 @@ export function emptyFields(): FieldValues {
   return Object.fromEntries(FIELD_NAMES.map((name) => [name, ""])) as FieldValues;
 }
 
+/** The form's values of saved Fields: an empty Field is "". */
+export function valuesOf(fields: ContactFields): FieldValues {
+  const saved = new Map(Object.entries(fields));
+  return Object.fromEntries(
+    FIELD_NAMES.map((name) => [name, saved.get(name) ?? ""]),
+  ) as FieldValues;
+}
+
 function problemOf(field: FieldName, value: string): FieldProblem | null {
   const max = MAX_LENGTH.get(field);
   if (max !== undefined && [...value].length > max) {

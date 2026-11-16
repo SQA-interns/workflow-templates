@@ -38,12 +38,18 @@
       "nameLength": "Enter a name of 1 to 100 characters."
     },
     "contact": {
-      "nameRequired": "Enter a first name, last name or company."
+      "nameRequired": "Enter a first name, last name or company.",
+      "noChanges": "No changes to save.",
+      "inRecycleBin": "This Contact is in the recycle bin.",
+      "merged": "This Contact was merged into another Contact."
     },
     "field": {
       "tooLong": "{{field}} may have at most {{max}} characters.",
       "emailInvalid": "Enter a valid e-mail address.",
       "phoneInvalid": "Enter a valid phone number."
+    },
+    "version": {
+      "conflict": "Contact was changed by {{changedBy}}, reload"
     }
   },
   "account": {
@@ -97,6 +103,9 @@
     "new": {
       "title": "Add a Contact"
     },
+    "edit": {
+      "title": "Edit Contact"
+    },
     "back": "Contacts",
     "fields": "Fields",
     "field": {
@@ -120,6 +129,7 @@
     "countryPlaceholder": "Select …",
     "save": "Save",
     "cancel": "Cancel",
+    "reload": "Reload",
     "emailExists": "A Contact with this e-mail already exists: {{name}}.",
     "list": {
       "column": {
@@ -153,6 +163,7 @@
       "pageOf": "Page {{page}} of {{pages}}"
     },
     "details": {
+      "edit": "Edit",
       "history": "History",
       "attributes": "Attributes",
       "tags": "Tags",

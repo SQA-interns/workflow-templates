@@ -19,16 +19,26 @@ function isFieldProblem(problem: { field: string }): problem is FieldProblem {
   return problem.field === "name" || (FIELD_NAMES as readonly string[]).includes(problem.field);
 }
 
-/** The problems of a failed save: per Field, or one general text (UI-13, UI-14). */
+/** The problems of a failed save: per Field, or one general text and its values (UI-13, UI-14). */
 export function problemsOfError(error: unknown): {
   fields: FieldProblem[];
   general: string | null;
+  params: Record<string, unknown>;
 } {
-  if (!(error instanceof ApiError)) return { fields: [], general: "state.error" };
+  if (!(error instanceof ApiError)) return { fields: [], general: "state.error", params: {} };
   const fields = error.errors
     .filter(isFieldProblem)
     .map((e) => ({ field: e.field, code: e.code, params: maxOf(e.params) }));
-  return { fields, general: fields.length > 0 ? null : messageKey(error.code) };
+  return {
+    fields,
+    general: fields.length > 0 ? null : messageKey(error.code),
+    params: error.params,
+  };
+}
+
+/** Whether the error is the API problem with this code. */
+export function isProblem(error: unknown, code: string): boolean {
+  return error instanceof ApiError && error.code === code;
 }
 
 function maxOf(params: Record<string, unknown> | undefined): { max: number } | undefined {

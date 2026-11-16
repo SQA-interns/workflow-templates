@@ -40,13 +40,27 @@ describe("texts of Field problems (specification §5)", () => {
       ],
     });
 
-    expect(problemsOfError(error)).toEqual({ fields: [tooLong], general: null });
+    expect(problemsOfError(error)).toEqual({ fields: [tooLong], general: null, params: {} });
   });
 
   it("BR-03 a problem without Fields is one general text", () => {
     expect(problemsOfError(new ApiError(403, { code: "auth.forbidden" }))).toEqual({
       fields: [],
       general: "errors.auth.forbidden",
+      params: {},
+    });
+  });
+
+  it("BR-06 a conflict keeps the values its text names", () => {
+    const conflict = new ApiError(409, {
+      code: "version.conflict",
+      params: { changedBy: "Marko Kranjc" },
+    });
+
+    expect(problemsOfError(conflict)).toEqual({
+      fields: [],
+      general: "errors.version.conflict",
+      params: { changedBy: "Marko Kranjc" },
     });
   });
 
@@ -54,6 +68,7 @@ describe("texts of Field problems (specification §5)", () => {
     expect(problemsOfError(new TypeError("Failed to fetch"))).toEqual({
       fields: [],
       general: "state.error",
+      params: {},
     });
   });
 });

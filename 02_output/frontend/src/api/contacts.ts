@@ -1,4 +1,4 @@
-import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiPath, type ListQuery } from "../features/contacts/listQuery";
 import { apiRequest } from "./apiClient";
@@ -41,6 +41,27 @@ export function useCreateContact(groupId: string) {
         attributes: [],
         tags: [],
       }),
+  });
+}
+
+/**
+ * Saves edited Fields of the Contact as read (R-007-01); its Attributes and Tags are sent unchanged
+ * until US-008 and US-009 edit them. The saved Contact replaces the one read, and lists read again.
+ */
+export function useUpdateContact(groupId: string, contactId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ read, fields }: { read: Contact; fields: ContactFields }) =>
+      apiRequest<Contact>("PUT", `/groups/${groupId}/contacts/${contactId}`, {
+        fields,
+        attributes: read.attributes.map(({ key, value }) => ({ key, value })),
+        tags: read.tags.map((tag) => tag.name),
+        versionNumber: read.versionNumber,
+      }),
+    onSuccess: async (saved) => {
+      queryClient.setQueryData(["groups", groupId, "contacts", contactId], saved);
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "contacts", "list"] });
+    },
   });
 }
 

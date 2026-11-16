@@ -38,12 +38,18 @@
       "nameLength": "Vnesite ime z 1 do 100 znaki."
     },
     "contact": {
-      "nameRequired": "Vnesite ime, priimek ali podjetje."
+      "nameRequired": "Vnesite ime, priimek ali podjetje.",
+      "noChanges": "Ni sprememb za shranjevanje.",
+      "inRecycleBin": "Ta kontakt je v košu.",
+      "merged": "Ta kontakt je bil združen z drugim kontaktom."
     },
     "field": {
       "tooLong": "{{field}} ima lahko največ {{max}} znakov.",
       "emailInvalid": "Vnesite veljaven e-poštni naslov.",
       "phoneInvalid": "Vnesite veljavno telefonsko številko."
+    },
+    "version": {
+      "conflict": "Kontakt je spremenil {{changedBy}}, osvežite"
     }
   },
   "account": {
@@ -97,6 +103,9 @@
     "new": {
       "title": "Dodaj kontakt"
     },
+    "edit": {
+      "title": "Uredi kontakt"
+    },
     "back": "Kontakti",
     "fields": "Podatki",
     "field": {
@@ -120,6 +129,7 @@
     "countryPlaceholder": "Izberite …",
     "save": "Shrani",
     "cancel": "Prekliči",
+    "reload": "Osveži",
     "emailExists": "Kontakt s tem e-poštnim naslovom že obstaja: {{name}}.",
     "list": {
       "column": {
@@ -155,6 +165,7 @@
       "pageOf": "Stran {{page}} od {{pages}}"
     },
     "details": {
+      "edit": "Uredi",
       "history": "Zgodovina",
       "attributes": "Atributi",
       "tags": "Značke",
