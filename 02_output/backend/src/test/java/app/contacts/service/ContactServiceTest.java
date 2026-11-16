@@ -29,7 +29,10 @@ import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.ArgumentCaptor;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class ContactServiceTest {
 
@@ -352,6 +355,27 @@ class ContactServiceTest {
             () -> service.update(GROUP_ID, MARKO, janez.getId(), 5, Map.of("firstName", "Jan")))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "version.conflict");
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"inRecycleBin, contact.inRecycleBin", "merged, contact.merged"})
+  void ex00703ContactThatIsNotActiveCannotBeEdited(String state, String code) {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    ReflectionTestUtils.setField(janez, "state", state);
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID,
+                    MARKO,
+                    janez.getId(),
+                    1,
+                    Map.of("firstName", "Janez", "city", "Maribor")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", code);
+    assertThat(janez.getFields().city()).isNull();
     assertThat(janez.getVersionNumber()).isEqualTo(1);
     verifyNoInteractions(versionWriter);
   }

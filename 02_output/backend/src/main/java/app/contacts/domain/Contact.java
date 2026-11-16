@@ -16,6 +16,9 @@ public class Contact implements GroupOwned {
   /** State of a Contact in use (Data model). */
   public static final String ACTIVE = "active";
 
+  /** State of a Contact in the recycle bin (Data model, US-012). */
+  public static final String IN_RECYCLE_BIN = "inRecycleBin";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)

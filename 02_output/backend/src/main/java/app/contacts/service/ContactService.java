@@ -141,7 +141,8 @@ public class ContactService {
    * @throws ValidationException for a missing Version number, an unknown Field name or invalid
    *     Fields (R-007-02)
    * @throws ConflictException {@code version.conflict} for a Version number that is not current
-   *     (BR-06), {@code contact.noChanges} when no Field changed (R-007-03)
+   *     (BR-06), {@code contact.inRecycleBin} or {@code contact.merged} for a Contact that is not
+   *     active (EX-007-03, D-23), {@code contact.noChanges} when no Field changed (R-007-03)
    */
   @Transactional
   public ContactView update(
@@ -151,13 +152,14 @@ public class ContactService {
       Integer versionNumber,
       Map<String, String> fields) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
-    ContactFields edited = checked(fields);
+    final ContactFields edited = checked(fields);
     if (versionNumber == null) {
       throw new ValidationException(List.of());
     }
     Contact contact =
         contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
     requireCurrent(contact, versionNumber);
+    requireActive(contact);
     ContactFields before = contact.getFields();
     if (edited.equals(before)) {
       throw new ConflictException("contact.noChanges", Map.of());
@@ -178,6 +180,15 @@ public class ContactService {
       String changedBy =
           users.findById(contact.getUpdatedBy()).map(User::getDisplayName).orElseThrow();
       throw new ConflictException("version.conflict", Map.of("changedBy", changedBy));
+    }
+  }
+
+  /** Rejects a change of a Contact in the recycle bin (EX-007-03) or merged into another (D-23). */
+  private static void requireActive(Contact contact) {
+    switch (contact.getState()) {
+      case Contact.ACTIVE -> {}
+      case Contact.IN_RECYCLE_BIN -> throw new ConflictException("contact.inRecycleBin", Map.of());
+      default -> throw new ConflictException("contact.merged", Map.of());
     }
   }
 
