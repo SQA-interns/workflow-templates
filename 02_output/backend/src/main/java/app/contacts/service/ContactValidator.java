@@ -4,6 +4,7 @@ import app.contacts.domain.ContactFields;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -13,8 +14,8 @@ import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 
 /**
- * Checks the Fields and Attributes of a Contact after trimming them (specification §3, R-006-02 …
- * R-006-07, R-008-02 … R-008-05).
+ * Checks the Fields, Attributes and Tag names of a Contact after trimming them (specification §3,
+ * R-006-02 … R-006-07, R-008-02 … R-008-05, R-009-05).
  */
 @Component
 public class ContactValidator {
@@ -39,6 +40,9 @@ public class ContactValidator {
   private static final int MAX_VALUE_LENGTH = 500;
 
   private static final int MAX_ATTRIBUTES = 50;
+
+  /** Longest Tag name in characters (Data model, R-009-05). */
+  private static final int MAX_TAG_LENGTH = 50;
 
   /** A missing Attribute of the request, checked as one with a blank key. */
   private static final AttributeView BLANK = new AttributeView("", "");
@@ -90,6 +94,32 @@ public class ContactValidator {
    *     attributes[i].key}, {@code attributes[i].value}) and {@code attributes} for too many
    *     (R-008-02 … R-008-05)
    */
+  /**
+   * The Tag names trimmed (R-006-07), each name once compared case-insensitively with the first
+   * spelling kept (R-009-06, BR-11), if they are valid.
+   *
+   * @param sent the Tag names as sent
+   * @return the trimmed names in the order sent
+   * @throws ValidationException with {@code tag.invalid} on {@code tags[i]} for each name that is
+   *     blank, longer than 50 characters or contains a comma (R-009-05)
+   */
+  public List<String> checkTags(List<String> sent) {
+    List<FieldProblem> problems = new ArrayList<>();
+    Map<String, String> names = new LinkedHashMap<>();
+    for (int i = 0; i < sent.size(); i++) {
+      String name = strip(sent.get(i));
+      int length = name.codePointCount(0, name.length());
+      if (length < 1 || length > MAX_TAG_LENGTH || name.contains(",")) {
+        problems.add(new FieldProblem("tags[" + i + "]", "tag.invalid", Map.of()));
+      }
+      names.putIfAbsent(name.toLowerCase(Locale.ROOT), name);
+    }
+    if (!problems.isEmpty()) {
+      throw new ValidationException(problems);
+    }
+    return List.copyOf(names.values());
+  }
+
   public List<AttributeView> checkAttributes(List<AttributeView> sent) {
     List<AttributeView> attributes =
         sent.stream()
