@@ -1,1 +1,30 @@
+# Secrets (ES-02)
 .env
+.env.*
+!.env.example
+
+# Held-out tests: written by /acceptance-tests, never committed or read by implementers
+02_output/hidden-tests/
+
+# Backend build output
+02_output/backend/target/
+02_output/backend/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend dependencies and build output
+node_modules/
+02_output/frontend/dist/
+02_output/frontend/coverage/
+02_output/frontend/reports/
+02_output/frontend/.stryker-tmp/
+02_output/frontend/test-results/
+02_output/frontend/playwright-report/
+02_output/frontend/blob-report/
+
+# Local tool state
+.idea/
+.vscode/
+*.iml
+.DS_Store
+*.log
+!02_output/logs/*.log
+firebase-debug.log
