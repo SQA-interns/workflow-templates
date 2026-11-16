@@ -194,10 +194,7 @@ public class ContactService {
     if (versionNumber == null) {
       throw new ValidationException(List.of());
     }
-    Contact contact =
-        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
-    requireCurrent(contact, versionNumber);
-    requireActive(contact);
+    Contact contact = lockedForChange(groupId, contactId, versionNumber);
     List<TagView> stored = tagsOf(contact);
     ContactContent before =
         new ContactContent(
@@ -228,6 +225,18 @@ public class ContactService {
     }
     versionWriter.record(contact, ContactVersion.EDITED, before, after);
     return view(contact);
+  }
+
+  /**
+   * The Contact of the Group locked for the change, if it is at the Version number read and active
+   * (specification §4, BR-06, EX-007-03, D-23).
+   */
+  private Contact lockedForChange(UUID groupId, UUID contactId, int versionNumber) {
+    Contact contact =
+        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    requireCurrent(contact, versionNumber);
+    requireActive(contact);
+    return contact;
   }
 
   /** Rejects a change sent with a Version number that is not the current one (BR-06). */
