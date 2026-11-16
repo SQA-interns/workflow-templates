@@ -1,0 +1,29 @@
+package app.contacts.repository;
+
+import app.contacts.domain.Group;
+import app.contacts.domain.MemberGroup;
+import java.util.List;
+import java.util.UUID;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+/** Groups; a Group is the tenant itself, so exempt from AR-04 (ADR-02). */
+public interface GroupRepository extends JpaRepository<Group, UUID> {
+
+  /**
+   * The active Groups of which the User is a Member, by name A–Z in Slovenian order (R-002-03).
+   *
+   * @param userId the User
+   * @return the Groups with the User's Role
+   */
+  @Query(
+      value =
+          """
+          SELECT g.id AS id, g.name AS name, m.role AS role
+          FROM contact_group g JOIN membership m ON m.group_id = g.id
+          WHERE m.user_id = :userId AND g.state = 'active'
+          ORDER BY g.name COLLATE "sl-x-icu", g.created_at, g.id
+          """,
+      nativeQuery = true)
+  List<MemberGroup> findActiveGroupsOf(UUID userId);
+}
