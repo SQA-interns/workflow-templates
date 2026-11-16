@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiRequest } from "./apiClient";
 
@@ -18,5 +18,24 @@ export function useCreateContact(groupId: string) {
         attributes: [],
         tags: [],
       }),
+  });
+}
+
+/** A link to a Contact (`ContactRef` of the contract). */
+export interface ContactRef {
+  id: string;
+  name: string;
+}
+
+/** The active Contacts of the Group with this e-mail (R-006-06); nothing is asked while null. */
+export function useEmailMatches(groupId: string, email: string | null) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", "email-matches", email],
+    queryFn: () =>
+      apiRequest<ContactRef[]>(
+        "GET",
+        `/groups/${groupId}/contacts/email-matches?email=${encodeURIComponent(email ?? "")}`,
+      ),
+    enabled: email !== null,
   });
 }

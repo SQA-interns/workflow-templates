@@ -57,6 +57,11 @@ const COUNTRY_CODES =
     " ",
   );
 
+/** Whether a trimmed value is a syntactically valid e-mail address (R-006-04). */
+export function isEmailAddress(value: string): boolean {
+  return FORMATS.get("email")?.pattern.test(value) ?? false;
+}
+
 export function emptyFields(): FieldValues {
   return Object.fromEntries(FIELD_NAMES.map((name) => [name, ""])) as FieldValues;
 }

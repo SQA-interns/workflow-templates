@@ -33,10 +33,23 @@ interface ContactFormProps {
   error: unknown;
   onSave: (fields: ContactFields) => void;
   onCancel: () => void;
+  /** Called with the e-mail when the User leaves its box (R-006-06). */
+  onEmailLeave: (email: string) => void;
+  /** The warning under the e-mail, "" for none (R-006-06). */
+  emailNotice: string;
 }
 
 /** WF-08 Contact form: the Fields in form order with inline errors (UI-13). */
-export function ContactForm({ title, backTo, busy, error, onSave, onCancel }: ContactFormProps) {
+export function ContactForm({
+  title,
+  backTo,
+  busy,
+  error,
+  onSave,
+  onCancel,
+  onEmailLeave,
+  emailNotice,
+}: ContactFormProps) {
   const { t, i18n } = useTranslation();
   const language = i18n.language as Language;
   const id = useId();
@@ -74,6 +87,10 @@ export function ContactForm({ title, backTo, busy, error, onSave, onCancel }: Co
       onChange: (value) => setValues((current) => new Map(current).set(name, value)),
       hint: hint && t(hint.key, { max: hint.max && formatNumber(hint.max, language) }),
       error: problem && problemText(t, language, problem),
+      ...(name === "email" && {
+        onBlur: () => onEmailLeave(values.get("email") ?? ""),
+        notice: emailNotice,
+      }),
     };
   }
 

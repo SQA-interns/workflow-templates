@@ -119,6 +119,7 @@
     },
     "countryPlaceholder": "Select …",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "emailExists": "A Contact with this e-mail already exists: {{name}}."
   }
 }

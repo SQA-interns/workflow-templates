@@ -119,6 +119,7 @@
     },
     "countryPlaceholder": "Izberite …",
     "save": "Shrani",
-    "cancel": "Prekliči"
+    "cancel": "Prekliči",
+    "emailExists": "Kontakt s tem e-poštnim naslovom že obstaja: {{name}}."
   }
 }

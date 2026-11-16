@@ -14,6 +14,10 @@ export interface FieldProps {
   onChange: (value: string) => void;
   hint?: string;
   error?: string;
+  /** Called when the box loses focus. */
+  onBlur?: () => void;
+  /** A warning that does not stop saving, announced politely (R-006-06); "" for none. */
+  notice?: string;
 }
 
 /** One Field: a text box, the note area or the country list. */
@@ -32,7 +36,11 @@ export function ContactFieldInput({
     "aria-invalid": props.error ? true : undefined,
     "aria-errormessage": props.error ? `${props.id}-error` : undefined,
     "aria-describedby":
-      [props.hint && `${props.id}-hint`, props.error && `${props.id}-error`]
+      [
+        props.hint && `${props.id}-hint`,
+        props.error && `${props.id}-error`,
+        props.notice && `${props.id}-notice`,
+      ]
         .filter(Boolean)
         .join(" ") || undefined,
   };
@@ -48,6 +56,7 @@ export function ContactFieldInput({
         type={name === "email" ? "email" : name === "phone" ? "tel" : "text"}
         autoComplete="off"
         onChange={(e) => props.onChange(e.target.value)}
+        onBlur={props.onBlur}
       />
     );
   }
@@ -59,6 +68,18 @@ export function ContactFieldInput({
         <p id={`${props.id}-hint`} className="text-sm text-text-muted">
           {props.hint}
         </p>
+      )}
+      {props.notice !== undefined && (
+        <div role="status">
+          {props.notice && (
+            <p
+              id={`${props.id}-notice`}
+              className="rounded-md border border-dashed border-border bg-surface p-3 text-sm"
+            >
+              {props.notice}
+            </p>
+          )}
+        </div>
       )}
       {props.error && (
         <p id={`${props.id}-error`} className="text-sm font-semibold text-danger">

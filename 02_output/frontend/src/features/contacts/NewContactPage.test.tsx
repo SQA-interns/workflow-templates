@@ -203,4 +203,59 @@ describe("WF-08 Add a Contact (US-006)", () => {
     expect(country.value).toBe("");
     expect(screen.getByRole("option", { name: "Slovenia" })).toBeTruthy();
   });
+
+  it("AC-006-05 leaving an existing e-mail warns with its Contact and saving still works", async () => {
+    vi.mocked(apiRequest).mockImplementation((method: string, path: string) =>
+      Promise.resolve(
+        method === "POST"
+          ? { id: "c2" }
+          : path.includes("email-matches")
+            ? [{ id: "c1", name: "Janez Novak" }]
+            : [],
+      ),
+    );
+    const router = renderPage();
+
+    await fill("First name", "J.");
+    await fill("Last name", "Novak");
+    await fill("E-mail", " Janez.Novak@example.si ");
+    await userEvent.tab();
+
+    expect(
+      await screen.findByText("A Contact with this e-mail already exists: Janez Novak."),
+    ).toBeTruthy();
+    expect(apiRequest).toHaveBeenCalledWith(
+      "GET",
+      "/groups/g1/contacts/email-matches?email=Janez.Novak%40example.si",
+    );
+    await save();
+    await waitFor(() => expect(posts()).toHaveLength(1));
+    await waitFor(() => expect(router.state.location.pathname).toBe(CONTACTS));
+  });
+
+  it("R-006-06 an e-mail without a match shows no warning", async () => {
+    renderPage();
+
+    await fill("E-mail", "maja.zupan@example.si");
+    await userEvent.tab();
+
+    await waitFor(() =>
+      expect(apiRequest).toHaveBeenCalledWith(
+        "GET",
+        "/groups/g1/contacts/email-matches?email=maja.zupan%40example.si",
+      ),
+    );
+    expect(screen.queryByText(/already exists/)).toBeNull();
+  });
+
+  it("R-006-06 a blank or invalid e-mail is not looked up", async () => {
+    renderPage();
+
+    await userEvent.click(screen.getByLabelText("E-mail"));
+    await userEvent.tab();
+    await fill("E-mail", "janez@");
+    await userEvent.tab();
+
+    expect(vi.mocked(apiRequest).mock.calls.filter(([method]) => method === "GET")).toEqual([]);
+  });
 });
