@@ -6,6 +6,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SequencedMap;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 /**
  * The Fields of a Contact in the order of the Contact form (glossary "Field", D-23); an empty Field
@@ -34,7 +36,7 @@ public record ContactFields(
     String street,
     String postalCode,
     String city,
-    String country,
+    @JdbcTypeCode(SqlTypes.CHAR) String country,
     String note) {
 
   /** The Field names in the order of the Contact form (D-23). */
