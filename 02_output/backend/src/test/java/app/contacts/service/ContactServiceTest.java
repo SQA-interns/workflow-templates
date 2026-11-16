@@ -72,7 +72,12 @@ class ContactServiceTest {
 
     ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
     verify(contacts).add(eq(GROUP_ID), stored.capture());
-    verify(versionWriter).record(stored.getValue(), ContactVersion.CREATED, ContactFields.EMPTY);
+    verify(versionWriter)
+        .record(
+            eq(stored.getValue()),
+            eq(ContactVersion.CREATED),
+            eq(ContactContent.EMPTY),
+            any(ContactContent.class));
     assertThat(created.id()).isEqualTo(stored.getValue().getId());
     assertThat(created.versionNumber()).isEqualTo(1);
     assertThat(created.state()).isEqualTo("active");
@@ -232,7 +237,12 @@ class ContactServiceTest {
             1,
             Map.of("firstName", "Janez", "lastName", "Novak", "email", " janez@novak.si "));
 
-    verify(versionWriter).record(janez, ContactVersion.EDITED, before);
+    verify(versionWriter)
+        .record(
+            eq(janez),
+            eq(ContactVersion.EDITED),
+            eq(new ContactContent(before, List.of())),
+            any(ContactContent.class));
     assertThat(saved.versionNumber()).isEqualTo(2);
     assertThat(saved.fields()).containsEntry("email", "janez@novak.si");
     assertThat(janez.getUpdatedBy()).isEqualTo(MARKO);

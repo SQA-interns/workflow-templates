@@ -82,7 +82,11 @@ public class ContactService {
             userId,
             clock.instant());
     contacts.add(groupId, contact);
-    versionWriter.record(contact, ContactVersion.CREATED, ContactFields.EMPTY);
+    versionWriter.record(
+        contact,
+        ContactVersion.CREATED,
+        ContactContent.EMPTY,
+        new ContactContent(checked, List.of()));
     return ContactView.of(contact, List.of(), List.of());
   }
 
@@ -170,7 +174,11 @@ public class ContactService {
         normaliser.sortName(edited),
         userId,
         clock.instant());
-    versionWriter.record(contact, ContactVersion.EDITED, before);
+    versionWriter.record(
+        contact,
+        ContactVersion.EDITED,
+        new ContactContent(before, List.of()),
+        new ContactContent(edited, List.of()));
     return view(contact);
   }
 
