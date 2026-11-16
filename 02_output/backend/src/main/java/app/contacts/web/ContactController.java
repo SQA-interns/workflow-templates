@@ -1,6 +1,9 @@
 package app.contacts.web;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.ContactPageView;
+import app.contacts.service.ContactQuery;
+import app.contacts.service.ContactQueryService;
 import app.contacts.service.ContactService;
 import java.util.List;
 import java.util.UUID;
@@ -15,20 +18,46 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006). */
+/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-014). */
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/contacts")
 public class ContactController {
 
   private final ContactService contacts;
+  private final ContactQueryService contactQueries;
 
   /**
    * The controller.
    *
    * @param contacts the Contact service
+   * @param contactQueries the Contact list
    */
-  public ContactController(ContactService contacts) {
+  public ContactController(ContactService contacts, ContactQueryService contactQueries) {
     this.contacts = contacts;
+    this.contactQueries = contactQueries;
+  }
+
+  /**
+   * One Page of the Contact list (R-014-01 … R-014-04); the service views are the contract's {@code
+   * ContactPage}.
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param q the search text
+   * @param sort the sort key
+   * @param dir the order
+   * @param page the Page number
+   * @return the Page
+   */
+  @GetMapping
+  public ContactPageView list(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @RequestParam(required = false) String q,
+      @RequestParam(required = false) String sort,
+      @RequestParam(required = false) String dir,
+      @RequestParam(required = false) Integer page) {
+    return contactQueries.page(groupId, current.id(), new ContactQuery(q, sort, dir, page));
   }
 
   /**

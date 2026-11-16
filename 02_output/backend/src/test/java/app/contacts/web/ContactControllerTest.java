@@ -5,6 +5,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.ContactPageView;
+import app.contacts.service.ContactQuery;
+import app.contacts.service.ContactQueryService;
 import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactService;
 import app.contacts.service.ContactView;
@@ -29,7 +32,8 @@ class ContactControllerTest {
       new CurrentUser(new UserView(MARKO_ID, "marko.kranjc@gmail.com", "Marko Kranjc", "sl"), true);
 
   private final ContactService contacts = mock(ContactService.class);
-  private final ContactController controller = new ContactController(contacts);
+  private final ContactQueryService contactQueries = mock(ContactQueryService.class);
+  private final ContactController controller = new ContactController(contacts, contactQueries);
 
   @Test
   void r00601PostContactsAnswers201WithTheNewContact() {
@@ -65,5 +69,14 @@ class ContactControllerTest {
 
     assertThat(controller.emailMatches(MARKO, GROUP_ID, "Janez.Novak@example.si"))
         .containsExactly(new ContactRefResponse(CONTACT_ID, "Janez Novak"));
+  }
+
+  @Test
+  void r01401GetContactsAnswersOnePageOfTheQuery() {
+    ContactPageView page = new ContactPageView(List.of(), 0, 2, 50);
+    when(contactQueries.page(GROUP_ID, MARKO_ID, new ContactQuery("novak", "company", "desc", 2)))
+        .thenReturn(page);
+
+    assertThat(controller.list(MARKO, GROUP_ID, "novak", "company", "desc", 2)).isSameAs(page);
   }
 }
