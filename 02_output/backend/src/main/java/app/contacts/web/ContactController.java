@@ -76,7 +76,7 @@ public class ContactController {
       @RequestBody ContactWriteRequest body) {
     ContactResponse created =
         ContactResponse.of(
-            contacts.create(groupId, current.id(), body.fields(), body.attributes()));
+            contacts.create(groupId, current.id(), body.fields(), body.attributes(), null));
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
@@ -137,6 +137,7 @@ public class ContactController {
             contactId,
             body.versionNumber(),
             body.fields(),
-            body.attributes()));
+            body.attributes(),
+            null));
   }
 }

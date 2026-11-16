@@ -4,6 +4,7 @@ import app.contacts.domain.Attribute;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
+import app.contacts.domain.Tag;
 import app.contacts.domain.User;
 import app.contacts.repository.AttributeRepository;
 import app.contacts.repository.ContactQueryRepository;
@@ -17,14 +18,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- * Adds Contacts with their Attributes to a Group, edits, reads and finds them by e-mail (US-006,
- * US-007, US-008, US-014).
+ * Adds Contacts with their Attributes and Tags to a Group, edits, reads and finds them by e-mail
+ * (US-006, US-007, US-008, US-009, US-014).
  */
 @Service
 public class ContactService {
 
   private final ContactRepository contacts;
   private final AttributeRepository attributes;
+  private final TagService tags;
   private final ContactQueryRepository contactQueries;
   private final UserRepository users;
   private final VersionWriter versionWriter;
@@ -38,6 +40,7 @@ public class ContactService {
    *
    * @param contacts the Contact repository
    * @param attributes stores the Attributes of a save (R-008-01)
+   * @param tags finds or creates the Tags of a save and puts them on (R-009-01)
    * @param contactQueries reads Attributes and Tags for the details
    * @param users names the User of the current Version (BR-06)
    * @param versionWriter writes the Version of every change
@@ -49,6 +52,7 @@ public class ContactService {
   public ContactService(
       ContactRepository contacts,
       AttributeRepository attributes,
+      TagService tags,
       ContactQueryRepository contactQueries,
       UserRepository users,
       VersionWriter versionWriter,
@@ -58,6 +62,7 @@ public class ContactService {
       Clock clock) {
     this.contacts = contacts;
     this.attributes = attributes;
+    this.tags = tags;
     this.contactQueries = contactQueries;
     this.users = users;
     this.versionWriter = versionWriter;
@@ -68,26 +73,32 @@ public class ContactService {
   }
 
   /**
-   * Adds a Contact with its Attributes to the Group with Version 1 {@code created} (R-006-01,
-   * R-008-01).
+   * Adds a Contact with its Attributes and Tags to the Group with Version 1 {@code created}
+   * (R-006-01, R-008-01, R-009-01).
    *
    * @param groupId the Group
    * @param userId the signed-in User
    * @param fields Field name to value as sent; a missing or {@code null} value is an empty Field
    * @param sentAttributes the Attributes as sent; {@code null} for none
+   * @param sentTags the Tag names as sent; {@code null} for none
    * @return the new Contact
    * @throws NotFoundException for a non-Member (BR-02, EX-006-09)
    * @throws ForbiddenException for a Viewer (BR-03, AC-006-06)
-   * @throws ValidationException for an unknown Field name, invalid Fields or invalid Attributes
-   *     (R-006-02 … R-006-05, R-008-02 … R-008-05)
+   * @throws ValidationException for an unknown Field name, invalid Fields, Attributes or Tag names
+   *     (R-006-02 … R-006-05, R-008-02 … R-008-05, R-009-05)
    */
   @Transactional
   public ContactView create(
-      UUID groupId, UUID userId, Map<String, String> fields, List<AttributeView> sentAttributes) {
+      UUID groupId,
+      UUID userId,
+      Map<String, String> fields,
+      List<AttributeView> sentAttributes,
+      List<String> sentTags) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
     ContactFields checked = checked(fields);
     List<AttributeView> checkedAttributes =
         sentAttributes == null ? List.of() : validator.checkAttributes(sentAttributes);
+    List<String> checkedTags = sentTags == null ? List.of() : validator.checkTags(sentTags);
     Contact contact =
         Contact.create(
             groupId,
@@ -97,8 +108,10 @@ public class ContactService {
             userId,
             clock.instant());
     contacts.add(groupId, contact);
-    ContactContent content = new ContactContent(checked, checkedAttributes, List.of());
+    List<Tag> wanted = tags.resolve(groupId, checkedTags);
+    ContactContent content = new ContactContent(checked, checkedAttributes, names(wanted));
     store(contact, content.attributes());
+    tags.retag(contact, List.of(), wanted);
     versionWriter.record(contact, ContactVersion.CREATED, ContactContent.EMPTY, content);
     return view(contact);
   }
@@ -144,8 +157,8 @@ public class ContactService {
   }
 
   /**
-   * Saves edited Fields and Attributes of a Contact as one Version {@code edited} (R-007-01,
-   * R-008-01), in one transaction with the Contact locked (specification §4).
+   * Saves edited Fields, Attributes and Tags of a Contact as one Version {@code edited} (R-007-01,
+   * R-008-01, R-009-01), in one transaction with the Contact locked (specification §4).
    *
    * @param groupId the Group
    * @param userId the signed-in User
@@ -153,14 +166,15 @@ public class ContactService {
    * @param versionNumber the Version number the client read (BR-06)
    * @param fields Field name to value as sent; a missing or {@code null} value is an empty Field
    * @param sentAttributes the Attributes as sent; {@code null} keeps the stored ones
+   * @param sentTags the Tag names as sent; {@code null} keeps the Tags the Contact has
    * @return the saved Contact
    * @throws NotFoundException for a non-Member or a Contact that is not the Group's (BR-02)
    * @throws ForbiddenException for a Viewer (BR-03, AC-007-05)
-   * @throws ValidationException for a missing Version number, an unknown Field name, invalid Fields
-   *     or invalid Attributes (R-007-02, R-008-02 … R-008-05)
+   * @throws ValidationException for a missing Version number, an unknown Field name, invalid
+   *     Fields, Attributes or Tag names (R-007-02, R-008-02 … R-008-05, R-009-05)
    * @throws ConflictException {@code version.conflict} for a Version number that is not current
    *     (BR-06), {@code contact.inRecycleBin} or {@code contact.merged} for a Contact that is not
-   *     active (EX-007-03, D-23), {@code contact.noChanges} when no Field or Attribute changed
+   *     active (EX-007-03, D-23), {@code contact.noChanges} when no Field, Attribute or Tag changed
    *     (R-007-03)
    */
   @Transactional
@@ -170,11 +184,13 @@ public class ContactService {
       UUID contactId,
       Integer versionNumber,
       Map<String, String> fields,
-      List<AttributeView> sentAttributes) {
+      List<AttributeView> sentAttributes,
+      List<String> sentTags) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
     final ContactFields edited = checked(fields);
     final List<AttributeView> editedAttributes =
         sentAttributes == null ? null : validator.checkAttributes(sentAttributes);
+    final List<String> editedTags = sentTags == null ? null : validator.checkTags(sentTags);
     if (versionNumber == null) {
       throw new ValidationException(List.of());
     }
@@ -182,11 +198,18 @@ public class ContactService {
         contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
     requireCurrent(contact, versionNumber);
     requireActive(contact);
+    List<TagView> stored = tagsOf(contact);
     ContactContent before =
-        new ContactContent(contact.getFields(), attributesOf(contact), List.of());
+        new ContactContent(
+            contact.getFields(),
+            attributesOf(contact),
+            stored.stream().map(TagView::name).toList());
+    List<Tag> wanted = editedTags == null ? null : tags.resolve(groupId, editedTags);
     ContactContent after =
         new ContactContent(
-            edited, editedAttributes == null ? before.attributes() : editedAttributes, List.of());
+            edited,
+            editedAttributes == null ? before.attributes() : editedAttributes,
+            wanted == null ? before.tags() : names(wanted));
     if (after.equals(before)) {
       throw new ConflictException("contact.noChanges", Map.of());
     }
@@ -199,6 +222,9 @@ public class ContactService {
     if (!after.attributes().equals(before.attributes())) {
       attributes.discardOfContact(groupId, contactId);
       store(contact, after.attributes());
+    }
+    if (wanted != null) {
+      tags.retag(contact, stored.stream().map(TagView::id).toList(), wanted);
     }
     versionWriter.record(contact, ContactVersion.EDITED, before, after);
     return view(contact);
@@ -245,12 +271,19 @@ public class ContactService {
         .toList();
   }
 
+  /** The Tags the Contact has, by name A–Z. */
+  private List<TagView> tagsOf(Contact contact) {
+    return contactQueries.findTags(contact.getGroupId(), List.of(contact.getId())).stream()
+        .map(row -> new TagView(row.tagId(), row.name()))
+        .toList();
+  }
+
+  private static List<String> names(List<Tag> tags) {
+    return tags.stream().map(Tag::getName).toList();
+  }
+
   /** The Contact with its Attributes and Tags. */
   private ContactView view(Contact contact) {
-    List<TagView> tags =
-        contactQueries.findTags(contact.getGroupId(), List.of(contact.getId())).stream()
-            .map(row -> new TagView(row.tagId(), row.name()))
-            .toList();
-    return ContactView.of(contact, attributesOf(contact), tags);
+    return ContactView.of(contact, attributesOf(contact), tagsOf(contact));
   }
 }

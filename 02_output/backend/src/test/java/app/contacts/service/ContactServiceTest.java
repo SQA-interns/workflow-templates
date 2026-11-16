@@ -3,6 +3,7 @@ package app.contacts.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.atLeast;
 import static org.mockito.Mockito.mock;
@@ -14,13 +15,17 @@ import app.contacts.domain.Attribute;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactAttributeRow;
 import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactTag;
 import app.contacts.domain.ContactTagRow;
 import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Role;
+import app.contacts.domain.Tag;
 import app.contacts.domain.User;
 import app.contacts.repository.AttributeRepository;
 import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
+import app.contacts.repository.ContactTagRepository;
+import app.contacts.repository.TagRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -52,10 +57,13 @@ class ContactServiceTest {
   private final ContactQueryRepository contactQueries = mock(ContactQueryRepository.class);
   private final UserRepository users = mock(UserRepository.class);
   private final AttributeRepository attributes = mock(AttributeRepository.class);
+  private final TagRepository tags = mock(TagRepository.class);
+  private final ContactTagRepository contactTags = mock(ContactTagRepository.class);
   private final ContactService service =
       new ContactService(
           contacts,
           attributes,
+          new TagService(tags, contactTags),
           contactQueries,
           users,
           versionWriter,
@@ -68,6 +76,8 @@ class ContactServiceTest {
   void markoIsEditor() {
     when(guard.require(GROUP_ID, MARKO, Permission.CHANGE_CONTACT)).thenReturn(Role.EDITOR);
     when(contacts.add(eq(GROUP_ID), any(Contact.class))).thenAnswer(call -> call.getArgument(1));
+    when(tags.findInGroup(eq(GROUP_ID), anyString())).thenReturn(Optional.empty());
+    when(tags.add(eq(GROUP_ID), any(Tag.class))).thenAnswer(call -> call.getArgument(1));
   }
 
   @Test
@@ -77,7 +87,8 @@ class ContactServiceTest {
             GROUP_ID,
             MARKO,
             Map.of("firstName", "Janez", "lastName", "Novak", "country", "SI"),
-            List.of());
+            List.of(),
+            null);
 
     ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
     verify(contacts).add(eq(GROUP_ID), stored.capture());
@@ -99,7 +110,8 @@ class ContactServiceTest {
 
   @Test
   void r00601StoresTheDerivedSearchTextAndSortName() {
-    service.create(GROUP_ID, MARKO, Map.of("firstName", "Žiga", "lastName", "Čuk"), List.of());
+    service.create(
+        GROUP_ID, MARKO, Map.of("firstName", "Žiga", "lastName", "Čuk"), List.of(), null);
 
     ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
     verify(contacts).add(eq(GROUP_ID), stored.capture());
@@ -110,7 +122,7 @@ class ContactServiceTest {
   @Test
   void r00607StoresTheTrimmedFields() {
     ContactView created =
-        service.create(GROUP_ID, MARKO, Map.of("firstName", "  Janez "), List.of());
+        service.create(GROUP_ID, MARKO, Map.of("firstName", "  Janez "), List.of(), null);
 
     assertThat(created.fields()).containsEntry("firstName", "Janez");
   }
@@ -118,7 +130,9 @@ class ContactServiceTest {
   @Test
   void r00602InvalidFieldsStoreNothing() {
     assertThatThrownBy(
-            () -> service.create(GROUP_ID, MARKO, Map.of("email", "info@example.si"), List.of()))
+            () ->
+                service.create(
+                    GROUP_ID, MARKO, Map.of("email", "info@example.si"), List.of(), null))
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
@@ -128,14 +142,18 @@ class ContactServiceTest {
     assertThatThrownBy(
             () ->
                 service.create(
-                    GROUP_ID, MARKO, Map.of("firstName", "Janez", "nickname", "J"), List.of()))
+                    GROUP_ID,
+                    MARKO,
+                    Map.of("firstName", "Janez", "nickname", "J"),
+                    List.of(),
+                    null))
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
 
   @Test
   void r00601MissingFieldsAreRejected() {
-    assertThatThrownBy(() -> service.create(GROUP_ID, MARKO, null, List.of()))
+    assertThatThrownBy(() -> service.create(GROUP_ID, MARKO, null, List.of(), null))
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
@@ -146,7 +164,7 @@ class ContactServiceTest {
     fields.put("company", "Podjetje d.o.o.");
     fields.put("firstName", null);
 
-    assertThat(service.create(GROUP_ID, MARKO, fields, List.of()).fields())
+    assertThat(service.create(GROUP_ID, MARKO, fields, List.of(), null).fields())
         .containsEntry("company", "Podjetje d.o.o.");
   }
 
@@ -155,7 +173,7 @@ class ContactServiceTest {
     when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
         .thenThrow(new ForbiddenException());
 
-    assertThatThrownBy(() -> service.create(GROUP_ID, PETRA, Map.of(), List.of()))
+    assertThatThrownBy(() -> service.create(GROUP_ID, PETRA, Map.of(), List.of(), null))
         .isInstanceOf(ForbiddenException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
@@ -165,7 +183,8 @@ class ContactServiceTest {
     UUID other = UUID.randomUUID();
     when(guard.require(other, MARKO, Permission.CHANGE_CONTACT)).thenThrow(new NotFoundException());
 
-    assertThatThrownBy(() -> service.create(other, MARKO, Map.of("firstName", "Janez"), List.of()))
+    assertThatThrownBy(
+            () -> service.create(other, MARKO, Map.of("firstName", "Janez"), List.of(), null))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
@@ -249,6 +268,7 @@ class ContactServiceTest {
             janez.getId(),
             1,
             Map.of("firstName", "Janez", "lastName", "Novak", "email", " janez@novak.si "),
+            null,
             null);
 
     verify(versionWriter)
@@ -277,6 +297,7 @@ class ContactServiceTest {
             janez.getId(),
             1,
             Map.of("firstName", "Janez", "city", "Maribor"),
+            null,
             null);
 
     assertThat(saved.attributes())
@@ -295,6 +316,7 @@ class ContactServiceTest {
                     janez.getId(),
                     1,
                     Map.of("firstName", " ", "lastName", ""),
+                    null,
                     null))
         .isInstanceOf(ValidationException.class);
     assertThat(janez.getVersionNumber()).isEqualTo(1);
@@ -307,12 +329,14 @@ class ContactServiceTest {
     Contact janez = stored(Map.of("firstName", "Janez"));
 
     assertThatThrownBy(
-            () -> service.update(GROUP_ID, MARKO, janez.getId(), 1, Map.of("nickname", "J"), null))
+            () ->
+                service.update(
+                    GROUP_ID, MARKO, janez.getId(), 1, Map.of("nickname", "J"), null, null))
         .isInstanceOf(ValidationException.class);
     assertThatThrownBy(
             () ->
                 service.update(
-                    GROUP_ID, MARKO, janez.getId(), null, Map.of("firstName", "J"), null))
+                    GROUP_ID, MARKO, janez.getId(), null, Map.of("firstName", "J"), null, null))
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(versionWriter);
   }
@@ -324,7 +348,9 @@ class ContactServiceTest {
     UUID contactId = UUID.randomUUID();
 
     assertThatThrownBy(
-            () -> service.update(GROUP_ID, PETRA, contactId, 1, Map.of("city", "Maribor"), null))
+            () ->
+                service.update(
+                    GROUP_ID, PETRA, contactId, 1, Map.of("city", "Maribor"), null, null))
         .isInstanceOf(ForbiddenException.class);
     verifyNoInteractions(contacts, versionWriter);
   }
@@ -335,7 +361,8 @@ class ContactServiceTest {
     when(contacts.findForUpdate(GROUP_ID, other)).thenReturn(Optional.empty());
 
     assertThatThrownBy(
-            () -> service.update(GROUP_ID, MARKO, other, 1, Map.of("firstName", "Maja"), null))
+            () ->
+                service.update(GROUP_ID, MARKO, other, 1, Map.of("firstName", "Maja"), null, null))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(versionWriter);
   }
@@ -352,6 +379,7 @@ class ContactServiceTest {
                     janez.getId(),
                     1,
                     Map.of("firstName", "Janez ", "lastName", "Novak"),
+                    null,
                     null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "contact.noChanges");
@@ -374,7 +402,7 @@ class ContactServiceTest {
     Map<String, String> anasForm =
         Map.of("firstName", "Janez", "lastName", "Novak", "jobTitle", "CEO");
 
-    assertThatThrownBy(() -> service.update(GROUP_ID, ANA, janez.getId(), 1, anasForm, null))
+    assertThatThrownBy(() -> service.update(GROUP_ID, ANA, janez.getId(), 1, anasForm, null, null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "version.conflict")
         .hasFieldOrPropertyWithValue("params", Map.of("changedBy", "Marko Kranjc"));
@@ -391,7 +419,8 @@ class ContactServiceTest {
 
     assertThatThrownBy(
             () ->
-                service.update(GROUP_ID, MARKO, janez.getId(), 5, Map.of("firstName", "Jan"), null))
+                service.update(
+                    GROUP_ID, MARKO, janez.getId(), 5, Map.of("firstName", "Jan"), null, null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "version.conflict");
     assertThat(janez.getVersionNumber()).isEqualTo(1);
@@ -412,6 +441,7 @@ class ContactServiceTest {
                     janez.getId(),
                     1,
                     Map.of("firstName", "Janez", "city", "Maribor"),
+                    null,
                     null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", code);
@@ -445,7 +475,7 @@ class ContactServiceTest {
   @Test
   void r00801CreateStoresTheTrimmedAttributesInVersionOne() {
     service.create(
-        GROUP_ID, MARKO, Map.of("firstName", "Janez"), attributesOf(" kompetenca ", "java "));
+        GROUP_ID, MARKO, Map.of("firstName", "Janez"), attributesOf(" kompetenca ", "java "), null);
 
     assertThat(storedAttributes()).hasSize(1);
     ArgumentCaptor<ContactContent> after = ArgumentCaptor.forClass(ContactContent.class);
@@ -464,7 +494,7 @@ class ContactServiceTest {
     assertThatThrownBy(
             () ->
                 service.create(
-                    GROUP_ID, MARKO, Map.of("firstName", "Janez"), attributesOf("   ", "v")))
+                    GROUP_ID, MARKO, Map.of("firstName", "Janez"), attributesOf("   ", "v"), null))
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts, attributes, versionWriter);
   }
@@ -480,7 +510,8 @@ class ContactServiceTest {
         janez.getId(),
         1,
         Map.of("firstName", "Janez"),
-        attributesOf("kompetenca", "mobilnoProgramiranje"));
+        attributesOf("kompetenca", "mobilnoProgramiranje"),
+        null);
 
     verify(attributes).discardOfContact(GROUP_ID, janez.getId());
     assertThat(storedAttributes()).hasSize(1);
@@ -509,7 +540,8 @@ class ContactServiceTest {
                     janez.getId(),
                     1,
                     Map.of("firstName", "Janez"),
-                    attributesOf("opis", "x", " kompetenca", "java")))
+                    attributesOf("opis", "x", " kompetenca", "java"),
+                    null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "contact.noChanges");
     verifyNoInteractions(attributes, versionWriter);
@@ -521,7 +553,13 @@ class ContactServiceTest {
     hasAttributes(janez, "kompetenca", "java");
 
     service.update(
-        GROUP_ID, MARKO, janez.getId(), 1, Map.of("firstName", "Janez", "city", "Maribor"), null);
+        GROUP_ID,
+        MARKO,
+        janez.getId(),
+        1,
+        Map.of("firstName", "Janez", "city", "Maribor"),
+        null,
+        null);
 
     verifyNoInteractions(attributes);
     ArgumentCaptor<ContactContent> after = ArgumentCaptor.forClass(ContactContent.class);
@@ -542,7 +580,8 @@ class ContactServiceTest {
                     janez.getId(),
                     1,
                     Map.of("firstName", "Janez"),
-                    attributesOf("kompetenca", "a", "Kompetenca", "b")))
+                    attributesOf("kompetenca", "a", "Kompetenca", "b"),
+                    null))
         .isInstanceOf(ValidationException.class);
     assertThat(janez.getVersionNumber()).isEqualTo(1);
     verifyNoInteractions(attributes, versionWriter);
@@ -562,10 +601,153 @@ class ContactServiceTest {
                     janez.getId(),
                     2,
                     Map.of("firstName", "Janez"),
-                    attributesOf("kompetenca", "java")))
+                    attributesOf("kompetenca", "java"),
+                    null))
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "version.conflict");
     verifyNoInteractions(attributes, versionWriter);
+  }
+
+  private Tag hasTags(Contact contact, String... names) {
+    List<ContactTagRow> rows = new ArrayList<>();
+    Tag last = null;
+    for (String name : names) {
+      last = Tag.create(GROUP_ID, name);
+      when(tags.findInGroup(GROUP_ID, name)).thenReturn(Optional.of(last));
+      rows.add(new ContactTagRow(contact.getId(), last.getId(), name));
+    }
+    when(contactQueries.findTags(GROUP_ID, List.of(contact.getId()))).thenReturn(rows);
+    return last;
+  }
+
+  private ContactContent recorded(String kind) {
+    ArgumentCaptor<ContactContent> after = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter).record(any(Contact.class), eq(kind), any(), after.capture());
+    return after.getValue();
+  }
+
+  @Test
+  void r00901CreatePutsTheTagsOnInVersionOne() {
+    service.create(GROUP_ID, MARKO, Map.of("firstName", "Janez"), null, List.of(" vip "));
+
+    verify(tags).add(eq(GROUP_ID), any(Tag.class));
+    verify(contactTags).add(eq(GROUP_ID), any(ContactTag.class));
+    assertThat(recorded(ContactVersion.CREATED).tags()).containsExactly("vip");
+  }
+
+  @Test
+  void r00905InvalidTagsStoreNoContact() {
+    assertThatThrownBy(
+            () ->
+                service.create(
+                    GROUP_ID, MARKO, Map.of("firstName", "Janez"), null, List.of("vip, 2025")))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts, tags, contactTags, versionWriter);
+  }
+
+  @Test
+  void r00901EditListsAddedAndRemovedTagsInOneVersion() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    hasTags(janez, "udelezenec2025", "neObvescaj");
+
+    service.update(
+        GROUP_ID,
+        MARKO,
+        janez.getId(),
+        1,
+        Map.of("firstName", "Janez"),
+        null,
+        List.of("udelezenec2025", "vip"));
+
+    verify(contactTags).discardOfContact(eq(GROUP_ID), eq(janez.getId()), any());
+    verify(contactTags).add(eq(GROUP_ID), any(ContactTag.class));
+    verify(versionWriter)
+        .record(
+            janez,
+            ContactVersion.EDITED,
+            new ContactContent(
+                janez.getFields(), List.of(), List.of("neObvescaj", "udelezenec2025")),
+            new ContactContent(janez.getFields(), List.of(), List.of("udelezenec2025", "vip")));
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+  }
+
+  @Test
+  void r00903StoredTagInOtherCaseIsNoChange() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    Tag vip = hasTags(janez, "vip");
+    when(tags.findInGroup(GROUP_ID, "VIP")).thenReturn(Optional.of(vip));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID,
+                    MARKO,
+                    janez.getId(),
+                    1,
+                    Map.of("firstName", "Janez"),
+                    null,
+                    List.of("VIP")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "contact.noChanges");
+    verifyNoInteractions(contactTags, versionWriter);
+  }
+
+  @Test
+  void r00901WithoutTagsInTheRequestTheStoredOnesStay() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    hasTags(janez, "vip");
+
+    service.update(
+        GROUP_ID,
+        MARKO,
+        janez.getId(),
+        1,
+        Map.of("firstName", "Janez", "city", "Maribor"),
+        null,
+        null);
+
+    verifyNoInteractions(tags, contactTags);
+    assertThat(recorded(ContactVersion.EDITED).tags()).containsExactly("vip");
+  }
+
+  @Test
+  void r00905InvalidEditedTagsChangeNothing() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID,
+                    MARKO,
+                    janez.getId(),
+                    1,
+                    Map.of("firstName", "Janez"),
+                    null,
+                    List.of("t".repeat(51))))
+        .isInstanceOf(ValidationException.class);
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    verifyNoInteractions(tags, contactTags, versionWriter);
+  }
+
+  @Test
+  void ex00907StaleVersionStoresNoTags() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ANA)).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID,
+                    MARKO,
+                    janez.getId(),
+                    2,
+                    Map.of("firstName", "Janez"),
+                    null,
+                    List.of("vip")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict");
+    verifyNoInteractions(tags, contactTags, versionWriter);
   }
 
   private Contact stored(Map<String, String> fields) {
