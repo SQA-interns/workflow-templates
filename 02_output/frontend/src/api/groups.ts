@@ -1,4 +1,4 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "./apiClient";
 
 /** A Group of the signed-in User with the User's Role (`Group` of the contract). */
@@ -9,6 +9,14 @@ export interface Group {
 }
 
 export const groupsQueryKey = ["groups"] as const;
+
+/** The active Groups of the User, by name A–Z (R-002-03). */
+export function useGroups() {
+  return useQuery({
+    queryKey: groupsQueryKey,
+    queryFn: () => apiRequest<Group[]>("GET", "/groups"),
+  });
+}
 
 /** Creates a Group with the User as Owner (R-002-01); the Group list is read again. */
 export function useCreateGroup() {

@@ -1,10 +1,11 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../api/apiClient";
 import { type AuthState, useAuth } from "../auth/AuthProvider";
+import { rememberGroup } from "../features/groups/currentGroup";
 import { routes } from "./routes";
 
 vi.mock("../auth/AuthProvider", () => ({ useAuth: vi.fn() }));
@@ -19,15 +20,31 @@ function renderAt(path: string, state: AuthState = signedIn) {
   vi.mocked(useAuth).mockReturnValue({ state, refresh: async () => undefined });
   const router = createMemoryRouter(routes, { initialEntries: [path] });
   render(
-    <QueryClientProvider client={new QueryClient()}>
+    <QueryClientProvider
+      client={new QueryClient({ defaultOptions: { queries: { retry: false } } })}
+    >
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
   return router;
 }
 
+const ana = { id: "u-ana", displayName: "Ana Kovač", language: "sl" };
+const konferenca = { id: "g1", name: "Konferenca 2025", role: "OWNER" };
+const alfa = { id: "g2", name: "Podjetje Alfa", role: "OWNER" };
+
+/** GET /me answers Ana, GET /groups the given Groups. */
+function answer(groups: unknown[]) {
+  vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) =>
+    path === "/groups" ? groups : ana,
+  );
+}
+
 beforeEach(() => {
-  vi.mocked(apiRequest).mockResolvedValue({ displayName: "Ana Kovač" });
+  answer([]);
+});
+afterEach(() => {
+  localStorage.clear();
 });
 
 describe("base layout (UI-10, R-020-01)", () => {
@@ -53,10 +70,10 @@ describe("base layout (UI-10, R-020-01)", () => {
 });
 
 describe("routes of US-001", () => {
-  it("R-001-07 a signed-in User without Groups sees WF-05", () => {
+  it("R-001-07 a signed-in User without Groups sees WF-05", async () => {
     renderAt("/");
     expect(
-      screen.getByRole("heading", { level: 1, name: "Nimate še nobene skupine." }),
+      await screen.findByRole("heading", { level: 1, name: "Nimate še nobene skupine." }),
     ).toBeTruthy();
   });
 
@@ -85,5 +102,59 @@ describe("routes of US-001", () => {
   it("R-001-04 the user menu is named by the display name", async () => {
     renderAt("/");
     expect(await screen.findByRole("button", { name: "Ana Kovač" })).toBeTruthy();
+  });
+});
+
+describe("routes of US-002", () => {
+  it("R-002-01 /groups/new shows WF-04 Create a Group", () => {
+    renderAt("/groups/new");
+    expect(screen.getByRole("heading", { level: 1, name: "Ustvari skupino" })).toBeTruthy();
+  });
+
+  it("AC-002-05 signing in opens the Group selected last", async () => {
+    answer([konferenca, alfa]);
+    rememberGroup("u-ana", "g2");
+
+    const router = renderAt("/");
+
+    await waitFor(() => expect(router.state.location.pathname).toBe("/groups/g2/contacts"));
+  });
+
+  it("EX-002-06 a Group no longer available: the first Group of the switcher opens", async () => {
+    answer([konferenca, alfa]);
+    rememberGroup("u-ana", "g-in-recycle-bin");
+
+    const router = renderAt("/");
+
+    await waitFor(() => expect(router.state.location.pathname).toBe("/groups/g1/contacts"));
+  });
+
+  it("R-002-04 the Contact list of a Group is remembered as the Group selected last", async () => {
+    answer([konferenca, alfa]);
+
+    renderAt("/groups/g2/contacts");
+
+    await waitFor(() => expect(localStorage.getItem("contacts.lastGroup.u-ana")).toBe("g2"));
+  });
+
+  it("BR-02 a Group the User is no Member of shows the not found page", async () => {
+    answer([konferenca]);
+
+    renderAt("/groups/other/contacts");
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Ni najdeno" })).toBeTruthy();
+    expect(localStorage.getItem("contacts.lastGroup.u-ana")).toBeNull();
+  });
+
+  it("UI-14 the Groups cannot be read: error with Try again", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+      if (path === "/groups") throw new Error("offline");
+      return ana;
+    });
+
+    renderAt("/");
+
+    expect((await screen.findByRole("alert")).textContent).toContain("Nekaj je šlo narobe.");
+    expect(screen.getByRole("button", { name: "Poskusi znova" })).toBeTruthy();
   });
 });
