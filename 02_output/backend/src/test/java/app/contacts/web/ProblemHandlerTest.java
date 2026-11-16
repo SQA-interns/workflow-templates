@@ -14,11 +14,13 @@ import app.contacts.service.NotFoundException;
 import app.contacts.service.ValidationException;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -64,6 +66,13 @@ class ProblemHandlerTest {
   }
 
   @Test
+  void br02MalformedIdInThePathIs404NotFound() throws Exception {
+    mvc.perform(get("/items/not-a-uuid"))
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("$.code").value("notFound"));
+  }
+
+  @Test
   void sb07UnexpectedErrorIs500InternalWithoutDetails() throws Exception {
     mvc.perform(get("/boom"))
         .andExpect(status().isInternalServerError())
@@ -92,6 +101,11 @@ class ProblemHandlerTest {
     @PostMapping("/echo")
     String echo(@RequestBody Map<String, Object> body) {
       return body.toString();
+    }
+
+    @GetMapping("/items/{id}")
+    String item(@PathVariable UUID id) {
+      return id.toString();
     }
 
     @GetMapping("/boom")
