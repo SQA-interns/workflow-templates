@@ -94,6 +94,11 @@
     }
   },
   "contacts": {
+    "new": {
+      "title": "Dodaj kontakt"
+    },
+    "back": "Kontakti",
+    "fields": "Podatki",
     "field": {
       "firstName": "Ime",
       "lastName": "Priimek",
@@ -107,6 +112,13 @@
       "country": "Država",
       "note": "Opomba"
     },
-    "countryPlaceholder": "Izberite …"
+    "hint": {
+      "maxLength": "Največ {{max}} znakov",
+      "phone": "Števke, presledki in + - ( ) /",
+      "name": "Vnesite vsaj ime, priimek ali podjetje."
+    },
+    "countryPlaceholder": "Izberite …",
+    "save": "Shrani",
+    "cancel": "Prekliči"
   }
 }

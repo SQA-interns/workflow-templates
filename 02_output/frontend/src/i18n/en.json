@@ -94,6 +94,11 @@
     }
   },
   "contacts": {
+    "new": {
+      "title": "Add a Contact"
+    },
+    "back": "Contacts",
+    "fields": "Fields",
     "field": {
       "firstName": "First name",
       "lastName": "Last name",
@@ -107,6 +112,13 @@
       "country": "Country",
       "note": "Note"
     },
-    "countryPlaceholder": "Select …"
+    "hint": {
+      "maxLength": "At most {{max}} characters",
+      "phone": "Digits, spaces and + - ( ) /",
+      "name": "Enter at least a first name, last name or company."
+    },
+    "countryPlaceholder": "Select …",
+    "save": "Save",
+    "cancel": "Cancel"
   }
 }
