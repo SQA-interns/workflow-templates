@@ -154,6 +154,14 @@
       "previous": "Prejšnja",
       "next": "Naslednja",
       "pageOf": "Stran {{page}} od {{pages}}"
+    },
+    "details": {
+      "history": "Zgodovina",
+      "attributes": "Atributi",
+      "tags": "Značke",
+      "noAttributes": "Ni atributov.",
+      "noTags": "Ni značk.",
+      "version": "Različica {{number}} · {{at}}"
     }
   }
 }

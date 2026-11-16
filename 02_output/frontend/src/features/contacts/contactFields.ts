@@ -97,11 +97,15 @@ export function checkFields(values: FieldValues): {
   return { trimmed, problems };
 }
 
+/** The name of a country code in the language (project-wide facts "country codes"). */
+export function countryName(code: string, language: string): string {
+  return new Intl.DisplayNames([language], { type: "region" }).of(code) ?? code;
+}
+
 /** The countries by name in the language, A–Z in its collation (R-006-05, project-wide facts). */
 export function countryOptions(language: string): { code: string; name: string }[] {
-  const names = new Intl.DisplayNames([language], { type: "region" });
   const collator = new Intl.Collator(language);
-  return COUNTRY_CODES.map((code) => ({ code, name: names.of(code) ?? code })).sort((a, b) =>
+  return COUNTRY_CODES.map((code) => ({ code, name: countryName(code, language) })).sort((a, b) =>
     collator.compare(a.name, b.name),
   );
 }

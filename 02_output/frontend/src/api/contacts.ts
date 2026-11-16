@@ -25,7 +25,11 @@ export interface ContactListItem {
 export interface Contact {
   id: string;
   versionNumber: number;
+  state: "active" | "inRecycleBin" | "merged";
   fields: ContactFields;
+  attributes: { key: string; value: string }[];
+  tags: Tag[];
+  updatedAt: string;
 }
 
 /** Adds a Contact to the Group (R-006-01); Attributes and Tags follow with US-008 and US-009. */
@@ -73,5 +77,13 @@ export function useContactList(groupId: string, query: ListQuery) {
     queryKey: ["groups", groupId, "contacts", "list", query],
     queryFn: () => apiRequest<ContactPage>("GET", apiPath(groupId, query)),
     placeholderData: keepPreviousData,
+  });
+}
+
+/** One Contact of the Group with its Attributes and Tags (R-014-06). */
+export function useContact(groupId: string, contactId: string) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", contactId],
+    queryFn: () => apiRequest<Contact>("GET", `/groups/${groupId}/contacts/${contactId}`),
   });
 }

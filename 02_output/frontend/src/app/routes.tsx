@@ -3,6 +3,7 @@ import { GuestOnly, RequireAuth } from "../auth/RequireAuth";
 import { SignInPage } from "../features/account/SignInPage";
 import { SignUpPage } from "../features/account/SignUpPage";
 import { VerifyEmailPage } from "../features/account/VerifyEmailPage";
+import { ContactDetailsPage } from "../features/contacts/ContactDetailsPage";
 import { ContactListPage } from "../features/contacts/ContactListPage";
 import { NewContactPage } from "../features/contacts/NewContactPage";
 import { CreateGroupPage } from "../features/groups/CreateGroupPage";
@@ -51,6 +52,7 @@ export const routes: RouteObject[] = [
         children: [
           { path: "contacts", element: <ContactListPage /> },
           { path: "contacts/new", element: <NewContactPage /> },
+          { path: "contacts/:contactId", element: <ContactDetailsPage /> },
         ],
       },
       { path: "*", element: <NotFoundPage /> },

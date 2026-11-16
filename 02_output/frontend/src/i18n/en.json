@@ -152,6 +152,14 @@
       "previous": "Previous",
       "next": "Next",
       "pageOf": "Page {{page}} of {{pages}}"
+    },
+    "details": {
+      "history": "History",
+      "attributes": "Attributes",
+      "tags": "Tags",
+      "noAttributes": "No Attributes.",
+      "noTags": "No Tags.",
+      "version": "Version {{number}} · {{at}}"
     }
   }
 }
