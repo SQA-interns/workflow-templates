@@ -45,7 +45,7 @@ class ContactControllerTest {
     fields.put("lastName", "Novak");
     fields.put("email", null);
     Map<String, String> sent = Map.of("firstName", "Janez", "lastName", "Novak");
-    when(contacts.create(GROUP_ID, MARKO_ID, sent))
+    when(contacts.create(GROUP_ID, MARKO_ID, sent, null))
         .thenReturn(
             new ContactView(CONTACT_ID, 1, "active", fields, List.of(), List.of(), NOW, NOW));
 
@@ -72,7 +72,7 @@ class ContactControllerTest {
     fields.put("firstName", "Janez");
     fields.put("city", "Maribor");
     Map<String, String> sent = Map.of("firstName", "Janez", "city", "Maribor");
-    when(contacts.update(GROUP_ID, MARKO_ID, CONTACT_ID, 1, sent))
+    when(contacts.update(GROUP_ID, MARKO_ID, CONTACT_ID, 1, sent, null))
         .thenReturn(
             new ContactView(CONTACT_ID, 2, "active", fields, List.of(), List.of(), NOW, NOW));
 

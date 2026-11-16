@@ -83,7 +83,7 @@ class AttributeRepositoryIT {
     attributes.add(groupId, Attribute.of(maja, "kompetenca", "java"));
     entityManager.flush();
 
-    attributes.deleteOfContact(groupId, janez.getId());
+    attributes.discardOfContact(groupId, janez.getId());
     attributes.add(groupId, Attribute.of(janez, "Kompetenca", "mobilnoProgramiranje"));
 
     assertThat(contactQueries.findAttributes(groupId, janez.getId()))
@@ -97,7 +97,7 @@ class AttributeRepositoryIT {
     attributes.add(groupId, Attribute.of(janez, "kompetenca", "java"));
     entityManager.flush();
 
-    attributes.deleteOfContact(UUID.randomUUID(), janez.getId());
+    attributes.discardOfContact(UUID.randomUUID(), janez.getId());
 
     assertThat(contactQueries.findAttributes(groupId, janez.getId())).hasSize(1);
   }

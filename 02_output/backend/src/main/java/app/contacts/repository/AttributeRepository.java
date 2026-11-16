@@ -19,5 +19,5 @@ public interface AttributeRepository
    */
   @Modifying(flushAutomatically = true)
   @Query("DELETE FROM Attribute a WHERE a.groupId = :groupId AND a.contactId = :contactId")
-  void deleteOfContact(UUID groupId, UUID contactId);
+  void discardOfContact(UUID groupId, UUID contactId);
 }

@@ -75,7 +75,7 @@ public class ContactController {
       @PathVariable UUID groupId,
       @RequestBody ContactWriteRequest body) {
     ContactResponse created =
-        ContactResponse.of(contacts.create(groupId, current.id(), body.fields()));
+        ContactResponse.of(contacts.create(groupId, current.id(), body.fields(), null));
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
@@ -129,6 +129,7 @@ public class ContactController {
       @PathVariable UUID contactId,
       @RequestBody ContactUpdateRequest body) {
     return ContactResponse.of(
-        contacts.update(groupId, current.id(), contactId, body.versionNumber(), body.fields()));
+        contacts.update(
+            groupId, current.id(), contactId, body.versionNumber(), body.fields(), null));
   }
 }
