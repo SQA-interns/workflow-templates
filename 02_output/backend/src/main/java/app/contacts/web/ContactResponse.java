@@ -1,6 +1,8 @@
 package app.contacts.web;
 
+import app.contacts.service.AttributeView;
 import app.contacts.service.ContactView;
+import app.contacts.service.TagView;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -8,8 +10,7 @@ import java.util.SequencedMap;
 import java.util.UUID;
 
 /**
- * A Contact (contract {@code Contact}). Attributes, Tags and Merge links stay empty until US-008,
- * US-009 and US-018 fill them.
+ * A Contact (contract {@code Contact}). The Merge links stay empty until US-018 fills them.
  *
  * @param id the Contact id
  * @param versionNumber the current Version number
@@ -27,8 +28,8 @@ public record ContactResponse(
     int versionNumber,
     String state,
     SequencedMap<String, String> fields,
-    List<Object> attributes,
-    List<Object> tags,
+    List<AttributeView> attributes,
+    List<TagView> tags,
     Instant createdAt,
     Instant updatedAt,
     List<Object> mergedFrom,
@@ -61,8 +62,8 @@ public record ContactResponse(
         contact.versionNumber(),
         contact.state(),
         contact.fields(),
-        List.of(),
-        List.of(),
+        contact.attributes(),
+        contact.tags(),
         contact.createdAt(),
         contact.updatedAt(),
         List.of(),

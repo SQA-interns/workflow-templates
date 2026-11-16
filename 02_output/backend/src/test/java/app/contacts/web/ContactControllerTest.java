@@ -5,12 +5,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.AttributeView;
 import app.contacts.service.ContactPageView;
 import app.contacts.service.ContactQuery;
 import app.contacts.service.ContactQueryService;
 import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactService;
 import app.contacts.service.ContactView;
+import app.contacts.service.TagView;
 import app.contacts.service.UserView;
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -28,6 +30,7 @@ class ContactControllerTest {
   private static final UUID MARKO_ID = UUID.randomUUID();
   private static final UUID GROUP_ID = UUID.randomUUID();
   private static final UUID CONTACT_ID = UUID.randomUUID();
+  private static final UUID TAG_ID = UUID.randomUUID();
   private static final CurrentUser MARKO =
       new CurrentUser(new UserView(MARKO_ID, "marko.kranjc@gmail.com", "Marko Kranjc", "sl"), true);
 
@@ -43,7 +46,8 @@ class ContactControllerTest {
     fields.put("email", null);
     Map<String, String> sent = Map.of("firstName", "Janez", "lastName", "Novak");
     when(contacts.create(GROUP_ID, MARKO_ID, sent))
-        .thenReturn(new ContactView(CONTACT_ID, 1, "active", fields, NOW, NOW));
+        .thenReturn(
+            new ContactView(CONTACT_ID, 1, "active", fields, List.of(), List.of(), NOW, NOW));
 
     ResponseEntity<ContactResponse> created =
         controller.create(MARKO, GROUP_ID, new ContactWriteRequest(sent));
@@ -85,10 +89,22 @@ class ContactControllerTest {
     SequencedMap<String, String> fields = new LinkedHashMap<>();
     fields.put("firstName", "Janez");
     when(contacts.get(GROUP_ID, MARKO_ID, CONTACT_ID))
-        .thenReturn(new ContactView(CONTACT_ID, 2, "active", fields, NOW, NOW));
+        .thenReturn(
+            new ContactView(
+                CONTACT_ID,
+                2,
+                "active",
+                fields,
+                List.of(new AttributeView("kompetenca", "spletnoProgramiranje")),
+                List.of(new TagView(TAG_ID, "udelezenec2025")),
+                NOW,
+                NOW));
 
     ContactResponse contact = controller.get(MARKO, GROUP_ID, CONTACT_ID);
 
+    assertThat(contact.attributes())
+        .containsExactly(new AttributeView("kompetenca", "spletnoProgramiranje"));
+    assertThat(contact.tags()).containsExactly(new TagView(TAG_ID, "udelezenec2025"));
     assertThat(contact.id()).isEqualTo(CONTACT_ID);
     assertThat(contact.versionNumber()).isEqualTo(2);
     assertThat(contact.fields()).containsEntry("firstName", "Janez");

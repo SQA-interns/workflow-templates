@@ -3,6 +3,7 @@ package app.contacts.service;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
+import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
 import java.time.Clock;
 import java.util.List;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ContactService {
 
   private final ContactRepository contacts;
+  private final ContactQueryRepository contactQueries;
   private final VersionWriter versionWriter;
   private final AccessGuard guard;
   private final ContactValidator validator;
@@ -26,6 +28,7 @@ public class ContactService {
    * The service.
    *
    * @param contacts the Contact repository
+   * @param contactQueries reads Attributes and Tags for the details
    * @param versionWriter writes the Version of every change
    * @param guard the access check
    * @param validator checks the Fields
@@ -34,12 +37,14 @@ public class ContactService {
    */
   public ContactService(
       ContactRepository contacts,
+      ContactQueryRepository contactQueries,
       VersionWriter versionWriter,
       AccessGuard guard,
       ContactValidator validator,
       Normaliser normaliser,
       Clock clock) {
     this.contacts = contacts;
+    this.contactQueries = contactQueries;
     this.versionWriter = versionWriter;
     this.guard = guard;
     this.validator = validator;
@@ -75,7 +80,7 @@ public class ContactService {
             clock.instant());
     contacts.add(groupId, contact);
     versionWriter.record(contact, ContactVersion.CREATED, ContactFields.EMPTY);
-    return ContactView.of(contact);
+    return ContactView.of(contact, List.of(), List.of());
   }
 
   /**
@@ -101,7 +106,8 @@ public class ContactService {
   }
 
   /**
-   * One Contact of the Group, for its details (R-014-06); any Member may read it.
+   * One Contact of the Group with its Attributes and Tags, for its details (R-014-06); any Member
+   * may read it.
    *
    * @param groupId the Group
    * @param userId the signed-in User
@@ -112,9 +118,16 @@ public class ContactService {
   @Transactional(readOnly = true)
   public ContactView get(UUID groupId, UUID userId, UUID contactId) {
     guard.require(groupId, userId, Permission.READ);
-    return contacts
-        .findByGroupIdAndId(groupId, contactId)
-        .map(ContactView::of)
-        .orElseThrow(NotFoundException::new);
+    Contact contact =
+        contacts.findByGroupIdAndId(groupId, contactId).orElseThrow(NotFoundException::new);
+    List<AttributeView> attributes =
+        contactQueries.findAttributes(groupId, contactId).stream()
+            .map(row -> new AttributeView(row.key(), row.value()))
+            .toList();
+    List<TagView> tags =
+        contactQueries.findTags(groupId, List.of(contactId)).stream()
+            .map(row -> new TagView(row.tagId(), row.name()))
+            .toList();
+    return ContactView.of(contact, attributes, tags);
   }
 }

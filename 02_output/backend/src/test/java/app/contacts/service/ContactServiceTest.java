@@ -10,9 +10,12 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import app.contacts.domain.Contact;
+import app.contacts.domain.ContactAttributeRow;
 import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactTagRow;
 import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Role;
+import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -36,9 +39,11 @@ class ContactServiceTest {
   private final ContactRepository contacts = mock(ContactRepository.class);
   private final VersionWriter versionWriter = mock(VersionWriter.class);
   private final AccessGuard guard = mock(AccessGuard.class);
+  private final ContactQueryRepository contactQueries = mock(ContactQueryRepository.class);
   private final ContactService service =
       new ContactService(
           contacts,
+          contactQueries,
           versionWriter,
           guard,
           new ContactValidator(),
@@ -64,6 +69,8 @@ class ContactServiceTest {
     assertThat(created.versionNumber()).isEqualTo(1);
     assertThat(created.state()).isEqualTo("active");
     assertThat(created.fields()).containsEntry("lastName", "Novak").containsEntry("email", null);
+    assertThat(created.attributes()).isEmpty();
+    assertThat(created.tags()).isEmpty();
     assertThat(created.createdAt()).isEqualTo(NOW);
     assertThat(created.updatedAt()).isEqualTo(NOW);
   }
@@ -177,8 +184,17 @@ class ContactServiceTest {
     Contact janez = contact(Map.of("firstName", "Janez", "lastName", "Novak"));
     when(contacts.findByGroupIdAndId(GROUP_ID, janez.getId())).thenReturn(Optional.of(janez));
 
+    UUID tag = UUID.randomUUID();
+    when(contactQueries.findAttributes(GROUP_ID, janez.getId()))
+        .thenReturn(List.of(new ContactAttributeRow("kompetenca", "spletnoProgramiranje")));
+    when(contactQueries.findTags(GROUP_ID, List.of(janez.getId())))
+        .thenReturn(List.of(new ContactTagRow(janez.getId(), tag, "udelezenec2025")));
+
     ContactView view = service.get(GROUP_ID, PETRA, janez.getId());
 
+    assertThat(view.attributes())
+        .containsExactly(new AttributeView("kompetenca", "spletnoProgramiranje"));
+    assertThat(view.tags()).containsExactly(new TagView(tag, "udelezenec2025"));
     assertThat(view.id()).isEqualTo(janez.getId());
     assertThat(view.fields()).containsEntry("lastName", "Novak");
   }
