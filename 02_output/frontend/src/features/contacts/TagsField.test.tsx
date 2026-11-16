@@ -75,6 +75,12 @@ async function addTag(name: string) {
   await userEvent.type(screen.getByLabelText("Add a Tag"), `${name}{Enter}`);
 }
 
+/** Puts the text into the Tag box in one change, as the suggestions need only the final text. */
+async function typeInTagBox(text: string) {
+  await userEvent.click(screen.getByRole("combobox", { name: "Add a Tag" }));
+  await userEvent.paste(text);
+}
+
 async function save() {
   await userEvent.click(screen.getByRole("button", { name: "Save" }));
 }
@@ -138,7 +144,7 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     answer(janez(), ["udelezenec2025"]);
     await editJanez();
 
-    await userEvent.type(screen.getByRole("combobox", { name: "Add a Tag" }), "udel");
+    await typeInTagBox("udel");
 
     expect(await suggestion("udelezenec2025")).toBeTruthy();
     expect(vi.mocked(apiRequest)).toHaveBeenCalledWith("GET", "/groups/g1/tags?q=udel");
@@ -148,7 +154,7 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     answer(janez(), ["udelezenec2025"]);
     await editJanez();
 
-    await userEvent.type(screen.getByLabelText("Add a Tag"), "udel");
+    await typeInTagBox("udel");
     await userEvent.click(await suggestion("udelezenec2025"));
     expect(screen.getByLabelText<HTMLInputElement>("Add a Tag").value).toBe("");
     await save();
@@ -160,7 +166,7 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     answer(janez(), ["udelezenec2025", "udeležba"]);
     await editJanez();
 
-    await userEvent.type(screen.getByLabelText("Add a Tag"), "ude");
+    await typeInTagBox("ude");
     await suggestion("udeležba");
     await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
 
@@ -171,7 +177,7 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     answer(janez("udelezenec2025"), ["udelezenec2025", "udeležba"]);
     await editJanez();
 
-    await userEvent.type(screen.getByLabelText("Add a Tag"), "ude");
+    await typeInTagBox("ude");
 
     await suggestion("udeležba");
     expect(screen.queryByRole("option", { name: "udelezenec2025" })).toBeNull();
@@ -181,7 +187,7 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     answer(janez(), ["udelezenec2025"]);
     await editJanez();
 
-    await userEvent.type(screen.getByLabelText("Add a Tag"), "Udelezenec2025");
+    await typeInTagBox("Udelezenec2025");
     await suggestion("udelezenec2025");
     await userEvent.keyboard("{Enter}");
 
