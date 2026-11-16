@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "id-token-claims.schema.json",
+  "title": "Firebase ID token claims the backend relies on",
+  "description": "Token verification interface (backend ↔ Firebase Authentication, ADR-03). Signature, `aud` = FIREBASE_PROJECT_ID, `iss` = https://securetoken.google.com/<project> and `exp` are checked by the Admin SDK (R-001-02, R-001-03, SR-01). Other claims are ignored.",
+  "type": "object",
+  "required": ["sub", "aud", "iss", "exp", "iat", "email", "email_verified", "firebase"],
+  "properties": {
+    "sub": { "type": "string", "minLength": 1, "maxLength": 128, "description": "Firebase uid → User.firebaseUid" },
+    "aud": { "type": "string" },
+    "iss": { "type": "string" },
+    "exp": { "type": "integer" },
+    "iat": { "type": "integer" },
+    "email": { "type": "string", "maxLength": 254, "description": "→ User.email (R-001-04)" },
+    "email_verified": { "type": "boolean", "description": "false with provider `password` → only GET /api/v1/me (D-16)" },
+    "name": { "type": "string", "description": "→ User.displayName; absent → part of e-mail before @ (Data model)" },
+    "firebase": {
+      "type": "object",
+      "required": ["sign_in_provider"],
+      "properties": { "sign_in_provider": { "type": "string", "enum": ["password", "google.com"] } }
+    }
+  },
+  "examples": [
+    { "sub": "AbC123", "aud": "demo-contacts", "iss": "https://securetoken.google.com/demo-contacts", "exp": 1773400000, "iat": 1773396400, "email": "ana.kovac@example.si", "email_verified": true, "name": "Ana Kovač", "firebase": { "sign_in_provider": "password" } }
+  ]
+}
