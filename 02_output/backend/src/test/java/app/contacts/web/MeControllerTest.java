@@ -1,22 +1,41 @@
 package app.contacts.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.UserService;
 import app.contacts.service.UserView;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class MeControllerTest {
 
+  private static final UUID ID = UUID.randomUUID();
+
+  private final UserService users = mock(UserService.class);
+  private final MeController controller = new MeController(users);
+
   @Test
   void r00104MeShowsTheUserAndWhetherTheEmailIsVerified() {
-    UUID id = UUID.randomUUID();
     CurrentUser ana =
-        new CurrentUser(new UserView(id, "ana.kovac@example.si", "Ana Kovač", "sl"), false);
+        new CurrentUser(new UserView(ID, "ana.kovac@example.si", "Ana Kovač", "sl"), false);
 
-    MeResponse me = new MeController().me(ana);
+    MeResponse me = controller.me(ana);
 
-    assertThat(me).isEqualTo(new MeResponse(id, "ana.kovac@example.si", "Ana Kovač", "sl", false));
+    assertThat(me).isEqualTo(new MeResponse(ID, "ana.kovac@example.si", "Ana Kovač", "sl", false));
+  }
+
+  @Test
+  void r02002PatchMeChangesTheLanguageAndShowsTheChangedUser() {
+    CurrentUser ana =
+        new CurrentUser(new UserView(ID, "ana.kovac@example.si", "Ana Kovač", "sl"), true);
+    when(users.changeLanguage(ID, "en"))
+        .thenReturn(new UserView(ID, "ana.kovac@example.si", "Ana Kovač", "en"));
+
+    MeResponse me = controller.update(ana, new MeUpdate("en"));
+
+    assertThat(me).isEqualTo(new MeResponse(ID, "ana.kovac@example.si", "Ana Kovač", "en", true));
   }
 }
