@@ -24,10 +24,7 @@ export function ContactListControls({
   const { t } = useTranslation();
   const id = useId();
   return (
-    <section
-      aria-label={t("contacts.list.controls")}
-      className="grid gap-4 rounded-lg border border-border bg-surface p-4 md:grid-cols-[2fr_1fr_1fr]"
-    >
+    <div className="grid gap-4 rounded-lg border border-border bg-surface p-4 md:grid-cols-[2fr_1fr_1fr]">
       <div className="flex flex-col gap-1">
         <Label htmlFor={`${id}-search`}>{t("contacts.list.search")}</Label>
         <Input
@@ -65,6 +62,6 @@ export function ContactListControls({
           </NativeSelect>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -129,7 +129,6 @@
         "phone": "Phone",
         "tags": "Tags"
       },
-      "controls": "Search and sort",
       "search": "Search",
       "searchHint": "Name, e-mail, phone, company or city",
       "sortBy": "Sort by",

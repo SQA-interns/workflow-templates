@@ -169,6 +169,13 @@ describe("WF-06 Contact list (US-014)", () => {
     expect(screen.queryByRole("button", { name: "Next" })).toBeNull();
   });
 
+  it("R-014-04 only the search box is labelled Search", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+
+    expect(await screen.findAllByLabelText(/Search/)).toHaveLength(1);
+  });
+
   it("R-014-03 Sort by and Order ask for the whole list in that order", async () => {
     answer("VIEWER", () => pageOf(THREE));
     const router = renderPage(`${LIST}?page=2`);
