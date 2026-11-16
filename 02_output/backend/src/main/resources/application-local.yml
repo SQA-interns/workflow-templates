@@ -1,0 +1,10 @@
+# Local and test defaults allowed by environments.md ("Default allowed?"). DB_PASSWORD still comes from .env.
+spring:
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://postgres:5432/contacts}
+    username: ${DB_USER:contacts}
+app:
+  public-url: ${APP_PUBLIC_URL:http://localhost:8080}
+  firebase:
+    project-id: ${FIREBASE_PROJECT_ID:demo-contacts}
+    auth-emulator-host: ${FIREBASE_AUTH_EMULATOR_HOST:firebase-emulator:9099}

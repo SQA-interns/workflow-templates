@@ -1,0 +1,57 @@
+# Configuration from environment variables (environments.md, ES-01, ADR-05). Secrets have no default.
+spring:
+  application:
+    name: contacts-backend
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate.jdbc.time_zone: UTC
+  flyway:
+    locations: classpath:db/migration
+  jackson:
+    time-zone: UTC
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-exception: false
+  shutdown: graceful
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      probes:
+        enabled: true
+      show-details: never
+
+springdoc:
+  api-docs:
+    path: /api/v1/openapi.json
+  swagger-ui:
+    enabled: false
+
+app:
+  public-url: ${APP_PUBLIC_URL}
+  rate-limit-per-minute: ${RATE_LIMIT_PER_MINUTE:100}
+  firebase:
+    project-id: ${FIREBASE_PROJECT_ID}
+    auth-emulator-host: ${FIREBASE_AUTH_EMULATOR_HOST:}
+    service-account-file: ${FIREBASE_SERVICE_ACCOUNT_FILE:}
+
+logging:
+  level:
+    root: ${LOG_LEVEL:INFO}
