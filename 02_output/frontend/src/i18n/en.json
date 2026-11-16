@@ -33,7 +33,10 @@
     },
     "notFound": "This page cannot be found.",
     "rateLimited": "Too many requests. Try again in a minute.",
-    "internal": "Something went wrong."
+    "internal": "Something went wrong.",
+    "group": {
+      "nameLength": "Enter a name of 1 to 100 characters."
+    }
   },
   "account": {
     "error": {
@@ -69,6 +72,13 @@
       "title": "You have no Groups yet.",
       "body": "A Group keeps the Contacts of one project or company.",
       "create": "Create a Group"
+    },
+    "create": {
+      "title": "Create a Group",
+      "name": "Group name",
+      "hint": "1 to 100 characters, e.g. a project or a company.",
+      "submit": "Create a Group",
+      "cancel": "Cancel"
     }
   }
 }

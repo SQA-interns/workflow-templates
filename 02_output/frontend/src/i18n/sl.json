@@ -33,7 +33,10 @@
     },
     "notFound": "Strani ni mogoče najti.",
     "rateLimited": "Preveč zahtev. Poskusite znova čez minuto.",
-    "internal": "Nekaj je šlo narobe."
+    "internal": "Nekaj je šlo narobe.",
+    "group": {
+      "nameLength": "Vnesite ime z 1 do 100 znaki."
+    }
   },
   "account": {
     "error": {
@@ -69,6 +72,13 @@
       "title": "Nimate še nobene skupine.",
       "body": "Skupina hrani kontakte enega projekta ali podjetja.",
       "create": "Ustvari skupino"
+    },
+    "create": {
+      "title": "Ustvari skupino",
+      "name": "Ime skupine",
+      "hint": "1 do 100 znakov, npr. projekt ali podjetje.",
+      "submit": "Ustvari skupino",
+      "cancel": "Prekliči"
     }
   }
 }
