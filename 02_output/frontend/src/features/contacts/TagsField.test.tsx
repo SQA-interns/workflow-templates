@@ -86,6 +86,11 @@ function sentTags(method: "PUT" | "POST") {
     .map(([, , body]) => (body as { tags: unknown }).tags);
 }
 
+/** A suggested Tag; it is asked 300 ms after the last key, so a busy run may need longer. */
+function suggestion(name: string) {
+  return screen.findByRole("option", { name }, { timeout: 3000 });
+}
+
 function tagsSection() {
   return screen.getByRole("heading", { level: 2, name: "Tags" }).closest("section") as HTMLElement;
 }
@@ -127,6 +132,62 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     await save();
 
     await waitFor(() => expect(sentTags("PUT")).toEqual([["udelezenec2025"]]));
+  });
+
+  it("AC-009-02 typing part of a Tag suggests the Group's Tag", async () => {
+    answer(janez(), ["udelezenec2025"]);
+    await editJanez();
+
+    await userEvent.type(screen.getByRole("combobox", { name: "Add a Tag" }), "udel");
+
+    expect(await suggestion("udelezenec2025")).toBeTruthy();
+    expect(vi.mocked(apiRequest)).toHaveBeenCalledWith("GET", "/groups/g1/tags?q=udel");
+  });
+
+  it("R-009-02 choosing a suggestion adds it", async () => {
+    answer(janez(), ["udelezenec2025"]);
+    await editJanez();
+
+    await userEvent.type(screen.getByLabelText("Add a Tag"), "udel");
+    await userEvent.click(await suggestion("udelezenec2025"));
+    expect(screen.getByLabelText<HTMLInputElement>("Add a Tag").value).toBe("");
+    await save();
+
+    await waitFor(() => expect(sentTags("PUT")).toEqual([["udelezenec2025"]]));
+  });
+
+  it("R-009-02 the arrow keys choose a suggestion and Enter adds it", async () => {
+    answer(janez(), ["udelezenec2025", "udeležba"]);
+    await editJanez();
+
+    await userEvent.type(screen.getByLabelText("Add a Tag"), "ude");
+    await suggestion("udeležba");
+    await userEvent.keyboard("{ArrowDown}{ArrowDown}{Enter}");
+
+    expect(within(tagsSection()).getByRole("button", { name: "Remove udeležba" })).toBeTruthy();
+  });
+
+  it("R-009-02 a Tag the Contact has is not suggested", async () => {
+    answer(janez("udelezenec2025"), ["udelezenec2025", "udeležba"]);
+    await editJanez();
+
+    await userEvent.type(screen.getByLabelText("Add a Tag"), "ude");
+
+    await suggestion("udeležba");
+    expect(screen.queryByRole("option", { name: "udelezenec2025" })).toBeNull();
+  });
+
+  it("AC-009-03 a name in other case takes the spelling of the suggested Tag", async () => {
+    answer(janez(), ["udelezenec2025"]);
+    await editJanez();
+
+    await userEvent.type(screen.getByLabelText("Add a Tag"), "Udelezenec2025");
+    await suggestion("udelezenec2025");
+    await userEvent.keyboard("{Enter}");
+
+    expect(
+      within(tagsSection()).getByRole("button", { name: "Remove udelezenec2025" }),
+    ).toBeTruthy();
   });
 
   it("EX-009-03 a Tag the Contact has is not added twice", async () => {
