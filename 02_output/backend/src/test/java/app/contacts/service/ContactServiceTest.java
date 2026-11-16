@@ -255,7 +255,7 @@ class ContactServiceTest {
         .record(
             eq(janez),
             eq(ContactVersion.EDITED),
-            eq(new ContactContent(before, List.of())),
+            eq(new ContactContent(before, List.of(), List.of())),
             any(ContactContent.class));
     assertThat(saved.versionNumber()).isEqualTo(2);
     assertThat(saved.fields()).containsEntry("email", "janez@novak.si");
@@ -489,9 +489,9 @@ class ContactServiceTest {
             janez,
             ContactVersion.EDITED,
             new ContactContent(
-                janez.getFields(), attributesOf("kompetenca", "spletnoProgramiranje")),
+                janez.getFields(), attributesOf("kompetenca", "spletnoProgramiranje"), List.of()),
             new ContactContent(
-                janez.getFields(), attributesOf("kompetenca", "mobilnoProgramiranje")));
+                janez.getFields(), attributesOf("kompetenca", "mobilnoProgramiranje"), List.of()));
     assertThat(janez.getVersionNumber()).isEqualTo(2);
     assertThat(janez.getUpdatedBy()).isEqualTo(MARKO);
   }

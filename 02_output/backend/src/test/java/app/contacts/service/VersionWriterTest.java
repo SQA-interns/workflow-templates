@@ -40,7 +40,11 @@ class VersionWriterTest {
     for (int i = 0; i < keyValues.length; i += 2) {
       attributes.add(new AttributeView(keyValues[i], keyValues[i + 1]));
     }
-    return new ContactContent(fields, attributes);
+    return new ContactContent(fields, attributes, List.of());
+  }
+
+  private static ContactContent tagged(String... tags) {
+    return new ContactContent(JANEZ, List.of(), List.of(tags));
   }
 
   private ContactVersion written(Contact contact, ContactFields before) {
@@ -193,5 +197,56 @@ class VersionWriterTest {
     assertThat(snapshot.path("attributes").findValuesAsString("key"))
         .containsExactly("cena", "Čas", "drža");
     assertThat(snapshot.path("attributes").get(0).path("value").asString()).isEqualTo("1");
+  }
+
+  @Test
+  void r00901AddedTagIsListedAsTagNameWithTheNameAsNewValue() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
+
+    JsonNode changes =
+        json.readTree(written(contact, tagged(), tagged("udelezenec2025")).getChanges());
+
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).path("item").asString()).isEqualTo("tag:udelezenec2025");
+    assertThat(changes.get(0).path("oldValue").isNull()).isTrue();
+    assertThat(changes.get(0).path("newValue").asString()).isEqualTo("udelezenec2025");
+  }
+
+  @Test
+  void r00901RemovedTagIsListedAsTagNameWithoutNewValue() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
+
+    JsonNode changes =
+        json.readTree(
+            written(contact, tagged("udelezenec2025", "neObvescaj"), tagged("udelezenec2025"))
+                .getChanges());
+
+    assertThat(changes.findValuesAsString("item")).containsExactly("tag:neObvescaj");
+    assertThat(changes.get(0).path("oldValue").asString()).isEqualTo("neObvescaj");
+    assertThat(changes.get(0).path("newValue").isNull()).isTrue();
+  }
+
+  @Test
+  void r00901TagItemsFollowTheAttributeItems() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
+    ContactContent after =
+        new ContactContent(JANEZ, List.of(new AttributeView("kompetenca", "java")), List.of("vip"));
+
+    JsonNode changes = json.readTree(written(contact, tagged(), after).getChanges());
+
+    assertThat(changes.findValuesAsString("item"))
+        .containsExactly("attribute:kompetenca", "tag:vip");
+  }
+
+  @Test
+  void r00901SnapshotHoldsTheTagNamesAtoZ() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
+
+    JsonNode snapshot =
+        json.readTree(
+            written(contact, tagged(), tagged("vip", "Čebelar", "aktiven")).getSnapshot());
+
+    assertThat(snapshot.path("tags").valueStream().map(JsonNode::asString))
+        .containsExactly("aktiven", "Čebelar", "vip");
   }
 }

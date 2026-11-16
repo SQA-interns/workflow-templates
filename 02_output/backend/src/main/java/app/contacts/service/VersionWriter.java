@@ -24,6 +24,9 @@ public class VersionWriter {
   /** The prefix of an Attribute's changed item (contract {@code Change}). */
   private static final String ATTRIBUTE = "attribute:";
 
+  /** The prefix of a Tag's changed item (contract {@code Change}). */
+  private static final String TAG = "tag:";
+
   private final ContactVersionRepository versions;
 
   /**
@@ -37,8 +40,9 @@ public class VersionWriter {
 
   /**
    * Writes the Version of the Contact's current Version number with the items that differ between
-   * {@code before} and {@code after} (Fields, then Attributes as {@code attribute:<key>}, R-008-01)
-   * and the full content after the change, in the Contact's transaction (AR-08).
+   * {@code before} and {@code after} (Fields, then Attributes as {@code attribute:<key>}, R-008-01,
+   * then Tags as {@code tag:<name>}, R-009-01) and the full content after the change, in the
+   * Contact's transaction (AR-08).
    *
    * @param contact the Contact after the change
    * @param kind the kind, e.g. {@link ContactVersion#CREATED}
@@ -50,7 +54,8 @@ public class VersionWriter {
     List<Change> changes = new ArrayList<>();
     changes.addAll(changed(before.fields().byName(), fields, ""));
     changes.addAll(changed(byKey(before), byKey(after), ATTRIBUTE));
-    Snapshot snapshot = new Snapshot(fields, after.attributes(), List.of());
+    changes.addAll(changed(byName(before), byName(after), TAG));
+    Snapshot snapshot = new Snapshot(fields, after.attributes(), after.tags());
     versions.add(
         contact.getGroupId(),
         ContactVersion.of(
@@ -72,6 +77,13 @@ public class VersionWriter {
     SequencedMap<String, String> attributes = new LinkedHashMap<>();
     content.attributes().forEach(attribute -> attributes.put(attribute.key(), attribute.value()));
     return attributes;
+  }
+
+  /** Each Tag name to itself: an added Tag has the name as new value, a removed one as old. */
+  private static SequencedMap<String, String> byName(ContactContent content) {
+    SequencedMap<String, String> tags = new LinkedHashMap<>();
+    content.tags().forEach(tag -> tags.put(tag, tag));
+    return tags;
   }
 
   /** One changed item of a Version (Data model "changes"). */

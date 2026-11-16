@@ -97,7 +97,7 @@ public class ContactService {
             userId,
             clock.instant());
     contacts.add(groupId, contact);
-    ContactContent content = new ContactContent(checked, checkedAttributes);
+    ContactContent content = new ContactContent(checked, checkedAttributes, List.of());
     store(contact, content.attributes());
     versionWriter.record(contact, ContactVersion.CREATED, ContactContent.EMPTY, content);
     return view(contact);
@@ -182,10 +182,11 @@ public class ContactService {
         contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
     requireCurrent(contact, versionNumber);
     requireActive(contact);
-    ContactContent before = new ContactContent(contact.getFields(), attributesOf(contact));
+    ContactContent before =
+        new ContactContent(contact.getFields(), attributesOf(contact), List.of());
     ContactContent after =
         new ContactContent(
-            edited, editedAttributes == null ? before.attributes() : editedAttributes);
+            edited, editedAttributes == null ? before.attributes() : editedAttributes, List.of());
     if (after.equals(before)) {
       throw new ConflictException("contact.noChanges", Map.of());
     }
