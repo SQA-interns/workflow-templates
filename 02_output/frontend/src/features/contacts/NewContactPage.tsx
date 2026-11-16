@@ -5,7 +5,9 @@ import { useCreateContact, useEmailMatches } from "../../api/contacts";
 import { isEmailAddress } from "./contactFields";
 import { ContactForm } from "./ContactForm";
 
-/** WF-08 Add a Contact (US-006): saving opens the Group's Contact list, where it is listed. */
+/**
+ * WF-08 Add a Contact (US-006, US-008): saving opens the Group's Contact list, where it is listed.
+ */
 export function NewContactPage() {
   const { t } = useTranslation();
   const { groupId = "" } = useParams();
@@ -27,8 +29,11 @@ export function NewContactPage() {
       backTo={contactList}
       busy={createContact.isPending}
       error={createContact.error}
-      onSave={(fields) =>
-        createContact.mutate(fields, { onSuccess: () => void navigate(contactList) })
+      onSave={(fields, attributes) =>
+        createContact.mutate(
+          { fields, attributes },
+          { onSuccess: () => void navigate(contactList) },
+        )
       }
       onCancel={() => void navigate(contactList)}
       onEmailLeave={lookUp}

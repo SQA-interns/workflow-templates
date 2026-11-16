@@ -16,8 +16,10 @@ import {
   type FieldValues,
   valuesOf,
 } from "./contactFields";
+import { type AttributeProblem, type AttributeRow, checkAttributes } from "./attributes";
+import { attributeControlId, AttributesField, editable } from "./AttributesField";
 import { ContactFieldInput, type FieldProps } from "./ContactFieldInput";
-import { isProblem, problemsOfError, problemText } from "./fieldMessages";
+import { attributeProblemText, isProblem, problemsOfError, problemText } from "./fieldMessages";
 
 /** Hints under a Field (WF-08): the limits a User may run into. */
 const HINTS = new Map<FieldName, { key: string; max?: number }>([
@@ -30,11 +32,13 @@ interface ContactFormProps {
   title: string;
   /** The saved Fields to edit; an empty form without them. */
   initial?: ContactFields;
+  /** The saved Attributes to edit, by key A–Z (R-008-06); none without them. */
+  initialAttributes?: AttributeRow[];
   backTo: string;
   busy: boolean;
   /** The error of the last save, if it failed. */
   error: unknown;
-  onSave: (fields: ContactFields) => void;
+  onSave: (fields: ContactFields, attributes: AttributeRow[]) => void;
   onCancel: () => void;
   /** Called with the e-mail when the User leaves its box (R-006-06); no lookup without it. */
   onEmailLeave?: (email: string) => void;
@@ -44,10 +48,11 @@ interface ContactFormProps {
   onReload?: () => void;
 }
 
-/** WF-08 Contact form: the Fields in form order with inline errors (UI-13). */
+/** WF-08 Contact form: the Fields in form order and the Attributes, with inline errors (UI-13). */
 export function ContactForm({
   title,
   initial,
+  initialAttributes,
   backTo,
   busy,
   error,
@@ -63,9 +68,13 @@ export function ContactForm({
   const [values, setValues] = useState(
     () => new Map(Object.entries(initial ? valuesOf(initial) : emptyFields())),
   );
+  const [attributes, setAttributes] = useState(() => (initialAttributes ?? []).map(editable));
   const [problems, setProblems] = useState<FieldProblem[]>([]);
+  const [attributeProblems, setAttributeProblems] = useState<AttributeProblem[]>([]);
   const server = problemsOfError(error);
-  const shown = problems.length > 0 || !error ? problems : server.fields;
+  const ownProblems = problems.length + attributeProblems.length > 0 || !error;
+  const shown = ownProblems ? problems : server.fields;
+  const shownAttributes = ownProblems ? attributeProblems : server.attributes;
   const nameProblem = shown.find((p) => p.field === "name");
   const general = nameProblem
     ? problemText(t, language, nameProblem)
@@ -79,14 +88,24 @@ export function ContactForm({
   function submit(event: FormEvent) {
     event.preventDefault();
     const checked = checkFields(Object.fromEntries(values) as FieldValues);
+    const checkedAttributes = checkAttributes(attributes);
     setProblems(checked.problems);
+    setAttributeProblems(checkedAttributes.problems);
     const [first] = checked.problems;
+    const [firstOfAttributes] = checkedAttributes.problems;
     if (first) {
       const focus = first.field === "name" ? "firstName" : first.field;
       document.getElementById(`${id}-${focus}`)?.focus();
-      return;
+    } else if (firstOfAttributes) {
+      document.getElementById(attributeControlId(id, firstOfAttributes.field))?.focus();
+    } else {
+      onSave(checked.trimmed, checkedAttributes.trimmed);
     }
-    onSave(checked.trimmed);
+  }
+
+  function attributeError(field: string): string | undefined {
+    const problem = shownAttributes.find((p) => p.field === field);
+    return problem && attributeProblemText(t, problem);
   }
 
   function field(name: FieldName): FieldProps {
@@ -136,6 +155,12 @@ export function ContactForm({
         </div>
         <p className="text-sm text-text-muted">{t("contacts.hint.name")}</p>
       </Card>
+      <AttributesField
+        idPrefix={id}
+        rows={attributes}
+        onChange={setAttributes}
+        errorOf={attributeError}
+      />
       <div className="flex flex-wrap items-center gap-2">
         <Button type="submit" disabled={busy} aria-busy={busy}>
           {t("contacts.save")}

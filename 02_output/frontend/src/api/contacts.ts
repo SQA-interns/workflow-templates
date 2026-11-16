@@ -1,4 +1,5 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { AttributeRow } from "../features/contacts/attributes";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiPath, type ListQuery } from "../features/contacts/listQuery";
 import { apiRequest } from "./apiClient";
@@ -27,34 +28,38 @@ export interface Contact {
   versionNumber: number;
   state: "active" | "inRecycleBin" | "merged";
   fields: ContactFields;
-  attributes: { key: string; value: string }[];
+  attributes: AttributeRow[];
   tags: Tag[];
   updatedAt: string;
 }
 
-/** Adds a Contact to the Group (R-006-01); Attributes and Tags follow with US-008 and US-009. */
+/** Adds a Contact with its Attributes to the Group (R-006-01, R-008-01); Tags follow with US-009. */
 export function useCreateContact(groupId: string) {
   return useMutation({
-    mutationFn: (fields: ContactFields) =>
-      apiRequest<Contact>("POST", `/groups/${groupId}/contacts`, {
-        fields,
-        attributes: [],
-        tags: [],
-      }),
+    mutationFn: ({ fields, attributes }: { fields: ContactFields; attributes: AttributeRow[] }) =>
+      apiRequest<Contact>("POST", `/groups/${groupId}/contacts`, { fields, attributes, tags: [] }),
   });
 }
 
 /**
- * Saves edited Fields of the Contact as read (R-007-01); its Attributes and Tags are sent unchanged
- * until US-008 and US-009 edit them. The saved Contact replaces the one read, and lists read again.
+ * Saves edited Fields and Attributes of the Contact as read (R-007-01, R-008-01); its Tags are sent
+ * unchanged until US-009 edits them. The saved Contact replaces the one read, and lists read again.
  */
 export function useUpdateContact(groupId: string, contactId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({ read, fields }: { read: Contact; fields: ContactFields }) =>
+    mutationFn: ({
+      read,
+      fields,
+      attributes,
+    }: {
+      read: Contact;
+      fields: ContactFields;
+      attributes: AttributeRow[];
+    }) =>
       apiRequest<Contact>("PUT", `/groups/${groupId}/contacts/${contactId}`, {
         fields,
-        attributes: read.attributes.map(({ key, value }) => ({ key, value })),
+        attributes: attributes.map(({ key, value }) => ({ key, value })),
         tags: read.tags.map((tag) => tag.name),
         versionNumber: read.versionNumber,
       }),
