@@ -419,3 +419,47 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-39: Frozen tests of US-001 set up data through US-002 and US-020
+- Timestamp: 2026-11-16T12:40+01:00
+- Session: S5 /implement US-001
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01 needs every frozen test of US-001 to pass. Seven of the nine API tests (`Us001SignInAcceptanceIT` AC-001-01 … 04, 06, EX-001-02, EX-001-04) create a Group (`POST /groups`) or list Groups (`GET /groups`, 200) as setup or as part of the assertion; both endpoints are task T-07 of US-002. Four of the six UI tests (AC-001-01, AC-001-06, EX-001-01, EX-001-05) switch the User to English with `PATCH /me` (D-37), which is task T-06 of US-020; AC-001-06 also creates a Group. `/implement` must not build another story's code (skill "Must not"). Run of this session: these tests fail only at those calls (`POST /groups` 404 `notFound`, `PATCH /me` not 200); logs `out/logs/implement-us001-backend-full.txt`, `out/logs/implement-us001-ui-final.txt`.
+- Options: 1. Build US-001 to its tasks T-01 … T-05 only; the dependent frozen tests turn green with `/implement US-020` (next) and `/implement US-002`, which re-check them; US-001 keeps status "in progress" until they pass (default). 2. Build the needed parts of T-06 and T-07 now (crosses story boundaries; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-40: Frozen UI tests find the e-mail field as the only textbox, but Playwright counts the password field as a textbox
+- Timestamp: 2026-11-16T12:40+01:00
+- Session: S5 /implement US-001
+- Class: open
+- Type: approval
+- Trigger: The frozen helper `frontend/acceptance/support/stack.ts:16` (`signIn`, used by about 28 UI and e2e test files), `acceptance/us001-sign-in.spec.ts:25, 111, 119` and `e2e/e2e-01-sign-up-to-excel.spec.ts:20` fill the e-mail with `page.getByRole("textbox")` (D-37: without language). Playwright 1.56.1 gives `<input type="password">` the implicit role `textbox` (`playwright-core` role table: every `input` type not listed is `textbox`), so on WF-01 and WF-02, which show e-mail and password as the approved wireframes require, the locator resolves to two elements and fails in strict mode ("strict mode violation: getByRole('textbox') resolved to 2 elements"). No accessible form can satisfy it: the only ways are a wrong ARIA role on the password field or hiding the password field until an e-mail is typed (both against UI-19 … 21 and the wireframes). The behaviour itself works: a script that finds the e-mail field by `input[type="email"]` passed AC-001-01 (up to the US-020 step), AC-001-05, AC-001-06, EX-001-01 and EX-001-05 on the local stack (this session).
+- Options: 1. Change the five frozen locators to `page.locator('input[type="email"]')` (language-free like the password locator next to them), in one `test:` commit with a new `docs/03_acceptance-manifest.sha256`, made by the session the human names (default). 2. Keep the tests and give the password field an explicit non-textbox role (breaks accessibility; rejected). 3. Other (state it).
+- Human response: none
+- Resolution: pending (approval needed)
+- Overrides: none
+
+## D-41: SpotBugs/FindSecBugs findings that remain in the US-001 code
+- Timestamp: 2026-11-16T12:40+01:00
+- Session: S5 /implement US-001
+- Class: open
+- Type: approval
+- Trigger: `./mvnw spotbugs:check` (threshold Low, D-30) reports three Low findings after three others were fixed in code (commit `3ee361e`): `SERVLET_HEADER` in `auth/FirebaseTokenFilter` (the ID token must be read from the `Authorization` header; it is verified for signature, project and expiry before use, ADR-03, SR-01); `SE_TRANSIENT_FIELD_NOT_RESTORED` in `service/ValidationException` (service exceptions are never serialised; their data goes only into the HTTP problem); `SPRING_ENDPOINT` in `web/MeController` (informational marker that every controller will get; access is enforced by `SecurityConfig` and `AccessGuard`). Adding the exclusions to `backend/spotbugs-exclude.xml` was refused by the tool's permission check in this session, so the change waits for the human; until then `spotbugs:check` fails (DoD-S-03 open). Log `out/logs/implement-us001-backend-check.txt`.
+- Options: 1. Exclude exactly these three patterns (`SERVLET_HEADER` for `FirebaseTokenFilter`, `SE_TRANSIENT_FIELD_NOT_RESTORED` for package `app.contacts.service`, `SPRING_ENDPOINT` for package `app.contacts.web`), each with its reason in `spotbugs-exclude.xml` (default). 2. Exclude only `SERVLET_HEADER` and `SE_TRANSIENT_FIELD_NOT_RESTORED`, and accept a `SPRING_ENDPOINT` exclusion per controller as each story adds one. 3. Other (state it).
+- Human response: none
+- Resolution: pending (approval needed)
+- Overrides: none
+
+## D-42: Texts and limits of US-001 not stated in the inputs
+- Timestamp: 2026-11-16T12:40+01:00
+- Session: S5 /implement US-001
+- Class: open
+- Type: non-blocking
+- Trigger: (a) Firebase answers `auth/weak-password` for a password below its default rule (US-001 "Out of scope": Firebase defaults); the story has no message for it. (b) A token without a name gives the display name "e-mail local part" (specification §4); a name longer than 100 characters does not fit `app_user.display_name` (`V1__schema.sql`, `Me.displayName` maxLength 100). (c) The Slovenian texts of WF-01, WF-02, WF-03 and WF-05 are not in the inputs (D-37; specification §5: "Slovenian texts are written with the screen").
+- Options: 1. (a) [ASSUMPTION] "The password must have at least 6 characters." / "Geslo mora imeti vsaj 6 znakov." (Firebase's default minimum); (b) cut the display name to its first 100 characters; (c) Slovenian texts as in `frontend/src/i18n/sl.json`, the Google button keeps the brand name "Google" (D-37) (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
