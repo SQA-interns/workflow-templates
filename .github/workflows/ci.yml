@@ -1,0 +1,82 @@
+# CI (ES-14): every component's build, test and check commands (ES-05) and the security scanners on every push.
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 02_output/backend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "21.0.13"
+          cache: maven
+      - name: check
+        run: ./mvnw -B -DskipTests test-compile spotless:check checkstyle:check spotbugs:check
+      - name: test
+        run: ./mvnw -B verify
+      - name: build
+        run: ./mvnw -B -DskipTests package
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: backend-reports
+          path: |
+            02_output/backend/target/site/jacoco/
+            02_output/backend/target/surefire-reports/
+            02_output/backend/target/failsafe-reports/
+
+  frontend:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: 02_output/frontend
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22.23.3"
+          cache: npm
+          cache-dependency-path: 02_output/frontend/package-lock.json
+      - name: install
+        run: npm ci --no-audit --no-fund
+      - name: check
+        run: npm run check
+      - name: test
+        run: npm test
+      - name: build
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: frontend-coverage
+          path: 02_output/frontend/coverage/
+
+  scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: dependency scan (Trivy, product dependencies, Critical/High fail; D-13)
+        run: >
+          docker run --rm -v "$PWD:/src:ro" aquasec/trivy:0.67.2 fs --scanners vuln
+          --severity CRITICAL,HIGH --exit-code 1 /src/02_output
+      - name: secret scan (gitleaks)
+        run: >
+          docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.28.0 git /repo
+          --redact --exit-code 1
