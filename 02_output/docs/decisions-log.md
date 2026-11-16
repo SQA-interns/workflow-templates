@@ -496,3 +496,36 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-46: Frozen tests of US-002 need Contacts, the Contact list and the Group recycle bin
+- Timestamp: 2026-11-16T15:25+01:00
+- Session: S5 /implement US-002
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01 needs every frozen test of US-002 to pass. API `Us002GroupsAcceptanceIT` passes 7/10: AC-002-01 reads the Contact list (`GET /groups/{id}/contacts`, T-11 of US-014), AC-002-02 adds Contacts (`POST /groups/{id}/contacts`, T-09 of US-006), EX-002-06 moves the Group to the recycle bin (`POST /groups/{id}/move-to-recycle-bin`, US-003); each fails only at that call (404 `notFound`). UI `us002-groups.spec.ts` passes 2/5 (AC-002-04, AC-002-05): AC-002-01 fails only at "No Contacts yet." (WF-06 empty state, T-12 of US-014), AC-002-02 at `POST …/contacts`, EX-002-06 at `move-to-recycle-bin`. Logs `out/logs/implement-us002-backend-full.txt`, `out/logs/implement-us002-ui-acceptance.txt`. R-002-04 needs a route for the Contact list of a Group, but WF-06 is task T-12 of US-014.
+- Options: 1. Build US-002 to T-07 and T-08 only; `/groups/:groupId/contacts` shows the WF-06 heading ("Kontakti" / "Contacts", `ContactListPlaceholder` in `F/app/pages.tsx`) until US-014 replaces it with `ContactListPage`; US-002 stays "in progress" until `/implement US-006`, `/implement US-014` and `/implement US-003` re-run both US-002 suites and set it to done when they pass (as D-39, D-44) (default). 2. Build the Contact endpoints, WF-06 and the Group recycle bin now (crosses story boundaries; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-47: Details of creating and switching Groups not stated in the inputs
+- Timestamp: 2026-11-16T15:25+01:00
+- Session: S5 /implement US-002
+- Class: open
+- Type: non-blocking
+- Trigger: WF-04, the Group switcher of WF-06 and R-002-02 … R-002-05 leave open: how the length of a name is counted, the storage key of the Group selected last, the switcher's accessible name, its contents outside a Group and without Groups, the answer to a malformed Group id, and the Slovenian wording.
+- Options: 1. [ASSUMPTION] (a) the name length counts characters (Unicode code points, as PostgreSQL `varchar(100)`), checked in the browser before sending and on the server; (b) the Group selected last is kept in `localStorage` under `contacts.lastGroup.<User id>` (specification §4 US-002, D-22); blocked storage only forgets it; (c) the switcher button is named "Group switcher: <name>" / "Izbira skupine: <name>" and shows the name, its list holds links to the Groups in the order of `GET /groups` (current one marked with `aria-current` and a check), then "Create a Group"; outside a Group it shows the Group selected last (else the first); without Groups it is hidden, as the WF-05 header draws it; (d) an id in the path that is not a UUID is answered 404 `notFound` like any unknown item (BR-02), not 500; (e) Slovenian texts: "Ustvari skupino", "Ime skupine", "1 do 100 znakov, npr. projekt ali podjetje.", "Prekliči", "Vnesite ime z 1 do 100 znaki."; (f) on mobile the header wraps as WF-04 mobile: logo and switcher, then menu button and user menu (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-48: The user menu stays open after choosing a language (US-020)
+- Timestamp: 2026-11-16T15:25+01:00
+- Session: S5 /implement US-002
+- Class: open
+- Type: non-blocking
+- Trigger: With Groups available, the frozen UI test AC-020-02 (`us020-language.spec.ts`) now gets past `POST /groups` and switches to English, but then `signOut` (`acceptance/support/stack.ts`) clicks the "Ana Kovač" button to open the user menu, which is still open after the language choice, so the click closes it and "Sign out" is not found (timeout; page snapshot in the run of `out/logs/implement-us002-ui-acceptance.txt`). The defect is in `F/app/UserMenu.tsx` (task T-06 of US-020): choosing a language does not close the menu. `/implement US-002` must not change another story's code.
+- Options: 1. Fix it in US-020's scope: choosing a language closes the user menu (like Sign out), as its own `fix:` commit with a unit test in `UserMenu.test.tsx`, done by the next session that works on US-020 (`/implement US-014` or `/implement US-010`, which re-run `us020-language.spec.ts`, D-44) or by `/fix` after `/review INC-1` (default). 2. Fix it now in US-002 (crosses story boundaries; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
