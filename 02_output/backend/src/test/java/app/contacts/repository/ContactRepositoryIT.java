@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Group;
 import app.contacts.domain.User;
 import jakarta.persistence.EntityManager;
@@ -21,7 +22,7 @@ import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.testcontainers.postgresql.PostgreSQLContainer;
 
-/** Contacts in PostgreSQL, always within one Group (AR-04, ADR-02, ADR-07). */
+/** Contacts and their Versions in PostgreSQL, always within one Group (AR-04, ADR-02, ADR-07). */
 @DataJpaTest(properties = "spring.flyway.enabled=true")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class ContactRepositoryIT {
@@ -49,6 +50,7 @@ class ContactRepositoryIT {
           "Govornik");
 
   @Autowired private ContactRepository contacts;
+  @Autowired private ContactVersionRepository versions;
   @Autowired private GroupRepository groups;
   @Autowired private UserRepository users;
   @Autowired private EntityManager entityManager;
@@ -97,5 +99,37 @@ class ContactRepositoryIT {
         .isInstanceOf(InvalidDataAccessApiUsageException.class);
     entityManager.flush();
     assertThat(jdbc.queryForObject("SELECT count(*) FROM contact", Integer.class)).isZero();
+  }
+
+  @Test
+  void r00601StoresTheVersionWithItsChangesAndSnapshot() {
+    Contact contact = Contact.create(groupId, ZIGA, "ziga", "Čuk", marko, NOW);
+    contacts.add(groupId, contact);
+
+    versions.add(
+        groupId,
+        ContactVersion.of(
+            contact,
+            ContactVersion.CREATED,
+            "[{\"item\":\"firstName\",\"oldValue\":null,\"newValue\":\"Žiga\"}]",
+            "{\"fields\":{\"firstName\":\"Žiga\"},\"attributes\":[],\"tags\":[]}"));
+    entityManager.flush();
+
+    Map<String, Object> row =
+        jdbc.queryForMap(
+            """
+            SELECT group_id, number, kind, changed_by, changed_at,
+                   changes -> 0 ->> 'newValue' AS first_change,
+                   snapshot -> 'fields' ->> 'firstName' AS first_name
+            FROM contact_version WHERE contact_id = ?
+            """,
+            contact.getId());
+    assertThat(row)
+        .containsEntry("group_id", groupId)
+        .containsEntry("number", 1)
+        .containsEntry("kind", "created")
+        .containsEntry("changed_by", marko)
+        .containsEntry("first_change", "Žiga")
+        .containsEntry("first_name", "Žiga");
   }
 }
