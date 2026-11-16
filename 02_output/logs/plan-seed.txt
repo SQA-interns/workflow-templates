@@ -1,0 +1,1 @@
+Seed loaded: ana.kovac@example.si (Owner), marko.kranjc@example.si (Editor), petra.horvat@example.si (Viewer)
