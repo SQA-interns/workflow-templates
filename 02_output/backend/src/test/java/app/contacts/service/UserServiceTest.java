@@ -1,6 +1,7 @@
 package app.contacts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.test.util.ReflectionTestUtils;
 
 class UserServiceTest {
 
@@ -85,5 +87,16 @@ class UserServiceTest {
     UserView ana = service.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač");
 
     assertThat(ana.id()).isEqualTo(createdByTheOtherRequest.getId());
+  }
+
+  @Test
+  void d20DeletedUserIsRefusedAndNeverCreatedAgain() {
+    User deleted = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    ReflectionTestUtils.setField(deleted, "deletedAt", NOW);
+    when(users.findByFirebaseUid("uid-ana")).thenReturn(Optional.of(deleted));
+
+    assertThatThrownBy(() -> service.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
+        .isInstanceOf(UserDeletedException.class);
+    verify(users, never()).saveAndFlush(any(User.class));
   }
 }

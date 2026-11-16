@@ -7,6 +7,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import app.contacts.service.UserDeletedException;
 import app.contacts.service.UserService;
 import app.contacts.service.UserView;
 import java.util.Optional;
@@ -85,5 +86,69 @@ class FirebaseTokenFilterTest {
       request.addHeader("Authorization", authorization);
     }
     return request;
+  }
+
+  @Test
+  void r00105UnverifiedPasswordAccountMayOnlyReadMe() throws Exception {
+    VerifiedToken unverified =
+        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
+    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
+    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+
+    filter.doFilter(request("GET", "/api/v1/me", "Bearer unverified"), response, chain);
+
+    assertThat(chain.getRequest()).isNotNull();
+    assertThat(response.getStatus()).isEqualTo(200);
+  }
+
+  @Test
+  void r00105UnverifiedPasswordAccountGets403ForEveryOtherRequest() throws Exception {
+    VerifiedToken unverified =
+        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
+    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
+    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+
+    filter.doFilter(request("POST", "/api/v1/groups", "Bearer unverified"), response, chain);
+
+    assertThat(chain.getRequest()).isNull();
+    assertThat(response.getStatus()).isEqualTo(403);
+    assertThat(response.getContentAsString()).contains("\"code\":\"auth.emailNotVerified\"");
+  }
+
+  @Test
+  void r00105UnverifiedPasswordAccountMayNotChangeMe() throws Exception {
+    VerifiedToken unverified =
+        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
+    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
+    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+
+    filter.doFilter(request("PATCH", "/api/v1/me", "Bearer unverified"), response, chain);
+
+    assertThat(response.getStatus()).isEqualTo(403);
+  }
+
+  @Test
+  void r00105UnverifiedGoogleAccountIsNotStopped() throws Exception {
+    VerifiedToken google =
+        new VerifiedToken(
+            "uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", false, "google.com");
+    when(verifier.verify("google")).thenReturn(Optional.of(google));
+    when(users.signIn("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc")).thenReturn(ANA_USER);
+
+    filter.doFilter(request("GET", "/api/v1/groups", "Bearer google"), response, chain);
+
+    assertThat(chain.getRequest()).isNotNull();
+  }
+
+  @Test
+  void d20TokenOfADeletedUserStaysUnauthenticated() throws Exception {
+    when(verifier.verify("deleted")).thenReturn(Optional.of(ANA));
+    when(users.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
+        .thenThrow(new UserDeletedException());
+
+    filter.doFilter(request("GET", "/api/v1/me", "Bearer deleted"), response, chain);
+
+    assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
+    assertThat(chain.getRequest()).isNotNull();
   }
 }

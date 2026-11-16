@@ -6,7 +6,7 @@ import java.time.Clock;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-/** Users: provisioning on the first call (R-001-04). */
+/** Users: provisioning on the first call (R-001-04); deleted Users are refused (D-20). */
 @Service
 public class UserService {
 
@@ -34,10 +34,14 @@ public class UserService {
    * @param email the e-mail of the token
    * @param name the display name of the token, may be null
    * @return the User
+   * @throws UserDeletedException when the User deleted the account (D-20)
    */
   public UserView signIn(String firebaseUid, String email, String name) {
     User user =
         users.findByFirebaseUid(firebaseUid).orElseGet(() -> create(firebaseUid, email, name));
+    if (user.getDeletedAt() != null) {
+      throw new UserDeletedException();
+    }
     return UserView.of(user);
   }
 
