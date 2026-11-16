@@ -2,6 +2,7 @@ import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiPath, type ListQuery } from "../features/contacts/listQuery";
 import { apiRequest } from "./apiClient";
+import { retryUnlessClientError } from "./retry";
 
 /** A Tag (`Tag` of the contract). */
 export interface Tag {
@@ -77,6 +78,7 @@ export function useContactList(groupId: string, query: ListQuery) {
     queryKey: ["groups", groupId, "contacts", "list", query],
     queryFn: () => apiRequest<ContactPage>("GET", apiPath(groupId, query)),
     placeholderData: keepPreviousData,
+    retry: retryUnlessClientError,
   });
 }
 
@@ -85,5 +87,6 @@ export function useContact(groupId: string, contactId: string) {
   return useQuery({
     queryKey: ["groups", groupId, "contacts", contactId],
     queryFn: () => apiRequest<Contact>("GET", `/groups/${groupId}/contacts/${contactId}`),
+    retry: retryUnlessClientError,
   });
 }
