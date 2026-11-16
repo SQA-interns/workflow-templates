@@ -1,13 +1,15 @@
-import { Menu, UserRound } from "lucide-react";
+import { Menu } from "lucide-react";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
 import { Button } from "@/components/ui/button";
+import { Footer } from "./Footer";
+import { UserMenu } from "./UserMenu";
 
 /**
  * Responsive base layout (UI-08 … UI-10, UI-22 … UI-25): header with text logo, navigation and
  * user menu; main content at most 1200 px wide with 16 px gutters on mobile and 24 px above.
- * The Group switcher (US-002) and the user menu items (US-020, US-021) are added by their stories.
+ * The Group switcher (US-002) and more user menu items (US-020, US-021) are added by their stories.
  */
 export function AppLayout() {
   const { t } = useTranslation();
@@ -39,15 +41,15 @@ export function AppLayout() {
               {t("nav.contacts")}
             </NavLink>
           </nav>
-          <Button variant="ghost" className="hidden md:ml-auto md:inline-flex">
-            <UserRound aria-hidden="true" />
-            <span className="sr-only">{t("app.userMenu")}</span>
-          </Button>
+          <div className="md:ml-auto">
+            <UserMenu />
+          </div>
         </div>
       </header>
       <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 py-6 md:px-6">
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router";
 import { routes } from "./app/routes";
+import { AuthProvider } from "./auth/AuthProvider";
 import "./i18n";
 import "./styles/index.css";
 
@@ -14,7 +15,9 @@ if (root) {
   createRoot(root).render(
     <StrictMode>
       <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
     </StrictMode>,
   );
