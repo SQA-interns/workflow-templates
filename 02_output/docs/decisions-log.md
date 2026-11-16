@@ -551,3 +551,25 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-51: The frozen UI test EX-020-02 stubs the page itself, not only the API
+- Timestamp: 2026-11-16T17:53+01:00
+- Session: S5 /implement US-014
+- Class: open
+- Type: approval
+- Trigger: `acceptance/us020-language.spec.ts` EX-020-02 calls `stubGet(page, `/groups/${groupId}/contacts`, …)` (`acceptance/support/stack.ts`), which fulfils every GET whose path ends with that suffix, and then `page.goto(listPath(groupId))`, whose path is the same `/groups/{id}/contacts`. The browser's navigation to the Contact list is therefore answered with the stubbed JSON instead of the app (screenshot `test-results/…EX-020-02…/test-failed-1.png` in the run of `out/logs/implement-us014-ui-acceptance.txt`), so "10.000" can never appear, whatever the app does. The behaviour itself is covered: `ContactListPage.test` "UI-18 the count is a number of the language, with its plural" shows "10.000 kontaktov" and "1 Contact". A frozen test may only change with the human's approval (`general/rules/decisions.md`).
+- Options: 1. Approve a change of the frozen helper `stubGet` to fulfil only API calls (`route.request().resourceType()` is `fetch` or `xhr`), re-hashing `docs/03_acceptance-manifest.sha256` in the same commit (default). 2. Approve a change of EX-020-02 only: stub `/api/v1/groups/{id}/contacts`. 3. Keep the test; EX-020-02 stays failing and US-020 cannot reach DoD-S-01.
+- Human response: none
+- Resolution: pending review
+- Overrides: none
+
+## D-52: Frozen tests and details of the Contact list (US-014) not stated in the inputs
+- Timestamp: 2026-11-16T17:53+01:00
+- Session: S5 /implement US-014
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01: all 12 API tests (`Us014ContactListAcceptanceIT`) and 5 UI tests (`us014-contact-list.spec.ts`) build their team with Invitations (US-004) and fail there (logs `out/logs/implement-us014-backend-full.txt`, `implement-us014-ui-acceptance.txt`); after that they move a Contact to the recycle bin (US-012) and save Tags and Attributes with the Contact (US-008, US-009). The steps were run on the stack with that data set up by SQL: every API case and the UI steps of AC-014-01, -02, -04, EX-014-02 and R-014-06 pass (throwaway; results in `out/logs/implement-us014-api-check.txt`, `implement-us014-ui-check.txt`). The rules leave open further details listed in option 1.
+- Options: 1. [ASSUMPTION] (a) US-014 stays "in progress" until `/implement US-004`, `US-008`, `US-009` and `US-012` re-run both US-014 suites (as D-39, D-46, D-49); (b) sorting by company, e-mail or last change orders ties by name; "desc" reverses only the chosen key (for name all three name keys); empty company or e-mail sort last in both orders; e-mails compare in lower case; (c) the search runs over the stored search text, so a search may span two neighbouring Fields (seed.sql's form, D-50 (c)); (d) an unknown `sort` or `dir`, a `page` below 1 or not a number → 400 `validation` without errors; `q` over 200 characters → `field.tooLong` on `q`; a mistyped id in the path stays 404 (D-47 (d)); (e) `GET /contacts/{contactId}` answers a Contact in any state, with its Attributes by key A–Z (sl-x-icu) and Tags by name; the list shows each row's Tags by name; (f) the search box asks 300 ms after the last key; search, sort and order start again at Page 1; the query lives in the URL; Viewers get no "Add a Contact", which on mobile is a bar at the bottom; (g) details show "—" for an empty Field, the country by name, "Version n · dd.mm.yyyy HH:mm" and "No Attributes." / "No Tags."; History links to WF-09 (`…/history`, US-010; not found until then); (h) a 4xx answer is final for every read of the app (`retryUnlessClientError` in `main.tsx`), so "not found" shows at once; (i) the list endpoint answers the service views, which have the contract's shape; (j) catalogs.test compares messages with plural suffixes folded and requires each language's plural forms (Intl.PluralRules); (k) Slovenian texts: "Ime" (Name column), "Podjetje", "E-pošta", "Telefon", "Značke", "Iskanje", "Ime, e-pošta, telefon, podjetje ali kraj", "Razvrsti po", "Zadnja sprememba", "Vrstni red", "Naraščajoče", "Padajoče", "Dodaj kontakt", "{{formatted}} kontakt/kontakta/kontakti/kontaktov", "Ni še kontaktov.", "Noben kontakt se ne ujema.", "Počisti iskanje", "Strani", "Prejšnja", "Naslednja", "Stran {{page}} od {{pages}}", "Zgodovina", "Atributi", "Ni atributov.", "Ni značk.", "Različica {{number}} · {{at}}" (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
