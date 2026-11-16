@@ -25,7 +25,7 @@ class ArchitectureTest {
 
   /** Repositories of data that is not owned by one Group (ADR-02). */
   private static final Set<String> NOT_GROUP_OWNED =
-      Set.of("AppUserRepository", "ContactGroupRepository", "MembershipRepository");
+      Set.of("UserRepository", "GroupRepository", "MembershipRepository");
 
   @ArchTest
   static final ArchRule ar03Layers =
