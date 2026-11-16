@@ -158,3 +158,15 @@ describe("routes of US-002", () => {
     expect(screen.getByRole("button", { name: "Poskusi znova" })).toBeTruthy();
   });
 });
+
+describe("header of US-002", () => {
+  it("R-002-04 the header carries the Group switcher with the current Group", async () => {
+    answer([konferenca, alfa]);
+
+    renderAt("/groups/g2/contacts");
+
+    const switcher = await screen.findByRole("button", { name: /Izbira skupine/ });
+    expect(screen.getByRole("banner").contains(switcher)).toBe(true);
+    expect(switcher.textContent).toContain("Podjetje Alfa");
+  });
+});

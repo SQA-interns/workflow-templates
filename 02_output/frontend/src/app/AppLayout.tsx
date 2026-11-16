@@ -3,13 +3,14 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet } from "react-router";
 import { Button } from "@/components/ui/button";
+import { GroupSwitcher } from "../features/groups/GroupSwitcher";
 import { Footer } from "./Footer";
 import { UserMenu } from "./UserMenu";
 
 /**
  * Responsive base layout (UI-08 … UI-10, UI-22 … UI-25): header with text logo, navigation and
  * user menu; main content at most 1200 px wide with 16 px gutters on mobile and 24 px above.
- * The Group switcher (US-002) and more user menu items (US-020, US-021) are added by their stories.
+ * The Group switcher (US-002) follows the logo; more user menu items come with US-021.
  */
 export function AppLayout() {
   const { t } = useTranslation();
@@ -22,6 +23,7 @@ export function AppLayout() {
           <span className="rounded-md border px-2 py-1 text-lg font-semibold">
             {t("app.productName")}
           </span>
+          <GroupSwitcher />
           <Button
             variant="ghost"
             className="ml-auto md:hidden"

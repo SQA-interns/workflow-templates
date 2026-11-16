@@ -79,6 +79,10 @@
       "hint": "1 to 100 characters, e.g. a project or a company.",
       "submit": "Create a Group",
       "cancel": "Cancel"
+    },
+    "switcher": {
+      "label": "Group switcher: {{name}}",
+      "create": "Create a Group"
     }
   }
 }

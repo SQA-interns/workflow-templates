@@ -79,6 +79,10 @@
       "hint": "1 do 100 znakov, npr. projekt ali podjetje.",
       "submit": "Ustvari skupino",
       "cancel": "Prekliči"
+    },
+    "switcher": {
+      "label": "Izbira skupine: {{name}}",
+      "create": "Ustvari skupino"
     }
   }
 }
