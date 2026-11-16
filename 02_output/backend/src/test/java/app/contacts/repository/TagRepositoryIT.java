@@ -135,4 +135,61 @@ class TagRepositoryIT {
 
     assertThat(contactQueries.findTags(groupId, List.of(janez.getId()))).hasSize(1);
   }
+
+  private Tag on(Contact contact, String name) {
+    Tag tag = tags.findInGroup(contact.getGroupId(), name).orElse(null);
+    if (tag == null) {
+      tag = tags.add(contact.getGroupId(), Tag.create(contact.getGroupId(), name));
+    }
+    contactTags.add(contact.getGroupId(), ContactTag.of(contact, tag));
+    entityManager.flush();
+    return tag;
+  }
+
+  @Test
+  void r00902SuggestsTheTagsOnActiveContactsContainingTheTextCaseInsensitively() {
+    on(janez, "udelezenec2025");
+    on(maja, "neObvescaj");
+    on(maja, "Udeležba");
+
+    assertThat(tags.suggest(groupId, "UDEL"))
+        .extracting(Tag::getName)
+        .containsExactly("udelezenec2025", "Udeležba");
+    assertThat(tags.suggest(groupId, "")).hasSize(3);
+  }
+
+  @Test
+  void r00902SuggestsATagOnSeveralContactsOnce() {
+    on(janez, "vip");
+    on(maja, "vip");
+
+    assertThat(tags.suggest(groupId, "vip")).hasSize(1);
+  }
+
+  @Test
+  void ex00905TagOnNoActiveContactIsNotSuggested() {
+    tags.add(groupId, Tag.create(groupId, "udelezenec2025"));
+    on(janez, "udeležba");
+    jdbc.update(
+        "UPDATE contact SET state = 'inRecycleBin', deleted_at = now() WHERE id = ?",
+        janez.getId());
+
+    assertThat(tags.suggest(groupId, "udel")).isEmpty();
+  }
+
+  @Test
+  void ex00904TagOfAnotherGroupIsNotSuggested() {
+    UUID beta = groups.save(Group.create("Podjetje Beta", marko, NOW)).getId();
+    on(contactOf(beta, "Maja"), "udelezenec2025");
+
+    assertThat(tags.suggest(groupId, "udel")).isEmpty();
+  }
+
+  @Test
+  void r00902TextIsTakenLiterally() {
+    on(janez, "50%_popust");
+    on(janez, "500popust");
+
+    assertThat(tags.suggest(groupId, "%_")).extracting(Tag::getName).containsExactly("50%_popust");
+  }
 }
