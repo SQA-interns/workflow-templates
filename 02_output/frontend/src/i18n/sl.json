@@ -45,7 +45,7 @@
       "email": "E-pošta",
       "password": "Geslo"
     },
-    "google": "Prijava z Googlom",
+    "google": "Prijava z računom Google",
     "signIn": {
       "title": "Prijava",
       "withEmail": "Prijava z e-pošto",

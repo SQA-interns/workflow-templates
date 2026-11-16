@@ -22,3 +22,10 @@ describe("message catalogs (NFR-08, UI-30)", () => {
     }
   });
 });
+
+describe("sign-in wording (D-37)", () => {
+  it("D-37 the Google button names the brand Google in every language", () => {
+    expect(sl.account.google).toContain("Google");
+    expect(en.account.google).toContain("Google");
+  });
+});
