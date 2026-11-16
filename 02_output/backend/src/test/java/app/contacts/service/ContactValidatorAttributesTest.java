@@ -69,7 +69,7 @@ class ContactValidatorAttributesTest {
   }
 
   @Test
-  void r00802MissingAttributeIsABlankKey() {
+  void r00802MissingAttributeCountsAsBlankKey() {
     List<AttributeView> sent = new ArrayList<>();
     sent.add(null);
 
