@@ -386,3 +386,36 @@
 - Human response: D-34 option 2 (approved by the developer only); 2026-11-16.
 - Resolution: wireframes WF-01 … WF-20 (commit `3694d5b`) approved by the developer; not yet confirmed by the customer. They bind `/acceptance-tests`, `/implement` and `/design`; a later change to structure is a decision. Customer confirmation is still open; it should happen at the latest on staging (DoD-P02, DoD-P03).
 - Overrides: none
+
+## D-36: Token signature cannot be checked against the Auth emulator
+- Timestamp: 2026-11-16T16:00+01:00
+- Session: S4 /acceptance-tests
+- Class: open
+- Type: non-blocking
+- Trigger: EX-001-04 ("token with a wrong signature, one character changed → HTTP 401"). The test environment uses the Firebase Auth emulator (environments.md); the emulator issues unsigned tokens and Firebase Admin SDK 9.5.0 skips the signature check whenever `FIREBASE_AUTH_EMULATOR_HOST` is set (`FirebaseTokenVerifierImpl.verifyToken` calls `checkSignature` only outside emulator mode). A correct implementation (ADR-03) would therefore accept a token whose signature part alone was changed. Real Google signing keys need the live service (writing-tests.md forbids it).
+- Options: 1. EX-001-04 is tested with an emulator token whose payload has one character changed so it is no longer a valid token (HTTP 401); EX-001-02 with a token whose `aud`/`iss` name another project; AC-001-04 with a token whose `exp` lies in the past; the real signature check (a token signed by another key) is a manual check on staging, listed in the release notes for `/release` (default). 2. Run a second backend without the emulator in the tests and fetch Google's public keys (live service; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-37: Slovenian wording of the screens is not in the inputs
+- Timestamp: 2026-11-16T16:00+01:00
+- Session: S4 /acceptance-tests
+- Class: open
+- Type: non-blocking
+- Trigger: UI tests must find elements by the role, label or text the wireframe shows (writing-tests.md); the wireframes show the English text only (`docs/wireframes/README.md`: "the Slovenian catalog uses the same structure"). Before sign-in, and while the e-mail is unverified (D-16: only `GET /api/v1/me`), the UI is Slovenian (project-wide fact "Languages": Slovenian default; R-020-01), so WF-01, WF-02 and WF-03 have no known text. E2E-01 checks "UI is Slovenian" first and switches to English only at its end, so its middle steps would need Slovenian labels.
+- Options: 1. UI tests switch each User to English through `PATCH /api/v1/me` before signing in through the UI (R-020-02); on WF-01/WF-02/WF-03 they find the e-mail textbox, the password field and the Google button (by its brand name) without language, submit with Enter, and check messages through their role (`alert`) and outcome, plus the equality of the two messages of EX-001-01; E2E-01 checks the Slovenian UI by the header text "Kontakti" (specification §9.2), switches to English on the Account screen at once ("Slovenščina · English" are language names), checks "Contacts", then runs its other steps in English: the step moves, every observation stays (default). 2. Add a language choice to WF-01/WF-02 (changes approved wireframes; needs approval).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: E2E-01 step order (the language switch moves from the last step to right after the Slovenian check)
+
+## D-38: Settings of the test environment
+- Timestamp: 2026-11-16T16:00+01:00
+- Session: S4 /acceptance-tests
+- Class: open
+- Type: non-blocking
+- Trigger: (a) acceptance tests create up to 120 Contacts per User through the API (AC-014-05) while SR-03 allows 100 requests per minute; (b) AC-016-03 and EX-016-01 need 10,001 and 10,000 Contacts; (c) BR-08 runs in the removal job every 15 minutes (ADR-10), tests cannot wait for it; (d) only Chromium is installed for Playwright on this host and installing software on the host is not allowed; (e) every UI and end-to-end test needs known Users with the e-mails of the scenarios.
+- Options: 1. (a) Backend acceptance and hidden tests set `RATE_LIMIT_PER_MINUTE=100000` (a setting of environments.md; the local stack keeps 100); (b) the 10,000/10,001 Contacts are inserted through the persistence contract (`V1__schema.sql`) the way `seed/seed.sql` does; (c) tests set the time through a `java.time.Clock` bean (ADR-10) and then invoke the backend's `@Scheduled` methods, as the scheduler would; (d) browser tests run on Chromium here; Firefox and WebKit run where they are installed (projects stay in `playwright.config.ts`); (e) before each UI and end-to-end test the local stack is emptied (all tables truncated, emulator accounts deleted) and the test creates its own data (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
