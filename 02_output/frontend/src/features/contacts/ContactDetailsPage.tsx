@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { type Contact, useContact } from "../../api/contacts";
-import { useGroups } from "../../api/groups";
+import { useCanChangeContacts } from "../../api/groups";
 import { ApiError } from "../../api/problem";
 import { NotFoundPage } from "../../app/pages";
 import { formatDateTime } from "../../i18n/format";
@@ -19,8 +19,7 @@ export function ContactDetailsPage() {
   const { t } = useTranslation();
   const { groupId = "", contactId = "" } = useParams();
   const contact = useContact(groupId, contactId);
-  const role = useGroups().data?.find((group) => group.id === groupId)?.role;
-  const canEdit = role === "OWNER" || role === "EDITOR";
+  const canEdit = useCanChangeContacts(groupId);
   const path = `/groups/${groupId}/contacts`;
 
   if (contact.error instanceof ApiError && contact.error.status === 404) return <NotFoundPage />;

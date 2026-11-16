@@ -18,6 +18,12 @@ export function useGroups() {
   });
 }
 
+/** Whether the User may change the Group's Contacts: Owner or Editor, not Viewer (BR-03). */
+export function useCanChangeContacts(groupId: string): boolean {
+  const role = useGroups().data?.find((group) => group.id === groupId)?.role;
+  return role === "OWNER" || role === "EDITOR";
+}
+
 /** Creates a Group with the User as Owner (R-002-01); the Group list is read again. */
 export function useCreateGroup() {
   const queryClient = useQueryClient();

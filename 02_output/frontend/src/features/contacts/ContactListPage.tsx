@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useContactList } from "../../api/contacts";
-import { useGroups } from "../../api/groups";
+import { useCanChangeContacts } from "../../api/groups";
 import type { Language } from "../../i18n";
 import { formatNumber } from "../../i18n/format";
 import { ContactListControls } from "./ContactListControls";
@@ -21,8 +21,7 @@ export function ContactListPage() {
   const [params, setParams] = useSearchParams();
   const query = listQueryOf(params);
   const list = useContactList(groupId, query);
-  const role = useGroups().data?.find((group) => group.id === groupId)?.role;
-  const canAdd = role === "OWNER" || role === "EDITOR";
+  const canAdd = useCanChangeContacts(groupId);
   const [search, setSearch] = useState(query.q);
   const [shownQ, setShownQ] = useState(query.q);
   if (query.q !== shownQ) {
