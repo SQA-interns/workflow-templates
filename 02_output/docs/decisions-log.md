@@ -474,3 +474,25 @@
 - Human response: D-40 option 1, D-41 option 1; 2026-11-16.
 - Resolution: D-40 → the five frozen e-mail locators (`acceptance/support/stack.ts:16`, `acceptance/us001-sign-in.spec.ts:25, 111, 119`, `e2e/e2e-01-sign-up-to-excel.spec.ts:20`) become `page.locator('input[type="email"]')`, nothing else in the tests changes, and `docs/03_acceptance-manifest.sha256` is regenerated, in one `test:` commit of this session. D-41 → `backend/spotbugs-exclude.xml` excludes exactly `SERVLET_HEADER` (`auth.FirebaseTokenFilter`), `SE_TRANSIENT_FIELD_NOT_RESTORED` (package `app.contacts.service`) and `SPRING_ENDPOINT` (package `app.contacts.web`), each with its reason.
 - Overrides: frozen test files listed above (approved change, D-40)
+
+## D-44: Frozen UI tests of US-020 set up data through US-002 and need screens of US-014 and US-010
+- Timestamp: 2026-11-16T14:25+01:00
+- Session: S5 /implement US-020
+- Class: open
+- Type: non-blocking
+- Trigger: DoD-S-01 needs every frozen test of US-020 to pass. The three API tests pass (`Us020LanguageAcceptanceIT`, log `out/logs/implement-us020-backend-full.txt`). The four UI tests (`acceptance/us020-language.spec.ts`) create a Group (`POST /groups`, task T-07 of US-002) and then read the Contact list heading and count (WF-06, US-014: AC-020-01, AC-020-02, EX-020-02) or the History (WF-09, US-010: AC-020-03). This session they fail only at `POST /groups` (404 `notFound`; log `out/logs/implement-us020-ui-acceptance.txt`). The US-020 behaviour they reach afterwards was checked on the local stack with a throwaway script (switch without reload, `<html lang>`, kept after signing out and in, axe clean in both languages; screens `out/logs/screens/WF-05_no-groups/language-menu/`), and the formatters by unit tests (`src/i18n/format.test.ts`).
+- Options: 1. Build US-020 to task T-06 only; US-020 stays "in progress" until `/implement US-002`, `/implement US-014` and `/implement US-010` re-run `us020-language.spec.ts` and set it to done when it passes (as D-39) (default). 2. Build the list and History screens now (crosses story boundaries; rejected).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-45: Details of the language choice not stated in the inputs
+- Timestamp: 2026-11-16T14:25+01:00
+- Session: S5 /implement US-020
+- Class: open
+- Type: non-blocking
+- Trigger: R-020-02 names the user menu; specification §4 also lists WF-19 Account (US-020, US-021), but task T-06 lists only `F/app/UserMenu.tsx`. The inputs give no wording for the language group, no feedback for a failed save, no English number locale and no language for the screens after signing out.
+- Options: 1. [ASSUMPTION] (a) the language is chosen in the user menu only; the language section of WF-19 Account is built with the Account screen in US-021; (b) the items are named in their own language, "Slovenščina" and "English", in both catalogs, grouped as "Jezik" / "Language", the chosen one marked (`aria-pressed`, check icon); (c) when `PATCH /me` fails the language stays and the menu shows "Nekaj je šlo narobe." / "Something went wrong." (`state.error`); (d) English numbers use `en-GB` (`10,000`, as the project-wide facts); dates use `dd.mm.yyyy HH:mm` in Europe/Ljubljana in both languages; (e) after signing out, the public screens keep the last language of the tab (they are language-free in the tests, D-37) (default). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
