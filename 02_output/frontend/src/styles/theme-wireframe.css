@@ -1,0 +1,18 @@
+/* Wireframe theme (UI-26): greys only, dashed 1 px borders, no colour, shadow or animation. */
+:root {
+  --font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --background: #ffffff;
+  --surface: #f3f4f6;
+  --surface-raised: #ffffff;
+  --border: #9ca3af;
+  --border-style: dashed;
+  --text: #1f2937;
+  --text-muted: #4b5563;
+  --primary: #374151;
+  --primary-foreground: #ffffff;
+  --success: #4b5563;
+  --warning: #4b5563;
+  --danger: #374151;
+  --focus-ring: #111827;
+  --shadow: none;
+}

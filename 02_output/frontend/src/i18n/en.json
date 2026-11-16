@@ -1,0 +1,26 @@
+{
+  "app": {
+    "productName": "Contacts",
+    "openMenu": "Open menu",
+    "userMenu": "User menu",
+    "mainNavigation": "Main navigation"
+  },
+  "nav": {
+    "contacts": "Contacts",
+    "recycleBin": "Recycle bin",
+    "members": "Members"
+  },
+  "page": {
+    "contacts": { "title": "Contacts" },
+    "notFound": {
+      "title": "Not found",
+      "body": "This page cannot be found.",
+      "back": "Back to Contacts"
+    }
+  },
+  "state": {
+    "loading": "Loading …",
+    "error": "Something went wrong.",
+    "retry": "Try again"
+  }
+}

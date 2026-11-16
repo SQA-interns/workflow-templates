@@ -1,0 +1,53 @@
+import { Menu, UserRound } from "lucide-react";
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { NavLink, Outlet } from "react-router";
+import { Button } from "@/components/ui/button";
+
+/**
+ * Responsive base layout (UI-08 … UI-10, UI-22 … UI-25): header with text logo, navigation and
+ * user menu; main content at most 1200 px wide with 16 px gutters on mobile and 24 px above.
+ * The Group switcher (US-002) and the user menu items (US-020, US-021) are added by their stories.
+ */
+export function AppLayout() {
+  const { t } = useTranslation();
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  return (
+    <div className="flex min-h-dvh flex-col">
+      <header className="border-b bg-surface">
+        <div className="mx-auto flex max-w-[1200px] items-center gap-4 px-4 py-2 md:px-6">
+          <span className="rounded-md border px-2 py-1 text-lg font-semibold">
+            {t("app.productName")}
+          </span>
+          <Button
+            variant="ghost"
+            className="ml-auto md:hidden"
+            aria-expanded={menuOpen}
+            aria-controls="main-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <Menu aria-hidden="true" />
+            <span className="sr-only">{t("app.openMenu")}</span>
+          </Button>
+          <nav
+            id="main-navigation"
+            aria-label={t("app.mainNavigation")}
+            className={`${menuOpen ? "flex" : "hidden"} absolute top-14 right-0 left-0 flex-col gap-1 border-b bg-surface p-4 md:static md:ml-4 md:flex md:flex-row md:border-0 md:p-0`}
+          >
+            <NavLink to="/" className="rounded-md px-3 py-2 text-sm font-semibold">
+              {t("nav.contacts")}
+            </NavLink>
+          </nav>
+          <Button variant="ghost" className="hidden md:ml-auto md:inline-flex">
+            <UserRound aria-hidden="true" />
+            <span className="sr-only">{t("app.userMenu")}</span>
+          </Button>
+        </div>
+      </header>
+      <main className="mx-auto w-full max-w-[1200px] flex-1 px-4 py-6 md:px-6">
+        <Outlet />
+      </main>
+    </div>
+  );
+}

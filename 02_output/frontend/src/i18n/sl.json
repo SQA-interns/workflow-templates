@@ -1,0 +1,26 @@
+{
+  "app": {
+    "productName": "Kontakti",
+    "openMenu": "Odpri meni",
+    "userMenu": "Uporabniški meni",
+    "mainNavigation": "Glavna navigacija"
+  },
+  "nav": {
+    "contacts": "Kontakti",
+    "recycleBin": "Koš",
+    "members": "Člani"
+  },
+  "page": {
+    "contacts": { "title": "Kontakti" },
+    "notFound": {
+      "title": "Ni najdeno",
+      "body": "Strani ni mogoče najti.",
+      "back": "Nazaj na kontakte"
+    }
+  },
+  "state": {
+    "loading": "Nalaganje …",
+    "error": "Nekaj je šlo narobe.",
+    "retry": "Poskusi znova"
+  }
+}
