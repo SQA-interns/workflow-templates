@@ -3,8 +3,12 @@ package app.contacts.service;
 import app.contacts.domain.User;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /** Users: provisioning on the first call (R-001-04); deleted Users are refused (D-20). */
 @Service
@@ -42,6 +46,26 @@ public class UserService {
     if (user.getDeletedAt() != null) {
       throw new UserDeletedException();
     }
+    return UserView.of(user);
+  }
+
+  /**
+   * Chooses the language of the product; kept for later sign-ins (R-020-02).
+   *
+   * @param userId the signed-in User
+   * @param language {@code sl} or {@code en}
+   * @return the changed User
+   * @throws ValidationException {@code me.languageInvalid} for any other value (EX-020-01)
+   */
+  @Transactional
+  public UserView changeLanguage(UUID userId, String language) {
+    if (language == null || !User.LANGUAGES.contains(language)) {
+      throw new ValidationException(
+          List.of(new FieldProblem("language", "me.languageInvalid", Map.of())));
+    }
+    User user = users.findById(userId).orElseThrow(NotFoundException::new);
+    user.changeLanguage(language);
+    users.save(user);
     return UserView.of(user);
   }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Instant;
+import java.util.Set;
 import java.util.UUID;
 
 /** A person with a Firebase account who uses the product (glossary "User", table app_user). */
@@ -14,6 +15,9 @@ public class User {
 
   /** Language of a new User (R-001-04, project-wide facts: Slovenian is the default). */
   public static final String DEFAULT_LANGUAGE = "sl";
+
+  /** The languages of the product (project-wide facts, R-020-02). */
+  public static final Set<String> LANGUAGES = Set.of("sl", "en");
 
   @Id private UUID id;
 
@@ -55,6 +59,15 @@ public class User {
     user.language = DEFAULT_LANGUAGE;
     user.createdAt = now;
     return user;
+  }
+
+  /**
+   * Chooses the language of the product for this User (R-020-02).
+   *
+   * @param language one of {@link #LANGUAGES}, checked by the caller
+   */
+  public void changeLanguage(String language) {
+    this.language = language;
   }
 
   public UUID getId() {

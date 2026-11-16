@@ -13,7 +13,9 @@ import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -98,5 +100,38 @@ class UserServiceTest {
     assertThatThrownBy(() -> service.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
         .isInstanceOf(UserDeletedException.class);
     verify(users, never()).saveAndFlush(any(User.class));
+  }
+
+  @Test
+  void r02002ChosenLanguageIsStoredForTheUser() {
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ana.getId())).thenReturn(Optional.of(ana));
+
+    UserView changed = service.changeLanguage(ana.getId(), "en");
+
+    assertThat(changed.language()).isEqualTo("en");
+    assertThat(ana.getLanguage()).isEqualTo("en");
+    verify(users).save(ana);
+  }
+
+  @Test
+  void ex02001LanguageDeIsRejectedAndTheLanguageIsUnchanged() {
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ana.getId())).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(() -> service.changeLanguage(ana.getId(), "de"))
+        .isInstanceOfSatisfying(
+            ValidationException.class,
+            invalid ->
+                assertThat(invalid.problems())
+                    .containsExactly(new FieldProblem("language", "me.languageInvalid", Map.of())));
+    assertThat(ana.getLanguage()).isEqualTo("sl");
+    verify(users, never()).save(any(User.class));
+  }
+
+  @Test
+  void ex02001MissingLanguageIsRejected() {
+    assertThatThrownBy(() -> service.changeLanguage(UUID.randomUUID(), null))
+        .isInstanceOf(ValidationException.class);
   }
 }
