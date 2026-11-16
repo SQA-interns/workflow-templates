@@ -1,0 +1,40 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/api/apiClient.test.ts (6 tests) 25ms
+ ✓ src/auth/firebase.test.ts (8 tests) 9ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 383ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 595ms
+ ✓ src/app/AppLayout.test.tsx (8 tests) 1369ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  382ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 74ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1941ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  1091ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  736ms
+ ✓ src/api/problem.test.ts (4 tests) 15ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 2221ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  1017ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  678ms
+ ✓ src/app/UserMenu.test.tsx (3 tests) 760ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  409ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 300ms
+ ✓ src/i18n/catalogs.test.ts (3 tests) 9ms
+
+ Test Files  12 passed (12)
+      Tests  57 passed (57)
+   Start at  12:21:00
+   Duration  6.39s (transform 1.10s, setup 3.75s, collect 5.20s, tests 7.70s, environment 13.05s, prepare 2.71s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 92.99% ( 531/571 )
+Branches     : 95.28% ( 101/106 )
+Functions    : 83.63% ( 46/55 )
+Lines        : 92.99% ( 531/571 )
+================================================================================

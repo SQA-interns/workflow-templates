@@ -1,0 +1,185 @@
+
+Running 6 tests using 1 worker
+
+
+  ✘  1 [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. (705ms)
+
+  ✓  2 [chromium] › acceptance/us001-sign-in.spec.ts:53:1 › AC-001-02 Sign in with Google: signed in, GET /me has the Google e-mail (2.3s)
+
+  ✘  3 [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 (578ms)
+
+  ✘  4 [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token (662ms)
+
+  ✘  5 [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in (624ms)
+
+  ✘  6 [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account (635ms)
+
+
+  1) [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. 
+
+    Error: locator.fill: Error: strict mode violation: getByRole('textbox') resolved to 2 elements:
+        1) <input value="" required="" type="email" id=":r0:-email" autocomplete="email" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'E-pošta' })
+        2) <input value="" required="" type="password" id=":r0:-password" autocomplete="new-password" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'Geslo' })
+
+    Call log:
+    [2m  - waiting for getByRole('textbox')[22m
+
+
+      23 | async function signUpThroughUi(page: Page, email: string): Promise<void> {
+      24 |   await page.goto("/sign-up");
+    > 25 |   await page.getByRole("textbox").fill(email);
+         |                                   ^
+      26 |   await page.locator('input[type="password"]').fill(PASSWORD);
+      27 |   await page.locator('input[type="password"]').press("Enter");
+      28 | }
+        at signUpThroughUi (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:25:35)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:34:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-e3383--in-You-have-no-Groups-yet--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us001-sign-in-A-e3383--in-You-have-no-Groups-yet--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-e3383--in-You-have-no-Groups-yet--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us001-sign-in-A-e3383--in-You-have-no-Groups-yet--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 
+
+    Error: locator.fill: Error: strict mode violation: getByRole('textbox') resolved to 2 elements:
+        1) <input value="" required="" type="email" id=":r0:-email" autocomplete="email" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'E-pošta' })
+        2) <input value="" required="" type="password" id=":r0:-password" autocomplete="new-password" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'Geslo' })
+
+    Call log:
+    [2m  - waiting for getByRole('textbox')[22m
+
+
+      23 | async function signUpThroughUi(page: Page, email: string): Promise<void> {
+      24 |   await page.goto("/sign-up");
+    > 25 |   await page.getByRole("textbox").fill(email);
+         |                                   ^
+      26 |   await page.locator('input[type="password"]').fill(PASSWORD);
+      27 |   await page.locator('input[type="password"]').press("Enter");
+      28 | }
+        at signUpThroughUi (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:25:35)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:81:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-33655-rm-screen-link-sent-API-403-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us001-sign-in-A-33655-rm-screen-link-sent-API-403-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-33655-rm-screen-link-sent-API-403-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us001-sign-in-A-33655-rm-screen-link-sent-API-403-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m500[39m
+
+       at acceptance/support/api.ts:153
+
+      151 |   expect((await api(u, "GET", "/me")).status).toBe(200);
+      152 |   if (language === "en") {
+    > 153 |     expect((await api(u, "PATCH", "/me", { language: "en" })).status).toBe(200);
+          |                                                                       ^
+      154 |   }
+      155 |   return u;
+      156 | }
+        at user (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:153:71)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:93:15
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-962f3-n-screen-and-keeps-no-token-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-A-962f3-n-screen-and-keeps-no-token-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us001-sign-in-A-962f3-n-screen-and-keeps-no-token-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m500[39m
+
+       at acceptance/support/api.ts:153
+
+      151 |   expect((await api(u, "GET", "/me")).status).toBe(200);
+      152 |   if (language === "en") {
+    > 153 |     expect((await api(u, "PATCH", "/me", { language: "en" })).status).toBe(200);
+          |                                                                       ^
+      154 |   }
+      155 |   return u;
+      156 | }
+        at user (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:153:71)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:108:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-E-83029-nknown-e-mail-not-signed-in-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-E-83029-nknown-e-mail-not-signed-in-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us001-sign-in-E-83029-nknown-e-mail-not-signed-in-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m200[39m
+    Received: [31m500[39m
+
+       at acceptance/support/api.ts:153
+
+      151 |   expect((await api(u, "GET", "/me")).status).toBe(200);
+      152 |   if (language === "en") {
+    > 153 |     expect((await api(u, "PATCH", "/me", { language: "en" })).status).toBe(200);
+          |                                                                       ^
+      154 |   }
+      155 |   return u;
+      156 | }
+        at user (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:153:71)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us001-sign-in.spec.ts:133:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-E-5ff42-s-message-no-second-account-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us001-sign-in-E-5ff42-s-message-no-second-account-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us001-sign-in-E-5ff42-s-message-no-second-account-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5 failed
+    [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. 
+    [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 
+    [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token 
+    [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in 
+    [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account 
+  1 passed (10.2s)
