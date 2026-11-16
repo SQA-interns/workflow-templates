@@ -5,16 +5,21 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: W /wireframes (run 2)
+- Session: S4 /acceptance-tests
 - Result: done
-- Gate: phase 2 passed
+- Gate: phase 3 passed
 - Notes for the next session:
-  - Wireframes WF-01 … WF-20 approved by the developer only (D-35); customer confirmation still open. They bind tests, implementation and design.
-  - Screens, routes and AC per screen: `docs/wireframes/README.md`, `docs/02_specification.md` §9. E2E base URL on this host: `http://localhost:8180` while the unrelated `contacts` stack runs (D-32).
-  - For `/implement`: align `frontend/src/styles/theme-wireframe.css` with the neutral greys of `docs/wireframes/wireframe.css` (#f5f5f5, #a3a3a3, #262626, #525252, #404040, #d4d4d4).
+  - Frozen at `983e512`: 199 API acceptance tests (`backend/src/test/java/app/contacts/acceptance/`), 89 UI acceptance tests (`frontend/acceptance/`), 8 e2e tests (`frontend/e2e/`); every AC/EX covered, all fail for missing behaviour. Commands and first run: `docs/03_test-strategy.md`.
+  - Read the table "What the frozen tests rely on" in `docs/03_test-strategy.md` first: `FIREBASE_AUTH_EMULATOR_HOST` arrives as a Spring property, the `Clock` bean must be replaceable (`@Primary` test clock), BR-08 runs from a `@Scheduled` method, §5 codes, UI roles and labels.
+  - Browser tests need the `kontakti` stack: `APP_HOST_PORT=8180 EMULATOR_HOST_PORT=9199 bash scripts/up.sh`, then `E2E_BASE_URL=http://localhost:8180 E2E_EMULATOR_URL=http://localhost:9199 npx playwright test --project=chromium`. The stack is still running.
+  - Hidden suite (123 cases, every R and BR) is in `02_output/hidden-tests/` (git-ignored) for the runner's `--vault`; only `docs/03_hidden-manifest.sha256` is committed.
+  - New non-blocking decisions D-36 (signature check vs emulator), D-37 (Slovenian wording, E2E-01 step order), D-38 (test settings) await review.
+  - `ApplicationIT` starts a second Spring context without the emulator; the Firebase default app is JVM-global, so the implementation must allow both contexts.
+  - `npm run check` fails on the pre-existing formatting of `frontend/README.md` (not a test file).
+  - Commits `ac8f959` (458 lines) and `3ef4001` (575 lines) exceed the 400-line limit of `general/rules/commits.md`; history is not rewritten.
 
 ## Next
-- Command: /acceptance-tests
+- Command: /implement US-001
 - Waiting for: nothing
 
 ## Stories
