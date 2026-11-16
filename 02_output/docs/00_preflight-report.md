@@ -46,3 +46,15 @@ Entries after D-07 … D-09. Every entry not listed resolves with no Critical or
 | 2026-11-12 run 2 | Node 22.23.3 first on PATH in non-interactive shells | | Node version in `bash -c` and `zsh -c` |
 | 2026-11-12 run 2 | `.env` with `DB_PASSWORD` | | Secret presence |
 | 2026-11-12 run 2 | D-10 (grpc-js), D-11 (images) | | Trivy re-scan of the chosen option |
+| 2026-11-16 run 3 | Same three items (no answer given with `/preflight`) | none | Re-checked: unchanged |
+
+## Run 3 (2026-11-16, session S1)
+
+**Gate not passed.** `/preflight` was started without answers, so only the failed checks were re-run; nothing changed.
+
+| Check | Method 1 | Method 2 | Result |
+|---|---|---|---|
+| Node.js 22.23.3 on PATH | `node --version` in `bash -c`, `bash -lc`, `zsh -c`, `zsh -ic` → v18.19.1 | `type -a node` / `whence -a node` → only `/usr/bin/node`, `/bin/node`; v22.23.3 exists only under `~/.nvm` | **Fail** |
+| `.env` gives `DB_PASSWORD` | `test -f .env` → missing | `ls -a` → no `.env` | **Fail** |
+| D-10, D-11 | — | — | **Waiting** (no human response) |
+| Clean working tree | `git status --short` empty at `6a8edad` | — | Pass |
