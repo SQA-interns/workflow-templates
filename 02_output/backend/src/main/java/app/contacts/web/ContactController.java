@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-007, US-014). */
+/** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-007, US-008, US-014). */
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/contacts")
 public class ContactController {
@@ -62,11 +62,11 @@ public class ContactController {
   }
 
   /**
-   * Adds a Contact with Version 1 {@code created} (R-006-01).
+   * Adds a Contact with its Attributes and Version 1 {@code created} (R-006-01, R-008-01).
    *
    * @param current the signed-in User
    * @param groupId the Group
-   * @param body the Fields
+   * @param body the Fields and Attributes
    * @return 201 with the new Contact
    */
   @PostMapping
@@ -75,7 +75,8 @@ public class ContactController {
       @PathVariable UUID groupId,
       @RequestBody ContactWriteRequest body) {
     ContactResponse created =
-        ContactResponse.of(contacts.create(groupId, current.id(), body.fields(), null));
+        ContactResponse.of(
+            contacts.create(groupId, current.id(), body.fields(), body.attributes()));
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
@@ -114,12 +115,13 @@ public class ContactController {
   }
 
   /**
-   * Saves edited Fields of a Contact as one Version {@code edited} (R-007-01).
+   * Saves edited Fields and Attributes of a Contact as one Version {@code edited} (R-007-01,
+   * R-008-01).
    *
    * @param current the signed-in User
    * @param groupId the Group
    * @param contactId the Contact
-   * @param body the Fields and the Version number read
+   * @param body the Fields, Attributes and the Version number read
    * @return the saved Contact
    */
   @PutMapping("/{contactId}")
@@ -130,6 +132,11 @@ public class ContactController {
       @RequestBody ContactUpdateRequest body) {
     return ContactResponse.of(
         contacts.update(
-            groupId, current.id(), contactId, body.versionNumber(), body.fields(), null));
+            groupId,
+            current.id(),
+            contactId,
+            body.versionNumber(),
+            body.fields(),
+            body.attributes()));
   }
 }
