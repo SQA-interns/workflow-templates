@@ -132,4 +132,29 @@ class ContactRepositoryIT {
         .containsEntry("first_change", "Žiga")
         .containsEntry("first_name", "Žiga");
   }
+
+  @Test
+  void r00606FindsActiveContactsOfTheGroupByEmailIgnoringCase() {
+    Contact janez = added(groupId, "janez.novak@example.si", NOW);
+    Contact second = added(groupId, "JANEZ.NOVAK@example.si", NOW.plusSeconds(1));
+    added(groupId, "maja.zupan@example.si", NOW);
+    Contact inRecycleBin = added(groupId, "janez.novak@example.si", NOW);
+    UUID otherGroup = groups.save(Group.create("Podjetje Beta", marko, NOW)).getId();
+    added(otherGroup, "janez.novak@example.si", NOW);
+    entityManager.flush();
+    jdbc.update(
+        "UPDATE contact SET state = 'inRecycleBin', deleted_at = now() WHERE id = ?",
+        inRecycleBin.getId());
+    entityManager.clear();
+
+    assertThat(contacts.findActiveByEmail(groupId, "Janez.Novak@example.si"))
+        .extracting(Contact::getId)
+        .containsExactly(janez.getId(), second.getId());
+  }
+
+  private Contact added(UUID group, String email, Instant createdAt) {
+    ContactFields fields =
+        new ContactFields("Janez", "Novak", email, null, null, null, null, null, null, null, null);
+    return contacts.add(group, Contact.create(group, fields, "janez", "Novak", marko, createdAt));
+  }
 }
