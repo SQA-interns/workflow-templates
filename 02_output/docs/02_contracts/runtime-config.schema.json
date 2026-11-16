@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "runtime-config.schema.json",
+  "title": "Frontend runtime configuration (/config.json)",
+  "description": "Written by the frontend container at start from environment variables (ADR-05). Not secret; per environment.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["firebaseApiKey", "firebaseAuthDomain", "firebaseProjectId"],
+  "properties": {
+    "firebaseApiKey": { "type": "string", "minLength": 1, "description": "FIREBASE_WEB_API_KEY" },
+    "firebaseAuthDomain": { "type": "string", "minLength": 1, "description": "FIREBASE_AUTH_DOMAIN" },
+    "firebaseProjectId": { "type": "string", "minLength": 1, "description": "FIREBASE_PROJECT_ID" },
+    "authEmulatorUrl": { "type": "string", "pattern": "^https?://", "description": "Local and test only; absent or empty on staging and production" }
+  },
+  "examples": [
+    { "firebaseApiKey": "fake-api-key", "firebaseAuthDomain": "localhost", "firebaseProjectId": "demo-contacts", "authEmulatorUrl": "http://localhost:9199" }
+  ]
+}
