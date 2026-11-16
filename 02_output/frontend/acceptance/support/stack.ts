@@ -13,7 +13,7 @@ export * from "./api";
  */
 export async function signIn(page: Page, u: { email: string }, password = PASSWORD): Promise<void> {
   await page.goto("/sign-in");
-  await page.getByRole("textbox").fill(u.email);
+  await page.locator('input[type="email"]').fill(u.email);
   await page.locator('input[type="password"]').fill(password);
   await page.locator('input[type="password"]').press("Enter");
   await expect(page).not.toHaveURL(/\/sign-in/);

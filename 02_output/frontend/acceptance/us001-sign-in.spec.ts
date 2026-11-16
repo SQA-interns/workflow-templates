@@ -22,7 +22,7 @@ test.beforeEach(resetStack);
 /** Fills WF-02 without relying on its (Slovenian) text: the e-mail textbox and the password field. */
 async function signUpThroughUi(page: Page, email: string): Promise<void> {
   await page.goto("/sign-up");
-  await page.getByRole("textbox").fill(email);
+  await page.locator('input[type="email"]').fill(email);
   await page.locator('input[type="password"]').fill(PASSWORD);
   await page.locator('input[type="password"]').press("Enter");
 }
@@ -108,7 +108,7 @@ test("EX-001-01 wrong password: same message as for an unknown e-mail, not signe
   await user(ANA, "Ana Kovač");
 
   await page.goto("/sign-in");
-  await page.getByRole("textbox").fill(ANA);
+  await page.locator('input[type="email"]').fill(ANA);
   await page.locator('input[type="password"]').fill("Napacno#2026");
   await page.locator('input[type="password"]').press("Enter");
   await expect(page.getByRole("alert")).toBeVisible();
@@ -116,7 +116,7 @@ test("EX-001-01 wrong password: same message as for an unknown e-mail, not signe
   await expect(page).toHaveURL(/\/sign-in/);
 
   await page.reload();
-  await page.getByRole("textbox").fill("nihce@example.si");
+  await page.locator('input[type="email"]').fill("nihce@example.si");
   await page.locator('input[type="password"]').fill(PASSWORD);
   await page.locator('input[type="password"]').press("Enter");
   await expect(page.getByRole("alert")).toBeVisible();

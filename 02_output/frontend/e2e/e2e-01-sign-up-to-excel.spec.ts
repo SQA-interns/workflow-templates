@@ -17,7 +17,7 @@ test.beforeEach(resetStack);
 test("E2E-01 from sign-up to an Excel file", async ({ page, browser }) => {
   // Create an account, confirm the e-mail, sign in.
   await page.goto("/sign-up");
-  await page.getByRole("textbox").fill(ANA);
+  await page.locator('input[type="email"]').fill(ANA);
   await page.locator('input[type="password"]').fill(PASSWORD);
   await page.locator('input[type="password"]').press("Enter");
   await expect(page).toHaveURL(/\/verify-email/);
