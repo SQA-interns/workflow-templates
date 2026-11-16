@@ -342,3 +342,14 @@
 - Human response: none
 - Resolution: 1 — pending review; scanned in phase 6 with `--include-dev-deps`.
 - Overrides: none
+
+## D-32: Local stack name and host ports; emulator image without Java
+- Timestamp: 2026-11-16T13:15+01:00
+- Session: S3 /plan
+- Class: open
+- Type: non-blocking
+- Trigger: (a) an unrelated Docker Compose project named `contacts` (working directory `…/agentic_lab/matt_workflow`) runs on this host and holds host ports 8080 and 9099; environments.md puts the product at `http://localhost:8080` `[ASSUMPTION port]`. (b) Follow-up to D-29: the Firebase Auth emulator runs on Node.js alone; only the Firestore and Database emulators need Java.
+- Options: 1. (a) Compose project `kontakti`; host ports `APP_HOST_PORT` (default 8080) and `EMULATOR_HOST_PORT` (default 9199); while the other stack runs, sessions on this host use `APP_HOST_PORT=8180` and `E2E_BASE_URL=http://localhost:8180`; the other project is never touched. (b) Emulator image = `node:22.23.3-bookworm-slim` + `firebase-tools@14.20.0`, no Temurin layer (default). 2. Stop the other stack (it is not ours).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: D-29 (image base), environments.md local port (configurable, default unchanged)
