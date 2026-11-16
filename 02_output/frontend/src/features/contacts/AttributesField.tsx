@@ -69,7 +69,10 @@ export function AttributesField({ idPrefix, rows, onChange, errorOf }: Attribute
         </div>
       ))}
       {listError && (
-        <p id={listErrorId} className="text-sm font-semibold text-danger">
+        <p
+          id={listErrorId}
+          className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger"
+        >
           {listError}
         </p>
       )}
@@ -116,7 +119,7 @@ function AttributeInput(props: {
         onChange={(e) => props.onChange(e.target.value)}
       />
       {props.error && (
-        <p id={errorId} className="text-sm font-semibold text-danger">
+        <p id={errorId} className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger">
           {props.error}
         </p>
       )}
