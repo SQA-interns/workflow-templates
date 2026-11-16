@@ -5,20 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-008
+- Session: S5 /implement US-009
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-008 wait for US-004, US-010, D-54)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-009 wait for US-004, US-010, D-55)
 - Notes for the next session:
-  - T-15 backend: `ContactValidator.checkAttributes`; `ContactContent` (Fields + Attributes by key A–Z) is what `VersionWriter.record(contact, kind, before, after)` diffs: Attributes are items `attribute:<key>` and sit in the snapshot. `Attribute` entity, `AttributeRepository` (`add`, `discardOfContact`; reads stay in `ContactQueryRepository.findAttributes`). `ContactService.create/update(…, attributes)`: `null` on update keeps the stored ones. US-009 adds `tags` to `ContactContent`, the requests and the snapshot the same way.
-  - SpotBugs reports EI_EXPOSE_REP2 for any injected repository that declares a delete/remove/clear method (hence `discardOfContact`).
-  - T-15 frontend: `attributes.ts` (browser checks), `AttributesField` (WF-08 section) in `ContactForm` (`initialAttributes`, `onSave(fields, attributes)`); `problemsOfError` now also returns `attributes`; `useCreateContact` takes `{ fields, attributes }`.
-  - Frozen US-008: API 0/11, UI 0/12 (4 × 3 browsers), all stop in `team()` at Invitations (US-004); UI AC-008-01/02/04 then read the History page (US-010). Checked on the stack with that data by SQL: all pass (D-54).
-  - The stack images copy `backend/target/contacts-backend.jar` and `frontend/dist/`: run `./mvnw -DskipTests package` and `npm run build` before `docker compose --env-file ../.env up -d --build` (stack still on `APP_HOST_PORT=8090`).
-  - Commit 2ae5475 has 433 changed lines (limit 400; history not rewritten).
-  - No regressions: backend 195 unit green, acceptance per class as before (`implement-us008-backend-full.txt`); frontend 185 tests, lint/types/prettier on `src` (README warning as before); UI acceptance of US-001/002/006/007/014/020 as before; gitleaks clean.
+  - T-16 backend: `ContactContent(fields, attributes, tags)` (Tag names A–Z) feeds `VersionWriter`: items `tag:<name>`, snapshot `tags`. `Tag`/`TagRepository` (`add`, `findInGroup` case-insensitive, `suggest`), `ContactTag`/`ContactTagRepository` (`add`, `discardOfContact(groupId, contactId, tagIds)`). `TagService.resolve` (existing spelling, else created) and `retag` (puts on added, takes off removed). A Contact's Tags are read with `ContactQueryRepository.findTags`.
+  - US-011 (restore) re-creates missing Tags (R-011-04): `TagService.resolve` with the snapshot's names does that.
+  - T-17: `GET /groups/{groupId}/tags?q=` (`TagController`, `TagService.suggest`); frontend `api/tags.ts`, `TagsField` (combobox, 300 ms), `tags.ts`; `ContactForm` takes `initialTags`, `onSave(fields, attributes, tags)`; `problemsOfError` returns `tags`.
+  - Frozen US-009: API 0/12, UI 0/15 (5 × 3 browsers), all stop in `team()` at Invitations (US-004); UI AC-009-01/04 then read the History page (US-010). Checked on the stack with that data by SQL: all pass (D-55).
+  - Stack images copy the backend jar and `frontend/dist/`: `./mvnw -DskipTests package`, `npm run build`, then `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`.
+  - No regressions: backend 225 unit green, acceptance per class as before (`implement-us009-backend-full.txt`); frontend 207 tests, lint/types/prettier on `src` (README warning as before); UI acceptance of US-001/002/006/007/014/020 as before; US-008 stack check still passes; gitleaks clean.
 
 ## Next
-- Command: /implement US-009
+- Command: /implement US-010
 - Waiting for: nothing
 
 ## Stories
@@ -32,7 +31,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-006 | INC-1 | in progress | DoD-S-01 open until US-004, US-014, US-010 (D-49); DoD-S-07 see notes; others met |
 | US-007 | INC-1 | in progress | DoD-S-01 open until US-004, US-010, US-012 (D-53); others met |
 | US-008 | INC-1 | in progress | DoD-S-01 open until US-004, US-010 (D-54); DoD-S-07 one commit over 400 lines (2ae5475); others met |
-| US-009 | INC-1 | ready | |
+| US-009 | INC-1 | in progress | DoD-S-01 open until US-004, US-010 (D-55); others met |
 | US-010 | INC-1 | ready | |
 | US-011 | INC-1 | ready | |
 | US-012 | INC-1 | ready | |
