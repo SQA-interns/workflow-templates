@@ -5,17 +5,17 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: W /wireframes
-- Result: blocked
-- Gate: phase 2 not passed (wireframe approval D-34)
+- Session: W /wireframes (run 2)
+- Result: done
+- Gate: phase 2 passed
 - Notes for the next session:
-  - Wireframes: `docs/wireframes/` (19 pages, 57 images, index README.md). Generated pages are static HTML with `wireframe.css`; edit them directly for changes, then re-render each changed page at 375, 768, 1440 px full page with `@playwright/test` Chromium from `02_output/frontend/node_modules`.
-  - On the answer: record it as Human response of D-34; apply only the listed changes (option 3); on 1 or 2 hand over to `/acceptance-tests`.
-  - For `/implement` (build-ui): `frontend/src/styles/theme-wireframe.css` uses slightly bluish greys (#f3f4f6, #9ca3af, #1f2937, #4b5563, #374151); the approved wireframes use neutral greys (#f5f5f5, #a3a3a3, #262626, #525252, #404040, #d4d4d4) per UI-26. Align the token file when the first screen is built.
+  - Wireframes WF-01 … WF-20 approved by the developer only (D-35); customer confirmation still open. They bind tests, implementation and design.
+  - Screens, routes and AC per screen: `docs/wireframes/README.md`, `docs/02_specification.md` §9. E2E base URL on this host: `http://localhost:8180` while the unrelated `contacts` stack runs (D-32).
+  - For `/implement`: align `frontend/src/styles/theme-wireframe.css` with the neutral greys of `docs/wireframes/wireframe.css` (#f5f5f5, #a3a3a3, #262626, #525252, #404040, #d4d4d4).
 
 ## Next
-- Command: /wireframes
-- Waiting for: D-34
+- Command: /acceptance-tests
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |

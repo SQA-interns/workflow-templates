@@ -375,3 +375,14 @@
 - Human response: none
 - Resolution: pending
 - Overrides: none
+
+## D-35: Human answer to D-34 (wireframe approval)
+- Timestamp: 2026-11-16T15:20+01:00
+- Session: W /wireframes (run 2)
+- Class: allow
+- Type: non-blocking
+- Trigger: `/wireframes D-34: 2`.
+- Options: none (records the answer).
+- Human response: D-34 option 2 (approved by the developer only); 2026-11-16.
+- Resolution: wireframes WF-01 … WF-20 (commit `3694d5b`) approved by the developer; not yet confirmed by the customer. They bind `/acceptance-tests`, `/implement` and `/design`; a later change to structure is a decision. Customer confirmation is still open; it should happen at the latest on staging (DoD-P02, DoD-P03).
+- Overrides: none
