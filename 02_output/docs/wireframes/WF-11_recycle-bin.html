@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WF-11 Recycle bin</title>
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<header class="header"><div class="header-inner"><span class="logo">Contacts</span><span class="switcher" aria-label="Group switcher"><span class="icon"></span><span class="bar w8"></span> ▾</span><nav class="nav" aria-label="Main navigation"><a href="#" class="">Contacts</a><a href="#" class="current">Recycle bin</a><a href="#" class="">Possible duplicates</a><a href="#" class="">Members</a><a href="#" class="">Settings</a></nav><span class="usermenu"><button class="btn ghost"><span class="icon" aria-hidden="true"></span><span class="bar w6"></span> ▾</button></span><span class="menubtn"><button class="btn ghost"><span class="icon" aria-hidden="true"></span>Menu</button></span></div></header>
+<main class="main">
+<p class="annot">WF-11 · Recycle bin</p>
+
+<h1>Recycle bin</h1>
+<p class="muted">Deleted Contacts stay here for 30 days, then they are removed for good. Newest first.</p>
+<table class="table"><thead><tr><th>Name</th><th>Deleted by</th><th>Deleted at</th><th>Removal date</th><th class="act"></th></tr></thead><tbody><tr><td><span class="bar w10"></span></td><td><span class="bar w8"></span></td><td><span class="bar w6"></span></td><td><span class="bar w6"></span></td><td class="act"><div class="row"><button class="btn ">Restore</button><button class="btn ghost">Delete permanently</button></div></td></tr><tr><td><span class="bar w10"></span></td><td><span class="bar w8"></span></td><td><span class="bar w6"></span></td><td><span class="bar w6"></span></td><td class="act"><div class="row"><button class="btn ">Restore</button><button class="btn ghost">Delete permanently</button></div></td></tr></tbody></table>
+<div class="cards"><section class="card"><strong><span class="bar w10"></span></strong><p class="muted">deleted by <span class="bar w8"></span>, <span class="bar w6"></span></p><p class="muted">removal <span class="bar w6"></span></p><div class="row"><button class="btn ">Restore</button><button class="btn ghost">Delete permanently</button></div></section><section class="card"><strong><span class="bar w10"></span></strong><p class="muted">deleted by <span class="bar w8"></span>, <span class="bar w6"></span></p><p class="muted">removal <span class="bar w6"></span></p><div class="row"><button class="btn ">Restore</button><button class="btn ghost">Delete permanently</button></div></section></div>
+<p class="error">This Contact can no longer be restored.</p>
+<p class="muted small">"Delete permanently" is shown to the Owner only.</p>
+<div class="drawn stack"><p class="annot">Confirmation (open, Owner)</p><h3>Delete <span class="bar w8"></span> permanently?</h3>
+<p>Delete permanently. This cannot be undone.</p>
+<p class="muted">Also deleted: the Contacts merged into it: <span class="bar w8"></span> (increment 2).</p>
+<div class="row"><button class="btn primary">Delete permanently</button><button class="btn ghost">Cancel</button></div></div>
+<div class="states"><h2>States</h2><div class="grid three"><section><p class="annot">State: loading</p><span class="bar w16"></span><br><br><span class="bar w12"></span><br><br><span class="bar w10"></span></section><section><p class="annot">State: empty</p><p>The recycle bin is empty.</p></section><section><p class="annot">State: error</p><p>Something went wrong.</p><button class="btn ">Try again</button></section></div></div>
+
+
+</main>
+<footer class="footer"><div class="footer-inner">Contacts</div></footer>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WF-14 Group settings</title>
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<header class="header"><div class="header-inner"><span class="logo">Contacts</span><span class="switcher" aria-label="Group switcher"><span class="icon"></span><span class="bar w8"></span> ▾</span><nav class="nav" aria-label="Main navigation"><a href="#" class="">Contacts</a><a href="#" class="">Recycle bin</a><a href="#" class="">Possible duplicates</a><a href="#" class="">Members</a><a href="#" class="current">Settings</a></nav><span class="usermenu"><button class="btn ghost"><span class="icon" aria-hidden="true"></span><span class="bar w6"></span> ▾</button></span><span class="menubtn"><button class="btn ghost"><span class="icon" aria-hidden="true"></span>Menu</button></span></div></header>
+<main class="main">
+<p class="annot">WF-14 · Group settings</p>
+
+<h1>Group settings</h1>
+<section class="card stack"><h2>Rename the Group</h2>
+<div class="field"><label class="req">Group name</label><div class="input"></div><span class="hint">1 to 100 characters</span></div>
+<span class="error">Enter a name of 1 to 100 characters.</span>
+<button class="btn primary">Save</button></section>
+<section class="card stack"><h2>Move Group to recycle bin</h2>
+<p class="muted">The Group and its Contacts are hidden from all Members. You can restore it from "Deleted Groups" for 30 days; after that it is removed for good.</p>
+<button class="btn ">Move Group to recycle bin</button></section>
+<div class="drawn stack"><p class="annot">Confirmation (open)</p><h3>Move <span class="bar w8"></span> to the recycle bin?</h3>
+<div class="row"><button class="btn primary">Move Group to recycle bin</button><button class="btn ghost">Cancel</button></div></div>
+<div class="states"><h2>States</h2><div class="grid three"><section><p class="annot">State: loading</p><span class="bar w16"></span><br><br><span class="bar w12"></span><br><br><span class="bar w10"></span></section><section><p class="annot">State: error</p><p>Something went wrong.</p><button class="btn ">Try again</button></section></div></div>
+
+
+</main>
+<footer class="footer"><div class="footer-inner">Contacts</div></footer>
+</body>
+</html>

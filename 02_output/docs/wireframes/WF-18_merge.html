@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WF-18 Merge</title>
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<header class="header"><div class="header-inner"><span class="logo">Contacts</span><span class="switcher" aria-label="Group switcher"><span class="icon"></span><span class="bar w8"></span> ▾</span><nav class="nav" aria-label="Main navigation"><a href="#" class="">Contacts</a><a href="#" class="">Recycle bin</a><a href="#" class="current">Possible duplicates</a><a href="#" class="">Members</a><a href="#" class="">Settings</a></nav><span class="usermenu"><button class="btn ghost"><span class="icon" aria-hidden="true"></span><span class="bar w6"></span> ▾</button></span><span class="menubtn"><button class="btn ghost"><span class="icon" aria-hidden="true"></span>Menu</button></span></div></header>
+<main class="main">
+<p class="annot">WF-18 · Merge</p>
+
+<p><a href="#">← Possible duplicates</a></p>
+<h1>Merge</h1>
+<p class="muted">(Increment 2) Choose the Primary contact and, per Field, the value to keep. Tags and Attributes of both are kept.</p>
+<section class="card"><h2>Primary contact</h2><div class="row"><span class="radio on"></span><span class="bar w10"></span><span class="radio"></span><span class="bar w8"></span></div></section>
+<section class="card"><h2>Fields</h2>
+<table class="table"><thead><tr><th>Field</th><th>Primary contact</th><th>Other contact</th></tr></thead><tbody>
+<tr><td>First name</td><td><span class="row"><span class="radio on"></span><span class="bar w8"></span></span></td><td><span class="row"><span class="radio"></span><span class="bar w8"></span></span></td></tr><tr><td>Last name</td><td><span class="row"><span class="radio on"></span><span class="bar w8"></span></span></td><td><span class="row"><span class="radio"></span><span class="bar w8"></span></span></td></tr><tr><td>E-mail</td><td><span class="row"><span class="radio on"></span><span class="bar w8"></span></span></td><td><span class="row"><span class="radio"></span><span class="bar w8"></span></span></td></tr><tr><td>Phone</td><td><span class="row"><span class="radio on"></span><span class="bar w8"></span></span></td><td><span class="row"><span class="radio"></span><span class="bar w8"></span></span></td></tr><tr><td>Company</td><td><span class="row"><span class="radio on"></span><span class="bar w8"></span></span></td><td><span class="row"><span class="radio"></span><span class="bar w8"></span></span></td></tr><tr><td>…</td><td></td><td></td></tr></tbody></table>
+<div class="cards"><section class="card"><p class="label">Phone</p><div class="row"><span class="radio"></span><span class="bar w8"></span></div><div class="row"><span class="radio on"></span><span class="bar w8"></span></div></section>
+<section class="card"><p class="label">E-mail</p><div class="row"><span class="radio on"></span><span class="bar w10"></span></div><div class="row"><span class="radio"></span><span class="bar w10"></span></div></section></div>
+</section>
+<section class="card stack"><h2>Attributes</h2><p class="label"><span class="bar w6"></span></p>
+<div class="row"><span class="radio"></span><span class="bar w6"></span><span class="radio"></span><span class="bar w6"></span></div>
+<span class="error">Choose a value for <span class="bar w6"></span>.</span></section>
+<section class="card"><h2>Tags</h2><div class="row"><span class="chip"><span class="bar w6"></span></span><span class="chip"><span class="bar w4"></span></span></div></section>
+<p class="error">Together these Contacts have more than 50 Attributes; remove some first.</p>
+<p class="error">These Contacts cannot be merged.</p>
+<div class="row"><button class="btn primary">Merge</button><button class="btn ghost">Cancel</button></div>
+<div class="states"><h2>States</h2><div class="grid three"><section><p class="annot">State: loading</p><span class="bar w16"></span><br><br><span class="bar w12"></span><br><br><span class="bar w10"></span></section><section><p class="annot">State: error</p><p>Something went wrong.</p><button class="btn ">Try again</button></section></div></div>
+
+
+</main>
+<footer class="footer"><div class="footer-inner">Contacts</div></footer>
+</body>
+</html>

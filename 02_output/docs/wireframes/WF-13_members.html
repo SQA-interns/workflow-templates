@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WF-13 Members and Invitations</title>
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<header class="header"><div class="header-inner"><span class="logo">Contacts</span><span class="switcher" aria-label="Group switcher"><span class="icon"></span><span class="bar w8"></span> ▾</span><nav class="nav" aria-label="Main navigation"><a href="#" class="">Contacts</a><a href="#" class="">Recycle bin</a><a href="#" class="">Possible duplicates</a><a href="#" class="current">Members</a><a href="#" class="">Settings</a></nav><span class="usermenu"><button class="btn ghost"><span class="icon" aria-hidden="true"></span><span class="bar w6"></span> ▾</button></span><span class="menubtn"><button class="btn ghost"><span class="icon" aria-hidden="true"></span>Menu</button></span></div></header>
+<main class="main">
+<p class="annot">WF-13 · Members and Invitations</p>
+
+<h1>Members</h1>
+<section class="card"><table class="table"><thead><tr><th>Name</th><th>E-mail</th><th>Role</th><th class="act"></th></tr></thead>
+<tbody><tr><td><span class="bar w10"></span></td><td><span class="bar w12"></span></td><td>Owner</td><td class="act"></td></tr><tr><td><span class="bar w10"></span></td><td><span class="bar w12"></span></td><td><div class="input" style="max-width:160px">Editor ▾</div></td><td class="act"><button class="btn ghost">Remove from Group</button></td></tr><tr><td><span class="bar w10"></span></td><td><span class="bar w12"></span></td><td><div class="input" style="max-width:160px">Editor ▾</div></td><td class="act"><button class="btn ghost">Remove from Group</button></td></tr></tbody></table>
+<div class="cards"><section class="card"><strong><span class="bar w10"></span></strong><p class="muted"><span class="bar w12"></span></p><p>Owner</p></section><section class="card"><strong><span class="bar w10"></span></strong><p class="muted"><span class="bar w12"></span></p><div class="row"><div class="input" style="max-width:160px">Editor ▾</div><button class="btn ghost">Remove from Group</button></div></section><section class="card"><strong><span class="bar w10"></span></strong><p class="muted"><span class="bar w12"></span></p><div class="row"><div class="input" style="max-width:160px">Editor ▾</div><button class="btn ghost">Remove from Group</button></div></section></div>
+<span class="error">A Group always has one Owner.</span></section>
+<section class="card stack"><h2>Invite a Member</h2>
+<div class="form-grid"><div class="field"><label class="req">E-mail</label><div class="input"></div></div><div class="field"><label class="req">Role</label><div class="input">Editor ▾</div></div></div>
+<span class="error">This person is already a Member.</span>
+<button class="btn primary">Create Invitation</button>
+<div class="notice stack"><p><strong>Invitation link</strong> (shown only once; send it yourself)</p>
+<div class="row"><div class="input" style="flex:1 1 200px"><span class="bar w16"></span></div><button class="btn ">Copy link</button></div></div></section>
+<section class="card"><h2>Open Invitations</h2>
+<table class="table"><thead><tr><th>E-mail</th><th>Role</th><th>Expires</th><th></th></tr></thead><tbody><tr><td><span class="bar w12"></span></td><td>Viewer</td><td><span class="bar w6"></span> <span class="bar w2"></span></td><td><button class="btn ghost">Revoke</button></td></tr><tr><td><span class="bar w12"></span></td><td>Viewer</td><td><span class="bar w6"></span> <span class="bar w2"></span></td><td><button class="btn ghost">Revoke</button></td></tr></tbody></table>
+<div class="cards"><section class="card"><strong><span class="bar w12"></span></strong><p class="muted">Viewer · expires <span class="bar w6"></span></p><button class="btn ghost">Revoke</button></section><section class="card"><strong><span class="bar w12"></span></strong><p class="muted">Viewer · expires <span class="bar w6"></span></p><button class="btn ghost">Revoke</button></section></div></section>
+<div class="drawn stack"><p class="annot">Confirmation (open)</p><h3>Remove <span class="bar w8"></span> from Group?</h3>
+<div class="row"><button class="btn primary">Remove from Group</button><button class="btn ghost">Cancel</button></div></div>
+<div class="states"><h2>States</h2><div class="grid three"><section><p class="annot">State: loading</p><span class="bar w16"></span><br><br><span class="bar w12"></span><br><br><span class="bar w10"></span></section><section><p class="annot">State: empty</p><p>No open Invitations.</p></section><section><p class="annot">State: error</p><p>Something went wrong.</p><button class="btn ">Try again</button></section></div></div>
+
+
+</main>
+<footer class="footer"><div class="footer-inner">Contacts</div></footer>
+</body>
+</html>

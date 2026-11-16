@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WF-08 Contact form</title>
+<link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<header class="header"><div class="header-inner"><span class="logo">Contacts</span><span class="switcher" aria-label="Group switcher"><span class="icon"></span><span class="bar w8"></span> ▾</span><nav class="nav" aria-label="Main navigation"><a href="#" class="current">Contacts</a><a href="#" class="">Recycle bin</a><a href="#" class="">Possible duplicates</a><a href="#" class="">Members</a><a href="#" class="">Settings</a></nav><span class="usermenu"><button class="btn ghost"><span class="icon" aria-hidden="true"></span><span class="bar w6"></span> ▾</button></span><span class="menubtn"><button class="btn ghost"><span class="icon" aria-hidden="true"></span>Menu</button></span></div></header>
+<main class="main">
+<p class="annot">WF-08 · Contact form</p>
+
+<p><a href="#">← Contacts</a></p>
+<h1>Add a Contact <span class="muted">/ Edit Contact</span></h1>
+<p class="notice row">Contact was changed by <span class="bar w8"></span>, reload <button class="btn ">Reload</button></p>
+<span class="error" role="alert">Enter a first name, last name or company.</span>
+<section class="card"><h2>Fields</h2><div class="form-grid">
+<div class="field"><label class="">First name</label><div class="input"></div><span class="hint">At most 100 characters</span></div><div class="field"><label class="">Last name</label><div class="input"></div></div>
+<div><div class="field"><label class="">E-mail</label><div class="input"></div></div><p class="notice small">A Contact with this e-mail already exists: <span class="bar w8"></span>.</p></div>
+<div class="field"><label class="">Phone</label><div class="input"></div><span class="hint">Digits, spaces and + - ( ) /</span></div>
+<div class="field"><label class="">Company</label><div class="input"></div></div><div class="field"><label class="">Job title</label><div class="input"></div></div><div class="field"><label class="">Street</label><div class="input"></div></div><div class="field"><label class="">Postal code</label><div class="input"></div></div><div class="field"><label class="">City</label><div class="input"></div></div>
+<div class="field"><label class="">Country</label><div class="input">Select … ▾</div></div>
+<div class="span"><div class="field"><label class="">Note</label><div class="input area"></div><span class="hint">At most 2000 characters</span></div></div>
+</div><p class="hint">Enter at least a first name, last name or company.</p></section>
+<section class="card stack"><h2>Attributes</h2>
+<div class="row"><div style="flex:1 1 140px"><div class="field"><label class="">Key</label><div class="input"></div></div></div><div style="flex:2 1 200px"><div class="field"><label class="">Value</label><div class="input"></div></div></div><button class="btn ghost">Remove</button></div>
+<span class="error">The key <span class="bar w6"></span> is used twice.</span>
+<button class="btn ">Add an Attribute</button></section>
+<section class="card stack"><h2>Tags</h2>
+<div class="row"><span class="chip"><span class="bar w6"></span> ×</span><span class="chip"><span class="bar w8"></span> ×</span></div>
+<div class="field"><label class="">Add a Tag</label><div class="input"></div><span class="hint">Press Enter to add. 1 to 50 characters, no comma.</span></div>
+<div class="drawn"><p class="annot">Suggestions (open)</p><p><span class="bar w8"></span></p><p><span class="bar w6"></span></p></div>
+<span class="error">A Tag must have 1 to 50 characters and no comma.</span></section>
+<div class="row"><button class="btn primary">Save</button><button class="btn ghost">Cancel</button><span class="muted">No changes to save.</span></div>
+<div class="states"><h2>States</h2><div class="grid three"><section><p class="annot">State: loading</p><span class="bar w16"></span><br><br><span class="bar w12"></span><br><br><span class="bar w10"></span></section><section><p class="annot">State: error</p><p>Something went wrong.</p><button class="btn ">Try again</button></section></div></div>
+
+
+</main>
+<footer class="footer"><div class="footer-inner">Contacts</div></footer>
+</body>
+</html>
