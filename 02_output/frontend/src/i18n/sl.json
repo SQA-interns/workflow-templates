@@ -54,6 +54,9 @@
       "keyTwice": "Ključ {{key}} je uporabljen dvakrat.",
       "tooMany": "Kontakt ima lahko največ 50 atributov."
     },
+    "tag": {
+      "invalid": "Značka mora imeti od 1 do 50 znakov in nobene vejice."
+    },
     "version": {
       "conflict": "Kontakt je spremenil {{changedBy}}, osvežite"
     }
@@ -120,6 +123,13 @@
       "value": "Vrednost",
       "remove": "Odstrani",
       "add": "Dodaj atribut"
+    },
+    "tags": {
+      "title": "Značke",
+      "add": "Dodaj značko",
+      "hint": "Za dodajanje pritisnite Enter. Od 1 do 50 znakov, brez vejice.",
+      "remove": "Odstrani {{name}}",
+      "suggestions": "Predlagane značke"
     },
     "field": {
       "firstName": "Ime",

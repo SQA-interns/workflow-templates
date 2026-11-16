@@ -6,7 +6,7 @@ import { NotFoundPage } from "../../app/pages";
 import { GroupsPending } from "../groups/GroupsPending";
 import { ContactForm } from "./ContactForm";
 
-/** WF-08 Edit Contact (US-007, US-008): saving opens the Contact's details with the saved Version. */
+/** WF-08 Edit Contact (US-007 … US-009): saving opens the Contact's details with the saved Version. */
 export function EditContactPage() {
   const { t } = useTranslation();
   const { groupId = "", contactId = "" } = useParams();
@@ -31,12 +31,13 @@ export function EditContactPage() {
       title={t("contacts.edit.title")}
       initial={read.fields}
       initialAttributes={read.attributes}
+      initialTags={read.tags.map((tag) => tag.name)}
       backTo={details}
       busy={updateContact.isPending}
       error={updateContact.error}
-      onSave={(fields, attributes) =>
+      onSave={(fields, attributes, tags) =>
         updateContact.mutate(
-          { read, fields, attributes },
+          { read, fields, attributes, tags },
           { onSuccess: () => void navigate(details) },
         )
       }

@@ -54,6 +54,9 @@
       "keyTwice": "The key {{key}} is used twice.",
       "tooMany": "A Contact may have at most 50 Attributes."
     },
+    "tag": {
+      "invalid": "A Tag must have 1 to 50 characters and no comma."
+    },
     "version": {
       "conflict": "Contact was changed by {{changedBy}}, reload"
     }
@@ -120,6 +123,13 @@
       "value": "Value",
       "remove": "Remove",
       "add": "Add an Attribute"
+    },
+    "tags": {
+      "title": "Tags",
+      "add": "Add a Tag",
+      "hint": "Press Enter to add. 1 to 50 characters, no comma.",
+      "remove": "Remove {{name}}",
+      "suggestions": "Suggested Tags"
     },
     "field": {
       "firstName": "First name",

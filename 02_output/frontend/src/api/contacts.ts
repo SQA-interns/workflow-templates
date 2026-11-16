@@ -33,34 +33,33 @@ export interface Contact {
   updatedAt: string;
 }
 
-/** Adds a Contact with its Attributes to the Group (R-006-01, R-008-01); Tags follow with US-009. */
+/** The Fields, Attributes and Tag names of a save (`ContactWrite` of the contract). */
+export interface ContactWrite {
+  fields: ContactFields;
+  attributes: AttributeRow[];
+  tags: string[];
+}
+
+/** Adds a Contact with its Attributes and Tags to the Group (R-006-01, R-008-01, R-009-01). */
 export function useCreateContact(groupId: string) {
   return useMutation({
-    mutationFn: ({ fields, attributes }: { fields: ContactFields; attributes: AttributeRow[] }) =>
-      apiRequest<Contact>("POST", `/groups/${groupId}/contacts`, { fields, attributes, tags: [] }),
+    mutationFn: ({ fields, attributes, tags }: ContactWrite) =>
+      apiRequest<Contact>("POST", `/groups/${groupId}/contacts`, { fields, attributes, tags }),
   });
 }
 
 /**
- * Saves edited Fields and Attributes of the Contact as read (R-007-01, R-008-01); its Tags are sent
- * unchanged until US-009 edits them. The saved Contact replaces the one read, and lists read again.
+ * Saves edited Fields, Attributes and Tags of the Contact as read (R-007-01, R-008-01, R-009-01).
+ * The saved Contact replaces the one read, and lists read again.
  */
 export function useUpdateContact(groupId: string, contactId: string) {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: ({
-      read,
-      fields,
-      attributes,
-    }: {
-      read: Contact;
-      fields: ContactFields;
-      attributes: AttributeRow[];
-    }) =>
+    mutationFn: ({ read, fields, attributes, tags }: ContactWrite & { read: Contact }) =>
       apiRequest<Contact>("PUT", `/groups/${groupId}/contacts/${contactId}`, {
         fields,
         attributes: attributes.map(({ key, value }) => ({ key, value })),
-        tags: read.tags.map((tag) => tag.name),
+        tags,
         versionNumber: read.versionNumber,
       }),
     onSuccess: async (saved) => {

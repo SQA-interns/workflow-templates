@@ -6,7 +6,7 @@ import { isEmailAddress } from "./contactFields";
 import { ContactForm } from "./ContactForm";
 
 /**
- * WF-08 Add a Contact (US-006, US-008): saving opens the Group's Contact list, where it is listed.
+ * WF-08 Add a Contact (US-006, US-008, US-009): saving opens the Group's Contact list, where it is listed.
  */
 export function NewContactPage() {
   const { t } = useTranslation();
@@ -29,9 +29,9 @@ export function NewContactPage() {
       backTo={contactList}
       busy={createContact.isPending}
       error={createContact.error}
-      onSave={(fields, attributes) =>
+      onSave={(fields, attributes, tags) =>
         createContact.mutate(
-          { fields, attributes },
+          { fields, attributes, tags },
           { onSuccess: () => void navigate(contactList) },
         )
       }
