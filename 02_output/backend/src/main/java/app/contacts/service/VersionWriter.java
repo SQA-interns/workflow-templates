@@ -37,7 +37,7 @@ public class VersionWriter {
    * @param kind the kind, e.g. {@link ContactVersion#CREATED}
    * @param before the Fields before the change ({@link ContactFields#EMPTY} for a new Contact)
    */
-  public void write(Contact contact, String kind, ContactFields before) {
+  public void record(Contact contact, String kind, ContactFields before) {
     SequencedMap<String, String> after = contact.getFields().byName();
     Map<String, String> old = before.byName();
     List<Change> changes =

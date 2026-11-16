@@ -32,7 +32,7 @@ class VersionWriterTest {
           Map.of("firstName", "Janez", "lastName", "Novak", "email", "janez.novak@example.si"));
 
   private ContactVersion written(Contact contact, ContactFields before) {
-    writer.write(contact, ContactVersion.CREATED, before);
+    writer.record(contact, ContactVersion.CREATED, before);
     ArgumentCaptor<ContactVersion> version = ArgumentCaptor.forClass(ContactVersion.class);
     verify(versions).add(eq(GROUP_ID), version.capture());
     return version.getValue();
