@@ -50,7 +50,7 @@ public class FirebaseSetup {
    */
   @Bean
   public TokenVerifier tokenVerifier(FirebaseApp app) {
-    return new FirebaseTokenVerifier(FirebaseAuth.getInstance(app));
+    return new FirebaseTokenVerifier(FirebaseAuth.getInstance(app)::verifyIdToken);
   }
 
   /**

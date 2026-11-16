@@ -90,10 +90,7 @@ class FirebaseTokenFilterTest {
 
   @Test
   void r00105UnverifiedPasswordAccountMayOnlyReadMe() throws Exception {
-    VerifiedToken unverified =
-        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
-    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
-    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+    signInUnverified();
 
     filter.doFilter(request("GET", "/api/v1/me", "Bearer unverified"), response, chain);
 
@@ -103,10 +100,7 @@ class FirebaseTokenFilterTest {
 
   @Test
   void r00105UnverifiedPasswordAccountGets403ForEveryOtherRequest() throws Exception {
-    VerifiedToken unverified =
-        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
-    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
-    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+    signInUnverified();
 
     filter.doFilter(request("POST", "/api/v1/groups", "Bearer unverified"), response, chain);
 
@@ -117,10 +111,7 @@ class FirebaseTokenFilterTest {
 
   @Test
   void r00105UnverifiedPasswordAccountMayNotChangeMe() throws Exception {
-    VerifiedToken unverified =
-        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
-    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
-    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
+    signInUnverified();
 
     filter.doFilter(request("PATCH", "/api/v1/me", "Bearer unverified"), response, chain);
 
@@ -141,7 +132,7 @@ class FirebaseTokenFilterTest {
   }
 
   @Test
-  void d20TokenOfADeletedUserStaysUnauthenticated() throws Exception {
+  void d20TokenOfDeletedUserStaysUnauthenticated() throws Exception {
     when(verifier.verify("deleted")).thenReturn(Optional.of(ANA));
     when(users.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
         .thenThrow(new UserDeletedException());
@@ -150,5 +141,13 @@ class FirebaseTokenFilterTest {
 
     assertThat(SecurityContextHolder.getContext().getAuthentication()).isNull();
     assertThat(chain.getRequest()).isNotNull();
+  }
+
+  /** Ana signed up with e-mail and password and has not confirmed her e-mail (R-001-05). */
+  private void signInUnverified() {
+    VerifiedToken unverified =
+        new VerifiedToken("uid-ana", "ana.kovac@example.si", null, false, "password");
+    when(verifier.verify("unverified")).thenReturn(Optional.of(unverified));
+    when(users.signIn("uid-ana", "ana.kovac@example.si", null)).thenReturn(ANA_USER);
   }
 }

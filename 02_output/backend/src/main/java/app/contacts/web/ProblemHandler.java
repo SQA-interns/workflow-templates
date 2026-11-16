@@ -76,7 +76,7 @@ public class ProblemHandler {
    */
   @ExceptionHandler(Exception.class)
   public ResponseEntity<Map<String, Object>> unexpected(Exception unexpected) {
-    LOG.error("unexpected error: {}", unexpected.getClass().getName(), unexpected);
+    LOG.error("unexpected error", unexpected);
     return problem(HttpStatus.INTERNAL_SERVER_ERROR, "internal");
   }
 

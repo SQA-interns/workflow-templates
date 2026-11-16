@@ -28,7 +28,7 @@ public final class Problems {
     response.setStatus(status.value());
     response.setContentType(MediaType.APPLICATION_PROBLEM_JSON_VALUE);
     response.setCharacterEncoding("UTF-8");
-    response.getWriter().write(JSON.writeValueAsString(body(status, code)));
+    JSON.writeValue(response.getOutputStream(), body(status, code));
   }
 
   /**

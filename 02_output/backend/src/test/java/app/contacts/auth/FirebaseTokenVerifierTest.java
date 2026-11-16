@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 class FirebaseTokenVerifierTest {
 
   private final FirebaseAuth firebase = mock(FirebaseAuth.class);
-  private final FirebaseTokenVerifier verifier = new FirebaseTokenVerifier(firebase);
+  private final FirebaseTokenVerifier verifier = new FirebaseTokenVerifier(firebase::verifyIdToken);
 
   @Test
   void r00102TokenAcceptedByFirebaseGivesItsClaims() throws Exception {

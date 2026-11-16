@@ -1,20 +1,33 @@
 package app.contacts.auth;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import java.util.Optional;
 
 /** Verifies ID tokens with the Firebase Admin SDK, offline after the keys are fetched (ADR-03). */
 public class FirebaseTokenVerifier implements TokenVerifier {
 
-  private final FirebaseAuth firebase;
+  /** The check of the Admin SDK, {@code FirebaseAuth::verifyIdToken}. */
+  @FunctionalInterface
+  public interface IdTokenCheck {
+    /**
+     * Verifies the token.
+     *
+     * @param idToken the token
+     * @return its claims
+     * @throws FirebaseAuthException when the token is invalid
+     */
+    FirebaseToken verifyIdToken(String idToken) throws FirebaseAuthException;
+  }
+
+  private final IdTokenCheck firebase;
 
   /**
    * The verifier.
    *
-   * @param firebase the Firebase Auth client of the configured project
+   * @param firebase the token check of the configured Firebase project
    */
-  public FirebaseTokenVerifier(FirebaseAuth firebase) {
+  public FirebaseTokenVerifier(IdTokenCheck firebase) {
     this.firebase = firebase;
   }
 
