@@ -88,7 +88,7 @@ export function ContactForm({
     problems.length + attributeProblems.length > 0 || tagProblem !== null || !error;
   const shown = ownProblems ? problems : server.fields;
   const shownAttributes = ownProblems ? attributeProblems : server.attributes;
-  const shownTag = ownProblems ? tagProblem : null;
+  const shownTag = ownProblems ? tagProblem : (server.tags[0] ?? null);
   const tagInputId = `${id}-tags`;
   const nameProblem = shown.find((p) => p.field === "name");
   const general = nameProblem

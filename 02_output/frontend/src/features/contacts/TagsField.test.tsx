@@ -4,6 +4,7 @@ import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../../api/apiClient";
+import { ApiError } from "../../api/problem";
 import i18n from "../../i18n";
 import { emptyFields } from "./contactFields";
 import { EditContactPage } from "./EditContactPage";
@@ -168,6 +169,23 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     await save();
 
     await waitFor(() => expect(sentTags("PUT")).toEqual([["vip", "udeležba"]]));
+  });
+
+  it("R-009-05 the API's tag.invalid stands in the Tags section", async () => {
+    answer(janez(), [], () =>
+      Promise.reject(
+        new ApiError(400, {
+          code: "validation",
+          errors: [{ field: "tags[0]", code: "tag.invalid" }],
+        }),
+      ),
+    );
+    await editJanez();
+
+    await addTag("vip");
+    await save();
+
+    expect(await within(tagsSection()).findByText(MESSAGE)).toBeTruthy();
   });
 
   it("R-009-01 a new Contact is added with its Tags", async () => {

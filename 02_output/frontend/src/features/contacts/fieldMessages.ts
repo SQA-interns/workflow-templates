@@ -26,17 +26,18 @@ export function attributeProblemText(t: TFunction, problem: AttributeProblem): s
 }
 
 /**
- * The problems of a failed save: per Field, per Attribute, or one general text and its values
- * (UI-13, UI-14).
+ * The problems of a failed save: per Field, per Attribute, the codes of the Tags' problems, or one
+ * general text and its values (UI-13, UI-14).
  */
 export function problemsOfError(error: unknown): {
   fields: FieldProblem[];
   attributes: AttributeProblem[];
+  tags: string[];
   general: string | null;
   params: Record<string, unknown>;
 } {
   if (!(error instanceof ApiError)) {
-    return { fields: [], attributes: [], general: "state.error", params: {} };
+    return { fields: [], attributes: [], tags: [], general: "state.error", params: {} };
   }
   const fields = error.errors
     .filter(isFieldProblem)
@@ -44,10 +45,12 @@ export function problemsOfError(error: unknown): {
   const attributes = error.errors
     .filter((e) => e.field.startsWith("attributes"))
     .map((e) => ({ field: e.field, code: e.code, params: keyOf(e.params) }));
+  const tags = error.errors.filter((e) => e.field.startsWith("tags")).map((e) => e.code);
   return {
     fields,
     attributes,
-    general: fields.length + attributes.length > 0 ? null : messageKey(error.code),
+    tags,
+    general: fields.length + attributes.length + tags.length > 0 ? null : messageKey(error.code),
     params: error.params,
   };
 }

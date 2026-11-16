@@ -31,18 +31,20 @@ describe("texts of Field problems (specification §5)", () => {
     );
   });
 
-  it("SB-01 the Field and Attribute problems of a 400 answer go to their places", () => {
+  it("SB-01 the Field, Attribute and Tag problems of a 400 answer go to their places", () => {
     const error = new ApiError(400, {
       code: "validation",
       errors: [
         { field: "note", code: "field.tooLong", params: { field: "note", max: 2000 } },
         { field: "attributes", code: "attribute.tooMany" },
+        { field: "tags[1]", code: "tag.invalid" },
       ],
     });
 
     expect(problemsOfError(error)).toEqual({
       fields: [tooLong],
       attributes: [{ field: "attributes", code: "attribute.tooMany" }],
+      tags: ["tag.invalid"],
       general: null,
       params: {},
     });
@@ -52,6 +54,7 @@ describe("texts of Field problems (specification §5)", () => {
     expect(problemsOfError(new ApiError(403, { code: "auth.forbidden" }))).toEqual({
       fields: [],
       attributes: [],
+      tags: [],
       general: "errors.auth.forbidden",
       params: {},
     });
@@ -66,6 +69,7 @@ describe("texts of Field problems (specification §5)", () => {
     expect(problemsOfError(conflict)).toEqual({
       fields: [],
       attributes: [],
+      tags: [],
       general: "errors.version.conflict",
       params: { changedBy: "Marko Kranjc" },
     });
@@ -75,6 +79,7 @@ describe("texts of Field problems (specification §5)", () => {
     expect(problemsOfError(new TypeError("Failed to fetch"))).toEqual({
       fields: [],
       attributes: [],
+      tags: [],
       general: "state.error",
       params: {},
     });
