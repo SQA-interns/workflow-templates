@@ -30,10 +30,9 @@ class NormaliserTest {
   }
 
   @Test
-  void r01404SearchTextHoldsTheSearchedFieldsEachOnItsOwnLine() {
+  void r01404SearchTextJoinsTheSearchedFieldsWithSpacesAsTheSeed() {
     assertThat(normaliser.searchText(ZIGA))
-        .isEqualTo(
-            "ziga\ncuk\nziga.cuk@example.si\n+386 41 123 456\nduric sport d.o.o.\nljubljana");
+        .isEqualTo("ziga cuk ziga.cuk@example.si +386 41 123 456 duric sport d.o.o. ljubljana");
   }
 
   @Test

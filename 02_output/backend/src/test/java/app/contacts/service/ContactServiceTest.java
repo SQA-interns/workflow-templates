@@ -73,7 +73,7 @@ class ContactServiceTest {
 
     ArgumentCaptor<Contact> stored = ArgumentCaptor.forClass(Contact.class);
     verify(contacts).add(eq(GROUP_ID), stored.capture());
-    assertThat(stored.getValue().getSearchText()).isEqualTo("ziga\ncuk");
+    assertThat(stored.getValue().getSearchText()).isEqualTo("ziga cuk");
     assertThat(stored.getValue().getSortName()).isEqualTo("Čuk");
   }
 

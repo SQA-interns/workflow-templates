@@ -43,7 +43,7 @@ public class Normaliser {
             fields.city())
         .filter(Objects::nonNull)
         .map(this::text)
-        .collect(Collectors.joining("\n"));
+        .collect(Collectors.joining(" "));
   }
 
   /**
