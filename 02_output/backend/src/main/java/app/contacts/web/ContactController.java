@@ -66,7 +66,7 @@ public class ContactController {
    *
    * @param current the signed-in User
    * @param groupId the Group
-   * @param body the Fields and Attributes
+   * @param body the Fields, Attributes and Tag names
    * @return 201 with the new Contact
    */
   @PostMapping
@@ -76,7 +76,7 @@ public class ContactController {
       @RequestBody ContactWriteRequest body) {
     ContactResponse created =
         ContactResponse.of(
-            contacts.create(groupId, current.id(), body.fields(), body.attributes(), null));
+            contacts.create(groupId, current.id(), body.fields(), body.attributes(), body.tags()));
     return ResponseEntity.status(HttpStatus.CREATED).body(created);
   }
 
@@ -121,7 +121,7 @@ public class ContactController {
    * @param current the signed-in User
    * @param groupId the Group
    * @param contactId the Contact
-   * @param body the Fields, Attributes and the Version number read
+   * @param body the Fields, Attributes, Tag names and the Version number read
    * @return the saved Contact
    */
   @PutMapping("/{contactId}")
@@ -138,6 +138,6 @@ public class ContactController {
             body.versionNumber(),
             body.fields(),
             body.attributes(),
-            null));
+            body.tags()));
   }
 }

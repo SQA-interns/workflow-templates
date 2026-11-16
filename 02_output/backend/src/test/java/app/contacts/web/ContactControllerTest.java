@@ -33,6 +33,7 @@ class ContactControllerTest {
   private static final UUID TAG_ID = UUID.randomUUID();
   private static final List<AttributeView> KOMPETENCA =
       List.of(new AttributeView("kompetenca", "java"));
+  private static final List<String> VIP = List.of("vip");
   private static final CurrentUser MARKO =
       new CurrentUser(new UserView(MARKO_ID, "marko.kranjc@gmail.com", "Marko Kranjc", "sl"), true);
 
@@ -41,18 +42,18 @@ class ContactControllerTest {
   private final ContactController controller = new ContactController(contacts, contactQueries);
 
   @Test
-  void r00801PostContactsAnswers201WithTheNewContactAndItsAttributes() {
+  void r00901PostContactsAnswers201WithTheNewContactItsAttributesAndTags() {
     SequencedMap<String, String> fields = new LinkedHashMap<>();
     fields.put("firstName", "Janez");
     fields.put("lastName", "Novak");
     fields.put("email", null);
     Map<String, String> sent = Map.of("firstName", "Janez", "lastName", "Novak");
-    when(contacts.create(GROUP_ID, MARKO_ID, sent, KOMPETENCA, null))
+    when(contacts.create(GROUP_ID, MARKO_ID, sent, KOMPETENCA, VIP))
         .thenReturn(
             new ContactView(CONTACT_ID, 1, "active", fields, List.of(), List.of(), NOW, NOW));
 
     ResponseEntity<ContactResponse> created =
-        controller.create(MARKO, GROUP_ID, new ContactWriteRequest(sent, KOMPETENCA));
+        controller.create(MARKO, GROUP_ID, new ContactWriteRequest(sent, KOMPETENCA, VIP));
 
     assertThat(created.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     ContactResponse body = created.getBody();
@@ -69,18 +70,18 @@ class ContactControllerTest {
   }
 
   @Test
-  void r00801PutContactSavesFieldsAndAttributesWithTheVersionNumberRead() {
+  void r00901PutContactSavesFieldsAttributesAndTagsWithTheVersionNumberRead() {
     SequencedMap<String, String> fields = new LinkedHashMap<>();
     fields.put("firstName", "Janez");
     fields.put("city", "Maribor");
     Map<String, String> sent = Map.of("firstName", "Janez", "city", "Maribor");
-    when(contacts.update(GROUP_ID, MARKO_ID, CONTACT_ID, 1, sent, KOMPETENCA, null))
+    when(contacts.update(GROUP_ID, MARKO_ID, CONTACT_ID, 1, sent, KOMPETENCA, VIP))
         .thenReturn(
             new ContactView(CONTACT_ID, 2, "active", fields, List.of(), List.of(), NOW, NOW));
 
     ContactResponse saved =
         controller.update(
-            MARKO, GROUP_ID, CONTACT_ID, new ContactUpdateRequest(sent, KOMPETENCA, 1));
+            MARKO, GROUP_ID, CONTACT_ID, new ContactUpdateRequest(sent, KOMPETENCA, VIP, 1));
 
     assertThat(saved.versionNumber()).isEqualTo(2);
     assertThat(saved.fields()).containsExactlyEntriesOf(fields);
