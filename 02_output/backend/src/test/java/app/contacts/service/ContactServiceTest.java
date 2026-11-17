@@ -791,7 +791,7 @@ class ContactServiceTest {
   }
 
   @Test
-  void r01104RestoreCreatesATagThatNoLongerExistsAndPutsItOn() {
+  void r01104RestoreCreatesTagThatNoLongerExistsAndPutsItOn() {
     Contact janez = janezAtVersion2();
 
     service.restore(GROUP_ID, MARKO, janez.getId(), 2, 1, version1("vip"));
@@ -816,7 +816,7 @@ class ContactServiceTest {
   }
 
   @Test
-  void ex01101RestoreWithAStaleVersionNumberIsRejectedAsBr06() {
+  void ex01101RestoreWithStaleVersionNumberIsRejectedAsBr06() {
     Contact janez = janezAtVersion2();
     User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
     when(users.findById(ANA)).thenReturn(Optional.of(ana));
@@ -830,7 +830,7 @@ class ContactServiceTest {
   }
 
   @Test
-  void ex01104ContactInTheRecycleBinCannotBeRestoredToAVersion() {
+  void ex01104ContactInTheRecycleBinCannotBeRestoredToVersion() {
     Contact janez = janezAtVersion2();
     ReflectionTestUtils.setField(janez, "state", Contact.IN_RECYCLE_BIN);
 

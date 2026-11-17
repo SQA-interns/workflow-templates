@@ -92,7 +92,7 @@ class HistoryServiceTest {
   }
 
   @Test
-  void r01101HistoryAndVersionNameTheVersionARestoredVersionMadeCurrent() {
+  void r01101HistoryAndVersionNameTheVersionThatWasRestored() {
     janez.edit(janez.getFields(), "", "", marko.getId(), EDITED_AT);
     ContactVersion restored = ContactVersion.restored(janez, 1, EDITED_CHANGES, CREATED_SNAPSHOT);
     when(versions.findHistory(GROUP_ID, janez.getId()))
@@ -108,7 +108,7 @@ class HistoryServiceTest {
   }
 
   @Test
-  void r01101RestoreVersionMakesTheContentOfVersionNCurrent() {
+  void r01101RestoreVersionMakesTheContentOfTheVersionCurrent() {
     when(versions.findVersion(GROUP_ID, janez.getId(), 1)).thenReturn(Optional.of(created));
     ContactView restored = mock(ContactView.class);
     ContactContent version1 =
@@ -129,7 +129,7 @@ class HistoryServiceTest {
   }
 
   @Test
-  void ac01103ViewerCannotRestoreAVersionAndNothingIsRead() {
+  void ac01103ViewerCannotRestoreVersionsAndNothingIsRead() {
     when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
         .thenThrow(new ForbiddenException());
 
@@ -139,7 +139,7 @@ class HistoryServiceTest {
   }
 
   @Test
-  void r01101RestoreOfAVersionNumberThatDoesNotExistIsNotFound() {
+  void r01101RestoreOfUnknownVersionNumberIsNotFound() {
     when(versions.findVersion(GROUP_ID, janez.getId(), 99)).thenReturn(Optional.empty());
 
     assertThatThrownBy(() -> service.restoreVersion(GROUP_ID, MARKO, janez.getId(), 99, 2))
