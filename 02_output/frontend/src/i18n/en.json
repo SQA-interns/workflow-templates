@@ -79,6 +79,11 @@
     "member": {
       "ownerRequired": "A Group always has one Owner.",
       "roleInvalid": "Choose Editor or Viewer."
+    },
+    "merge": {
+      "choiceRequired": "Choose a value for {{key}}.",
+      "tooManyAttributes": "Together these Contacts have more than 50 Attributes; remove some first.",
+      "notPossible": "These Contacts cannot be merged."
     }
   },
   "account": {
@@ -325,6 +330,17 @@
       "samePhone": "Same phone",
       "similarNameSameCompany": "Similar name, same company"
     }
+  },
+  "merge": {
+    "title": "Merge",
+    "intro": "Choose the Primary contact and, per Field, the value to keep. Tags and Attributes of both are kept.",
+    "primary": "Primary contact",
+    "other": "Other contact",
+    "field": "Field",
+    "empty": "(empty)",
+    "confirm": "Merge",
+    "cancel": "Cancel",
+    "mergedFrom": "Merged from"
   },
   "deletedGroups": {
     "title": "Deleted Groups",

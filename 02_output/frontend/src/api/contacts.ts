@@ -31,6 +31,17 @@ export interface Contact {
   attributes: AttributeRow[];
   tags: Tag[];
   updatedAt: string;
+  /** The Contacts merged into this one, oldest first (R-018-05). */
+  mergedFrom: MergedFrom[];
+  /** The Primary contact a merged Contact was merged into. */
+  mergedInto: ContactRef | null;
+}
+
+/** One Merge into a Primary contact (`Contact.mergedFrom` of the contract, R-018-05). */
+export interface MergedFrom {
+  mergeId: string;
+  contact: ContactRef;
+  undone: boolean;
 }
 
 /** The Fields, Attributes and Tag names of a save (`ContactWrite` of the contract). */

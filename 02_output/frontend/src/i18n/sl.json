@@ -79,6 +79,11 @@
     "member": {
       "ownerRequired": "Skupina ima vedno enega lastnika.",
       "roleInvalid": "Izberite urednika ali bralca."
+    },
+    "merge": {
+      "choiceRequired": "Izberite vrednost za {{key}}.",
+      "tooManyAttributes": "Skupaj imata ta kontakta več kot 50 atributov; najprej jih nekaj odstranite.",
+      "notPossible": "Teh kontaktov ni mogoče združiti."
     }
   },
   "account": {
@@ -327,6 +332,17 @@
       "samePhone": "Enak telefon",
       "similarNameSameCompany": "Podobno ime, isto podjetje"
     }
+  },
+  "merge": {
+    "title": "Združi",
+    "intro": "Izberite glavni kontakt in za vsako polje vrednost, ki jo želite obdržati. Značke in atributi obeh se ohranijo.",
+    "primary": "Glavni kontakt",
+    "other": "Drugi kontakt",
+    "field": "Polje",
+    "empty": "(prazno)",
+    "confirm": "Združi",
+    "cancel": "Prekliči",
+    "mergedFrom": "Združeno iz"
   },
   "deletedGroups": {
     "title": "Izbrisane skupine",

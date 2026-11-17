@@ -14,8 +14,8 @@ import { contactName } from "./contactFields";
 import { MoveToRecycleBin } from "./MoveToRecycleBin";
 
 /**
- * WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit, the way to the History and
- * Move to recycle bin (US-012).
+ * WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit, the way to the History,
+ * Move to recycle bin (US-012) and "Merged from" each Contact merged into it (R-018-05).
  */
 export function ContactDetailsPage() {
   const { t } = useTranslation();
@@ -49,6 +49,19 @@ export function ContactDetailsPage() {
           )}
         </div>
       </div>
+      {contact.data.mergedFrom
+        .filter((merge) => !merge.undone)
+        .map((merge) => (
+          <p key={merge.mergeId} className="border-l-4 border-text pl-2">
+            {t("merge.mergedFrom")}{" "}
+            <Link
+              to={`${path}/${merge.contact.id}/history`}
+              className="inline-flex min-h-11 items-center underline"
+            >
+              {merge.contact.name}
+            </Link>
+          </p>
+        ))}
       <div className="grid gap-4 md:grid-cols-2">
         <FieldsSection fields={contact.data.fields} />
         <div className="flex flex-col gap-4">

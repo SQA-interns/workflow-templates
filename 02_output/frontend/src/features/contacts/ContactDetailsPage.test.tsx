@@ -195,4 +195,21 @@ describe("WF-07 Contact details (R-014-06)", () => {
 
     expect(await screen.findByRole("heading", { level: 1, name: "Janez Novak" })).toBeTruthy();
   });
+
+  it("R-018-05 the Primary contact shows Merged from with a link to the Other contact's History", async () => {
+    answer({
+      ...JANEZ,
+      mergedFrom: [
+        { mergeId: "m1", contact: { id: "c2", name: "J. Novak" }, undone: false },
+        { mergeId: "m0", contact: { id: "c3", name: "Jani Novak" }, undone: true },
+      ],
+    });
+
+    renderPage();
+
+    const link = await screen.findByRole("link", { name: "J. Novak" });
+    expect(link.getAttribute("href")).toBe("/groups/g1/contacts/c2/history");
+    expect(screen.getByText(/Merged from/)).toBeTruthy();
+    expect(screen.queryByRole("link", { name: "Jani Novak" })).toBeNull();
+  });
 });
