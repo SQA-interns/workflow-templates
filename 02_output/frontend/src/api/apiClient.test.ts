@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { apiRequest, setTokenSource } from "./apiClient";
+import { apiDownload, apiRequest, setTokenSource } from "./apiClient";
 import { ApiError } from "./problem";
 
 function respond(status: number, body: unknown, type = "application/json") {
@@ -78,5 +78,41 @@ describe("apiClient (ADR-06, R-001-02)", () => {
 
     expect(error.status).toBe(502);
     expect(error.code).toBe("internal");
+  });
+});
+
+describe("apiDownload (US-016, ADR-09)", () => {
+  it("R-016-06 posts the body and answers the file with its UTF-8 file name", async () => {
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response("PK", {
+        status: 200,
+        headers: {
+          "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "Content-Disposition":
+            "attachment; filename*=UTF-8''kontakti-%C5%BDiga%202025-2026-03-05.xlsx",
+        },
+      }),
+    );
+    vi.stubGlobal("fetch", fetchMock);
+    setTokenSource(async () => "id-token");
+
+    const file = await apiDownload("/groups/g1/exports", { q: "novak" });
+
+    expect(file.fileName).toBe("kontakti-Žiga 2025-2026-03-05.xlsx");
+    expect(await file.blob.text()).toBe("PK");
+    const [url, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(url).toBe("/api/v1/groups/g1/exports");
+    expect(init.method).toBe("POST");
+    expect(init.body).toBe('{"q":"novak"}');
+    expect(new Headers(init.headers).get("Authorization")).toBe("Bearer id-token");
+  });
+
+  it("R-016-05 a problem answer throws its ApiError", async () => {
+    respond(409, { code: "export.tooMany" }, "application/problem+json");
+
+    await expect(apiDownload("/groups/g1/exports", {})).rejects.toMatchObject({
+      status: 409,
+      code: "export.tooMany",
+    });
   });
 });
