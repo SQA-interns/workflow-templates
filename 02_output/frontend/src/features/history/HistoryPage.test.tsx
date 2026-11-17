@@ -87,12 +87,12 @@ describe("WF-09 History (R-010-01)", () => {
       "Version 2",
       "Version 1",
     ]);
-    const second = within(versions[0]);
+    const second = within(screen.getByRole("region", { name: "Version 2" }));
     expect(second.getByText("edited")).toBeTruthy();
     expect(second.getByText("Marko Kranjc")).toBeTruthy();
     expect(second.getByText("01.07.2026 10:00")).toBeTruthy();
     expect(second.getByText("E-mail: janez.novak@example.si → janez@novak.si")).toBeTruthy();
-    const first = within(versions[1]);
+    const first = within(screen.getByRole("region", { name: "Version 1" }));
     expect(first.getByText("created")).toBeTruthy();
     expect(first.getByText("Ana Kovač")).toBeTruthy();
     expect(first.getByText("05.03.2026 10:00")).toBeTruthy();
