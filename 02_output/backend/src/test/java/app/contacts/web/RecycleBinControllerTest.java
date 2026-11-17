@@ -2,11 +2,13 @@ package app.contacts.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
 import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactView;
+import app.contacts.service.PermanentDeleteService;
 import app.contacts.service.RecycleBinEntryView;
 import app.contacts.service.RecycleBinService;
 import app.contacts.service.UserView;
@@ -15,6 +17,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 class RecycleBinControllerTest {
 
@@ -26,7 +30,9 @@ class RecycleBinControllerTest {
       new CurrentUser(new UserView(MARKO_ID, "marko.kranjc@gmail.com", "Marko Kranjc", "sl"), true);
 
   private final RecycleBinService recycleBin = mock(RecycleBinService.class);
-  private final RecycleBinController controller = new RecycleBinController(recycleBin);
+  private final PermanentDeleteService permanentDelete = mock(PermanentDeleteService.class);
+  private final RecycleBinController controller =
+      new RecycleBinController(recycleBin, permanentDelete);
 
   @Test
   void r01201PostMoveAnswersTheContactInTheRecycleBin() {
@@ -82,5 +88,18 @@ class RecycleBinControllerTest {
 
     assertThat(restored.state()).isEqualTo("active");
     assertThat(restored.versionNumber()).isEqualTo(5);
+  }
+
+  @Test
+  void r01301DeleteRemovesTheContactPermanentlyAndAnswersNoContent() throws NoSuchMethodException {
+    controller.permanentlyDelete(MARKO, GROUP_ID, CONTACT_ID);
+
+    verify(permanentDelete).permanentlyDelete(GROUP_ID, MARKO_ID, CONTACT_ID);
+    assertThat(
+            RecycleBinController.class
+                .getMethod("permanentlyDelete", CurrentUser.class, UUID.class, UUID.class)
+                .getAnnotation(ResponseStatus.class)
+                .value())
+        .isEqualTo(HttpStatus.NO_CONTENT);
   }
 }
