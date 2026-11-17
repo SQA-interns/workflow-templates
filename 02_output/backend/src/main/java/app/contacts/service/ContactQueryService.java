@@ -81,24 +81,44 @@ public class ContactQueryService {
     ContactSort sort = SORTS.get(query.sort() == null ? "name" : query.sort());
     String dir = query.dir() == null ? "asc" : query.dir();
     int page = query.page() == null ? 1 : query.page();
-    String search = query.search() == null ? "" : query.search().strip();
     if (sort == null || !(dir.equals("asc") || dir.equals("desc")) || page < 1) {
       throw new ValidationException(List.of());
     }
-    if (search.codePointCount(0, search.length()) > SEARCH_MAX) {
-      throw new ValidationException(
-          List.of(new FieldProblem("q", "field.tooLong", Map.of("field", "q", "max", SEARCH_MAX))));
-    }
+    String pattern = pattern(query.search());
     ContactFilters filters = checked(query.filters());
-    if (repository.countTags(groupId, tagIds(filters)) != tagIds(filters).size()) {
-      throw new NotFoundException();
-    }
-    String pattern = search.isEmpty() ? "%" : "%" + escaped(normaliser.text(search)) + "%";
+    requireTagsOf(groupId, filters);
     List<ContactListRow> rows =
         repository.findPage(
             groupId, pattern, filters, sort, dir.equals("desc"), (page - 1) * PAGE_SIZE, PAGE_SIZE);
     long total = repository.count(groupId, pattern, filters);
     return new ContactPageView(withTags(groupId, rows), total, page, PAGE_SIZE);
+  }
+
+  /**
+   * The LIKE pattern of the trimmed, Normalised search text (R-014-04).
+   *
+   * @throws ValidationException for a search text of more than 200 characters
+   */
+  private String pattern(String sent) {
+    String search = sent == null ? "" : sent.strip();
+    if (search.codePointCount(0, search.length()) > SEARCH_MAX) {
+      throw new ValidationException(
+          List.of(new FieldProblem("q", "field.tooLong", Map.of("field", "q", "max", SEARCH_MAX))));
+    }
+    return search.isEmpty() ? "%" : "%" + escaped(normaliser.text(search)) + "%";
+  }
+
+  /**
+   * Every Tag of the filters, each once, belongs to the Group (EX-015-02, EX-015-04).
+   *
+   * @throws NotFoundException for a Tag id of another Group or of no Tag
+   */
+  private void requireTagsOf(UUID groupId, ContactFilters filters) {
+    Set<UUID> ids = new LinkedHashSet<>(filters.hasTagIds());
+    ids.addAll(filters.withoutTagIds());
+    if (repository.countTags(groupId, List.copyOf(ids)) != ids.size()) {
+      throw new NotFoundException();
+    }
   }
 
   /**
@@ -150,13 +170,6 @@ public class ContactQueryService {
 
   private static int length(String text) {
     return text == null ? 0 : text.codePointCount(0, text.length());
-  }
-
-  /** Every Tag of the filters once (EX-015-02). */
-  private static List<UUID> tagIds(ContactFilters filters) {
-    Set<UUID> ids = new LinkedHashSet<>(filters.hasTagIds());
-    ids.addAll(filters.withoutTagIds());
-    return List.copyOf(ids);
   }
 
   /** The search text taken literally in a LIKE pattern (EX-014-05). */
