@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Locale;
 import java.util.UUID;
 
 /**
@@ -23,6 +24,9 @@ public class Invitation implements GroupOwned {
 
   /** Open: can still be accepted or revoked until {@code expiresAt}. */
   public static final String OPEN = "open";
+
+  /** Accepted by the invitee (R-004-04). */
+  public static final String ACCEPTED = "accepted";
 
   /** Revoked by the Owner or by a newer Invitation (R-004-03, R-004-09). */
   public static final String REVOKED = "revoked";
@@ -53,6 +57,12 @@ public class Invitation implements GroupOwned {
 
   @Column(name = "expires_at", nullable = false, updatable = false)
   private Instant expiresAt;
+
+  @Column(name = "accepted_at")
+  private Instant acceptedAt;
+
+  @Column(name = "accepted_by")
+  private UUID acceptedBy;
 
   /** For JPA. */
   protected Invitation() {}
@@ -94,9 +104,38 @@ public class Invitation implements GroupOwned {
     return OPEN.equals(state) && now.isBefore(expiresAt);
   }
 
+  /**
+   * Whether the e-mail is the invitee's, compared case-insensitively (R-004-05, BR-11).
+   *
+   * @param userEmail the signed-in User's e-mail
+   * @return true for the invitee
+   */
+  public boolean isFor(String userEmail) {
+    return userEmail != null && lowerCase(email).equals(lowerCase(userEmail));
+  }
+
+  /**
+   * Lower case without upper-casing first, as PostgreSQL {@code lower}: "ı" stays apart from "i".
+   */
+  private static String lowerCase(String text) {
+    return text.toLowerCase(Locale.ROOT);
+  }
+
   /** Revokes the Invitation (R-004-03, R-004-09). */
   public void revoke() {
     state = REVOKED;
+  }
+
+  /**
+   * Marks the Invitation accepted (R-004-04).
+   *
+   * @param userId the invitee
+   * @param now the time of acceptance
+   */
+  public void accept(UUID userId, Instant now) {
+    state = ACCEPTED;
+    acceptedBy = userId;
+    acceptedAt = now;
   }
 
   public UUID getId() {
@@ -122,5 +161,13 @@ public class Invitation implements GroupOwned {
 
   public Instant getExpiresAt() {
     return expiresAt;
+  }
+
+  public Instant getAcceptedAt() {
+    return acceptedAt;
+  }
+
+  public UUID getAcceptedBy() {
+    return acceptedBy;
   }
 }

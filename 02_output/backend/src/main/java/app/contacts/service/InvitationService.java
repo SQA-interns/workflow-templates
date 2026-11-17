@@ -1,8 +1,12 @@
 package app.contacts.service;
 
 import app.contacts.domain.AuditEntry;
+import app.contacts.domain.Group;
 import app.contacts.domain.Invitation;
+import app.contacts.domain.Membership;
+import app.contacts.domain.MembershipId;
 import app.contacts.domain.Role;
+import app.contacts.repository.GroupRepository;
 import app.contacts.repository.InvitationRepository;
 import app.contacts.repository.MembershipRepository;
 import java.time.Clock;
@@ -15,7 +19,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Invitations: create, list and revoke by the Owner (US-004, D-17). */
+/** Invitations: create, list and revoke by the Owner; view and accept by the invitee (US-004). */
 @Service
 public class InvitationService {
 
@@ -27,6 +31,7 @@ public class InvitationService {
 
   private final InvitationRepository invitations;
   private final MembershipRepository memberships;
+  private final GroupRepository groups;
   private final AccessGuard guard;
   private final AuditService audit;
   private final Clock clock;
@@ -36,6 +41,7 @@ public class InvitationService {
    *
    * @param invitations the Invitation repository
    * @param memberships the Membership repository
+   * @param groups the Group repository
    * @param guard the access check
    * @param audit writes the Audit entries
    * @param clock the clock
@@ -43,11 +49,13 @@ public class InvitationService {
   public InvitationService(
       InvitationRepository invitations,
       MembershipRepository memberships,
+      GroupRepository groups,
       AccessGuard guard,
       AuditService audit,
       Clock clock) {
     this.invitations = invitations;
     this.memberships = memberships;
+    this.groups = groups;
     this.guard = guard;
     this.audit = audit;
     this.clock = clock;
@@ -78,7 +86,7 @@ public class InvitationService {
     }
     Instant now = clock.instant();
     for (Invitation earlier : invitations.findOpenForEmail(groupId, trimmed, now)) {
-      revoke(earlier, userId);
+      markRevoked(earlier, userId);
     }
     InvitationToken token = InvitationToken.issue(groupId);
     Invitation invitation =
@@ -86,7 +94,7 @@ public class InvitationService {
             groupId,
             Invitation.create(groupId, trimmed, Role.valueOf(role), token.hash(), userId, now));
     audit.record(groupId, userId, AuditEntry.INVITATION_CREATED, invitation.getId());
-    return new CreatedInvitation(view(invitation), token.value());
+    return new CreatedInvitation(toView(invitation), token.value());
   }
 
   /**
@@ -100,7 +108,7 @@ public class InvitationService {
   public List<InvitationView> listOpen(UUID groupId, UUID userId) {
     guard.require(groupId, userId, Permission.MANAGE_GROUP);
     return invitations.findOpen(groupId, clock.instant()).stream()
-        .map(InvitationService::view)
+        .map(InvitationService::toView)
         .toList();
   }
 
@@ -120,10 +128,73 @@ public class InvitationService {
             .findInGroup(groupId, invitationId)
             .filter(found -> found.isOpenAt(clock.instant()))
             .orElseThrow(NotFoundException::new);
-    revoke(invitation, userId);
+    markRevoked(invitation, userId);
   }
 
-  private void revoke(Invitation invitation, UUID userId) {
+  /**
+   * The Invitation of the link for its invitee (R-004-04).
+   *
+   * @param token the token of the link
+   * @param user the signed-in User
+   * @return the Group name, Role and expiry
+   * @throws ConflictException {@code invitation.noLongerValid} (R-004-06, EX-004-08, EX-003-05)
+   * @throws ForbiddenException {@code invitation.otherEmail} (R-004-05)
+   */
+  @Transactional
+  public InviteeView view(String token, UserView user) {
+    Invitation invitation = usable(token, user);
+    return new InviteeView(
+        activeGroup(invitation).getName(), invitation.getRole().name(), invitation.getExpiresAt());
+  }
+
+  /**
+   * Makes the invitee a Member with the Invitation's Role and marks the Invitation accepted, with
+   * an Audit entry (R-004-04, D-17).
+   *
+   * @param token the token of the link
+   * @param user the signed-in User
+   * @return the Group with the new Role
+   * @throws ConflictException {@code invitation.noLongerValid} (R-004-06), {@code
+   *     invitation.alreadyMember} when the User is a Member already
+   * @throws ForbiddenException {@code invitation.otherEmail} (R-004-05)
+   */
+  @Transactional
+  public GroupView accept(String token, UserView user) {
+    Invitation invitation = usable(token, user);
+    UUID groupId = invitation.getGroupId();
+    if (memberships.existsById(new MembershipId(groupId, user.id()))) {
+      throw new ConflictException("invitation.alreadyMember", Map.of());
+    }
+    memberships.save(Membership.of(groupId, user.id(), invitation.getRole()));
+    invitation.accept(user.id(), clock.instant());
+    audit.record(groupId, user.id(), AuditEntry.INVITATION_ACCEPTED, invitation.getId());
+    return new GroupView(groupId, activeGroup(invitation).getName(), invitation.getRole().name());
+  }
+
+  /** The open Invitation of the token in an active Group, if it is for the User. */
+  private Invitation usable(String token, UserView user) {
+    Invitation invitation =
+        InvitationToken.parse(token)
+            .flatMap(parsed -> invitations.findByToken(parsed.groupId(), parsed.hash()))
+            .filter(found -> found.isOpenAt(clock.instant()))
+            .filter(
+                found ->
+                    groups
+                        .findById(found.getGroupId())
+                        .filter(g -> Group.ACTIVE.equals(g.getState()))
+                        .isPresent())
+            .orElseThrow(() -> new ConflictException("invitation.noLongerValid", Map.of()));
+    if (!invitation.isFor(user.email())) {
+      throw new ForbiddenException("invitation.otherEmail");
+    }
+    return invitation;
+  }
+
+  private Group activeGroup(Invitation invitation) {
+    return groups.findById(invitation.getGroupId()).orElseThrow(NotFoundException::new);
+  }
+
+  private void markRevoked(Invitation invitation, UUID userId) {
     invitation.revoke();
     audit.record(
         invitation.getGroupId(), userId, AuditEntry.INVITATION_REVOKED, invitation.getId());
@@ -145,7 +216,7 @@ public class InvitationService {
     }
   }
 
-  private static InvitationView view(Invitation invitation) {
+  private static InvitationView toView(Invitation invitation) {
     return new InvitationView(
         invitation.getId(),
         invitation.getEmail(),

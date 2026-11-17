@@ -11,11 +11,16 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import app.contacts.domain.AuditEntry;
+import app.contacts.domain.Group;
 import app.contacts.domain.Invitation;
+import app.contacts.domain.Membership;
+import app.contacts.domain.MembershipId;
 import app.contacts.domain.Role;
+import app.contacts.repository.GroupRepository;
 import app.contacts.repository.InvitationRepository;
 import app.contacts.repository.MembershipRepository;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -34,14 +39,16 @@ class InvitationServiceTest {
   private static final UUID ANA = UUID.randomUUID();
   private static final UUID GROUP = UUID.randomUUID();
   private static final String MARKO = "marko.kranjc@gmail.com";
+  private static final UUID MARKO_ID = UUID.randomUUID();
 
   private final InvitationRepository invitations = mock(InvitationRepository.class);
   private final MembershipRepository memberships = mock(MembershipRepository.class);
+  private final GroupRepository groups = mock(GroupRepository.class);
   private final AccessGuard guard = mock(AccessGuard.class);
   private final AuditService audit = mock(AuditService.class);
   private final InvitationService service =
       new InvitationService(
-          invitations, memberships, guard, audit, Clock.fixed(NOW, ZoneOffset.UTC));
+          invitations, memberships, groups, guard, audit, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void r00401OwnerCreatesAnOpenInvitationValidFor7DaysWithItsTokenAndAnAuditEntry() {
@@ -172,6 +179,150 @@ class InvitationServiceTest {
 
     assertThatThrownBy(() -> service.revoke(GROUP, ANA, id)).isInstanceOf(ForbiddenException.class);
     verify(invitations, never()).findInGroup(any(), any());
+  }
+
+  @Test
+  void r00404InviteeSeesTheGroupNameRoleAndExpiry() {
+    InvitationToken token = invitation(MARKO, NOW);
+
+    assertThat(service.view(token.value(), marko()))
+        .isEqualTo(
+            new InviteeView("Konferenca 2025", "EDITOR", Instant.parse("2026-03-12T09:00:00Z")));
+  }
+
+  @Test
+  void r00404InviteeAcceptsAndBecomesMemberWithTheRoleAndAnAuditEntry() {
+    InvitationToken token = invitation(MARKO, NOW);
+    Invitation invitation = stored(token);
+
+    GroupView group = service.accept(token.value(), marko());
+
+    assertThat(group).isEqualTo(new GroupView(GROUP, "Konferenca 2025", "EDITOR"));
+    ArgumentCaptor<Membership> membership = ArgumentCaptor.forClass(Membership.class);
+    verify(memberships).save(membership.capture());
+    assertThat(membership.getValue().getId()).isEqualTo(new MembershipId(GROUP, MARKO_ID));
+    assertThat(membership.getValue().getRole()).isEqualTo(Role.EDITOR);
+    assertThat(invitation.getState()).isEqualTo(Invitation.ACCEPTED);
+    assertThat(invitation.getAcceptedBy()).isEqualTo(MARKO_ID);
+    assertThat(invitation.getAcceptedAt()).isEqualTo(NOW);
+    verify(audit).record(GROUP, MARKO_ID, AuditEntry.INVITATION_ACCEPTED, invitation.getId());
+  }
+
+  @Test
+  void ex00401AcceptedOneMinuteBeforeItExpires() {
+    InvitationToken token = invitation(MARKO, NOW.minus(Duration.ofDays(7)).plusSeconds(60));
+
+    assertThat(service.accept(token.value(), marko()).role()).isEqualTo("EDITOR");
+  }
+
+  @Test
+  void ex00402AtExpiresAtTheInvitationIsNoLongerValid() {
+    InvitationToken token = invitation(MARKO, NOW.minus(Duration.ofDays(7)));
+
+    assertNoLongerValid(token.value());
+  }
+
+  @Test
+  void ex00403EmailMatchesCaseInsensitively() {
+    InvitationToken token = invitation("Marko.Kranjc@Gmail.com", NOW);
+
+    assertThat(service.accept(token.value(), marko()).name()).isEqualTo("Konferenca 2025");
+  }
+
+  @Test
+  void r00405DotlessLetterMakesAnotherEmail() {
+    InvitationToken token = invitation(MARKO, NOW);
+    UserView other = new UserView(UUID.randomUUID(), "marko.kranjc@gmaıl.com", "M", "sl");
+
+    assertThatThrownBy(() -> service.accept(token.value(), other))
+        .isInstanceOf(ForbiddenException.class)
+        .hasMessage("invitation.otherEmail");
+  }
+
+  @Test
+  void r00405AnotherEmailCannotSeeOrAcceptTheInvitation() {
+    InvitationToken token = invitation(MARKO, NOW);
+    UserView petra =
+        new UserView(UUID.randomUUID(), "petra.horvat@example.si", "Petra Horvat", "sl");
+
+    assertThatThrownBy(() -> service.view(token.value(), petra))
+        .isInstanceOf(ForbiddenException.class)
+        .hasMessage("invitation.otherEmail");
+    assertThatThrownBy(() -> service.accept(token.value(), petra))
+        .isInstanceOf(ForbiddenException.class)
+        .hasMessage("invitation.otherEmail");
+    assertThat(stored(token).getState()).isEqualTo(Invitation.OPEN);
+    verify(memberships, never()).save(any());
+  }
+
+  @Test
+  void r00406AcceptedOrRevokedInvitationIsNoLongerValid() {
+    InvitationToken accepted = invitation(MARKO, NOW);
+    service.accept(accepted.value(), marko());
+    InvitationToken revoked = invitation(MARKO, NOW);
+    stored(revoked).revoke();
+
+    assertNoLongerValid(accepted.value());
+    assertNoLongerValid(revoked.value());
+  }
+
+  @ParameterizedTest
+  @NullSource
+  @ValueSource(strings = {"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "unknown"})
+  void ex00408UnknownTokenIsNoLongerValid(String token) {
+    assertNoLongerValid(token);
+  }
+
+  @Test
+  void ex00408IssuedFormButNoSuchInvitationIsNoLongerValid() {
+    assertNoLongerValid(InvitationToken.issue(GROUP).value());
+  }
+
+  @Test
+  void ex00305InvitationOfGroupInTheRecycleBinIsNoLongerValid() {
+    InvitationToken token = invitation(MARKO, NOW);
+    groups.findById(GROUP).orElseThrow().moveToRecycleBin(NOW);
+
+    assertNoLongerValid(token.value());
+  }
+
+  @Test
+  void r00404InviteeWhoIsAlreadyMemberIsRejected() {
+    InvitationToken token = invitation(MARKO, NOW);
+    when(memberships.existsById(new MembershipId(GROUP, MARKO_ID))).thenReturn(true);
+
+    assertThatThrownBy(() -> service.accept(token.value(), marko()))
+        .isInstanceOf(ConflictException.class)
+        .hasMessage("invitation.alreadyMember");
+    verify(memberships, never()).save(any());
+  }
+
+  private static UserView marko() {
+    return new UserView(MARKO_ID, MARKO, "Marko Kranjc", "sl");
+  }
+
+  /** An open EDITOR Invitation of "Konferenca 2025" created at the time, with its token. */
+  private InvitationToken invitation(String email, Instant createdAt) {
+    Group group = Group.create("Konferenca 2025", ANA, createdAt);
+    when(groups.findById(GROUP)).thenReturn(Optional.of(group));
+    InvitationToken token = InvitationToken.issue(GROUP);
+    Invitation invitation =
+        Invitation.create(GROUP, email, Role.EDITOR, token.hash(), ANA, createdAt);
+    when(invitations.findByToken(eq(GROUP), eq(token.hash()))).thenReturn(Optional.of(invitation));
+    return token;
+  }
+
+  private Invitation stored(InvitationToken token) {
+    return invitations.findByToken(GROUP, token.hash()).orElseThrow();
+  }
+
+  private void assertNoLongerValid(String token) {
+    assertThatThrownBy(() -> service.view(token, marko()))
+        .isInstanceOf(ConflictException.class)
+        .hasMessage("invitation.noLongerValid");
+    assertThatThrownBy(() -> service.accept(token, marko()))
+        .isInstanceOf(ConflictException.class)
+        .hasMessage("invitation.noLongerValid");
   }
 
   private void assertRejected(String email, String role, FieldProblem problem) {

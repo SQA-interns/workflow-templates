@@ -42,6 +42,9 @@ public class AuditEntry implements GroupOwned {
   /** An Invitation was revoked by the Owner or by a newer one (R-004-03, R-004-09, D-17). */
   public static final String INVITATION_REVOKED = "invitation.revoked";
 
+  /** The invitee accepted an Invitation (R-004-04, D-17); the User is the invitee. */
+  public static final String INVITATION_ACCEPTED = "invitation.accepted";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)
