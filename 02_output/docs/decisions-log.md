@@ -780,3 +780,25 @@
 - Human response: "agree with all decisions" — option 1, 2026-11-17.
 - Resolution: 1
 - Overrides: none
+
+## D-72: US-018 details the story leaves open
+- Timestamp: 2026-11-17T21:30+01:00
+- Session: S5 /implement US-018
+- Class: open
+- Type: non-blocking
+- Trigger: Implementing R-018-01 … R-018-07, D-21 and WF-18 needs values that US-018, the specification (§3, §5), the contract (`MergeRequest`, `Merge`) and D-25 do not give.
+- Options: 1. [ASSUMPTION] (a) order of checks of `POST /merges`: permission (non-Member 404, Viewer 403 `auth.forbidden`); a missing id or Version number 400 `validation`; the same Contact twice 400 `merge.notPossible` (EX-018-05); a Contact that is not the Group's 404 (BR-02; R-018-07 "another Group" answered as BR-02 does everywhere else); stale Version number 409 `version.conflict` (BR-06, EX-018-04); a Contact that is not active (recycle bin or merged) 409 `merge.notPossible` (EX-018-03); an unknown Field name or a choice other than `primary`/`other` 400 `validation`; more than 50 Attributes together 409 `merge.tooManyAttributes` (checked before the choices: choosing does not help); a key with two values and no choice 400 `merge.choiceRequired` with `params.key` = the first such key A–Z (AC-018-03); merged Fields that are invalid together (e.g. no name and no company) 400 `validation`; (b) a Field without a choice in the request takes the R-018-01 preselection (the Primary contact's value if non-blank, else the Other's), so the API and WF-18 agree; (c) Attribute keys and Tag names are matched ignoring case (as their unique indexes); the Primary contact's spelling is kept; "same value" (EX-018-01) means equal text; (d) both Contacts are locked in id order so that two Merges of one pair run one after the other; (e) the Audit entry is `contacts.merged` by the merging User with the Merge as target (ids only, SR-06); (f) `mergedFrom` lists every Merge into the Contact, oldest first, undone ones with `undone: true`; WF-07 shows "Merged from" only for Merges not undone; (g) D-21: a permanent delete or a BR-08 removal deletes the Contacts merged into the Contact, also those merged into one of them, deepest first, each with its own Audit entry (`contact.permanentlyDeleted` by the Owner, `contact.removed` by the User who moved the Primary contact to the recycle bin, as D-59 (c)); (h) WF-18 shows only the Fields with a value in either Contact; a blank value is shown as "(empty)"; choosing the other Primary contact preselects again; the Attribute choices start empty (R-018-03 asks the User to choose); a refused `merge.choiceRequired` shows in the Attributes card (WF-18), every other refusal above the buttons; after a Merge the Primary contact's details open; Merge on WF-17 is shown to the Owner and Editors only (BR-03); (i) Slovenian texts: "Združi", "Izberite glavni kontakt in za vsako polje vrednost, ki jo želite obdržati. Značke in atributi obeh se ohranijo.", "Glavni kontakt", "Drugi kontakt", "Polje", "(prazno)", "Prekliči", "Združeno iz", "Izberite vrednost za {{key}}.", "Skupaj imata ta kontakta več kot 50 atributov; najprej jih nekaj odstranite.", "Teh kontaktov ni mogoče združiti."; (j) DoD-S-07: dd77b96 has 464 changed lines and dfafe46 580 (over 400; each is one test-first step that was not split); 15d2645 failed the SpotBugs check (a private method named `delete…` counts as a mutator, EI_EXPOSE_REP2, as D-59 (f)), build and tests passed, fixed by e5b9c4f (history not rewritten). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-73: Docker stopped during /implement US-018
+- Timestamp: 2026-11-17T21:30+01:00
+- Session: S5 /implement US-018
+- Class: block
+- Type: blocking
+- Trigger: The Docker daemon stopped during the baseline run (`Cannot connect to the Docker daemon at unix:///home/tjan-kazar/.docker/desktop/docker.sock`; `out/logs/implement-us018-baseline-full.txt`: 9 repository ITs error with "Could not find a valid Docker environment" after a 429 s stall). Testcontainers, the backend acceptance tests and the stack on port 8090 need it, so `MergeRepositoryIT` (new, uncommitted), the frozen API and UI tests of US-018, US-013 EX-013-03, US-017 EX-017-04, the WF-18 screenshots and the accessibility scan cannot run. Starting Docker Desktop is the human's host (AGENTS.md "Never"). One open question waits on the database: whether "J. Novak" sorts before "Janez Novak" under `sl-x-icu` (R-014-02); if so, the pair's first Contact (D-25 (b)) is "J. Novak" and the frozen UI tests AC-018-02 and AC-018-05, which expect "Janez Novak" as Primary contact, would fail; that would be an approval decision, not a code change.
+- Options: 1. The human starts Docker Desktop and runs `/implement US-018` again; the session resumes at the first item not done: run and commit `MergeRepositoryIT`, the full backend suite, rebuild the stack, run the UI acceptance tests and screens, then DoD-S (proposed default). 2. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: none
