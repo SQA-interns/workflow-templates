@@ -12,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import app.contacts.auth.CurrentUser;
 import app.contacts.service.ChangeView;
+import app.contacts.service.ContactView;
 import app.contacts.service.HistoryService;
 import app.contacts.service.SnapshotView;
 import app.contacts.service.UserView;
@@ -20,6 +21,7 @@ import app.contacts.service.VersionView;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.SequencedMap;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
@@ -70,6 +72,22 @@ class HistoryControllerTest {
     when(history.version(GROUP_ID, PETRA_ID, CONTACT_ID, 1)).thenReturn(created);
 
     assertThat(controller.version(PETRA, GROUP_ID, CONTACT_ID, 1)).isEqualTo(created);
+  }
+
+  @Test
+  void r01101PostRestoreAnswersTheRestoredContact() {
+    SequencedMap<String, String> fields = new LinkedHashMap<>();
+    fields.put("email", "janez.novak@example.si");
+    when(history.restoreVersion(GROUP_ID, PETRA_ID, CONTACT_ID, 1, 2))
+        .thenReturn(
+            new ContactView(
+                CONTACT_ID, 3, "active", fields, List.of(), List.of(), EDITED_AT, EDITED_AT));
+
+    ContactResponse restored =
+        controller.restore(PETRA, GROUP_ID, CONTACT_ID, 1, new VersionNumberRequest(2));
+
+    assertThat(restored.versionNumber()).isEqualTo(3);
+    assertThat(restored.fields()).containsExactlyEntriesOf(fields);
   }
 
   @Test

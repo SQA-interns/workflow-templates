@@ -9,12 +9,15 @@ import java.util.UUID;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * The History of a Contact ({@code /groups/{groupId}/contacts/{contactId}/versions}, US-010);
- * Versions are only read, so changing or deleting one is 405 (R-010-03, EX-010-03).
+ * The History of a Contact ({@code /groups/{groupId}/contacts/{contactId}/versions}, US-010) and
+ * restoring a Version (US-011); Versions are only read, so changing or deleting one is 405
+ * (R-010-03, EX-010-03).
  */
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/contacts/{contactId}/versions")
@@ -65,5 +68,26 @@ public class HistoryController {
       @PathVariable UUID contactId,
       @PathVariable int number) {
     return history.version(groupId, current.id(), contactId, number);
+  }
+
+  /**
+   * Makes Version n current as a new Version {@code restored} (R-011-01 … R-011-04, BR-06).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @param number the number of the Version to restore
+   * @param body the current Version number read
+   * @return the restored Contact
+   */
+  @PostMapping("/{number}/restore")
+  public ContactResponse restore(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID contactId,
+      @PathVariable int number,
+      @RequestBody VersionNumberRequest body) {
+    return ContactResponse.of(
+        history.restoreVersion(groupId, current.id(), contactId, number, body.versionNumber()));
   }
 }

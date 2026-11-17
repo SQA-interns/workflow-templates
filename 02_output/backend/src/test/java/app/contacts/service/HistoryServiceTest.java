@@ -122,6 +122,13 @@ class HistoryServiceTest {
   }
 
   @Test
+  void ex01101RestoreWithoutTheVersionNumberReadIsRejected() {
+    assertThatThrownBy(() -> service.restoreVersion(GROUP_ID, MARKO, janez.getId(), 1, null))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts);
+  }
+
+  @Test
   void ac01103ViewerCannotRestoreAVersionAndNothingIsRead() {
     when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
         .thenThrow(new ForbiddenException());

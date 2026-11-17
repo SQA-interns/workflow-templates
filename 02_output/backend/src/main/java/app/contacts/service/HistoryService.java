@@ -117,12 +117,16 @@ public class HistoryService {
    * @throws NotFoundException for a non-Member, a Contact that is not the Group's (BR-02) or a
    *     Version number it does not have
    * @throws ForbiddenException for a Viewer (BR-03, AC-011-03)
+   * @throws ValidationException for a missing Version number read
    * @throws ConflictException as {@link ContactService#restore}
    */
   @Transactional
   public ContactView restoreVersion(
-      UUID groupId, UUID userId, UUID contactId, int number, int versionNumber) {
+      UUID groupId, UUID userId, UUID contactId, int number, Integer versionNumber) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
+    if (versionNumber == null) {
+      throw new ValidationException(List.of());
+    }
     ContactVersion version =
         versions.findVersion(groupId, contactId, number).orElseThrow(NotFoundException::new);
     SnapshotView snapshot = snapshotOf(version);
