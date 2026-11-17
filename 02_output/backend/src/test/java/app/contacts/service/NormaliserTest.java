@@ -66,7 +66,7 @@ class NormaliserTest {
   }
 
   @Test
-  void r01703NormalisedPhoneKeepsOnlyDigitsAndALeadingPlus() {
+  void r01703NormalisedPhoneKeepsOnlyDigitsAndLeadingPlus() {
     assertThat(normaliser.phone("+386 41 123 456")).isEqualTo("+38641123456");
     assertThat(normaliser.phone("+386-41-123-456")).isEqualTo("+38641123456");
     assertThat(normaliser.phone("(01) 234/56+7")).isEqualTo("01234567");
