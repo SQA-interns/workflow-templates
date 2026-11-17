@@ -295,3 +295,27 @@ describe("routes and header of US-004", () => {
     expect(apiRequest).not.toHaveBeenCalledWith("GET", "/groups/g1/invitations");
   });
 });
+
+describe("routes and header of US-017", () => {
+  it("R-017-01 every Member, also a Viewer, gets Possible duplicates in the navigation", async () => {
+    answer([{ ...konferenca, role: "VIEWER" }]);
+
+    renderAt("/groups/g1/contacts");
+
+    const navigation = screen.getByRole("navigation", { name: "Glavna navigacija" });
+    const link = await within(navigation).findByRole("link", { name: "Možni dvojniki" });
+    expect(link.getAttribute("href")).toBe("/groups/g1/duplicates");
+  });
+
+  it("R-017-01 /groups/:groupId/duplicates shows WF-17", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+      if (path === "/groups") return [konferenca];
+      return path === "/groups/g1/duplicates" ? [] : ana;
+    });
+
+    renderAt("/groups/g1/duplicates");
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Možni dvojniki" })).toBeTruthy();
+    expect(await screen.findByText("Ni najdenih možnih dvojnikov.")).toBeTruthy();
+  });
+});

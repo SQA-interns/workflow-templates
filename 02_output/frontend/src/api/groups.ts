@@ -24,6 +24,11 @@ export function useCanChangeContacts(groupId: string): boolean {
   return role === "OWNER" || role === "EDITOR";
 }
 
+/** Whether the User is a Member of the Group, in any Role (BR-01). */
+export function useIsMember(groupId: string): boolean {
+  return useGroups().data?.some((group) => group.id === groupId) ?? false;
+}
+
 /** Whether the User is the Owner of the Group (BR-04). */
 export function useIsOwner(groupId: string): boolean {
   return useGroups().data?.find((group) => group.id === groupId)?.role === "OWNER";
