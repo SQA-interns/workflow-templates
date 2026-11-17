@@ -78,20 +78,45 @@ public class ContactQueryService {
   @Transactional(readOnly = true)
   public ContactPageView page(UUID groupId, UUID userId, ContactQuery query) {
     guard.require(groupId, userId, Permission.READ);
+    int page = query.page() == null ? 1 : query.page();
+    if (page < 1) {
+      throw new ValidationException(List.of());
+    }
+    ContactListScope scope = scope(groupId, query);
+    List<ContactListRow> rows =
+        repository.findPage(
+            groupId,
+            scope.pattern(),
+            scope.filters(),
+            scope.sort(),
+            scope.descending(),
+            (page - 1) * PAGE_SIZE,
+            PAGE_SIZE);
+    long total = repository.count(groupId, scope.pattern(), scope.filters());
+    return new ContactPageView(withTags(groupId, rows), total, page, PAGE_SIZE);
+  }
+
+  /**
+   * The search, sort, order and filters of the query, checked, without the Page: the list that the
+   * Page, the count and the Export share (R-015-07, R-016-01). The caller checks access.
+   *
+   * @param groupId the Group
+   * @param query the query as sent; its Page is ignored
+   * @return the checked scope
+   * @throws NotFoundException for a Tag id of another Group (EX-015-04)
+   * @throws ValidationException for an unknown sort or order, a search text of more than 200
+   *     characters, or an invalid filter
+   */
+  ContactListScope scope(UUID groupId, ContactQuery query) {
     ContactSort sort = SORTS.get(query.sort() == null ? "name" : query.sort());
     String dir = query.dir() == null ? "asc" : query.dir();
-    int page = query.page() == null ? 1 : query.page();
-    if (sort == null || !(dir.equals("asc") || dir.equals("desc")) || page < 1) {
+    if (sort == null || !(dir.equals("asc") || dir.equals("desc"))) {
       throw new ValidationException(List.of());
     }
     String pattern = pattern(query.search());
     ContactFilters filters = checked(query.filters());
     requireTagsOf(groupId, filters);
-    List<ContactListRow> rows =
-        repository.findPage(
-            groupId, pattern, filters, sort, dir.equals("desc"), (page - 1) * PAGE_SIZE, PAGE_SIZE);
-    long total = repository.count(groupId, pattern, filters);
-    return new ContactPageView(withTags(groupId, rows), total, page, PAGE_SIZE);
+    return new ContactListScope(pattern, filters, sort, dir.equals("desc"));
   }
 
   /**
