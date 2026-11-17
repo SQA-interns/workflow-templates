@@ -68,6 +68,12 @@
     "export": {
       "tooMany": "Zožite seznam na največ 10.000 kontaktov za izvoz.",
       "empty": "Ni ničesar za izvoz."
+    },
+    "invitation": {
+      "alreadyMember": "Ta oseba je že član.",
+      "otherEmail": "To povabilo je za drug e-poštni naslov.",
+      "noLongerValid": "To povabilo ni več veljavno.",
+      "roleInvalid": "Izberite urednika ali bralca."
     }
   },
   "account": {
@@ -319,6 +325,50 @@
     },
     "card": {
       "removalAt": "odstranitev"
+    }
+  },
+  "roles": {
+    "OWNER": "Lastnik",
+    "EDITOR": "Urednik",
+    "VIEWER": "Bralec"
+  },
+  "members": {
+    "title": "Člani"
+  },
+  "invitations": {
+    "invite": {
+      "title": "Povabi člana",
+      "email": "E-pošta",
+      "role": "Vloga",
+      "submit": "Ustvari povabilo",
+      "linkTitle": "Povezava povabila",
+      "linkHint": "(prikazana samo enkrat; pošljite jo sami)",
+      "copy": "Kopiraj povezavo",
+      "copied": "Povezava je kopirana.",
+      "copyFailed": "Povezave ni bilo mogoče kopirati. Označite jo in jo kopirajte."
+    },
+    "open": {
+      "title": "Odprta povabila",
+      "empty": "Ni odprtih povabil.",
+      "column": {
+        "email": "E-pošta",
+        "role": "Vloga",
+        "expiresAt": "Poteče",
+        "actions": "Dejanja"
+      },
+      "card": {
+        "expires": "poteče"
+      },
+      "revoke": "Prekliči"
+    },
+    "page": {
+      "title": "Povabilo v {{name}}",
+      "role": "Povabljeni ste kot {{role}}.",
+      "expires": "Poteče {{date}}",
+      "accept": "Sprejmi",
+      "signedOut": "Prijavite se ali ustvarite račun, da vidite to povabilo.",
+      "signIn": "Prijava",
+      "signUp": "Ustvari račun"
     }
   }
 }

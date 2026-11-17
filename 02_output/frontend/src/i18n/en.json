@@ -68,6 +68,12 @@
     "export": {
       "tooMany": "Narrow the list to at most 10,000 Contacts to export.",
       "empty": "Nothing to export."
+    },
+    "invitation": {
+      "alreadyMember": "This person is already a Member.",
+      "otherEmail": "This Invitation is for another e-mail address.",
+      "noLongerValid": "This Invitation is no longer valid.",
+      "roleInvalid": "Choose Editor or Viewer."
     }
   },
   "account": {
@@ -317,6 +323,50 @@
     },
     "card": {
       "removalAt": "removal"
+    }
+  },
+  "roles": {
+    "OWNER": "Owner",
+    "EDITOR": "Editor",
+    "VIEWER": "Viewer"
+  },
+  "members": {
+    "title": "Members"
+  },
+  "invitations": {
+    "invite": {
+      "title": "Invite a Member",
+      "email": "E-mail",
+      "role": "Role",
+      "submit": "Create Invitation",
+      "linkTitle": "Invitation link",
+      "linkHint": "(shown only once; send it yourself)",
+      "copy": "Copy link",
+      "copied": "Link copied.",
+      "copyFailed": "The link could not be copied. Select it and copy it."
+    },
+    "open": {
+      "title": "Open Invitations",
+      "empty": "No open Invitations.",
+      "column": {
+        "email": "E-mail",
+        "role": "Role",
+        "expiresAt": "Expires",
+        "actions": "Actions"
+      },
+      "card": {
+        "expires": "expires"
+      },
+      "revoke": "Revoke"
+    },
+    "page": {
+      "title": "Invitation to {{name}}",
+      "role": "You are invited as {{role}}.",
+      "expires": "Expires {{date}}",
+      "accept": "Accept",
+      "signedOut": "Sign in or create an account to see this Invitation.",
+      "signIn": "Sign in",
+      "signUp": "Create an account"
     }
   }
 }
