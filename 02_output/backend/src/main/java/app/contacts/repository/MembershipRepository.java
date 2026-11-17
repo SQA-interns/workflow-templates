@@ -1,8 +1,10 @@
 package app.contacts.repository;
 
+import app.contacts.domain.MemberRow;
 import app.contacts.domain.Membership;
 import app.contacts.domain.MembershipId;
 import app.contacts.domain.Role;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -39,4 +41,22 @@ public interface MembershipRepository extends JpaRepository<Membership, Membersh
       WHERE u.id = m.id.userId AND m.id.groupId = :groupId AND lower(u.email) = lower(:email)
       """)
   boolean existsMemberWithEmail(UUID groupId, String email);
+
+  /**
+   * The Members of the Group with display name, e-mail and Role, by display name in Slovenian order
+   * like the Group switcher (R-005-01, R-002-03).
+   *
+   * @param groupId the Group
+   * @return the Members
+   */
+  @Query(
+      value =
+          """
+          SELECT u.id AS user_id, u.display_name, u.email, m.role
+          FROM membership m JOIN app_user u ON u.id = m.user_id
+          WHERE m.group_id = :groupId
+          ORDER BY u.display_name COLLATE "sl-x-icu", u.id
+          """,
+      nativeQuery = true)
+  List<MemberRow> findMembers(UUID groupId);
 }
