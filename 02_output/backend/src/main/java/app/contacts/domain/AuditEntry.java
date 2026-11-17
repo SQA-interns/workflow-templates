@@ -45,6 +45,9 @@ public class AuditEntry implements GroupOwned {
   /** The invitee accepted an Invitation (R-004-04, D-17); the User is the invitee. */
   public static final String INVITATION_ACCEPTED = "invitation.accepted";
 
+  /** The Owner changed a Member's Role (R-005-02, BR-10); the target is the Member's User. */
+  public static final String MEMBER_ROLE_CHANGED = "member.roleChanged";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)

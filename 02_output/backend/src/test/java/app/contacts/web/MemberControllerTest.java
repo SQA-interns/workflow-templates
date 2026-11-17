@@ -33,4 +33,14 @@ class MemberControllerTest {
         .containsExactly(
             new MemberResponse(MARKO_ID, "Marko Kranjc", "marko.kranjc@gmail.com", "EDITOR"));
   }
+
+  @Test
+  void r00502ChangeRoleAnswersTheMemberWithTheNewRole() {
+    when(memberships.changeRole(GROUP_ID, ANA_ID, MARKO_ID, "VIEWER"))
+        .thenReturn(new MemberView(MARKO_ID, "Marko Kranjc", "marko.kranjc@gmail.com", "VIEWER"));
+
+    assertThat(controller.changeRole(ANA, GROUP_ID, MARKO_ID, new RoleChangeRequest("VIEWER")))
+        .isEqualTo(
+            new MemberResponse(MARKO_ID, "Marko Kranjc", "marko.kranjc@gmail.com", "VIEWER"));
+  }
 }

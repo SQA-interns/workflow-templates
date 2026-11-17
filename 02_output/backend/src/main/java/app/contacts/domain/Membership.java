@@ -37,6 +37,15 @@ public class Membership {
     return membership;
   }
 
+  /**
+   * Gives the Member another Role (R-005-02).
+   *
+   * @param newRole the Role
+   */
+  public void changeRole(Role newRole) {
+    this.role = newRole;
+  }
+
   public MembershipId getId() {
     return id;
   }

@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,5 +39,23 @@ public class MemberController {
   public List<MemberResponse> list(
       @AuthenticationPrincipal CurrentUser current, @PathVariable UUID groupId) {
     return memberships.list(groupId, current.id()).stream().map(MemberResponse::of).toList();
+  }
+
+  /**
+   * Changes a Member between Editor and Viewer (R-005-02, R-005-05).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param userId the Member
+   * @param body the new Role
+   * @return the Member with the new Role
+   */
+  @PatchMapping("/{userId}")
+  public MemberResponse changeRole(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID userId,
+      @RequestBody RoleChangeRequest body) {
+    return MemberResponse.of(memberships.changeRole(groupId, current.id(), userId, body.role()));
   }
 }
