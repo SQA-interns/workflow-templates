@@ -1,0 +1,133 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, cancelDialog, confirmDialog, createGroup, openUserMenu, resetStack,
+  signIn, sql, stubGet, user,
+} from "./support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; Memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+
+async function shot(page: Page, screen: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${screen} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("UI AC-003-01 (frozen steps) + WF-14 states", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await page.goto(`/groups/${t.groupId}/settings`);
+  await expect(page.getByLabel("Group name")).toHaveValue("Konferenca 2025");
+  await shot(page, "WF-14_group-settings", "default");
+
+  await page.getByLabel("Group name").fill("K".repeat(101));
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByRole("alert")).toHaveText("Enter a name of 1 to 100 characters.");
+  await shot(page, "WF-14_group-settings", "error-name");
+
+  await page.getByLabel("Group name").fill("Konferenca 2026");
+  await page.getByRole("button", { name: "Save" }).click();
+  await expect(page.getByLabel("Group switcher")).toContainText("Konferenca 2026");
+  await expect(page.getByRole("status")).toHaveText("The name was saved.");
+  await shot(page, "WF-14_group-settings", "success");
+
+  await page.getByRole("button", { name: "Move Group to recycle bin" }).click();
+  await expect(page.getByRole("alertdialog")).toContainText("Move Konferenca 2026 to the recycle bin?");
+  await shot(page, "WF-14_group-settings", "confirmation");
+});
+
+test("UI AC-003-03 (frozen steps)", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await page.goto(`/groups/${t.groupId}/settings`);
+  await page.getByRole("button", { name: "Move Group to recycle bin" }).click();
+  await confirmDialog(page, "Move Group to recycle bin");
+  await expect(page.getByText("You have no Groups yet.")).toBeVisible();
+  expect((await api(t.marko, "GET", "/groups")).json).toEqual([]);
+});
+
+test("UI AC-003-03 Deleted Groups removal date (frozen steps)", async ({ page }) => {
+  const t = await team();
+  await stubGet(page, "/api/v1/deleted-groups", [
+    { id: t.groupId, name: "Konferenca 2025", deletedAt: "2026-03-05T10:00:00Z", removalAt: "2026-04-04T10:00:00Z" },
+  ]);
+  await signIn(page, t.ana);
+  await page.goto("/deleted-groups");
+  await expect(page.getByRole("row", { name: /Konferenca 2025/ })).toContainText("04.04.2026 12:00");
+});
+
+test("UI AC-003-04 (frozen steps) + WF-15 states", async ({ page }) => {
+  const t = await team();
+  expect((await api(t.ana, "POST", `/groups/${t.groupId}/move-to-recycle-bin`)).status).toBe(204);
+  const other = await createGroup(t.ana, "Podjetje Alfa");
+  expect((await api(t.ana, "POST", `/groups/${other}/move-to-recycle-bin`)).status).toBe(204);
+  sql(`UPDATE contact_group SET deleted_at = now() - interval '30 days' WHERE id = '${other}'`);
+  await signIn(page, t.ana);
+  await openUserMenu(page, "Ana Kovač");
+  await page.getByRole("link", { name: "Deleted Groups" }).click();
+  await expect(page.getByRole("heading", { level: 1, name: "Deleted Groups" })).toBeVisible();
+  await shot(page, "WF-15_deleted-groups", "list");
+
+  await page.getByRole("row", { name: /Podjetje Alfa/ }).getByRole("button", { name: "Restore" }).click();
+  await expect(page.getByRole("alert")).toHaveText("This Group can no longer be restored.");
+  await shot(page, "WF-15_deleted-groups", "error-restore");
+
+  await page.getByRole("row", { name: /Konferenca 2025/ }).getByRole("button", { name: "Restore" }).click();
+  await expect(page.getByLabel("Group switcher")).toContainText("Konferenca 2025");
+  expect((await api(t.marko, "GET", "/groups")).json.map((g: { name: string }) => g.name)).toEqual([
+    "Konferenca 2025",
+  ]);
+});
+
+test("UI EX-003-04 (frozen steps)", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await page.goto(`/groups/${t.groupId}/settings`);
+  await page.getByRole("button", { name: "Move Group to recycle bin" }).click();
+  await cancelDialog(page);
+  await expect(page.getByLabel("Group switcher")).toContainText("Konferenca 2025");
+  expect((await api(t.ana, "GET", `/groups/${t.groupId}`)).status).toBe(200);
+});
+
+test("WF-15 empty and error, WF-14 for an Editor", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await page.goto("/deleted-groups");
+  await expect(page.getByText("No deleted Groups.")).toBeVisible();
+  await shot(page, "WF-15_deleted-groups", "empty");
+
+  await page.route((url) => url.pathname.endsWith("/api/v1/deleted-groups"), (r) => r.fulfill({ status: 500, body: "{}" }));
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Try again" })).toBeVisible({ timeout: 20_000 });
+  await shot(page, "WF-15_deleted-groups", "error");
+});
+
+test("WF-14 for an Editor", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.marko);
+  await page.goto(`/groups/${t.groupId}/settings`);
+  await expect(page.getByText("You are not allowed to do this.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Settings" })).toHaveCount(0);
+});

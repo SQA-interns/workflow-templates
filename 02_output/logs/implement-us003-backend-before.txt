@@ -1,0 +1,294 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< app.contacts:contacts-backend >--------------------
+[INFO] Building contacts-backend 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (prepare-unit) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] argLine set to empty
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ contacts-backend ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ contacts-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ contacts-backend ---
+[INFO] skip non existing resourceDirectory /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ contacts-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ contacts-backend ---
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ contacts-backend ---
+[INFO] 
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ contacts-backend ---
+[INFO] Replacing main artifact /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent-integration (prepare-it) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ contacts-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT
+13:03:02.382 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT]: Us003GroupLifecycleAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:03:02.535 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT
+13:03:02.602 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT]: Us003GroupLifecycleAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:03:02.603 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:03:02.603 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:03:02.609 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT
+13:03:02.660 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+13:03:02.662 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+13:03:02.691 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+13:03:03.379 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Docker accessed via Unix socket (/home/tjan-kazar/.docker/desktop/docker.sock)
+13:03:03.380 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+13:03:03.398 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.3.1
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 31283 MB
+  Labels: 
+    com.docker.desktop.address=unix:///home/tjan-kazar/.docker/desktop/docker-cli.sock
+13:03:04.105 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+13:03:04.262 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 89d5cd91a5e188da2d32f57c285111004c123cfe2d12edfa397c9e82b866e6c9
+13:03:04.711 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.606151492S
+13:03:04.715 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+13:03:04.715 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+13:03:04.716 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+13:03:04.717 [main] INFO tc.postgres:16.15 -- Creating container for image: postgres:16.15
+13:03:04.809 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 is starting: a68753c5063bfed29fbf6fd90549e97500b27c09d458224629dc80f3ec9cdec0
+13:03:06.382 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 started in PT1.664903006S
+13:03:06.382 [main] INFO tc.postgres:16.15 -- Container is started (JDBC URL: jdbc:postgresql://localhost:36865/test?loggerLevel=OFF)
+13:03:06.411 [main] INFO org.testcontainers.images.builder.ImageFromDockerfile -- Transferred 0 bytes to Docker daemon
+13:03:06.584 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Creating container for image: contacts-auth-emulator-acceptance:latest
+13:03:06.717 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest is starting: 921a438a1fdc92fc849a639ba11086ebe9c8a9dd340c21fdbd6d32d38eb5f28e
+13:03:16.308 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest started in PT9.723406835S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-17T13:03:16.612+01:00  INFO 2927483 --- [contacts-backend] [           main] a.c.a.Us003GroupLifecycleAcceptanceIT    : Starting Us003GroupLifecycleAcceptanceIT using Java 21.0.13.0.3 with PID 2927483 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-17T13:03:16.614+01:00  INFO 2927483 --- [contacts-backend] [           main] a.c.a.Us003GroupLifecycleAcceptanceIT    : No active profile set, falling back to 1 default profile: "default"
+2026-11-17T13:03:17.482+01:00  INFO 2927483 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-17T13:03:17.551+01:00  INFO 2927483 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 61 ms. Found 9 JPA repository interfaces.
+2026-11-17T13:03:18.253+01:00  INFO 2927483 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-11-17T13:03:18.268+01:00  INFO 2927483 --- [contacts-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-17T13:03:18.268+01:00  INFO 2927483 --- [contacts-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-17T13:03:18.318+01:00  INFO 2927483 --- [contacts-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 1690 ms
+2026-11-17T13:03:18.671+01:00  INFO 2927483 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-17T13:03:18.840+01:00  INFO 2927483 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@659565ed
+2026-11-17T13:03:18.842+01:00  INFO 2927483 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-17T13:03:18.862+01:00  INFO 2927483 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:36865/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-17T13:03:18.915+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-17T13:03:18.919+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.016s)
+2026-11-17T13:03:18.936+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-17T13:03:19.008+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-17T13:03:19.036+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-17T13:03:19.126+01:00  INFO 2927483 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.073s)
+2026-11-17T13:03:19.227+01:00  INFO 2927483 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-17T13:03:19.274+01:00  INFO 2927483 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-17T13:03:19.629+01:00  INFO 2927483 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-17T13:03:19.696+01:00  INFO 2927483 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:36865/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-17T13:03:20.517+01:00  INFO 2927483 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-17T13:03:20.560+01:00  INFO 2927483 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-17T13:03:20.662+01:00  INFO 2927483 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-17T13:03:22.001+01:00  INFO 2927483 --- [contacts-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noLocalUsers
+2026-11-17T13:03:22.684+01:00  INFO 2927483 --- [contacts-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-11-17T13:03:22.744+01:00  INFO 2927483 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 40195 (http) with context path '/'
+2026-11-17T13:03:22.765+01:00  INFO 2927483 --- [contacts-backend] [           main] a.c.a.Us003GroupLifecycleAcceptanceIT    : Started Us003GroupLifecycleAcceptanceIT in 6.433 seconds (process running for 21.333)
+2026-11-17T13:03:22.847+01:00  WARN 2927483 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-11-17T13:03:23.450+01:00  INFO 2927483 --- [contacts-backend] [omcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-17T13:03:23.450+01:00  INFO 2927483 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-17T13:03:23.452+01:00  INFO 2927483 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[ERROR] Tests run: 10, Failures: 10, Errors: 0, Skipped: 0, Time elapsed: 22.95 s <<< FAILURE! -- in app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00301 -- Time elapsed: 1.155 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00301(Us003GroupLifecycleAcceptanceIT.java:129)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00302 -- Time elapsed: 0.148 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00302(Us003GroupLifecycleAcceptanceIT.java:143)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00303 -- Time elapsed: 0.136 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00303(Us003GroupLifecycleAcceptanceIT.java:159)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00305 -- Time elapsed: 0.138 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00305(Us003GroupLifecycleAcceptanceIT.java:171)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00306 -- Time elapsed: 0.131 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ex00306(Us003GroupLifecycleAcceptanceIT.java:187)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00301 -- Time elapsed: 0.122 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00301(Us003GroupLifecycleAcceptanceIT.java:24)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00302 -- Time elapsed: 0.142 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00302(Us003GroupLifecycleAcceptanceIT.java:36)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00303 -- Time elapsed: 0.124 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00303(Us003GroupLifecycleAcceptanceIT.java:47)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00304 -- Time elapsed: 0.124 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00304(Us003GroupLifecycleAcceptanceIT.java:71)
+
+[ERROR] app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00305 -- Time elapsed: 0.121 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+[create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+	at app.contacts.acceptance.support.AcceptanceTest.invite(AcceptanceTest.java:67)
+	at app.contacts.acceptance.support.AcceptanceTest.join(AcceptanceTest.java:57)
+	at app.contacts.acceptance.support.AcceptanceTest.team(AcceptanceTest.java:90)
+	at app.contacts.acceptance.Us003GroupLifecycleAcceptanceIT.ac00305(Us003GroupLifecycleAcceptanceIT.java:95)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ac00301:24->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ac00302:36->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ac00303:47->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ac00304:71->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ac00305:95->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ex00301:129->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ex00302:143->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ex00303:159->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ex00305:171->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[ERROR]   Us003GroupLifecycleAcceptanceIT.ex00306:187->AcceptanceTest.team:90->AcceptanceTest.join:57->AcceptanceTest.invite:67 [create Invitation: 404 {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}] 
+expected: 201
+ but was: 404
+[INFO] 
+[ERROR] Tests run: 10, Failures: 10, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.13:merge (merge) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ contacts-backend ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  27.083 s
+[INFO] Finished at: 2026-11-17T13:03:25+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:3.5.4:verify (default) on project contacts-backend: There are test failures.
+[ERROR] 
+[ERROR] See /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/failsafe-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

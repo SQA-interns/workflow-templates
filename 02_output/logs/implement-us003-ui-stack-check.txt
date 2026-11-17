@@ -1,0 +1,24 @@
+
+Running 7 tests using 1 worker
+
+axe WF-14_group-settings default: none
+axe WF-14_group-settings error-name: none
+axe WF-14_group-settings success: none
+axe WF-14_group-settings confirmation: none
+  ✓  1 [chromium] › acceptance/zz-us003-stack-check.spec.ts:38:1 › UI AC-003-01 (frozen steps) + WF-14 states (8.2s)
+
+  ✓  2 [chromium] › acceptance/zz-us003-stack-check.spec.ts:61:1 › UI AC-003-03 (frozen steps) (1.3s)
+
+  ✓  3 [chromium] › acceptance/zz-us003-stack-check.spec.ts:71:1 › UI AC-003-03 Deleted Groups removal date (frozen steps) (1.2s)
+axe WF-15_deleted-groups list: none
+axe WF-15_deleted-groups error-restore: none
+  ✓  4 [chromium] › acceptance/zz-us003-stack-check.spec.ts:81:1 › UI AC-003-04 (frozen steps) + WF-15 states (4.7s)
+
+  ✓  5 [chromium] › acceptance/zz-us003-stack-check.spec.ts:104:1 › UI EX-003-04 (frozen steps) (1.3s)
+axe WF-15_deleted-groups empty: none
+axe WF-15_deleted-groups error: none
+  ✓  6 [chromium] › acceptance/zz-us003-stack-check.spec.ts:114:1 › WF-15 empty and error, WF-14 for an Editor (12.1s)
+
+  ✓  7 [chromium] › acceptance/zz-us003-stack-check.spec.ts:127:1 › WF-14 for an Editor (1.2s)
+
+  7 passed (31.5s)

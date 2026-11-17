@@ -1,0 +1,64 @@
+package app.contacts.acceptance;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import app.contacts.acceptance.support.Json;
+import app.contacts.acceptance.support.TestUser;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+
+/** Throwaway (not committed): the frozen US-003 steps with Memberships set by SQL until US-004. */
+class Us003StackCheckIT extends Us003GroupLifecycleAcceptanceIT {
+  @Override
+  protected Team team() {
+    var ana = ana();
+    var marko = marko();
+    var petra = petra();
+    String groupId = group(ana, "Konferenca 2025");
+    for (var m : new Object[][] {{marko, "EDITOR"}, {petra, "VIEWER"}}) {
+      db.update(
+          "INSERT INTO membership VALUES (?::uuid, ?::uuid, ?)",
+          groupId,
+          idOf((TestUser) m[0]),
+          m[1]);
+    }
+    return new Team(ana, marko, petra, groupId);
+  }
+
+  /** AC-003-05 with the Invitation inserted by SQL. */
+  @Test
+  void ac00305WithSqlInvitation() {
+    Team t = team();
+    String janez =
+        contact(t.ana(), t.groupId(), contactBody("firstName", "Janez", "lastName", "Novak"));
+    edited(t.ana(), t.groupId(), janez, u -> u.set("tags", Json.strings("udelezenec2025")));
+    db.update(
+        "INSERT INTO invitation (id, group_id, email, role, token_hash, state, expires_at,"
+            + " created_at, created_by) VALUES (gen_random_uuid(), ?::uuid, 'nina.kos@example.si',"
+            + " 'VIEWER', 'x', 'open', now() + interval '7 days', now(), ?::uuid)",
+        t.groupId(),
+        idOf(t.ana()));
+    clock.setLjubljana("2026-03-05T11:00");
+    api.post(t.ana(), t.path() + "/move-to-recycle-bin", null);
+    clock.setLjubljana("2026-04-04T11:59");
+    runScheduledJobs();
+    assertThat(api.get(t.ana(), "/deleted-groups").json().size()).isEqualTo(1);
+
+    clock.setLjubljana("2026-04-04T12:01");
+    runScheduledJobs();
+
+    assertThat(api.get(t.ana(), "/deleted-groups").json().size()).isZero();
+    for (String table :
+        List.of(
+            "contact", "contact_version", "membership", "invitation", "tag", "contact_tag",
+            "audit_entry")) {
+      assertThat(
+              db.queryForObject(
+                  "SELECT count(*) FROM " + table + " WHERE group_id = ?::uuid",
+                  Integer.class,
+                  t.groupId()))
+          .as(table)
+          .isZero();
+    }
+  }
+}
