@@ -4,6 +4,7 @@ import app.contacts.auth.Problems;
 import app.contacts.service.ConflictException;
 import app.contacts.service.FieldProblem;
 import app.contacts.service.ForbiddenException;
+import app.contacts.service.InvalidRequestException;
 import app.contacts.service.NotFoundException;
 import app.contacts.service.ValidationException;
 import java.util.LinkedHashMap;
@@ -88,11 +89,19 @@ public class ProblemHandler {
    */
   @ExceptionHandler(ConflictException.class)
   public ResponseEntity<Map<String, Object>> conflict(ConflictException conflict) {
-    Map<String, Object> body = Problems.body(HttpStatus.CONFLICT, conflict.getCode());
-    if (!conflict.getParams().isEmpty()) {
-      body.put("params", conflict.getParams());
-    }
-    return respond(HttpStatus.CONFLICT, body);
+    return withParams(HttpStatus.CONFLICT, conflict.getCode(), conflict.getParams());
+  }
+
+  /**
+   * 400 when the request cannot be carried out as sent, with the values its message names
+   * (R-018-03, EX-018-05).
+   *
+   * @param invalid the exception
+   * @return the problem
+   */
+  @ExceptionHandler(InvalidRequestException.class)
+  public ResponseEntity<Map<String, Object>> invalidRequest(InvalidRequestException invalid) {
+    return withParams(HttpStatus.BAD_REQUEST, invalid.getCode(), invalid.getParams());
   }
 
   /**
@@ -142,6 +151,15 @@ public class ProblemHandler {
       error.put("params", problem.params());
     }
     return error;
+  }
+
+  private static ResponseEntity<Map<String, Object>> withParams(
+      HttpStatus status, String code, Map<String, Object> params) {
+    Map<String, Object> body = Problems.body(status, code);
+    if (!params.isEmpty()) {
+      body.put("params", params);
+    }
+    return respond(status, body);
   }
 
   private static ResponseEntity<Map<String, Object>> problem(HttpStatus status, String code) {

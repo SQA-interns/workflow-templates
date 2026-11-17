@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import app.contacts.service.ConflictException;
 import app.contacts.service.FieldProblem;
 import app.contacts.service.ForbiddenException;
+import app.contacts.service.InvalidRequestException;
 import app.contacts.service.NotFoundException;
 import app.contacts.service.ValidationException;
 import java.util.List;
@@ -85,6 +86,15 @@ class ProblemHandlerTest {
   }
 
   @Test
+  void r01803InvalidRequestIs400WithItsCodeAndParams() throws Exception {
+    mvc.perform(get("/choice-required"))
+        .andExpect(status().isBadRequest())
+        .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
+        .andExpect(jsonPath("$.code").value("merge.choiceRequired"))
+        .andExpect(jsonPath("$.params.key").value("kompetenca"));
+  }
+
+  @Test
   void sb01UnreadableBodyIs400Validation() throws Exception {
     mvc.perform(post("/echo").contentType(MediaType.APPLICATION_JSON).content("{not json"))
         .andExpect(status().isBadRequest())
@@ -139,6 +149,11 @@ class ProblemHandlerTest {
     @GetMapping("/conflict")
     void conflict() {
       throw new ConflictException("version.conflict", Map.of("changedBy", "Marko Kranjc"));
+    }
+
+    @GetMapping("/choice-required")
+    void choiceRequired() {
+      throw new InvalidRequestException("merge.choiceRequired", Map.of("key", "kompetenca"));
     }
 
     @GetMapping("/no-changes")
