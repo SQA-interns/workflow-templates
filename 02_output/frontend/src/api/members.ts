@@ -32,3 +32,13 @@ export function useChangeRole(groupId: string) {
       ),
   });
 }
+
+/** Removes a Member from the Group (R-005-03); the Members are read again. */
+export function useRemoveMember(groupId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (userId: string) =>
+      apiRequest<undefined>("DELETE", `/groups/${groupId}/members/${userId}`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: membersKey(groupId) }),
+  });
+}

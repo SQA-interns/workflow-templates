@@ -1,8 +1,17 @@
 import { useTranslation } from "react-i18next";
+import {
+  AlertDialog,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { NativeSelect } from "@/components/ui/native-select";
 import type { InvitableRole } from "../../api/invitations";
-import { type Member, useChangeRole, useMembers } from "../../api/members";
+import { type Member, useChangeRole, useMembers, useRemoveMember } from "../../api/members";
 import { ApiError, messageKey } from "../../api/problem";
 import { GroupsPending } from "../groups/GroupsPending";
 
@@ -22,6 +31,7 @@ export function MemberList({ groupId }: { groupId: string }) {
         <GroupsPending query={members} />
       ) : (
         <MemberTable
+          groupId={groupId}
           members={members.data}
           busyId={changeRole.isPending ? changeRole.variables.userId : null}
           onRoleChange={(userId, role) => changeRole.mutate({ userId, role })}
@@ -41,10 +51,12 @@ function problemKey(error: Error): string {
 }
 
 function MemberTable({
+  groupId,
   members,
   busyId,
   onRoleChange,
 }: {
+  groupId: string;
   members: Member[];
   busyId: string | null;
   onRoleChange: (userId: string, role: InvitableRole) => void;
@@ -95,10 +107,58 @@ function MemberTable({
                 </NativeSelect>
               )}
             </td>
-            <td className={`${cell} max-md:pt-2 md:text-right`}></td>
+            <td className={`${cell} max-md:pt-2 md:text-right`}>
+              {member.role !== "OWNER" && <RemoveMember groupId={groupId} member={member} />}
+            </td>
           </tr>
         ))}
       </tbody>
     </table>
+  );
+}
+
+/**
+ * "Remove from Group" with its confirmation (R-005-03, UI-15): a removal closes it and the Members
+ * are read again; a refused one shows its message in the confirmation; Cancel changes nothing
+ * (EX-005-04).
+ */
+function RemoveMember({ groupId, member }: { groupId: string; member: Member }) {
+  const { t } = useTranslation();
+  const remove = useRemoveMember(groupId);
+
+  return (
+    <AlertDialog onOpenChange={() => remove.reset()}>
+      <AlertDialogTrigger className={buttonVariants({ variant: "ghost" })}>
+        {t("members.remove.action")}
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogTitle>
+          {t("members.remove.title", { name: member.displayName })}
+        </AlertDialogTitle>
+        <AlertDialogDescription>
+          {t("members.remove.description", { name: member.displayName })}
+        </AlertDialogDescription>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            disabled={remove.isPending}
+            aria-busy={remove.isPending}
+            onClick={() => remove.mutate(member.userId)}
+          >
+            {t("members.remove.action")}
+          </Button>
+          <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
+            {t("members.remove.cancel")}
+          </AlertDialogCancel>
+        </div>
+        {remove.isError && (
+          <p
+            role="alert"
+            className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger"
+          >
+            {t(problemKey(remove.error))}
+          </p>
+        )}
+      </AlertDialogContent>
+    </AlertDialog>
   );
 }

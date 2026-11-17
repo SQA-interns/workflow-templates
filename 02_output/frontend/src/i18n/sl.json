@@ -344,7 +344,13 @@
       "role": "Vloga",
       "actions": "Dejanja"
     },
-    "roleOf": "Vloga: {{name}}"
+    "roleOf": "Vloga: {{name}}",
+    "remove": {
+      "action": "Odstrani iz skupine",
+      "title": "Želite odstraniti {{name}} iz skupine?",
+      "description": "Oseba {{name}} te skupine ne bo več videla. Različice, ki jih je ustvarila, ohranijo njeno ime.",
+      "cancel": "Prekliči"
+    }
   },
   "invitations": {
     "invite": {

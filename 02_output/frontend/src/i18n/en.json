@@ -342,7 +342,13 @@
       "role": "Role",
       "actions": "Actions"
     },
-    "roleOf": "Role of {{name}}"
+    "roleOf": "Role of {{name}}",
+    "remove": {
+      "action": "Remove from Group",
+      "title": "Remove {{name}} from Group?",
+      "description": "{{name}} will no longer see this Group. The Versions they made keep their name.",
+      "cancel": "Cancel"
+    }
   },
   "invitations": {
     "invite": {

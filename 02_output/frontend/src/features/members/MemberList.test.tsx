@@ -104,6 +104,53 @@ describe("WF-13 Members (US-005)", () => {
     expect((await screen.findByRole("alert")).textContent).toBe("A Group always has one Owner.");
   });
 
+  it("R-005-03 Remove from Group asks first, then removes the Member", async () => {
+    const user = userEvent.setup();
+    renderList();
+    const marko = await row("Marko Kranjc");
+
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+    const dialog = await screen.findByRole("alertdialog");
+    expect(within(dialog).getByText("Remove Marko Kranjc from Group?")).toBeTruthy();
+    answer([ANA, PETRA]);
+    await user.click(within(dialog).getByRole("button", { name: "Remove from Group" }));
+
+    expect(apiRequest).toHaveBeenCalledWith("DELETE", "/groups/g1/members/u2");
+    await waitFor(() => expect(screen.queryByRole("row", { name: /Marko Kranjc/ })).toBeNull());
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+  });
+
+  it("EX-005-04 Cancel changes nothing", async () => {
+    const user = userEvent.setup();
+    renderList();
+    const marko = await row("Marko Kranjc");
+
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+    await user.click(
+      within(await screen.findByRole("alertdialog")).getByRole("button", { name: "Cancel" }),
+    );
+
+    expect(vi.mocked(apiRequest).mock.calls.some(([m]) => m === "DELETE")).toBe(false);
+    expect(screen.getByRole("row", { name: /Marko Kranjc/ })).toBeTruthy();
+  });
+
+  it("R-005-05 a refused removal shows its message in the confirmation", async () => {
+    const user = userEvent.setup();
+    renderList();
+    const marko = await row("Marko Kranjc");
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+    vi.mocked(apiRequest).mockRejectedValueOnce(
+      new ApiError(409, { code: "member.ownerRequired" }),
+    );
+
+    const dialog = await screen.findByRole("alertdialog");
+    await user.click(within(dialog).getByRole("button", { name: "Remove from Group" }));
+
+    expect((await within(dialog).findByRole("alert")).textContent).toBe(
+      "A Group always has one Owner.",
+    );
+  });
+
   it("UI-14 the Members cannot be read: error with Try again", async () => {
     vi.mocked(apiRequest).mockRejectedValue(new Error("offline"));
     renderList();
