@@ -102,7 +102,9 @@ export async function stubGet(page: Page, pathSuffix: string, body: unknown): Pr
   await page.route(
     (url) => url.pathname.endsWith(pathSuffix),
     async (route) => {
-      if (route.request().method() !== "GET") {
+      // Only API calls (D-51, D-64, D-65): a page navigation with the same path goes to the app.
+      const type = route.request().resourceType();
+      if (route.request().method() !== "GET" || (type !== "fetch" && type !== "xhr")) {
         await route.fallback();
         return;
       }
