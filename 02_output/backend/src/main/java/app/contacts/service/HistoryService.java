@@ -65,6 +65,7 @@ public class HistoryService {
                     version.getKind(),
                     names.get(version.getChangedBy()),
                     version.getChangedAt(),
+                    version.getRestoredFrom(),
                     changesOf(version)))
         .toList();
   }
@@ -91,6 +92,7 @@ public class HistoryService {
         version.getKind(),
         namesOf(List.of(version)).get(version.getChangedBy()),
         version.getChangedAt(),
+        version.getRestoredFrom(),
         changesOf(version),
         JSON.readValue(version.getSnapshot(), SnapshotView.class));
   }

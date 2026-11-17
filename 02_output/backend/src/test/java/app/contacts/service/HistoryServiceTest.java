@@ -2,6 +2,7 @@ package app.contacts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -74,15 +75,33 @@ class HistoryServiceTest {
                 "edited",
                 "Marko Kranjc",
                 EDITED_AT,
+                null,
                 List.of(new ChangeView("email", "janez.novak@example.si", "janez@novak.si"))),
             new VersionSummaryView(
                 1,
                 "created",
                 "Ana Kovač",
                 CREATED_AT,
+                null,
                 List.of(
                     new ChangeView("firstName", null, "Janez"),
                     new ChangeView("email", null, "janez.novak@example.si"))));
+  }
+
+  @Test
+  void r01101HistoryAndVersionNameTheVersionARestoredVersionMadeCurrent() {
+    janez.edit(janez.getFields(), "", "", marko.getId(), EDITED_AT);
+    ContactVersion restored = ContactVersion.restored(janez, 1, EDITED_CHANGES, CREATED_SNAPSHOT);
+    when(versions.findHistory(GROUP_ID, janez.getId()))
+        .thenReturn(List.of(restored, edited, created));
+    when(versions.findVersion(GROUP_ID, janez.getId(), 3)).thenReturn(Optional.of(restored));
+
+    List<VersionSummaryView> history = service.history(GROUP_ID, PETRA, janez.getId());
+
+    assertThat(history)
+        .extracting(VersionSummaryView::kind, VersionSummaryView::restoredFrom)
+        .containsExactly(tuple("restored", 1), tuple("edited", null), tuple("created", null));
+    assertThat(service.version(GROUP_ID, PETRA, janez.getId(), 3).restoredFrom()).isEqualTo(1);
   }
 
   @Test

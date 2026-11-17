@@ -49,6 +49,7 @@ class HistoryControllerTest {
             "edited",
             "Marko Kranjc",
             EDITED_AT,
+            null,
             List.of(new ChangeView("email", "janez.novak@example.si", "janez@novak.si")));
     when(history.history(GROUP_ID, PETRA_ID, CONTACT_ID)).thenReturn(List.of(edited));
 
@@ -63,6 +64,7 @@ class HistoryControllerTest {
             "created",
             "Ana Kovač",
             EDITED_AT,
+            null,
             List.of(),
             new SnapshotView(new LinkedHashMap<>(), List.of(), List.of()));
     when(history.version(GROUP_ID, PETRA_ID, CONTACT_ID, 1)).thenReturn(created);
