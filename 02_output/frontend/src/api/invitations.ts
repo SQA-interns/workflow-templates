@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "./apiClient";
-import { type Group, groupsQueryKey } from "./groups";
 
 /** The Roles an Invitation can grant; never Owner (R-004-01). */
 export type InvitableRole = "EDITOR" | "VIEWER";

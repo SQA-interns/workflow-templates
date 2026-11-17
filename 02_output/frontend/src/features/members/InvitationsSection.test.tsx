@@ -118,7 +118,7 @@ describe("WF-13 Invite a Member and Open Invitations (US-004)", () => {
     answer([OPEN]);
     renderSection();
 
-    const row = await screen.findByRole("row", { name: new RegExp(MARKO.replace(".", "\\.")) });
+    const row = await screen.findByRole("row", { name: /marko\.kranjc@gmail\.com/ });
     expect(row.textContent).toContain("Editor");
     expect(row.textContent).toContain("12.03.2026 10:00");
     expect(apiRequest).toHaveBeenCalledWith("GET", "/groups/g1/invitations");
