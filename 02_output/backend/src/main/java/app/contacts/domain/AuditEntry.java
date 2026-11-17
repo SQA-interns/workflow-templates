@@ -24,6 +24,12 @@ public class AuditEntry implements GroupOwned {
    */
   public static final String CONTACT_REMOVED = "contact.removed";
 
+  /**
+   * A Member exported Contacts of the Group (R-016-01, BR-10); the target is the Group, since one
+   * Export has many Contacts.
+   */
+  public static final String CONTACTS_EXPORTED = "contacts.exported";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)
