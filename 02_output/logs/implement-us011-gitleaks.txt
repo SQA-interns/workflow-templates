@@ -1,0 +1,8 @@
+9:57AM INF 10 commits scanned.
+9:57AM INF scanned ~31053 bytes (31.05 KB) in 145ms
+9:57AM INF no leaks found
+--- dir 02_output/logs (us011 files) and reports/us011-check
+9:57AM INF scanned ~8310194 bytes (8.31 MB) in 1.5s
+9:57AM INF no leaks found
+9:57AM INF scanned ~9917 bytes (9.92 KB) in 14.6ms
+9:57AM INF no leaks found

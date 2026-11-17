@@ -1,0 +1,197 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, cancelDialog, confirmDialog, createContact, createGroup, editContact,
+  getContact, resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+
+const path = (t: Team, id: string) => `/groups/${t.groupId}/contacts/${id}`;
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+type V = { number: number; kind: string; restoredFrom: number | null; changes: { item: string; oldValue: string | null; newValue: string | null }[] };
+const kinds = (h: V[]) => h.map((v) => `${v.number} ${v.kind}`);
+const lines = (v: V) => v.changes.map((c) => `${c.item}: ${c.oldValue ?? "∅"} → ${c.newValue ?? "∅"}`);
+
+async function janez(t: Team, tags: string[] = []) {
+  return createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si" },
+    tags,
+  });
+}
+const restore = (u: Team["ana"], t: Team, id: string, n: number, current: number) =>
+  api(u, "POST", `${path(t, id)}/versions/${n}/restore`, { versionNumber: current });
+const history = async (t: Team, id: string) => (await api(t.ana, "GET", `${path(t, id)}/versions`)).json as V[];
+const state = async (t: Team, id: string) => JSON.stringify((await api(t.ana, "GET", path(t, id))).json);
+
+test("API AC-011-01..04, EX-011-01, -02, -04", async () => {
+  const t = await team();
+
+  // AC-011-01
+  let id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.email = "janez@novak.si"));
+  let r = await restore(t.marko, t, id, 1, 2);
+  let h = await history(t, id);
+  log("AC-011-01", [r.status, (await getContact(t.ana, t.groupId, id)).fields.email, kinds(h), h[0].restoredFrom, lines(h[0])]);
+  expect(r.status).toBe(200);
+  expect((await getContact(t.ana, t.groupId, id)).fields.email).toBe("janez.novak@example.si");
+  expect(kinds(h)).toEqual(["3 restored", "2 edited", "1 created"]);
+  expect(h[0].restoredFrom).toBe(1);
+  expect(lines(h[0])).toEqual(["email: janez@novak.si → janez.novak@example.si"]);
+
+  // AC-011-04
+  r = await restore(t.marko, t, id, 1, 3);
+  log("AC-011-04", [r.status, r.json.code, (await history(t, id)).length]);
+  expect([r.status, r.json.code]).toEqual([409, "version.sameAsCurrent"]);
+  expect(await history(t, id)).toHaveLength(3);
+
+  // AC-011-02
+  id = await janez(t, ["udelezenec2025"]);
+  await editContact(t.marko, t.groupId, id, (u) => (u.tags = []));
+  await restore(t.marko, t, id, 1, 2);
+  const tags = (await getContact(t.ana, t.groupId, id)).tags.map((x: { name: string }) => x.name);
+  log("AC-011-02", tags);
+  expect(tags).toEqual(["udelezenec2025"]);
+
+  // AC-011-03
+  id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.email = "janez@novak.si"));
+  let before = await state(t, id);
+  r = await restore(t.petra, t, id, 1, 2);
+  log("AC-011-03", [r.status, r.json.code]);
+  expect([r.status, r.json.code]).toEqual([403, "auth.forbidden"]);
+  expect(await state(t, id)).toBe(before);
+  expect(await history(t, id)).toHaveLength(2);
+
+  // EX-011-01
+  await editContact(t.ana, t.groupId, id, (u) => (u.fields.city = "Maribor"));
+  before = await state(t, id);
+  r = await restore(t.marko, t, id, 1, 2);
+  log("EX-011-01", [r.status, r.json.code, r.json.params]);
+  expect([r.status, r.json.code, r.json.params?.changedBy]).toEqual([409, "version.conflict", "Ana Kovač"]);
+  expect(await state(t, id)).toBe(before);
+
+  // EX-011-02: vip is on no Contact any more (the frozen test reads the Tag through the suggestions)
+  id = await janez(t, ["vip"]);
+  await editContact(t.marko, t.groupId, id, (u) => (u.tags = []));
+  await restore(t.marko, t, id, 1, 2);
+  const vip = (await getContact(t.ana, t.groupId, id)).tags.map((x: { name: string }) => x.name);
+  const suggested = (await api(t.ana, "GET", `/groups/${t.groupId}/tags?q=vip`)).json;
+  log("EX-011-02", [vip, suggested]);
+  expect(vip).toEqual(["vip"]);
+  expect(suggested.map((x: { name: string }) => x.name)).toEqual(["vip"]);
+
+  // EX-011-04: recycle bin by SQL (US-012 not built)
+  id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.email = "janez@novak.si"));
+  sql(`UPDATE contact SET state = 'inRecycleBin', deleted_at = now() WHERE id = '${id}'`);
+  before = await state(t, id);
+  r = await restore(t.marko, t, id, 1, 2);
+  log("EX-011-04", [r.status, r.json.code]);
+  expect([r.status, r.json.code]).toEqual([409, "contact.inRecycleBin"]);
+  expect(await state(t, id)).toBe(before);
+
+  // unknown Version number
+  r = await restore(t.marko, t, id, 99, 2);
+  log("Version 99", r.status);
+  expect(r.status).toBe(404);
+});
+
+async function shot(page: Page, dir: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${dir} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+async function janezAtVersion2(t: Team) {
+  const id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.email = "janez@novak.si"));
+  return id;
+}
+
+test("UI AC-011-01 (frozen steps) with screens", async ({ page }) => {
+  const t = await team();
+  const id = await janezAtVersion2(t);
+  await signIn(page, t.marko);
+
+  await page.goto(`${path(t, id)}/history/1`);
+  await expect(page.getByRole("button", { name: "Restore this Version" })).toBeVisible();
+  await shot(page, "WF-10_version/restore", "editor");
+  await page.getByRole("button", { name: "Restore this Version" }).click();
+  await expect(page.getByRole("alertdialog")).toBeVisible();
+  await shot(page, "WF-10_version/restore", "confirmation");
+  await confirmDialog(page, "Restore this Version");
+
+  await expect.poll(async () => (await history(t, id)).length).toBe(3);
+  expect((await getContact(t.ana, t.groupId, id)).fields.email).toBe("janez.novak@example.si");
+  await page.goto(`${path(t, id)}/history`);
+  await expect(page.getByRole("main").getByText(/from Version 1/)).toBeVisible();
+  await expect(page.getByRole("main").getByText("Version 2", { exact: true })).toBeVisible();
+  console.log("UI AC-011-01 passed:", JSON.stringify((await page.getByRole("main").innerText()).split("\n").filter(Boolean).slice(0, 8)));
+  await shot(page, "WF-09_history/restored", "success");
+});
+
+test("UI AC-011-04 (frozen steps) with screens", async ({ page }) => {
+  const t = await team();
+  const id = await janezAtVersion2(t);
+  const v2 = await getContact(t.marko, t.groupId, id);
+  expect((await restore(t.marko, t, id, 1, v2.versionNumber)).status).toBe(200);
+  await signIn(page, t.marko);
+
+  await page.goto(`${path(t, id)}/history/1`);
+  await page.getByRole("button", { name: "Restore this Version" }).click();
+  await confirmDialog(page, "Restore this Version");
+
+  await expect(page.getByText("This Version is the same as the current one.")).toBeVisible();
+  expect(await history(t, id)).toHaveLength(3);
+  console.log("UI AC-011-04 passed");
+  await shot(page, "WF-10_version/restore", "same-as-current");
+});
+
+test("UI EX-011-03 (frozen steps), Viewer without the action", async ({ page }) => {
+  const t = await team();
+  const id = await janezAtVersion2(t);
+  await signIn(page, t.marko);
+
+  await page.goto(`${path(t, id)}/history/1`);
+  await page.getByRole("button", { name: "Restore this Version" }).click();
+  await cancelDialog(page);
+
+  expect(await history(t, id)).toHaveLength(2);
+  expect((await getContact(t.ana, t.groupId, id)).fields.email).toBe("janez@novak.si");
+  console.log("UI EX-011-03 passed");
+
+  await page.context().clearCookies();
+  await page.evaluate(() => { localStorage.clear(); sessionStorage.clear(); indexedDB.deleteDatabase("firebaseLocalStorageDb"); });
+  await page.goto("/");
+  await signIn(page, t.petra);
+  await page.goto(`${path(t, id)}/history/1`);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await page.waitForLoadState("networkidle");
+  await expect(page.getByRole("button", { name: "Restore this Version" })).toHaveCount(0);
+  console.log("UI Viewer: no Restore this Version");
+  await shot(page, "WF-10_version/restore", "viewer");
+});

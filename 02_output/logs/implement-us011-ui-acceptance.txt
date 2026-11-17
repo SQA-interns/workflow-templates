@@ -1,0 +1,128 @@
+
+Running 3 tests using 1 worker
+
+
+  ✘  1 [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 (1.4s)
+
+  ✘  2 [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. (726ms)
+
+  ✘  3 [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing (706ms)
+
+
+  1) [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:35:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:53:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:74:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 
+    [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. 
+    [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing 
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

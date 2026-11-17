@@ -1,0 +1,2972 @@
+
+Running 89 tests using 1 worker
+
+
+  ✓   1 [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. (1.3s)
+
+  ✓   2 [chromium] › acceptance/us001-sign-in.spec.ts:53:1 › AC-001-02 Sign in with Google: signed in, GET /me has the Google e-mail (1.8s)
+
+  ✓   3 [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 (671ms)
+
+  ✓   4 [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token (959ms)
+
+  ✓   5 [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in (701ms)
+
+  ✓   6 [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account (581ms)
+
+  ✓   7 [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. (914ms)
+
+  ✓   8 [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only (963ms)
+
+  ✓   9 [chromium] › acceptance/us002-groups.spec.ts:49:1 › AC-002-04 a blank Group name: Enter a name of 1 to 100 characters. (979ms)
+
+  ✓  10 [chromium] › acceptance/us002-groups.spec.ts:61:1 › AC-002-05 after signing in again the Group selected last is current (1.6s)
+
+  ✘  11 [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups (1.2s)
+
+  ✘  12 [chromium] › acceptance/us003-group-lifecycle.spec.ts:17:1 › AC-003-01 the Owner renames the Group; the switcher shows the new name (780ms)
+
+  ✘  13 [chromium] › acceptance/us003-group-lifecycle.spec.ts:28:1 › AC-003-03 Move Group to recycle bin: gone from the switcher (756ms)
+
+  ✘  14 [chromium] › acceptance/us003-group-lifecycle.spec.ts:40:1 › AC-003-03 Deleted Groups shows the removal date 04.04.2026 12:00 (DST in between) (768ms)
+
+  ✘  15 [chromium] › acceptance/us003-group-lifecycle.spec.ts:60:1 › AC-003-04 the Owner restores the Group from Deleted Groups (676ms)
+
+  ✘  16 [chromium] › acceptance/us003-group-lifecycle.spec.ts:77:1 › EX-003-04 cancelling Move Group to recycle bin changes nothing (714ms)
+
+  ✘  17 [chromium] › acceptance/us003-group-lifecycle.spec.ts:89:1 › EX-003-05 an Invitation of a Group in the recycle bin: This Invitation is no longer valid. (700ms)
+
+  ✘  18 [chromium] › acceptance/us004-invitations.spec.ts:27:1 › AC-004-01 the Owner invites an Editor: link with Copy link, open Invitation listed (16.1s)
+
+  ✘  19 [chromium] › acceptance/us004-invitations.spec.ts:46:1 › AC-004-01 the expiry is shown in Europe/Ljubljana: 12.03.2026 10:00 (11.1s)
+
+  ✘  20 [chromium] › acceptance/us004-invitations.spec.ts:65:1 › AC-004-02 the invitee accepts and sees the Group in the switcher (686ms)
+
+  ✘  21 [chromium] › acceptance/us004-invitations.spec.ts:81:1 › AC-004-03 another e-mail: This Invitation is for another e-mail address. (715ms)
+
+  ✘  22 [chromium] › acceptance/us004-invitations.spec.ts:95:1 › AC-004-04 an accepted link opened again: This Invitation is no longer valid. (628ms)
+
+  ✘  23 [chromium] › acceptance/us004-invitations.spec.ts:109:1 › AC-004-06 the Owner revokes; the link is no longer valid (642ms)
+
+  ✘  24 [chromium] › acceptance/us004-invitations.spec.ts:131:1 › EX-004-04 inviting a Member: This person is already a Member. (15.9s)
+
+  ✘  25 [chromium] › acceptance/us004-invitations.spec.ts:144:1 › EX-004-06 an invalid e-mail: Enter a valid e-mail address. (16.0s)
+
+  ✘  26 [chromium] › acceptance/us005-members.spec.ts:17:1 › AC-005-01 the Members screen lists every Member with e-mail and Role (801ms)
+
+  ✘  27 [chromium] › acceptance/us005-members.spec.ts:34:1 › EX-005-04 cancelling Remove from Group changes nothing (663ms)
+
+  ✘  28 [chromium] › acceptance/us006-add-contact.spec.ts:11:1 › AC-006-01 an Editor adds a Contact; it is listed; History shows created by him (644ms)
+
+  ✘  29 [chromium] › acceptance/us006-add-contact.spec.ts:42:1 › AC-006-03 only an e-mail: Enter a first name, last name or company. (661ms)
+
+  ✘  30 [chromium] › acceptance/us006-add-contact.spec.ts:54:1 › AC-006-04 an invalid e-mail: Enter a valid e-mail address. (642ms)
+
+  ✘  31 [chromium] › acceptance/us006-add-contact.spec.ts:67:1 › AC-006-05 an e-mail that exists is reported and saving still works (636ms)
+
+  ✘  32 [chromium] › acceptance/us006-add-contact.spec.ts:87:1 › EX-006-08 a name with diacritics is shown as entered (669ms)
+
+  ✘  33 [chromium] › acceptance/us007-edit-contact.spec.ts:21:1 › AC-007-01 the changed e-mail is shown; History lists E-mail: old → new (674ms)
+
+  ✘  34 [chromium] › acceptance/us007-edit-contact.spec.ts:38:1 › AC-007-02 a save on a stale Version: Contact was changed by Marko Kranjc, reload (664ms)
+
+  ✘  35 [chromium] › acceptance/us007-edit-contact.spec.ts:58:1 › AC-007-03 clearing every name part: Enter a first name, last name or company. (672ms)
+
+  ✘  36 [chromium] › acceptance/us007-edit-contact.spec.ts:75:1 › AC-007-04 saving without changes: No changes to save. (666ms)
+
+  ✘  37 [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value (681ms)
+
+  ✘  38 [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new (655ms)
+
+  ✘  39 [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. (663ms)
+
+  ✘  40 [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) (659ms)
+
+  ✘  41 [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added (650ms)
+
+  ✘  42 [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 (680ms)
+
+  ✘  43 [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling (656ms)
+
+  ✘  44 [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed (641ms)
+
+  ✘  45 [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. (648ms)
+
+  ✘  46 [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time (649ms)
+
+  ✘  47 [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls (650ms)
+
+  ✘  48 [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 (666ms)
+
+  ✘  49 [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 (665ms)
+
+  ✘  50 [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. (760ms)
+
+  ✘  51 [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing (664ms)
+
+  ✘  52 [chromium] › acceptance/us012-recycle-bin.spec.ts:29:1 › AC-012-01 Move to recycle bin: the Contact is no longer in the list (662ms)
+
+  ✘  53 [chromium] › acceptance/us012-recycle-bin.spec.ts:46:1 › AC-012-01 the recycle bin shows deleted by, deleted at and removal date (647ms)
+
+  ✘  54 [chromium] › acceptance/us012-recycle-bin.spec.ts:70:1 › AC-012-02 Restore from the recycle bin: back in the list with Tags (649ms)
+
+  ✘  55 [chromium] › acceptance/us012-recycle-bin.spec.ts:89:1 › EX-012-03 cancelling Move to recycle bin changes nothing (680ms)
+
+  ✘  56 [chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found (679ms)
+
+  ✘  57 [chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing (639ms)
+
+  ✘  58 [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown (640ms)
+
+  ✘  59 [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search (658ms)
+
+  ✘  60 [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk (643ms)
+
+  ✘  61 [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact (649ms)
+
+  ✘  62 [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History (654ms)
+
+  ✘  63 [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts (656ms)
+
+  ✘  64 [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact (646ms)
+
+  ✘  65 [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively (652ms)
+
+  ✘  66 [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again (643ms)
+
+  ✘  67 [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. (636ms)
+
+  ✘  68 [chromium] › acceptance/us016-export.spec.ts:37:1 › AC-016-01 Export of the filtered list downloads kontakti-<Group>-<date>.xlsx (656ms)
+
+  ✘  69 [chromium] › acceptance/us016-export.spec.ts:55:1 › AC-016-02 Export checked with one checked Contact (652ms)
+
+  ✘  70 [chromium] › acceptance/us016-export.spec.ts:74:1 › AC-016-03 more than 10,000 Contacts: Narrow the list to at most 10,000 Contacts to export. (656ms)
+
+  ✘  71 [chromium] › acceptance/us016-export.spec.ts:96:1 › EX-016-02 an empty Export scope: Export disabled, Nothing to export. (640ms)
+
+  ✘  72 [chromium] › acceptance/us017-duplicates.spec.ts:13:1 › AC-017-01 a pair with the same e-mail is listed with Same e-mail (657ms)
+
+  ✘  73 [chromium] › acceptance/us017-duplicates.spec.ts:32:1 › AC-017-02 a pair with the same phone is listed with Same phone (652ms)
+
+  ✘  74 [chromium] › acceptance/us017-duplicates.spec.ts:47:1 › AC-017-03 similar names with the same company: Similar name, same company (665ms)
+
+  ✘  75 [chromium] › acceptance/us017-duplicates.spec.ts:64:1 › EX-017-07 no pairs: No possible duplicates found. (649ms)
+
+  ✘  76 [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected (665ms)
+
+  ✘  77 [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak (653ms)
+
+  ✘  78 [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca. (645ms)
+
+  ✘  79 [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing (644ms)
+
+  ✘  80 [chromium] › acceptance/us019-undo-merge.spec.ts:46:1 › AC-019-01 Undo merge: J. Novak is in the list again (622ms)
+
+  ✘  81 [chromium] › acceptance/us019-undo-merge.spec.ts:63:1 › AC-019-02 after a later change: The Contact changed after the Merge. Restore the Versions you need instead. (664ms)
+
+  ✘  82 [chromium] › acceptance/us019-undo-merge.spec.ts:82:1 › EX-019-03 cancelling Undo merge changes nothing (645ms)
+
+  ✓  83 [chromium] › acceptance/us020-language.spec.ts:19:1 › AC-020-01 a new User sees the Contact list titled Kontakti (976ms)
+
+  ✓  84 [chromium] › acceptance/us020-language.spec.ts:29:1 › AC-020-02 choosing English switches at once and is kept after signing in again (1.6s)
+
+  ✓  85 [chromium] › acceptance/us020-language.spec.ts:57:1 › AC-020-03 in English the time of a Version reads 05.03.2026 10:00 (932ms)
+
+  ✘  86 [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English (10.7s)
+
+  ✘  87 [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user (656ms)
+
+  ✘  88 [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. (665ms)
+
+  ✘  89 [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled (639ms)
+
+
+  1) [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m204[39m
+    Received: [31m404[39m
+
+      84 |   await expect(page).toHaveURL((url) => url.pathname === listPath(alfa));
+      85 |   await signOut(page, "Ana Kovač");
+    > 86 |   expect((await api(ana, "POST", `/groups/${alfa}/move-to-recycle-bin`)).status).toBe(204);
+         |                                                                                  ^
+      87 |
+      88 |   await signIn(page, ana);
+      89 |   await expect(page).toHaveURL((url) => url.pathname === listPath(konferenca));
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us002-groups.spec.ts:86:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us002-groups-EX-a565a--first-Group-else-no-Groups-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us003-group-lifecycle.spec.ts:17:1 › AC-003-01 the Owner renames the Group; the switcher shows the new name 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:18:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-6f021-switcher-shows-the-new-name-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-6f021-switcher-shows-the-new-name-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-6f021-switcher-shows-the-new-name-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us003-group-lifecycle.spec.ts:28:1 › AC-003-03 Move Group to recycle bin: gone from the switcher 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:29:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-6ecba--bin-gone-from-the-switcher-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-6ecba--bin-gone-from-the-switcher-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-6ecba--bin-gone-from-the-switcher-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium] › acceptance/us003-group-lifecycle.spec.ts:40:1 › AC-003-03 Deleted Groups shows the removal date 04.04.2026 12:00 (DST in between) 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:43:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-ea339--2026-12-00-DST-in-between--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-ea339--2026-12-00-DST-in-between--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-ea339--2026-12-00-DST-in-between--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium] › acceptance/us003-group-lifecycle.spec.ts:60:1 › AC-003-04 the Owner restores the Group from Deleted Groups 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:61:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-933fc-e-Group-from-Deleted-Groups-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-933fc-e-Group-from-Deleted-Groups-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-933fc-e-Group-from-Deleted-Groups-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium] › acceptance/us003-group-lifecycle.spec.ts:77:1 › EX-003-04 cancelling Move Group to recycle bin changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:78:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-d70b8-recycle-bin-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-d70b8-recycle-bin-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-d70b8-recycle-bin-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [chromium] › acceptance/us003-group-lifecycle.spec.ts:89:1 › EX-003-05 an Invitation of a Group in the recycle bin: This Invitation is no longer valid. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us003-group-lifecycle.spec.ts:92:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-43c7d-itation-is-no-longer-valid--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us003-group-lif-43c7d-itation-is-no-longer-valid--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us003-group-lif-43c7d-itation-is-no-longer-valid--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [chromium] › acceptance/us004-invitations.spec.ts:27:1 › AC-004-01 the Owner invites an Editor: link with Copy link, open Invitation listed 
+
+    TimeoutError: locator.fill: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('E-mail')[22m
+
+
+      32 |
+      33 |   await page.goto(`/groups/${groupId}/members`);
+    > 34 |   await page.getByLabel("E-mail").fill(MARKO);
+         |                                   ^
+      35 |   await choose(page.getByLabel("Role"), "Editor");
+      36 |   await page.getByRole("button", { name: "Create Invitation" }).click();
+      37 |
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:34:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-f0bfe-link-open-Invitation-listed-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us004-invitatio-f0bfe-link-open-Invitation-listed-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-f0bfe-link-open-Invitation-listed-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-f0bfe-link-open-Invitation-listed-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [chromium] › acceptance/us004-invitations.spec.ts:46:1 › AC-004-01 the expiry is shown in Europe/Ljubljana: 12.03.2026 10:00 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoContainText[2m([22m[32mexpected[39m[2m)[22m failed
+
+    Locator: getByRole('row', { name: /marko\.kranjc@gmail\.com/ })
+    Expected substring: [32m"12.03.2026 10:00"[39m
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toContainText" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('row', { name: /marko\.kranjc@gmail\.com/ })[22m
+
+
+      58 |   await page.goto(`/groups/${groupId}/members`);
+      59 |
+    > 60 |   await expect(page.getByRole("row", { name: /marko\.kranjc@gmail\.com/ })).toContainText(
+         |                                                                             ^
+      61 |     "12.03.2026 10:00",
+      62 |   );
+      63 | });
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:60:77
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-35153--Ljubljana-12-03-2026-10-00-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us004-invitatio-35153--Ljubljana-12-03-2026-10-00-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-35153--Ljubljana-12-03-2026-10-00-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-35153--Ljubljana-12-03-2026-10-00-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [chromium] › acceptance/us004-invitations.spec.ts:65:1 › AC-004-02 the invitee accepts and sees the Group in the switcher 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:68:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-055f6-s-the-Group-in-the-switcher-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-055f6-s-the-Group-in-the-switcher-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-055f6-s-the-Group-in-the-switcher-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [chromium] › acceptance/us004-invitations.spec.ts:81:1 › AC-004-03 another e-mail: This Invitation is for another e-mail address. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:86:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-cb8fe-for-another-e-mail-address--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-cb8fe-for-another-e-mail-address--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-cb8fe-for-another-e-mail-address--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [chromium] › acceptance/us004-invitations.spec.ts:95:1 › AC-004-04 an accepted link opened again: This Invitation is no longer valid. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:100:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-7bfc9-itation-is-no-longer-valid--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-7bfc9-itation-is-no-longer-valid--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-7bfc9-itation-is-no-longer-valid--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [chromium] › acceptance/us004-invitations.spec.ts:109:1 › AC-004-06 the Owner revokes; the link is no longer valid 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:112:17
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-c292e-the-link-is-no-longer-valid-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-c292e-the-link-is-no-longer-valid-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-c292e-the-link-is-no-longer-valid-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [chromium] › acceptance/us004-invitations.spec.ts:131:1 › EX-004-04 inviting a Member: This person is already a Member. 
+
+    TimeoutError: locator.fill: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('E-mail')[22m
+
+
+      134 |
+      135 |   await page.goto(`/groups/${groupId}/members`);
+    > 136 |   await page.getByLabel("E-mail").fill(ANA);
+          |                                   ^
+      137 |   await choose(page.getByLabel("Role"), "Editor");
+      138 |   await page.getByRole("button", { name: "Create Invitation" }).click();
+      139 |
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:136:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-45e54-person-is-already-a-Member--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us004-invitatio-45e54-person-is-already-a-Member--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-45e54-person-is-already-a-Member--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-45e54-person-is-already-a-Member--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [chromium] › acceptance/us004-invitations.spec.ts:144:1 › EX-004-06 an invalid e-mail: Enter a valid e-mail address. 
+
+    TimeoutError: locator.fill: Timeout 15000ms exceeded.
+    Call log:
+    [2m  - waiting for getByLabel('E-mail')[22m
+
+
+      147 |
+      148 |   await page.goto(`/groups/${groupId}/members`);
+    > 149 |   await page.getByLabel("E-mail").fill("marko@");
+          |                                   ^
+      150 |   await page.getByRole("button", { name: "Create Invitation" }).click();
+      151 |
+      152 |   await expect(page.getByText("Enter a valid e-mail address.")).toBeVisible();
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us004-invitations.spec.ts:149:35
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-ba7a3-ter-a-valid-e-mail-address--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us004-invitatio-ba7a3-ter-a-valid-e-mail-address--chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us004-invitatio-ba7a3-ter-a-valid-e-mail-address--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us004-invitatio-ba7a3-ter-a-valid-e-mail-address--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [chromium] › acceptance/us005-members.spec.ts:17:1 › AC-005-01 the Members screen lists every Member with e-mail and Role 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us005-members.spec.ts:18:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us005-members-A-ff739-Member-with-e-mail-and-Role-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us005-members-A-ff739-Member-with-e-mail-and-Role-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us005-members-A-ff739-Member-with-e-mail-and-Role-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [chromium] › acceptance/us005-members.spec.ts:34:1 › EX-005-04 cancelling Remove from Group changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us005-members.spec.ts:35:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us005-members-E-6cda6--from-Group-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us005-members-E-6cda6--from-Group-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us005-members-E-6cda6--from-Group-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [chromium] › acceptance/us006-add-contact.spec.ts:11:1 › AC-006-01 an Editor adds a Contact; it is listed; History shows created by him 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us006-add-contact.spec.ts:14:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-36c6e-istory-shows-created-by-him-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-36c6e-istory-shows-created-by-him-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us006-add-conta-36c6e-istory-shows-created-by-him-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [chromium] › acceptance/us006-add-contact.spec.ts:42:1 › AC-006-03 only an e-mail: Enter a first name, last name or company. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us006-add-contact.spec.ts:43:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-ef6c7--name-last-name-or-company--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-ef6c7--name-last-name-or-company--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us006-add-conta-ef6c7--name-last-name-or-company--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [chromium] › acceptance/us006-add-contact.spec.ts:54:1 › AC-006-04 an invalid e-mail: Enter a valid e-mail address. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us006-add-contact.spec.ts:55:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-5b9c0-ter-a-valid-e-mail-address--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-5b9c0-ter-a-valid-e-mail-address--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us006-add-conta-5b9c0-ter-a-valid-e-mail-address--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) [chromium] › acceptance/us006-add-contact.spec.ts:67:1 › AC-006-05 an e-mail that exists is reported and saving still works 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us006-add-contact.spec.ts:68:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-a3e53-rted-and-saving-still-works-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-a3e53-rted-and-saving-still-works-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us006-add-conta-a3e53-rted-and-saving-still-works-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) [chromium] › acceptance/us006-add-contact.spec.ts:87:1 › EX-006-08 a name with diacritics is shown as entered 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us006-add-contact.spec.ts:88:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-ad910-critics-is-shown-as-entered-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us006-add-conta-ad910-critics-is-shown-as-entered-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us006-add-conta-ad910-critics-is-shown-as-entered-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) [chromium] › acceptance/us007-edit-contact.spec.ts:21:1 › AC-007-01 the changed e-mail is shown; History lists E-mail: old → new 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us007-edit-contact.spec.ts:22:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-d76b1-tory-lists-E-mail-old-→-new-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-d76b1-tory-lists-E-mail-old-→-new-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us007-edit-cont-d76b1-tory-lists-E-mail-old-→-new-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  24) [chromium] › acceptance/us007-edit-contact.spec.ts:38:1 › AC-007-02 a save on a stale Version: Contact was changed by Marko Kranjc, reload 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us007-edit-contact.spec.ts:41:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-cc07e-nged-by-Marko-Kranjc-reload-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-cc07e-nged-by-Marko-Kranjc-reload-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us007-edit-cont-cc07e-nged-by-Marko-Kranjc-reload-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  25) [chromium] › acceptance/us007-edit-contact.spec.ts:58:1 › AC-007-03 clearing every name part: Enter a first name, last name or company. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us007-edit-contact.spec.ts:61:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-3bf6f--name-last-name-or-company--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-3bf6f--name-last-name-or-company--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us007-edit-cont-3bf6f--name-last-name-or-company--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  26) [chromium] › acceptance/us007-edit-contact.spec.ts:75:1 › AC-007-04 saving without changes: No changes to save. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us007-edit-contact.spec.ts:76:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-5894f-changes-No-changes-to-save--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us007-edit-cont-5894f-changes-No-changes-to-save--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us007-edit-cont-5894f-changes-No-changes-to-save--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  27) [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:23:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  28) [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:41:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  29) [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:59:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30) [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us008-attributes.spec.ts:75:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  31) [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:30:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-3e146-ts-tag-udelezenec2025-added-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  32) [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:46:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-67976-del-suggests-udelezenec2025-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  33) [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:63:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-08989-takes-the-existing-spelling-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  34) [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:80:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d7a97--Tag-tag-neObvescaj-removed-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  35) [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us009-tags.spec.ts:96:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us009-tags-AC-0-d06f0-50-characters-and-no-comma--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  36) [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:34:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  37) [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:60:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  38) [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:79:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  39) [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:35:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-1f2f0-n-3-restored-from-Version-1-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  40) [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:53:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-eb088-he-same-as-the-current-one--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  41) [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us011-restore-version.spec.ts:74:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us011-restore-v-9bb4e-his-Version-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  42) [chromium] › acceptance/us012-recycle-bin.spec.ts:29:1 › AC-012-01 Move to recycle bin: the Contact is no longer in the list 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us012-recycle-bin.spec.ts:30:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-06188-ct-is-no-longer-in-the-list-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-06188-ct-is-no-longer-in-the-list-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us012-recycle-b-06188-ct-is-no-longer-in-the-list-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  43) [chromium] › acceptance/us012-recycle-bin.spec.ts:46:1 › AC-012-01 the recycle bin shows deleted by, deleted at and removal date 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us012-recycle-bin.spec.ts:49:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-0da1c-deleted-at-and-removal-date-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-0da1c-deleted-at-and-removal-date-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us012-recycle-b-0da1c-deleted-at-and-removal-date-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  44) [chromium] › acceptance/us012-recycle-bin.spec.ts:70:1 › AC-012-02 Restore from the recycle bin: back in the list with Tags 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us012-recycle-bin.spec.ts:71:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-8b530--back-in-the-list-with-Tags-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-8b530--back-in-the-list-with-Tags-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us012-recycle-b-8b530--back-in-the-list-with-Tags-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  45) [chromium] › acceptance/us012-recycle-bin.spec.ts:89:1 › EX-012-03 cancelling Move to recycle bin changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us012-recycle-bin.spec.ts:90:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-6c9e0-recycle-bin-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us012-recycle-b-6c9e0-recycle-bin-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us012-recycle-b-6c9e0-recycle-bin-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  46) [chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us013-permanent-delete.spec.ts:29:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us013-permanent-4aea6-in-its-address-is-not-found-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us013-permanent-4aea6-in-its-address-is-not-found-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us013-permanent-4aea6-in-its-address-is-not-found-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  47) [chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us013-permanent-delete.spec.ts:47:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us013-permanent-df458-permanently-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us013-permanent-df458-permanently-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us013-permanent-df458-permanently-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  48) [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us014-contact-list.spec.ts:34:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-1cc16-he-recycle-bin-is-not-shown-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-1cc16-he-recycle-bin-is-not-shown-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-1cc16-he-recycle-bin-is-not-shown-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  49) [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us014-contact-list.spec.ts:54:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-15f7d-cts-match-with-Clear-search-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-15f7d-cts-match-with-Clear-search-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-15f7d-cts-match-with-Clear-search-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  50) [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us014-contact-list.spec.ts:67:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-04467-ing-cuk-shows-only-Žiga-Čuk-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-04467-ing-cuk-shows-only-Žiga-Čuk-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-04467-ing-cuk-shows-only-Žiga-Čuk-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  51) [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us014-contact-list.spec.ts:80:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-53fdb-acts-yet-with-Add-a-Contact-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-53fdb-acts-yet-with-Add-a-Contact-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-53fdb-acts-yet-with-Add-a-Contact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  52) [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us014-contact-list.spec.ts:92:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-64dd4-s-and-a-link-to-the-History-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-64dd4-s-and-a-link-to-the-History-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-64dd4-s-and-a-link-to-the-History-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  53) [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:36:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  54) [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:50:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  55) [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:64:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  56) [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:78:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  57) [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:97:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  58) [chromium] › acceptance/us016-export.spec.ts:37:1 › AC-016-01 Export of the filtered list downloads kontakti-<Group>-<date>.xlsx 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us016-export.spec.ts:40:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-3f0b4-kontakti--Group---date-xlsx-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-3f0b4-kontakti--Group---date-xlsx-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us016-export-AC-3f0b4-kontakti--Group---date-xlsx-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  59) [chromium] › acceptance/us016-export.spec.ts:55:1 › AC-016-02 Export checked with one checked Contact 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us016-export.spec.ts:56:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-0549d-ed-with-one-checked-Contact-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-0549d-ed-with-one-checked-Contact-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us016-export-AC-0549d-ed-with-one-checked-Contact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  60) [chromium] › acceptance/us016-export.spec.ts:74:1 › AC-016-03 more than 10,000 Contacts: Narrow the list to at most 10,000 Contacts to export. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us016-export.spec.ts:77:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-2b44a--10-000-Contacts-to-export--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-AC-2b44a--10-000-Contacts-to-export--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us016-export-AC-2b44a--10-000-Contacts-to-export--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  61) [chromium] › acceptance/us016-export.spec.ts:96:1 › EX-016-02 an empty Export scope: Export disabled, Nothing to export. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us016-export.spec.ts:97:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-EX-d2e2b-disabled-Nothing-to-export--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us016-export-EX-d2e2b-disabled-Nothing-to-export--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us016-export-EX-d2e2b-disabled-Nothing-to-export--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  62) [chromium] › acceptance/us017-duplicates.spec.ts:13:1 › AC-017-01 a pair with the same e-mail is listed with Same e-mail 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us017-duplicates.spec.ts:14:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-b80da--is-listed-with-Same-e-mail-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-b80da--is-listed-with-Same-e-mail-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us017-duplicate-b80da--is-listed-with-Same-e-mail-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  63) [chromium] › acceptance/us017-duplicates.spec.ts:32:1 › AC-017-02 a pair with the same phone is listed with Same phone 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us017-duplicates.spec.ts:33:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-69c3b-e-is-listed-with-Same-phone-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-69c3b-e-is-listed-with-Same-phone-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us017-duplicate-69c3b-e-is-listed-with-Same-phone-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  64) [chromium] › acceptance/us017-duplicates.spec.ts:47:1 › AC-017-03 similar names with the same company: Similar name, same company 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us017-duplicates.spec.ts:50:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-45652-y-Similar-name-same-company-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-45652-y-Similar-name-same-company-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us017-duplicate-45652-y-Similar-name-same-company-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  65) [chromium] › acceptance/us017-duplicates.spec.ts:64:1 › EX-017-07 no pairs: No possible duplicates found. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us017-duplicates.spec.ts:65:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-58d0c--possible-duplicates-found--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us017-duplicate-58d0c--possible-duplicates-found--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us017-duplicate-58d0c--possible-duplicates-found--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  66) [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us018-merge.spec.ts:47:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--27fe3-hone-of-J-Novak-preselected-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--27fe3-hone-of-J-Novak-preselected-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us018-merge-AC--27fe3-hone-of-J-Novak-preselected-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  67) [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us018-merge.spec.ts:62:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--686ac-t-shows-Merged-from-J-Novak-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--686ac-t-shows-Merged-from-J-Novak-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us018-merge-AC--686ac-t-shows-Merged-from-J-Novak-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  68) [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us018-merge.spec.ts:78:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--0719e-ose-a-value-for-kompetenca--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-AC--0719e-ose-a-value-for-kompetenca--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us018-merge-AC--0719e-ose-a-value-for-kompetenca--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  69) [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us018-merge.spec.ts:99:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-EX--c0f87-erge-screen-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us018-merge-EX--c0f87-erge-screen-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us018-merge-EX--c0f87-erge-screen-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  70) [chromium] › acceptance/us019-undo-merge.spec.ts:46:1 › AC-019-01 Undo merge: J. Novak is in the list again 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us019-undo-merge.spec.ts:47:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-5a461--Novak-is-in-the-list-again-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-5a461--Novak-is-in-the-list-again-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us019-undo-merg-5a461--Novak-is-in-the-list-again-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  71) [chromium] › acceptance/us019-undo-merge.spec.ts:63:1 › AC-019-02 after a later change: The Contact changed after the Merge. Restore the Versions you need instead. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us019-undo-merge.spec.ts:66:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-3af1f--Versions-you-need-instead--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-3af1f--Versions-you-need-instead--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us019-undo-merg-3af1f--Versions-you-need-instead--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  72) [chromium] › acceptance/us019-undo-merge.spec.ts:82:1 › EX-019-03 cancelling Undo merge changes nothing 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us019-undo-merge.spec.ts:83:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-9f725--Undo-merge-changes-nothing-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us019-undo-merg-9f725--Undo-merge-changes-nothing-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us019-undo-merg-9f725--Undo-merge-changes-nothing-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  73) [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English 
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByRole('main').getByText(/10\.000/).first()
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByRole('main').getByText(/10\.000/).first()[22m
+
+
+      108 |       .getByText(/10\.000/)
+      109 |       .first(),
+    > 110 |   ).toBeVisible();
+          |     ^
+      111 |
+      112 |   expect((await api(ana, "PATCH", "/me", { language: "en" })).status).toBe(200);
+      113 |   await page.reload();
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us020-language.spec.ts:110:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us020-language--3a725-enian-and-10-000-in-English-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  74) [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us021-delete-account.spec.ts:21:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  75) [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us021-delete-account.spec.ts:50:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-fc144-oups-first-Konferenca-2025--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-fc144-oups-first-Konferenca-2025--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us021-delete-ac-fc144-oups-first-Konferenca-2025--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  76) [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us021-delete-account.spec.ts:62:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-3dbf9-match-keeps-Delete-disabled-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us021-delete-ac-3dbf9-match-keeps-Delete-disabled-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us021-delete-ac-3dbf9-match-keeps-Delete-disabled-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  76 failed
+    [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:17:1 › AC-003-01 the Owner renames the Group; the switcher shows the new name 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:28:1 › AC-003-03 Move Group to recycle bin: gone from the switcher 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:40:1 › AC-003-03 Deleted Groups shows the removal date 04.04.2026 12:00 (DST in between) 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:60:1 › AC-003-04 the Owner restores the Group from Deleted Groups 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:77:1 › EX-003-04 cancelling Move Group to recycle bin changes nothing 
+    [chromium] › acceptance/us003-group-lifecycle.spec.ts:89:1 › EX-003-05 an Invitation of a Group in the recycle bin: This Invitation is no longer valid. 
+    [chromium] › acceptance/us004-invitations.spec.ts:27:1 › AC-004-01 the Owner invites an Editor: link with Copy link, open Invitation listed 
+    [chromium] › acceptance/us004-invitations.spec.ts:46:1 › AC-004-01 the expiry is shown in Europe/Ljubljana: 12.03.2026 10:00 
+    [chromium] › acceptance/us004-invitations.spec.ts:65:1 › AC-004-02 the invitee accepts and sees the Group in the switcher 
+    [chromium] › acceptance/us004-invitations.spec.ts:81:1 › AC-004-03 another e-mail: This Invitation is for another e-mail address. 
+    [chromium] › acceptance/us004-invitations.spec.ts:95:1 › AC-004-04 an accepted link opened again: This Invitation is no longer valid. 
+    [chromium] › acceptance/us004-invitations.spec.ts:109:1 › AC-004-06 the Owner revokes; the link is no longer valid 
+    [chromium] › acceptance/us004-invitations.spec.ts:131:1 › EX-004-04 inviting a Member: This person is already a Member. 
+    [chromium] › acceptance/us004-invitations.spec.ts:144:1 › EX-004-06 an invalid e-mail: Enter a valid e-mail address. 
+    [chromium] › acceptance/us005-members.spec.ts:17:1 › AC-005-01 the Members screen lists every Member with e-mail and Role 
+    [chromium] › acceptance/us005-members.spec.ts:34:1 › EX-005-04 cancelling Remove from Group changes nothing 
+    [chromium] › acceptance/us006-add-contact.spec.ts:11:1 › AC-006-01 an Editor adds a Contact; it is listed; History shows created by him 
+    [chromium] › acceptance/us006-add-contact.spec.ts:42:1 › AC-006-03 only an e-mail: Enter a first name, last name or company. 
+    [chromium] › acceptance/us006-add-contact.spec.ts:54:1 › AC-006-04 an invalid e-mail: Enter a valid e-mail address. 
+    [chromium] › acceptance/us006-add-contact.spec.ts:67:1 › AC-006-05 an e-mail that exists is reported and saving still works 
+    [chromium] › acceptance/us006-add-contact.spec.ts:87:1 › EX-006-08 a name with diacritics is shown as entered 
+    [chromium] › acceptance/us007-edit-contact.spec.ts:21:1 › AC-007-01 the changed e-mail is shown; History lists E-mail: old → new 
+    [chromium] › acceptance/us007-edit-contact.spec.ts:38:1 › AC-007-02 a save on a stale Version: Contact was changed by Marko Kranjc, reload 
+    [chromium] › acceptance/us007-edit-contact.spec.ts:58:1 › AC-007-03 clearing every name part: Enter a first name, last name or company. 
+    [chromium] › acceptance/us007-edit-contact.spec.ts:75:1 › AC-007-04 saving without changes: No changes to save. 
+    [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+    [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+    [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+    [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+    [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added 
+    [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 
+    [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling 
+    [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed 
+    [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. 
+    [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+    [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+    [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+    [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 
+    [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. 
+    [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing 
+    [chromium] › acceptance/us012-recycle-bin.spec.ts:29:1 › AC-012-01 Move to recycle bin: the Contact is no longer in the list 
+    [chromium] › acceptance/us012-recycle-bin.spec.ts:46:1 › AC-012-01 the recycle bin shows deleted by, deleted at and removal date 
+    [chromium] › acceptance/us012-recycle-bin.spec.ts:70:1 › AC-012-02 Restore from the recycle bin: back in the list with Tags 
+    [chromium] › acceptance/us012-recycle-bin.spec.ts:89:1 › EX-012-03 cancelling Move to recycle bin changes nothing 
+    [chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found 
+    [chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing 
+    [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown 
+    [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search 
+    [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk 
+    [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact 
+    [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History 
+    [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts 
+    [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact 
+    [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively 
+    [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again 
+    [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. 
+    [chromium] › acceptance/us016-export.spec.ts:37:1 › AC-016-01 Export of the filtered list downloads kontakti-<Group>-<date>.xlsx 
+    [chromium] › acceptance/us016-export.spec.ts:55:1 › AC-016-02 Export checked with one checked Contact 
+    [chromium] › acceptance/us016-export.spec.ts:74:1 › AC-016-03 more than 10,000 Contacts: Narrow the list to at most 10,000 Contacts to export. 
+    [chromium] › acceptance/us016-export.spec.ts:96:1 › EX-016-02 an empty Export scope: Export disabled, Nothing to export. 
+    [chromium] › acceptance/us017-duplicates.spec.ts:13:1 › AC-017-01 a pair with the same e-mail is listed with Same e-mail 
+    [chromium] › acceptance/us017-duplicates.spec.ts:32:1 › AC-017-02 a pair with the same phone is listed with Same phone 
+    [chromium] › acceptance/us017-duplicates.spec.ts:47:1 › AC-017-03 similar names with the same company: Similar name, same company 
+    [chromium] › acceptance/us017-duplicates.spec.ts:64:1 › EX-017-07 no pairs: No possible duplicates found. 
+    [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected 
+    [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak 
+    [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca. 
+    [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing 
+    [chromium] › acceptance/us019-undo-merge.spec.ts:46:1 › AC-019-01 Undo merge: J. Novak is in the list again 
+    [chromium] › acceptance/us019-undo-merge.spec.ts:63:1 › AC-019-02 after a later change: The Contact changed after the Merge. Restore the Versions you need instead. 
+    [chromium] › acceptance/us019-undo-merge.spec.ts:82:1 › EX-019-03 cancelling Undo merge changes nothing 
+    [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English 
+    [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user 
+    [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. 
+    [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled 
+  13 passed (3.3m)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

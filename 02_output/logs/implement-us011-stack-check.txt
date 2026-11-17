@@ -1,0 +1,26 @@
+
+Running 4 tests using 1 worker
+
+AC-011-01 [200,"janez.novak@example.si",["3 restored","2 edited","1 created"],1,["email: janez@novak.si → janez.novak@example.si"]]
+AC-011-04 [409,"version.sameAsCurrent",3]
+AC-011-02 ["udelezenec2025"]
+AC-011-03 [403,"auth.forbidden"]
+EX-011-01 [409,"version.conflict",{"changedBy":"Ana Kovač"}]
+EX-011-02 [["vip"],[{"id":"31c790be-0f7f-4b68-b17a-601c7d8ff2ff","name":"vip"}]]
+EX-011-04 [409,"contact.inRecycleBin"]
+Version 99 404
+  ✓  1 [chromium] › reports/us011-check/us011.spec.ts:41:1 › API AC-011-01..04, EX-011-01, -02, -04 (2.7s)
+axe WF-10_version/restore editor: none
+axe WF-10_version/restore confirmation: none
+UI AC-011-01 passed: ["Janez Novak","History of Janez Novak","Newest first. Times in Europe/Ljubljana (dd.mm.yyyy HH:mm).","Version 3","restored · from Version 1","Marko Kranjc","17.11.2026 10:52","View"]
+axe WF-09_history/restored success: none
+  ✓  2 [chromium] › reports/us011-check/us011.spec.ts:135:1 › UI AC-011-01 (frozen steps) with screens (6.6s)
+UI AC-011-04 passed
+axe WF-10_version/restore same-as-current: none
+  ✓  3 [chromium] › reports/us011-check/us011.spec.ts:157:1 › UI AC-011-04 (frozen steps) with screens (3.1s)
+UI EX-011-03 passed
+UI Viewer: no Restore this Version
+axe WF-10_version/restore viewer: none
+  ✓  4 [chromium] › reports/us011-check/us011.spec.ts:174:1 › UI EX-011-03 (frozen steps), Viewer without the action (3.8s)
+
+  4 passed (17.8s)
