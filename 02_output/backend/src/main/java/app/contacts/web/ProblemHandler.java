@@ -68,13 +68,15 @@ public class ProblemHandler {
   }
 
   /**
-   * 403 when the Role does not allow the action (BR-03, BR-04).
+   * 403 when the Role does not allow the action (BR-03, BR-04) or the Invitation is for another
+   * e-mail (R-004-05), with the code of the exception.
    *
+   * @param forbidden the exception
    * @return the problem
    */
   @ExceptionHandler(ForbiddenException.class)
-  public ResponseEntity<Map<String, Object>> forbidden() {
-    return problem(HttpStatus.FORBIDDEN, "auth.forbidden");
+  public ResponseEntity<Map<String, Object>> forbidden(ForbiddenException forbidden) {
+    return problem(HttpStatus.FORBIDDEN, forbidden.getCode());
   }
 
   /**

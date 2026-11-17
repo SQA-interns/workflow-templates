@@ -9,7 +9,10 @@ public class ForbiddenException extends RuntimeException {
   private static final long serialVersionUID = 1L;
 
   /** The catalog code of a Role without the permission. */
-  public static final String ROLE = "auth.forbidden";
+  private static final String ROLE = "auth.forbidden";
+
+  /** The catalog code. */
+  private final String code;
 
   /** The exception for a Role without the permission. */
   public ForbiddenException() {
@@ -23,5 +26,10 @@ public class ForbiddenException extends RuntimeException {
    */
   public ForbiddenException(String code) {
     super(code);
+    this.code = code;
+  }
+
+  public String getCode() {
+    return code;
   }
 }

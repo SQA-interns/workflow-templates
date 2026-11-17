@@ -51,6 +51,13 @@ class ProblemHandlerTest {
   }
 
   @Test
+  void r00405ForbiddenKeepsItsCatalogCode() throws Exception {
+    mvc.perform(get("/other-email"))
+        .andExpect(status().isForbidden())
+        .andExpect(jsonPath("$.code").value("invitation.otherEmail"));
+  }
+
+  @Test
   void sb01ValidationIs400WithAnErrorPerField() throws Exception {
     mvc.perform(get("/invalid"))
         .andExpect(status().isBadRequest())
@@ -116,6 +123,11 @@ class ProblemHandlerTest {
     @GetMapping("/forbidden")
     void forbidden() {
       throw new ForbiddenException();
+    }
+
+    @GetMapping("/other-email")
+    void otherEmail() {
+      throw new ForbiddenException("invitation.otherEmail");
     }
 
     @GetMapping("/invalid")
