@@ -18,6 +18,8 @@ import java.util.UUID;
  * @param tags the Tags by name
  * @param createdAt when it was added
  * @param updatedAt when it was last changed
+ * @param mergedFrom the Contacts merged into this one, oldest first (R-018-05)
+ * @param mergedInto the Primary contact this one was merged into, or {@code null}
  */
 public record ContactView(
     UUID id,
@@ -27,7 +29,9 @@ public record ContactView(
     List<AttributeView> attributes,
     List<TagView> tags,
     Instant createdAt,
-    Instant updatedAt) {
+    Instant updatedAt,
+    List<MergedFromView> mergedFrom,
+    ContactRefView mergedInto) {
 
   /**
    * A view with its own copies of the Fields, Attributes and Tags.
@@ -40,11 +44,38 @@ public record ContactView(
    * @param tags the Tags
    * @param createdAt when it was added
    * @param updatedAt when it was last changed
+   * @param mergedFrom the Contacts merged into this one
+   * @param mergedInto the Primary contact this one was merged into
    */
   public ContactView {
     fields = new LinkedHashMap<>(fields);
     attributes = List.copyOf(attributes);
     tags = List.copyOf(tags);
+    mergedFrom = List.copyOf(mergedFrom);
+  }
+
+  /**
+   * A view of a Contact without Merge links.
+   *
+   * @param id the Contact id
+   * @param versionNumber the current Version number
+   * @param state the state
+   * @param fields the Fields
+   * @param attributes the Attributes
+   * @param tags the Tags
+   * @param createdAt when it was added
+   * @param updatedAt when it was last changed
+   */
+  public ContactView(
+      UUID id,
+      int versionNumber,
+      String state,
+      SequencedMap<String, String> fields,
+      List<AttributeView> attributes,
+      List<TagView> tags,
+      Instant createdAt,
+      Instant updatedAt) {
+    this(id, versionNumber, state, fields, attributes, tags, createdAt, updatedAt, List.of(), null);
   }
 
   /**
@@ -58,14 +89,21 @@ public record ContactView(
   }
 
   /**
-   * The view of a Contact with its Attributes and Tags.
+   * The view of a Contact with its Attributes, Tags and Merge links.
    *
    * @param contact the Contact
    * @param attributes its Attributes
    * @param tags its Tags
+   * @param mergedFrom the Contacts merged into it
+   * @param mergedInto the Primary contact it was merged into, or {@code null}
    * @return the view
    */
-  static ContactView of(Contact contact, List<AttributeView> attributes, List<TagView> tags) {
+  static ContactView of(
+      Contact contact,
+      List<AttributeView> attributes,
+      List<TagView> tags,
+      List<MergedFromView> mergedFrom,
+      ContactRefView mergedInto) {
     return new ContactView(
         contact.getId(),
         contact.getVersionNumber(),
@@ -74,6 +112,8 @@ public record ContactView(
         attributes,
         tags,
         contact.getCreatedAt(),
-        contact.getUpdatedAt());
+        contact.getUpdatedAt(),
+        mergedFrom,
+        mergedInto);
   }
 }

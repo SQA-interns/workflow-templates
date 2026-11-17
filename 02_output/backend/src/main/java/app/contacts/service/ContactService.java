@@ -10,6 +10,7 @@ import app.contacts.domain.User;
 import app.contacts.repository.AttributeRepository;
 import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
+import app.contacts.repository.MergeRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -35,6 +36,7 @@ public class ContactService {
   private final AccessGuard guard;
   private final ContactValidator validator;
   private final Normaliser normaliser;
+  private final MergeRepository merges;
   private final Clock clock;
 
   /**
@@ -49,6 +51,7 @@ public class ContactService {
    * @param guard the access check
    * @param validator checks the Fields
    * @param normaliser derives the search text and sort name
+   * @param merges names the Contacts merged into a Contact (R-018-05)
    * @param clock the clock
    */
   public ContactService(
@@ -61,6 +64,7 @@ public class ContactService {
       AccessGuard guard,
       ContactValidator validator,
       Normaliser normaliser,
+      MergeRepository merges,
       Clock clock) {
     this.contacts = contacts;
     this.attributes = attributes;
@@ -71,6 +75,7 @@ public class ContactService {
     this.guard = guard;
     this.validator = validator;
     this.normaliser = normaliser;
+    this.merges = merges;
     this.clock = clock;
   }
 
@@ -456,8 +461,24 @@ public class ContactService {
     return tags.stream().map(Tag::getName).toList();
   }
 
-  /** The Contact with its Attributes and Tags. */
+  /** The Contact with its Attributes, Tags and Merge links (R-018-05). */
   private ContactView view(Contact contact) {
-    return ContactView.of(contact, attributesOf(contact), tagsOf(contact));
+    UUID groupId = contact.getGroupId();
+    List<MergedFromView> mergedFrom =
+        merges.findByGroupIdAndPrimaryIdOrderByMergedAt(groupId, contact.getId()).stream()
+            .map(
+                merge ->
+                    new MergedFromView(
+                        merge.getId(), refOf(groupId, merge.getMergedId()), merge.isUndone()))
+            .toList();
+    ContactRefView mergedInto =
+        contact.getMergedInto() == null ? null : refOf(groupId, contact.getMergedInto());
+    return ContactView.of(contact, attributesOf(contact), tagsOf(contact), mergedFrom, mergedInto);
+  }
+
+  /** The id and name of a Contact of the Group. */
+  private ContactRefView refOf(UUID groupId, UUID contactId) {
+    Contact contact = contacts.findByGroupIdAndId(groupId, contactId).orElseThrow();
+    return new ContactRefView(contact.getId(), contact.getFields().name());
   }
 }

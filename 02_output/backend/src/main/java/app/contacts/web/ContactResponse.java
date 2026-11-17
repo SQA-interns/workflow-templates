@@ -2,6 +2,7 @@ package app.contacts.web;
 
 import app.contacts.service.AttributeView;
 import app.contacts.service.ContactView;
+import app.contacts.service.MergedFromView;
 import app.contacts.service.TagView;
 import java.time.Instant;
 import java.util.LinkedHashMap;
@@ -10,7 +11,7 @@ import java.util.SequencedMap;
 import java.util.UUID;
 
 /**
- * A Contact (contract {@code Contact}). The Merge links stay empty until US-018 fills them.
+ * A Contact (contract {@code Contact}) with its Merge links (R-018-05).
  *
  * @param id the Contact id
  * @param versionNumber the current Version number
@@ -32,7 +33,7 @@ public record ContactResponse(
     List<TagView> tags,
     Instant createdAt,
     Instant updatedAt,
-    List<Object> mergedFrom,
+    List<MergedFromView> mergedFrom,
     ContactRefResponse mergedInto) {
 
   /**
@@ -66,8 +67,10 @@ public record ContactResponse(
         contact.tags(),
         contact.createdAt(),
         contact.updatedAt(),
-        List.of(),
-        null);
+        contact.mergedFrom(),
+        contact.mergedInto() == null
+            ? null
+            : new ContactRefResponse(contact.mergedInto().id(), contact.mergedInto().name()));
   }
 
   /**

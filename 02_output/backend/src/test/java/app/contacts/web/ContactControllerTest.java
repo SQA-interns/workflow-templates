@@ -12,6 +12,7 @@ import app.contacts.service.ContactQueryService;
 import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactService;
 import app.contacts.service.ContactView;
+import app.contacts.service.MergedFromView;
 import app.contacts.service.TagView;
 import app.contacts.service.UserView;
 import java.time.Instant;
@@ -121,6 +122,44 @@ class ContactControllerTest {
                 "Šola",
                 "SI"))
         .isSameAs(page);
+  }
+
+  @Test
+  void r01805GetContactAnswersItsMergeLinks() {
+    UUID mergeId = UUID.randomUUID();
+    UUID otherId = UUID.randomUUID();
+    MergedFromView from =
+        new MergedFromView(mergeId, new ContactRefView(otherId, "J. Novak"), false);
+    when(contacts.get(GROUP_ID, MARKO_ID, CONTACT_ID))
+        .thenReturn(
+            new ContactView(
+                CONTACT_ID,
+                4,
+                "active",
+                new LinkedHashMap<>(),
+                List.of(),
+                List.of(),
+                NOW,
+                NOW,
+                List.of(from),
+                null));
+    when(contacts.get(GROUP_ID, MARKO_ID, otherId))
+        .thenReturn(
+            new ContactView(
+                otherId,
+                2,
+                "merged",
+                new LinkedHashMap<>(),
+                List.of(),
+                List.of(),
+                NOW,
+                NOW,
+                List.of(),
+                new ContactRefView(CONTACT_ID, "Janez Novak")));
+
+    assertThat(controller.get(MARKO, GROUP_ID, CONTACT_ID).mergedFrom()).containsExactly(from);
+    assertThat(controller.get(MARKO, GROUP_ID, otherId).mergedInto())
+        .isEqualTo(new ContactRefResponse(CONTACT_ID, "Janez Novak"));
   }
 
   @Test

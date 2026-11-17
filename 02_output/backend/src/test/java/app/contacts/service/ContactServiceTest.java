@@ -18,6 +18,7 @@ import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactTag;
 import app.contacts.domain.ContactTagRow;
 import app.contacts.domain.ContactVersion;
+import app.contacts.domain.Merge;
 import app.contacts.domain.Role;
 import app.contacts.domain.Tag;
 import app.contacts.domain.User;
@@ -25,6 +26,7 @@ import app.contacts.repository.AttributeRepository;
 import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
 import app.contacts.repository.ContactTagRepository;
+import app.contacts.repository.MergeRepository;
 import app.contacts.repository.TagRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
@@ -60,6 +62,7 @@ class ContactServiceTest {
   private final AttributeRepository attributes = mock(AttributeRepository.class);
   private final TagRepository tags = mock(TagRepository.class);
   private final ContactTagRepository contactTags = mock(ContactTagRepository.class);
+  private final MergeRepository merges = mock(MergeRepository.class);
   private final ContactService service =
       new ContactService(
           contacts,
@@ -71,6 +74,7 @@ class ContactServiceTest {
           guard,
           new ContactValidator(),
           new Normaliser(),
+          merges,
           Clock.fixed(NOW, ZoneOffset.UTC));
 
   @BeforeEach
@@ -222,6 +226,29 @@ class ContactServiceTest {
     assertThatThrownBy(() -> service.findByEmail(other, PETRA, "janez.novak@example.si"))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(contacts);
+  }
+
+  @Test
+  void r01805DetailsLinkThePrimaryContactAndTheContactMergedIntoIt() {
+    Contact janez = contact(Map.of("firstName", "Janez", "lastName", "Novak"));
+    Contact other = contact(Map.of("firstName", "J.", "lastName", "Novak"));
+    other.mergeInto(janez.getId(), MARKO, NOW);
+    when(contacts.findByGroupIdAndId(GROUP_ID, janez.getId())).thenReturn(Optional.of(janez));
+    when(contacts.findByGroupIdAndId(GROUP_ID, other.getId())).thenReturn(Optional.of(other));
+    Merge merge = Merge.create(janez, other, MARKO, NOW);
+    when(merges.findByGroupIdAndPrimaryIdOrderByMergedAt(GROUP_ID, janez.getId()))
+        .thenReturn(List.of(merge));
+
+    ContactView primary = service.get(GROUP_ID, MARKO, janez.getId());
+    ContactView merged = service.get(GROUP_ID, MARKO, other.getId());
+
+    assertThat(primary.mergedFrom())
+        .containsExactly(
+            new MergedFromView(
+                merge.getId(), new ContactRefView(other.getId(), "J. Novak"), false));
+    assertThat(primary.mergedInto()).isNull();
+    assertThat(merged.mergedInto()).isEqualTo(new ContactRefView(janez.getId(), "Janez Novak"));
+    assertThat(merged.mergedFrom()).isEmpty();
   }
 
   @Test
@@ -906,6 +933,7 @@ class ContactServiceTest {
         guard,
         new ContactValidator(),
         new Normaliser(),
+        merges,
         Clock.fixed(now, ZoneOffset.UTC));
   }
 
