@@ -60,9 +60,9 @@ public class PermanentDeleteService {
       throw new ConflictException("contact.notInRecycleBin", Map.of());
     }
     for (Contact merged : mergedInto(groupId, contactId)) {
-      delete(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, merged.getId());
+      permanentlyDeleteOne(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, merged.getId());
     }
-    delete(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
+    permanentlyDeleteOne(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
   }
 
   /**
@@ -78,7 +78,7 @@ public class PermanentDeleteService {
     for (Contact contact : contacts.findDueForRemoval(groupId, cutoff)) {
       UUID movedBy = contact.getUpdatedBy();
       for (Contact merged : mergedInto(groupId, contact.getId())) {
-        delete(groupId, movedBy, AuditEntry.CONTACT_REMOVED, merged.getId());
+        permanentlyDeleteOne(groupId, movedBy, AuditEntry.CONTACT_REMOVED, merged.getId());
       }
       audit.record(groupId, movedBy, AuditEntry.CONTACT_REMOVED, contact.getId());
     }
@@ -86,7 +86,7 @@ public class PermanentDeleteService {
   }
 
   /** Deletes one Contact of the Group with an Audit entry. */
-  private void delete(UUID groupId, UUID userId, String action, UUID contactId) {
+  private void permanentlyDeleteOne(UUID groupId, UUID userId, String action, UUID contactId) {
     contacts.permanentlyDelete(groupId, contactId);
     audit.record(groupId, userId, action, contactId);
   }
