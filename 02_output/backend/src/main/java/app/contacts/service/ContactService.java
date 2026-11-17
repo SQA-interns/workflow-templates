@@ -196,11 +196,7 @@ public class ContactService {
     }
     Contact contact = lockedForChange(groupId, contactId, versionNumber);
     List<TagView> stored = tagsOf(contact);
-    ContactContent before =
-        new ContactContent(
-            contact.getFields(),
-            attributesOf(contact),
-            stored.stream().map(TagView::name).toList());
+    ContactContent before = contentOf(contact, stored);
     List<Tag> wanted = editedTags == null ? null : tags.resolve(groupId, editedTags);
     ContactContent after =
         new ContactContent(
@@ -210,18 +206,9 @@ public class ContactService {
     if (after.equals(before)) {
       throw new ConflictException("contact.noChanges", Map.of());
     }
-    contact.edit(
-        edited,
-        normaliser.searchText(edited),
-        normaliser.sortName(edited),
-        userId,
-        clock.instant());
-    if (!after.attributes().equals(before.attributes())) {
-      attributes.discardOfContact(groupId, contactId);
-      store(contact, after.attributes());
-    }
+    change(contact, userId, before, after);
     if (wanted != null) {
-      tags.retag(contact, stored.stream().map(TagView::id).toList(), wanted);
+      tags.retag(contact, ids(stored), wanted);
     }
     versionWriter.record(contact, ContactVersion.EDITED, before, after);
     return view(contact);
@@ -254,29 +241,40 @@ public class ContactService {
       ContactContent restored) {
     Contact contact = lockedForChange(groupId, contactId, versionNumber);
     List<TagView> stored = tagsOf(contact);
-    ContactContent before =
-        new ContactContent(
-            contact.getFields(),
-            attributesOf(contact),
-            stored.stream().map(TagView::name).toList());
+    ContactContent before = contentOf(contact, stored);
     if (restored.equals(before)) {
       throw new ConflictException("version.sameAsCurrent", Map.of());
     }
     List<Tag> wanted = tags.resolve(groupId, restored.tags());
-    ContactFields fields = restored.fields();
+    change(contact, userId, before, restored);
+    tags.retag(contact, ids(stored), wanted);
+    versionWriter.recordRestored(contact, restoredFrom, before, restored);
+    return view(contact);
+  }
+
+  /** The content the Contact has, with the Tags it has. */
+  private ContactContent contentOf(Contact contact, List<TagView> stored) {
+    return new ContactContent(
+        contact.getFields(), attributesOf(contact), stored.stream().map(TagView::name).toList());
+  }
+
+  /** Saves the Fields of {@code after} and, when they differ, its Attributes anew (R-008-01). */
+  private void change(Contact contact, UUID userId, ContactContent before, ContactContent after) {
+    ContactFields fields = after.fields();
     contact.edit(
         fields,
         normaliser.searchText(fields),
         normaliser.sortName(fields),
         userId,
         clock.instant());
-    if (!restored.attributes().equals(before.attributes())) {
-      attributes.discardOfContact(groupId, contactId);
-      store(contact, restored.attributes());
+    if (!after.attributes().equals(before.attributes())) {
+      attributes.discardOfContact(contact.getGroupId(), contact.getId());
+      store(contact, after.attributes());
     }
-    tags.retag(contact, stored.stream().map(TagView::id).toList(), wanted);
-    versionWriter.recordRestored(contact, restoredFrom, before, restored);
-    return view(contact);
+  }
+
+  private static List<UUID> ids(List<TagView> stored) {
+    return stored.stream().map(TagView::id).toList();
   }
 
   /**
