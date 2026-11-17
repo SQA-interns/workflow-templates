@@ -7,13 +7,16 @@ import app.contacts.domain.ContactTagRow;
 import app.contacts.repository.ContactQueryRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** The Contact list of a Group: one Page, sorted and searched (US-014). */
+/** The Contact list of a Group: one Page, sorted, searched and filtered (US-014, US-015). */
 @Service
 public class ContactQueryService {
 
@@ -22,6 +25,18 @@ public class ContactQueryService {
 
   /** Longest search text after trimming (contract parameter {@code q}). */
   static final int SEARCH_MAX = 200;
+
+  /** Longest Attribute key filter (contract parameter {@code attributeKey}, R-008-02). */
+  static final int ATTRIBUTE_KEY_MAX = 50;
+
+  /** Longest Attribute value filter (contract parameter {@code attributeValue}, R-008-03). */
+  static final int ATTRIBUTE_VALUE_MAX = 500;
+
+  /** Longest company filter (contract parameter {@code company}, Data model). */
+  static final int COMPANY_MAX = 200;
+
+  /** ISO 3166-1 alpha-2 codes (R-006-05). */
+  private static final Set<String> COUNTRIES = Set.of(Locale.getISOCountries());
 
   private static final Map<String, ContactSort> SORTS =
       Map.of(
@@ -49,15 +64,16 @@ public class ContactQueryService {
   }
 
   /**
-   * One Page of the active Contacts of the Group (R-014-01 … R-014-04, BR-09).
+   * One Page of the active Contacts of the Group that pass the filters (R-014-01 … R-014-04,
+   * R-015-01 … R-015-05, BR-09).
    *
    * @param groupId the Group
    * @param userId the signed-in User
-   * @param query search, sort, order and Page as sent; {@code null} for the defaults
-   * @return the Page with the total
-   * @throws NotFoundException for a non-Member (BR-02)
+   * @param query search, sort, order, Page and filters as sent; {@code null} for the defaults
+   * @return the Page with the total of the filtered list (R-015-07)
+   * @throws NotFoundException for a non-Member (BR-02), or a Tag id of another Group (EX-015-04)
    * @throws ValidationException for an unknown sort or order, a Page below 1 or a search text of
-   *     more than 200 characters
+   *     more than 200 characters, or an invalid filter
    */
   @Transactional(readOnly = true)
   public ContactPageView page(UUID groupId, UUID userId, ContactQuery query) {
@@ -73,18 +89,74 @@ public class ContactQueryService {
       throw new ValidationException(
           List.of(new FieldProblem("q", "field.tooLong", Map.of("field", "q", "max", SEARCH_MAX))));
     }
+    ContactFilters filters = checked(query.filters());
+    if (repository.countTags(groupId, tagIds(filters)) != tagIds(filters).size()) {
+      throw new NotFoundException();
+    }
     String pattern = search.isEmpty() ? "%" : "%" + escaped(normaliser.text(search)) + "%";
     List<ContactListRow> rows =
         repository.findPage(
-            groupId,
-            pattern,
-            ContactFilters.NONE,
-            sort,
-            dir.equals("desc"),
-            (page - 1) * PAGE_SIZE,
-            PAGE_SIZE);
-    long total = repository.count(groupId, pattern, ContactFilters.NONE);
+            groupId, pattern, filters, sort, dir.equals("desc"), (page - 1) * PAGE_SIZE, PAGE_SIZE);
+    long total = repository.count(groupId, pattern, filters);
     return new ContactPageView(withTags(groupId, rows), total, page, PAGE_SIZE);
+  }
+
+  /**
+   * The filters trimmed, blank texts unset (R-015-03, R-015-04).
+   *
+   * @throws ValidationException for an Attribute value without key, a text longer than the contract
+   *     allows or a country that is not an ISO 3166-1 alpha-2 code
+   */
+  private static ContactFilters checked(ContactFilters sent) {
+    ContactFilters filters =
+        new ContactFilters(
+            sent.hasTagIds(),
+            sent.withoutTagIds(),
+            trimmed(sent.attributeKey()),
+            trimmed(sent.attributeValue()),
+            trimmed(sent.company()),
+            trimmed(sent.country()));
+    List<FieldProblem> problems = problems(filters);
+    if (!problems.isEmpty()) {
+      throw new ValidationException(problems);
+    }
+    return filters;
+  }
+
+  private static List<FieldProblem> problems(ContactFilters filters) {
+    String key = filters.attributeKey();
+    List<FieldProblem> problems = new ArrayList<>();
+    if ((key == null && filters.attributeValue() != null) || length(key) > ATTRIBUTE_KEY_MAX) {
+      problems.add(new FieldProblem("attributeKey", "attribute.keyLength", Map.of()));
+    }
+    if (length(filters.attributeValue()) > ATTRIBUTE_VALUE_MAX) {
+      problems.add(new FieldProblem("attributeValue", "attribute.valueTooLong", Map.of()));
+    }
+    if (length(filters.company()) > COMPANY_MAX) {
+      problems.add(
+          new FieldProblem(
+              "company", "field.tooLong", Map.of("field", "company", "max", COMPANY_MAX)));
+    }
+    if (filters.country() != null && !COUNTRIES.contains(filters.country())) {
+      problems.add(new FieldProblem("country", "field.countryInvalid", Map.of()));
+    }
+    return problems;
+  }
+
+  /** The text trimmed, or {@code null} when blank. */
+  private static String trimmed(String text) {
+    return text == null || text.isBlank() ? null : text.strip();
+  }
+
+  private static int length(String text) {
+    return text == null ? 0 : text.codePointCount(0, text.length());
+  }
+
+  /** Every Tag of the filters once (EX-015-02). */
+  private static List<UUID> tagIds(ContactFilters filters) {
+    Set<UUID> ids = new LinkedHashSet<>(filters.hasTagIds());
+    ids.addAll(filters.withoutTagIds());
+    return List.copyOf(ids);
   }
 
   /** The search text taken literally in a LIKE pattern (EX-014-05). */

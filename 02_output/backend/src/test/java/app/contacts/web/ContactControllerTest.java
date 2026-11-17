@@ -5,6 +5,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.domain.ContactFilters;
 import app.contacts.service.AttributeView;
 import app.contacts.service.ContactPageView;
 import app.contacts.service.ContactQuery;
@@ -97,12 +98,30 @@ class ContactControllerTest {
   }
 
   @Test
-  void r01401GetContactsAnswersOnePageOfTheQuery() {
+  void r01401R01505GetContactsAnswersOnePageOfTheQueryWithItsFilters() {
     ContactPageView page = new ContactPageView(List.of(), 0, 2, 50);
-    when(contactQueries.page(GROUP_ID, MARKO_ID, new ContactQuery("novak", "company", "desc", 2)))
+    UUID ne = UUID.randomUUID();
+    ContactFilters filters =
+        new ContactFilters(List.of(TAG_ID), List.of(ne), "kompetenca", "splet", "Šola", "SI");
+    when(contactQueries.page(
+            GROUP_ID, MARKO_ID, new ContactQuery("novak", "company", "desc", 2, filters)))
         .thenReturn(page);
 
-    assertThat(controller.list(MARKO, GROUP_ID, "novak", "company", "desc", 2)).isSameAs(page);
+    assertThat(
+            controller.list(
+                MARKO,
+                GROUP_ID,
+                "novak",
+                "company",
+                "desc",
+                2,
+                List.of(TAG_ID),
+                List.of(ne),
+                "kompetenca",
+                "splet",
+                "Šola",
+                "SI"))
+        .isSameAs(page);
   }
 
   @Test

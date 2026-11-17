@@ -1,6 +1,7 @@
 package app.contacts.web;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.domain.ContactFilters;
 import app.contacts.service.ContactPageView;
 import app.contacts.service.ContactQuery;
 import app.contacts.service.ContactQueryService;
@@ -39,8 +40,8 @@ public class ContactController {
   }
 
   /**
-   * One Page of the Contact list (R-014-01 … R-014-04); the service views are the contract's {@code
-   * ContactPage}.
+   * One Page of the Contact list, searched and filtered (R-014-01 … R-014-04, R-015-01 … R-015-05);
+   * the service views are the contract's {@code ContactPage}.
    *
    * @param current the signed-in User
    * @param groupId the Group
@@ -48,6 +49,12 @@ public class ContactController {
    * @param sort the sort key
    * @param dir the order
    * @param page the Page number
+   * @param hasTagIds Tags the Contact has every one of
+   * @param withoutTagIds Tags the Contact has none of
+   * @param attributeKey an Attribute key the Contact has
+   * @param attributeValue that Attribute's value
+   * @param company the company
+   * @param country the country code
    * @return the Page
    */
   @GetMapping
@@ -57,8 +64,18 @@ public class ContactController {
       @RequestParam(required = false) String q,
       @RequestParam(required = false) String sort,
       @RequestParam(required = false) String dir,
-      @RequestParam(required = false) Integer page) {
-    return contactQueries.page(groupId, current.id(), new ContactQuery(q, sort, dir, page));
+      @RequestParam(required = false) Integer page,
+      @RequestParam(required = false) List<UUID> hasTagIds,
+      @RequestParam(required = false) List<UUID> withoutTagIds,
+      @RequestParam(required = false) String attributeKey,
+      @RequestParam(required = false) String attributeValue,
+      @RequestParam(required = false) String company,
+      @RequestParam(required = false) String country) {
+    ContactFilters filters =
+        new ContactFilters(
+            hasTagIds, withoutTagIds, attributeKey, attributeValue, company, country);
+    return contactQueries.page(
+        groupId, current.id(), new ContactQuery(q, sort, dir, page, filters));
   }
 
   /**

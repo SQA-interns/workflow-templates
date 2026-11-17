@@ -3,16 +3,19 @@ package app.contacts.service;
 import static app.contacts.domain.ContactFilters.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
 import app.contacts.domain.ContactTagRow;
@@ -43,7 +46,30 @@ class ContactQueryServiceTest {
   }
 
   private static ContactQuery query(String search, String sort, String dir, Integer page) {
-    return new ContactQuery(search, sort, dir, page);
+    return new ContactQuery(search, sort, dir, page, NONE);
+  }
+
+  private static ContactQuery filtered(ContactFilters filters) {
+    return new ContactQuery(null, null, null, null, filters);
+  }
+
+  private static ContactFilters other(String attributeKey, String attributeValue, String company) {
+    return new ContactFilters(null, null, attributeKey, attributeValue, company, null);
+  }
+
+  private static ContactFilters country(String country) {
+    return new ContactFilters(null, null, null, null, null, country);
+  }
+
+  private void assertProblem(ContactFilters filters, String field, String code) {
+    assertThatThrownBy(() -> service.page(GROUP_ID, PETRA, filtered(filters)))
+        .isInstanceOfSatisfying(
+            ValidationException.class,
+            e ->
+                assertThat(e.problems())
+                    .extracting(FieldProblem::field, FieldProblem::code)
+                    .containsExactly(tuple(field, code)));
+    verifyNoInteractions(repository);
   }
 
   @Test
@@ -157,5 +183,87 @@ class ContactQueryServiceTest {
     assertThat(page.items()).isEmpty();
     assertThat(page.total()).isEqualTo(3);
     assertThat(page.page()).isEqualTo(9);
+  }
+
+  @Test
+  void r01501R01502TagFiltersOfTheGroupAreUsedForListAndCount() {
+    UUID udel = UUID.randomUUID();
+    UUID ne = UUID.randomUUID();
+    ContactFilters filters = new ContactFilters(List.of(udel), List.of(ne), null, null, null, null);
+    when(repository.countTags(GROUP_ID, List.of(udel, ne))).thenReturn(2L);
+
+    service.page(GROUP_ID, PETRA, filtered(filters));
+
+    verify(repository).findPage(GROUP_ID, "%", filters, ContactSort.NAME, false, 0, 50);
+    verify(repository).count(GROUP_ID, "%", filters);
+  }
+
+  @Test
+  void ex01502SameTagInHasAndWithoutIsCheckedOnce() {
+    UUID udel = UUID.randomUUID();
+    when(repository.countTags(GROUP_ID, List.of(udel))).thenReturn(1L);
+
+    service.page(
+        GROUP_ID,
+        PETRA,
+        filtered(new ContactFilters(List.of(udel), List.of(udel), null, null, null, null)));
+
+    verify(repository).countTags(GROUP_ID, List.of(udel));
+  }
+
+  @Test
+  void ex01504TagIdOfAnotherGroupIsNotFound() {
+    UUID udel = UUID.randomUUID();
+    UUID foreign = UUID.randomUUID();
+    when(repository.countTags(GROUP_ID, List.of(udel, foreign))).thenReturn(1L);
+    ContactFilters filters =
+        new ContactFilters(List.of(udel), List.of(foreign), null, null, null, null);
+
+    assertThatThrownBy(() -> service.page(GROUP_ID, PETRA, filtered(filters)))
+        .isInstanceOf(NotFoundException.class);
+    verify(repository, never())
+        .findPage(any(), anyString(), any(), any(), anyBoolean(), anyInt(), anyInt());
+  }
+
+  @Test
+  void r01503R01504TextFiltersAreTrimmedAndBlankOnesUnset() {
+    service.page(GROUP_ID, PETRA, filtered(other(" Kompetenca ", "  ", " Šola d.o.o. ")));
+
+    verify(repository).count(GROUP_ID, "%", other("Kompetenca", null, "Šola d.o.o."));
+  }
+
+  @Test
+  void r01503BlankAttributeKeyAndCompanyAreNoFilter() {
+    service.page(GROUP_ID, PETRA, filtered(other(" ", null, "")));
+
+    verify(repository).count(GROUP_ID, "%", NONE);
+  }
+
+  @Test
+  void r01503ValueWithoutKeyIsRejected() {
+    assertProblem(other(null, "splet", null), "attributeKey", "attribute.keyLength");
+  }
+
+  @Test
+  void r01503TooLongAttributeKeyOrValueIsRejected() {
+    assertProblem(other("k".repeat(51), null, null), "attributeKey", "attribute.keyLength");
+    assertProblem(other("k", "v".repeat(501), null), "attributeValue", "attribute.valueTooLong");
+  }
+
+  @Test
+  void r01504TooLongCompanyIsRejected() {
+    assertProblem(other(null, null, "c".repeat(201)), "company", "field.tooLong");
+  }
+
+  @Test
+  void r01504CountryIsUsedAsSent() {
+    service.page(GROUP_ID, PETRA, filtered(country("SI")));
+
+    verify(repository).count(GROUP_ID, "%", country("SI"));
+  }
+
+  @Test
+  void r01504CountryMustBeAnIsoCode() {
+    assertProblem(country("XX"), "country", "field.countryInvalid");
   }
 }
