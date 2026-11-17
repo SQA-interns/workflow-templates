@@ -199,6 +199,19 @@
     "empty": "(empty)",
     "removed": "(removed)",
     "tagAdded": "added",
-    "tagRemoved": "removed"
+    "tagRemoved": "removed",
+    "title": "History of {{name}}",
+    "order": "Newest first. Times in Europe/Ljubljana (dd.mm.yyyy HH:mm).",
+    "version": "Version {{number}}",
+    "view": "View",
+    "kind": {
+      "created": "created",
+      "edited": "edited",
+      "restored": "restored",
+      "movedToRecycleBin": "moved to recycle bin",
+      "restoredFromRecycleBin": "restored from recycle bin",
+      "merged": "merged",
+      "mergeUndone": "merge undone"
+    }
   }
 }

@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import type { AttributeRow } from "../features/contacts/attributes";
 import type { ContactFields } from "../features/contacts/contactFields";
+import { apiRequest } from "./apiClient";
 
 /** One changed item of a Version (`Change` of the contract). */
 export interface Change {
@@ -20,4 +22,13 @@ export interface VersionSummary {
 /** One Version with the content after it (`Version` of the contract, R-010-02). */
 export interface Version extends VersionSummary {
   snapshot: { fields: ContactFields; attributes: AttributeRow[]; tags: string[] };
+}
+
+/** Every Version of the Contact, newest first (R-010-01). */
+export function useHistory(groupId: string, contactId: string) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", contactId, "versions"],
+    queryFn: () =>
+      apiRequest<VersionSummary[]>("GET", `/groups/${groupId}/contacts/${contactId}/versions`),
+  });
 }

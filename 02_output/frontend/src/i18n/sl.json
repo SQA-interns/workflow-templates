@@ -201,6 +201,19 @@
     "empty": "(prazno)",
     "removed": "(odstranjeno)",
     "tagAdded": "dodana",
-    "tagRemoved": "odstranjena"
+    "tagRemoved": "odstranjena",
+    "title": "Zgodovina: {{name}}",
+    "order": "Najnovejše najprej. Časi v Europe/Ljubljana (dd.mm.llll HH:mm).",
+    "version": "Različica {{number}}",
+    "view": "Poglej",
+    "kind": {
+      "created": "ustvarjena",
+      "edited": "urejena",
+      "restored": "obnovljena",
+      "movedToRecycleBin": "premaknjena v koš",
+      "restoredFromRecycleBin": "obnovljena iz koša",
+      "merged": "združena",
+      "mergeUndone": "združitev razveljavljena"
+    }
   }
 }
