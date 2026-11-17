@@ -4,6 +4,10 @@ import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Contact;
 import app.contacts.repository.ContactRepository;
 import java.time.Instant;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
@@ -11,7 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Permanently deletes Contacts from the recycle bin, by the Owner (US-013) or after the recycle bin
- * period (BR-08, ADR-10), each with an Audit entry (SR-06, BR-10).
+ * period (BR-08, ADR-10), with every Contact merged into them (D-21), each with an Audit entry
+ * (SR-06, BR-10).
  */
 @Service
 public class PermanentDeleteService {
@@ -54,8 +59,10 @@ public class PermanentDeleteService {
     if (!Contact.IN_RECYCLE_BIN.equals(contact.getState())) {
       throw new ConflictException("contact.notInRecycleBin", Map.of());
     }
-    contacts.permanentlyDelete(groupId, contactId);
-    audit.record(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
+    for (Contact merged : mergedInto(groupId, contactId)) {
+      delete(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, merged.getId());
+    }
+    delete(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
   }
 
   /**
@@ -68,12 +75,35 @@ public class PermanentDeleteService {
    */
   @Transactional
   public int permanentlyDeleteDue(UUID groupId, Instant cutoff) {
-    contacts
-        .findDueForRemoval(groupId, cutoff)
-        .forEach(
-            contact ->
-                audit.record(
-                    groupId, contact.getUpdatedBy(), AuditEntry.CONTACT_REMOVED, contact.getId()));
+    for (Contact contact : contacts.findDueForRemoval(groupId, cutoff)) {
+      UUID movedBy = contact.getUpdatedBy();
+      for (Contact merged : mergedInto(groupId, contact.getId())) {
+        delete(groupId, movedBy, AuditEntry.CONTACT_REMOVED, merged.getId());
+      }
+      audit.record(groupId, movedBy, AuditEntry.CONTACT_REMOVED, contact.getId());
+    }
     return contacts.permanentlyDeleteDue(groupId, cutoff);
+  }
+
+  /** Deletes one Contact of the Group with an Audit entry. */
+  private void delete(UUID groupId, UUID userId, String action, UUID contactId) {
+    contacts.permanentlyDelete(groupId, contactId);
+    audit.record(groupId, userId, action, contactId);
+  }
+
+  /**
+   * The Contacts merged into the Contact, directly or into one merged into it, deepest first so
+   * that none is deleted before a Contact merged into it (D-21).
+   */
+  private List<Contact> mergedInto(UUID groupId, UUID contactId) {
+    List<Contact> found = new ArrayList<>();
+    Deque<UUID> open = new ArrayDeque<>(List.of(contactId));
+    while (!open.isEmpty()) {
+      for (Contact merged : contacts.findByGroupIdAndMergedInto(groupId, open.pop())) {
+        found.add(merged);
+        open.push(merged.getId());
+      }
+    }
+    return found.reversed();
   }
 }

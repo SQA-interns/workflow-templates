@@ -55,6 +55,15 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
   Optional<Contact> findByGroupIdAndId(UUID groupId, UUID id);
 
   /**
+   * The Contacts of the Group merged into a Contact (D-21).
+   *
+   * @param groupId the Group
+   * @param mergedInto the Primary contact
+   * @return the merged Contacts
+   */
+  List<Contact> findByGroupIdAndMergedInto(UUID groupId, UUID mergedInto);
+
+  /**
    * A Contact of the Group in any state, locked until the transaction ends so that two saves of it
    * run one after the other (specification §4, BR-06).
    *

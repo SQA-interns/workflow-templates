@@ -3,6 +3,7 @@ package app.contacts.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.mockito.InOrder;
 
 class PermanentDeleteServiceTest {
 
@@ -107,5 +109,55 @@ class PermanentDeleteServiceTest {
     verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, janez.getId());
     verify(contacts).permanentlyDeleteDue(GROUP_ID, cutoff);
     verifyNoInteractions(guard);
+  }
+
+  /** {@code merged} merged into {@code primary} by Marko. */
+  private Contact mergedInto(Contact primary, String firstName) {
+    Contact merged =
+        Contact.create(
+            GROUP_ID,
+            ContactFields.ofNames(Map.of("firstName", firstName)),
+            "",
+            "",
+            MARKO,
+            Instant.EPOCH);
+    merged.mergeInto(primary.getId(), MARKO, Instant.EPOCH);
+    when(contacts.findByGroupIdAndMergedInto(GROUP_ID, primary.getId()))
+        .thenReturn(List.of(merged));
+    return merged;
+  }
+
+  @Test
+  void d21DeletingPrimaryContactAlsoDeletesTheContactsMergedIntoItDeepestFirst() {
+    when(guard.require(GROUP_ID, ANA, Permission.PERMANENTLY_DELETE)).thenReturn(Role.OWNER);
+    Contact janez = janez(true);
+    Contact other = mergedInto(janez, "J.");
+    Contact older = mergedInto(other, "Jani");
+
+    service.permanentlyDelete(GROUP_ID, ANA, janez.getId());
+
+    InOrder deletes = inOrder(contacts);
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, older.getId());
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, other.getId());
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, janez.getId());
+    for (Contact deleted : List.of(janez, other, older)) {
+      verify(audit).record(GROUP_ID, ANA, AuditEntry.CONTACT_PERMANENTLY_DELETED, deleted.getId());
+    }
+  }
+
+  @Test
+  void d21RemovingDuePrimaryContactAlsoRemovesTheContactsMergedIntoIt() {
+    Contact janez = janez(true);
+    Contact other = mergedInto(janez, "J.");
+    Instant cutoff = MOVED_AT;
+    when(contacts.findDueForRemoval(GROUP_ID, cutoff)).thenReturn(List.of(janez));
+
+    service.permanentlyDeleteDue(GROUP_ID, cutoff);
+
+    InOrder deletes = inOrder(contacts);
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, other.getId());
+    deletes.verify(contacts).permanentlyDeleteDue(GROUP_ID, cutoff);
+    verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, other.getId());
+    verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, janez.getId());
   }
 }
