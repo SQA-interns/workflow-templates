@@ -116,7 +116,7 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
    * @return how many Contacts were deleted: 1, or 0 when it is not one of the Group's
    */
   @Transactional
-  @Modifying(clearAutomatically = true)
+  @Modifying(flushAutomatically = true, clearAutomatically = true)
   @Query("DELETE FROM Contact c WHERE c.groupId = :groupId AND c.id = :id")
   int permanentlyDelete(UUID groupId, UUID id);
 }

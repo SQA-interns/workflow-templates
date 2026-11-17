@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import app.contacts.domain.Attribute;
+import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactTag;
@@ -60,6 +61,7 @@ class ContactRepositoryIT {
   @Autowired private TagRepository tags;
   @Autowired private ContactTagRepository contactTags;
   @Autowired private UserRepository users;
+  @Autowired private AuditEntryRepository audit;
   @Autowired private EntityManager entityManager;
   @Autowired private JdbcTemplate jdbc;
 
@@ -259,6 +261,28 @@ class ContactRepositoryIT {
       assertThat(rows(table, janez)).as(table).isZero();
       assertThat(rows(table, other)).as(table).isOne();
     }
+  }
+
+  @Test
+  void d21KeepsAnAuditEntryAddedBeforeAnotherContactIsDeleted() {
+    final Contact other = withContent(groupId, NOW);
+    final Contact janez = withContent(groupId, NOW);
+    entityManager.flush();
+    contacts.permanentlyDelete(groupId, other.getId());
+    audit.add(
+        groupId,
+        AuditEntry.create(
+            groupId, marko, AuditEntry.CONTACT_PERMANENTLY_DELETED, other.getId(), NOW));
+
+    contacts.permanentlyDelete(groupId, janez.getId());
+    entityManager.flush();
+
+    assertThat(
+            jdbc.queryForObject(
+                "SELECT count(*) FROM audit_entry WHERE target_id = ?",
+                Integer.class,
+                other.getId()))
+        .isOne();
   }
 
   @Test
