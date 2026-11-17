@@ -5,20 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-005
+- Session: R /review INC-1
 - Result: done
-- Gate: DoD-S passed (DoD-S-03 Prettier finding in `frontend/README.md` predates this session; DoD-S-07 slip in D-66 (i))
+- Gate: DoD-I not passed (DoD-I-01: US-012, US-013, US-020 DoD-S-01 open); DoD-I-02 … 04 met
 - Notes for the next session:
-  - Members: `MembershipService` (list, changeRole, endMembership), `MemberController` (GET/PATCH/DELETE `/groups/{groupId}/members[/{userId}]`), `MembershipRepository.findMembers` (native, `sl-x-icu`); Audit `member.roleChanged|removed`; 400 code `member.roleInvalid` (D-66).
-  - Frontend: `features/members/MemberList.tsx` in `MembersPage` above the Invitations; hooks in `api/members.ts`.
-  - Frozen US-005: API 9/9, UI 2/2 (Chromium). All suites re-run: backend unit 393/393; API ITs failures 41 → 32, only US-013 EX-013-03 (needs US-018), US-017 … US-019, US-021; UI 71 → 73 pass, failing: US-017 … US-019, US-021, EX-020-02 and AC-012-01 (both wait for the `stubGet` change of D-65). No regressions (`out/logs/implement-us005-*`).
-  - Frontend unit 325 tests: `TagsField.test.tsx` (US-009) times out now and then in the full run (D-67, pending review; for `/review INC-1`).
-  - US-005 was the last story of INC-1; the `stubGet` change approved in D-65 (`/acceptance-tests`) is still to be applied.
-  - Stack on 8090 rebuilt with this code (`APP_HOST_PORT=8090`); gitleaks `v8.30.1` clean.
+  - `docs/04_review-INC-1.md`: 0 Critical, 0 High, 14 Medium (F-01 … F-14), 20 Low (F-15 … F-34). No fixes were made.
+  - Medium and Low findings go to the next session of their story or to the release notes. The ones that touch INC-2 code paths (F-01 Tag count, F-02 Tag race, F-03 500 on malformed input, F-04 User provisioning, F-05 form reset) are worth fixing first.
+  - F-14 needs a human answer: frozen EX-013-03 (US-013, INC-1) needs Merge (US-018, INC-2), so DoD-I-01 cannot pass within INC-1. Proposed: accept US-013's DoD-S-01 at the end of INC-2.
+  - D-65 (approved) is still to be applied by `/acceptance-tests`: frozen `stubGet` fulfils only fetch/xhr. Then re-run US-012 AC-012-01 and US-020 EX-020-02.
+  - Local stack 8090 holds review data (Groups "secrev", "Review Beta", extra emulator Users); `scripts/seed-local.sh` fails on it, so reset the volumes before the next run that needs the seed state.
+  - Screens: `out/logs/screens/review-inc1/` (119, at 375/768/1440).
 
 ## Next
-- Command: /review INC-1
-- Waiting for: nothing (D-66, D-67 pending review; D-65 `stubGet` change by `/acceptance-tests`, then US-012 and US-020 UI suites are re-run)
+- Command: /acceptance-tests D-65
+- Waiting for: F-14 (human: how DoD-I-01 of INC-1 is passed with US-013 EX-013-03 depending on US-018); then /implement US-017
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
