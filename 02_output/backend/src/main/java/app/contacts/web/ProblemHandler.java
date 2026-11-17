@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -54,6 +55,16 @@ public class ProblemHandler {
       return notFound();
     }
     return validation(List.of());
+  }
+
+  /**
+   * 405 for a method the path does not offer, e.g. changing or deleting a Version (EX-010-03).
+   *
+   * @return the problem
+   */
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  public ResponseEntity<Map<String, Object>> methodNotAllowed() {
+    return problem(HttpStatus.METHOD_NOT_ALLOWED, "methodNotAllowed");
   }
 
   /**
