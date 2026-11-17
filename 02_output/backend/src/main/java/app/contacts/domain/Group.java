@@ -15,6 +15,9 @@ public class Group {
   /** State of a Group that is not in the recycle bin (Data model). */
   public static final String ACTIVE = "active";
 
+  /** State of a Group in the recycle bin (R-003-02). */
+  public static final String IN_RECYCLE_BIN = "inRecycleBin";
+
   @Id private UUID id;
 
   @Column(nullable = false)
@@ -62,6 +65,16 @@ public class Group {
     this.name = newName;
   }
 
+  /**
+   * Moves the Group to the recycle bin (R-003-02).
+   *
+   * @param now the time it is moved, its {@code deletedAt}
+   */
+  public void moveToRecycleBin(Instant now) {
+    this.state = IN_RECYCLE_BIN;
+    this.deletedAt = now;
+  }
+
   public UUID getId() {
     return id;
   }
@@ -72,5 +85,9 @@ public class Group {
 
   public String getState() {
     return state;
+  }
+
+  public Instant getDeletedAt() {
+    return deletedAt;
   }
 }

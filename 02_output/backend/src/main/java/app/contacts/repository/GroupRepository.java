@@ -2,9 +2,12 @@ package app.contacts.repository;
 
 import app.contacts.domain.Group;
 import app.contacts.domain.MemberGroup;
+import jakarta.persistence.LockModeType;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 
 /** Groups; a Group is the tenant itself, so exempt from AR-04 (ADR-02). */
@@ -34,4 +37,15 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
    */
   @Query("SELECT g.id FROM Group g")
   List<UUID> findAllIds();
+
+  /**
+   * The Group, locked until the transaction ends, so a move, a restore and the removal job do not
+   * overlap (R-003-02, R-003-05, BR-08).
+   *
+   * @param id the Group
+   * @return the Group in any state
+   */
+  @Lock(LockModeType.PESSIMISTIC_WRITE)
+  @Query("SELECT g FROM Group g WHERE g.id = :id")
+  Optional<Group> findForUpdate(UUID id);
 }

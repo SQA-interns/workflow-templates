@@ -2,6 +2,7 @@ package app.contacts.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
@@ -62,5 +63,13 @@ class GroupControllerTest {
 
     assertThat(controller.rename(ANA, GROUP_ID, new GroupNameRequest("Konferenca 2026")))
         .isEqualTo(new GroupResponse(GROUP_ID, "Konferenca 2026", "OWNER"));
+  }
+
+  @Test
+  void r00302MoveToRecycleBinAnswers204() {
+    ResponseEntity<Void> moved = controller.moveToRecycleBin(ANA, GROUP_ID);
+
+    assertThat(moved.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    verify(groups).moveToRecycleBin(GROUP_ID, ANA_ID);
   }
 }

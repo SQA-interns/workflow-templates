@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Group;
 import app.contacts.domain.MemberGroup;
 import app.contacts.domain.Membership;
@@ -36,8 +37,9 @@ class GroupServiceTest {
   private final GroupRepository groups = mock(GroupRepository.class);
   private final MembershipRepository memberships = mock(MembershipRepository.class);
   private final AccessGuard guard = mock(AccessGuard.class);
+  private final AuditService audit = mock(AuditService.class);
   private final GroupService service =
-      new GroupService(groups, memberships, guard, Clock.fixed(NOW, ZoneOffset.UTC));
+      new GroupService(groups, memberships, guard, audit, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void r00201CreatorBecomesOwnerOfTheNewGroup() {
@@ -150,6 +152,30 @@ class GroupServiceTest {
                     .extracting(FieldProblem::code)
                     .containsExactly("group.nameLength"));
     assertThat(group.getName()).isEqualTo("Konferenca 2025");
+  }
+
+  @Test
+  void r00302OwnerMovesTheGroupToTheRecycleBinNowWithAnAuditEntry() {
+    Group group = Group.create("Konferenca 2025", ANA, NOW.minusSeconds(3600));
+    when(guard.require(group.getId(), ANA, Permission.MANAGE_GROUP)).thenReturn(Role.OWNER);
+    when(groups.findForUpdate(group.getId())).thenReturn(Optional.of(group));
+
+    service.moveToRecycleBin(group.getId(), ANA);
+
+    assertThat(group.getState()).isEqualTo(Group.IN_RECYCLE_BIN);
+    assertThat(group.getDeletedAt()).isEqualTo(NOW);
+    verify(audit)
+        .record(group.getId(), ANA, AuditEntry.GROUP_MOVED_TO_RECYCLE_BIN, group.getId());
+  }
+
+  @Test
+  void ex00303ViewerCannotMoveTheGroupToTheRecycleBin() {
+    UUID groupId = UUID.randomUUID();
+    when(guard.require(groupId, ANA, Permission.MANAGE_GROUP)).thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.moveToRecycleBin(groupId, ANA))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(groups, audit);
   }
 
   private void assertNameRejected(String name) {

@@ -84,4 +84,18 @@ public class GroupController {
       @RequestBody GroupNameRequest body) {
     return GroupResponse.of(groups.rename(groupId, current.id(), body.name()));
   }
+
+  /**
+   * Moves the Group to the recycle bin; Owner only (R-003-02, BR-04).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @return 204
+   */
+  @PostMapping("/{groupId}/move-to-recycle-bin")
+  public ResponseEntity<Void> moveToRecycleBin(
+      @AuthenticationPrincipal CurrentUser current, @PathVariable UUID groupId) {
+    groups.moveToRecycleBin(groupId, current.id());
+    return ResponseEntity.noContent().build();
+  }
 }

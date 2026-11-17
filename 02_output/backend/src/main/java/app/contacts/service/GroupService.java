@@ -1,5 +1,6 @@
 package app.contacts.service;
 
+import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Group;
 import app.contacts.domain.Membership;
 import app.contacts.domain.Role;
@@ -12,7 +13,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Groups: create, the Group switcher list, one Group (US-002) and rename (US-003). */
+/** Groups: create, the Group switcher list, one Group (US-002); rename and recycle bin (US-003). */
 @Service
 public class GroupService {
 
@@ -22,6 +23,7 @@ public class GroupService {
   private final GroupRepository groups;
   private final MembershipRepository memberships;
   private final AccessGuard guard;
+  private final AuditService audit;
   private final Clock clock;
 
   /**
@@ -30,13 +32,19 @@ public class GroupService {
    * @param groups the Group repository
    * @param memberships the Membership repository
    * @param guard the access check
+   * @param audit writes the Audit entries
    * @param clock the clock
    */
   public GroupService(
-      GroupRepository groups, MembershipRepository memberships, AccessGuard guard, Clock clock) {
+      GroupRepository groups,
+      MembershipRepository memberships,
+      AccessGuard guard,
+      AuditService audit,
+      Clock clock) {
     this.groups = groups;
     this.memberships = memberships;
     this.guard = guard;
+    this.audit = audit;
     this.clock = clock;
   }
 
@@ -101,6 +109,23 @@ public class GroupService {
     Group group = groups.findById(groupId).orElseThrow(NotFoundException::new);
     group.rename(checkedName(name));
     return new GroupView(group.getId(), group.getName(), role.name());
+  }
+
+  /**
+   * Moves the Group to the recycle bin with {@code deletedAt} = now; from then on it is not found
+   * for anyone (R-003-02, R-003-03); writes an Audit entry (BR-10). Only its Owner may (BR-04).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @throws NotFoundException for a non-Member or a Group already in the recycle bin (BR-02)
+   * @throws ForbiddenException for an Editor or a Viewer (EX-003-03)
+   */
+  @Transactional
+  public void moveToRecycleBin(UUID groupId, UUID userId) {
+    guard.require(groupId, userId, Permission.MANAGE_GROUP);
+    Group group = groups.findForUpdate(groupId).orElseThrow(NotFoundException::new);
+    group.moveToRecycleBin(clock.instant());
+    audit.record(groupId, userId, AuditEntry.GROUP_MOVED_TO_RECYCLE_BIN, groupId);
   }
 
   private static String checkedName(String name) {
