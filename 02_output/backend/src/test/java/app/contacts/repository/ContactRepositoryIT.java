@@ -3,10 +3,13 @@ package app.contacts.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import app.contacts.domain.Attribute;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactTag;
 import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Group;
+import app.contacts.domain.Tag;
 import app.contacts.domain.User;
 import jakarta.persistence.EntityManager;
 import java.time.Duration;
@@ -53,6 +56,9 @@ class ContactRepositoryIT {
   @Autowired private ContactRepository contacts;
   @Autowired private ContactVersionRepository versions;
   @Autowired private GroupRepository groups;
+  @Autowired private AttributeRepository attributes;
+  @Autowired private TagRepository tags;
+  @Autowired private ContactTagRepository contactTags;
   @Autowired private UserRepository users;
   @Autowired private EntityManager entityManager;
   @Autowired private JdbcTemplate jdbc;
@@ -192,5 +198,47 @@ class ContactRepositoryIT {
     assertThat(contacts.findInRecycleBin(groupId))
         .extracting(Contact::getId)
         .containsExactly(newer.getId(), older.getId());
+  }
+
+  /** A Contact of the Group with a Version, an Attribute and a Tag, moved at {@code deletedAt}. */
+  private Contact withContent(UUID group, Instant deletedAt) {
+    Contact contact = contacts.add(group, Contact.create(group, ZIGA, "", "Čuk", marko, NOW));
+    Tag vip = tags.add(group, Tag.create(group, "vip-" + contact.getId()));
+    attributes.add(group, Attribute.of(contact, "kompetenca", "Java"));
+    contactTags.add(group, ContactTag.of(contact, vip));
+    if (deletedAt != null) {
+      contact.moveToRecycleBin(marko, deletedAt);
+    }
+    versions.add(group, ContactVersion.of(contact, ContactVersion.CREATED, "[]", "{}"));
+    return contact;
+  }
+
+  private int rows(String table, Contact contact) {
+    return jdbc.queryForObject(
+        "SELECT count(*) FROM " + table + " WHERE contact_id = ?", Integer.class, contact.getId());
+  }
+
+  @Test
+  void br08DeletesTheGroupsDueContactsWithVersionsAttributesAndTagAssignments() {
+    Instant cutoff = NOW.plus(Duration.ofDays(1));
+    final Contact due = withContent(groupId, cutoff);
+    final Contact notYetDue = withContent(groupId, cutoff.plusSeconds(1));
+    final Contact active = withContent(groupId, null);
+    UUID otherGroupId = groups.save(Group.create("Drugo", marko, NOW)).getId();
+    final Contact otherGroups = withContent(otherGroupId, NOW);
+    entityManager.flush();
+
+    int deleted = contacts.deleteDue(groupId, cutoff);
+    entityManager.clear();
+
+    assertThat(deleted).isEqualTo(1);
+    assertThat(contacts.findByGroupIdAndId(groupId, due.getId())).isEmpty();
+    for (String table : new String[] {"contact_version", "attribute", "contact_tag"}) {
+      assertThat(rows(table, due)).as(table).isZero();
+    }
+    assertThat(contacts.findByGroupIdAndId(groupId, notYetDue.getId())).isPresent();
+    assertThat(contacts.findByGroupIdAndId(groupId, active.getId())).isPresent();
+    assertThat(contacts.findByGroupIdAndId(otherGroupId, otherGroups.getId())).isPresent();
+    assertThat(groups.findAllIds()).contains(groupId, otherGroupId);
   }
 }

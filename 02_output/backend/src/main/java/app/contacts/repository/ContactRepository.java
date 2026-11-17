@@ -2,12 +2,15 @@ package app.contacts.repository;
 
 import app.contacts.domain.Contact;
 import jakarta.persistence.LockModeType;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /** Contacts of one Group (AR-04). */
 public interface ContactRepository extends Repository<Contact, UUID>, GroupOwnedStore<Contact> {
@@ -62,4 +65,22 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("SELECT c FROM Contact c WHERE c.groupId = :groupId AND c.id = :id")
   Optional<Contact> findForUpdate(UUID groupId, UUID id);
+
+  /**
+   * Permanently deletes the Group's Contacts moved to the recycle bin at or before the cutoff, with
+   * their Versions, Attributes and Tag assignments (BR-08; the database cascades), in one
+   * transaction (ADR-10).
+   *
+   * @param groupId the Group
+   * @param cutoff now minus the recycle bin period
+   * @return how many Contacts were deleted
+   */
+  @Transactional
+  @Modifying
+  @Query(
+      """
+      DELETE FROM Contact c
+      WHERE c.groupId = :groupId AND c.state = 'inRecycleBin' AND c.deletedAt <= :cutoff
+      """)
+  int deleteDue(UUID groupId, Instant cutoff);
 }

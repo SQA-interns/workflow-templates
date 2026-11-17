@@ -4,9 +4,11 @@ import java.time.Clock;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
-/** Application-wide beans. */
+/** Application-wide beans; scheduled jobs such as the removal job run (ADR-10). */
 @Configuration
+@EnableScheduling
 @EnableConfigurationProperties(AppProperties.class)
 public class ApplicationConfig {
 

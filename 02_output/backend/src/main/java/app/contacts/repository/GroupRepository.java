@@ -26,4 +26,12 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
           """,
       nativeQuery = true)
   List<MemberGroup> findActiveGroupsOf(UUID userId);
+
+  /**
+   * The id of every Group in any state, for the removal job (BR-08, D-18).
+   *
+   * @return the ids
+   */
+  @Query("SELECT g.id FROM Group g")
+  List<UUID> findAllIds();
 }
