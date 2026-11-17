@@ -207,6 +207,65 @@ describe("WF-06 Contact list (US-014)", () => {
 });
 
 describe("WF-06 filter panel and chips (US-015)", () => {
+  async function openFilters() {
+    await userEvent.click(await screen.findByRole("button", { name: "Filters" }));
+  }
+
+  it("AC-015-01 has Tags is applied, shown as a chip and the panel closes", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage();
+    await openFilters();
+
+    await userEvent.selectOptions(await screen.findByLabelText("has Tags"), "udelezenec2025");
+    await userEvent.click(screen.getByRole("button", { name: "Apply" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe("?hasTagIds=t2"));
+    expect(listCalls()).toContain(`${LIST}?q=&sort=name&dir=asc&page=1&hasTagIds=t2`);
+    expect(await screen.findByText("has Tags: udelezenec2025")).toBeTruthy();
+    expect(screen.queryByRole("button", { name: "Apply" })).toBeNull();
+    expect(screen.getByRole("button", { name: "Filters" }).getAttribute("aria-expanded")).toBe(
+      "false",
+    );
+  });
+
+  it("R-015-01 … R-015-04 every filter of the panel goes to the query", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage();
+    await openFilters();
+
+    await userEvent.selectOptions(await screen.findByLabelText("has Tags"), "udelezenec2025");
+    await userEvent.selectOptions(screen.getByLabelText("has Tags"), "neObvescaj");
+    await userEvent.selectOptions(screen.getByLabelText("without Tags"), "neObvescaj");
+    await userEvent.type(screen.getByLabelText("Attribute key"), "Kompetenca");
+    await userEvent.type(screen.getByLabelText("Attribute value"), "SPLETNO");
+    await userEvent.type(screen.getByLabelText("Company"), "Šola");
+    await userEvent.selectOptions(screen.getByLabelText("Country"), "Slovenia");
+    await userEvent.click(screen.getByRole("button", { name: "Apply" }));
+
+    await waitFor(() =>
+      expect(router.state.location.search).toBe(
+        "?hasTagIds=t2&hasTagIds=t1&withoutTagIds=t1&attributeKey=Kompetenca" +
+          "&attributeValue=SPLETNO&company=%C5%A0ola&country=SI",
+      ),
+    );
+    expect(await screen.findByText("has Tags: udelezenec2025, neObvescaj")).toBeTruthy();
+    expect(screen.getByText("without Tags: neObvescaj")).toBeTruthy();
+    expect(screen.getByText("Attribute: Kompetenca = SPLETNO")).toBeTruthy();
+    expect(screen.getByText("Company: Šola")).toBeTruthy();
+    expect(screen.getByText("Country: Slovenia")).toBeTruthy();
+  });
+
+  it("R-015-01 a chosen Tag can be taken out of the panel again", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+    await openFilters();
+
+    await userEvent.selectOptions(await screen.findByLabelText("has Tags"), "udelezenec2025");
+    await userEvent.click(screen.getByRole("button", { name: "Remove udelezenec2025" }));
+
+    expect(screen.queryByRole("button", { name: "Remove udelezenec2025" })).toBeNull();
+  });
+
   it("R-015-06 removing a chip removes only that filter", async () => {
     answer("VIEWER", () => pageOf(THREE));
     const router = renderPage(`${LIST}?hasTagIds=t2&company=%C5%A0ola`);
@@ -224,6 +283,38 @@ describe("WF-06 filter panel and chips (US-015)", () => {
 
     await waitFor(() => expect(router.state.location.search).toBe("?q=maja&sort=company"));
     expect(screen.queryByRole("link", { name: "Clear filters" })).toBeNull();
+  });
+
+  it("R-015-06 Clear filters in the panel removes every filter", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?country=SI`);
+    await openFilters();
+
+    await userEvent.click(screen.getByRole("button", { name: "Clear filters" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe(""));
+  });
+
+  it("R-015-07 applying keeps the sort and starts at Page 1", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?sort=email&dir=desc&page=3`);
+    await openFilters();
+
+    await userEvent.selectOptions(await screen.findByLabelText("Country"), "Austria");
+    await userEvent.click(screen.getByRole("button", { name: "Apply" }));
+
+    await waitFor(() =>
+      expect(router.state.location.search).toBe("?sort=email&dir=desc&country=AT"),
+    );
+  });
+
+  it("R-015-06 the panel opens with the Active filters", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage(`${LIST}?attributeKey=jezik&country=AT`);
+    await openFilters();
+
+    expect((screen.getByLabelText("Attribute key") as HTMLInputElement).value).toBe("jezik");
+    expect((screen.getByLabelText("Country") as HTMLSelectElement).value).toBe("AT");
   });
 
   it("EX-015-02 an empty filtered list shows No Contacts match.", async () => {

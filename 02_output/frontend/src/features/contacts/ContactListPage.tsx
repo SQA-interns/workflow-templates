@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { SlidersHorizontal } from "lucide-react";
+import { useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { formatNumber } from "../../i18n/format";
 import { ContactListControls } from "./ContactListControls";
 import { ContactTable } from "./ContactTable";
 import { FilterChips } from "./FilterChips";
+import { FilterPanel } from "./FilterPanel";
 import {
   type Filters,
   hasFilters,
@@ -178,18 +180,48 @@ interface FilterBarProps {
   onFilters: (filters: Filters) => void;
 }
 
-/** The chips of the Active filters and "Clear filters" (US-015). */
+/** "Filters" with its panel, the chips of the Active filters and "Clear filters" (US-015). */
 function FilterBar({ groupId, query, onFilters }: FilterBarProps) {
+  const { t } = useTranslation();
+  const panelId = useId();
+  const [open, setOpen] = useState(false);
   const tags = useGroupTags(groupId).data ?? [];
   const clearTo = searchParamsOf({ ...query, page: 1, filters: NO_FILTERS }).toString();
+
+  function apply(filters: Filters) {
+    // A value is only a filter together with its key (R-015-03).
+    onFilters(filters.attributeKey.trim() === "" ? { ...filters, attributeValue: "" } : filters);
+    setOpen(false);
+  }
+
   return (
-    <div className="flex flex-wrap items-center gap-2 md:col-span-3">
-      <FilterChips
-        filters={query.filters}
-        tags={tags}
-        clearTo={`?${clearTo}`}
-        onChange={onFilters}
-      />
+    <div className="flex flex-col gap-4 md:col-span-3">
+      <div className="flex flex-wrap items-center gap-2">
+        <Button
+          variant="secondary"
+          aria-expanded={open}
+          aria-controls={panelId}
+          onClick={() => setOpen(!open)}
+        >
+          <SlidersHorizontal aria-hidden="true" className="size-4" />
+          {t("contacts.filters.open")}
+        </Button>
+        <FilterChips
+          filters={query.filters}
+          tags={tags}
+          clearTo={`?${clearTo}`}
+          onChange={onFilters}
+        />
+      </div>
+      {open && (
+        <FilterPanel
+          id={panelId}
+          filters={query.filters}
+          tags={tags}
+          onApply={apply}
+          onClear={() => apply(NO_FILTERS)}
+        />
+      )}
     </div>
   );
 }
