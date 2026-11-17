@@ -5,19 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-013
+- Session: S5 /implement US-015
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-013 wait for US-004 and US-018, D-59)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-015 wait for US-004, D-60)
 - Notes for the next session:
-  - T-23 backend: `domain/AuditEntry` (actions `contact.permanentlyDeleted`, `contact.removed`; add a constant per BR-10 action), `AuditEntryRepository` (add only, SR-04), `AuditService.record(groupId, userId, action, targetId)` at the clock's UTC time, in the caller's transaction: reuse it for US-003, US-004, US-005, US-016, US-018, US-019.
-  - `PermanentDeleteService.permanentlyDelete` (Owner; 404; active or merged → 409 `contact.notInRecycleBin`; `ContactRepository.permanentlyDelete` with the DB cascade) and `permanentlyDeleteDue(groupId, cutoff)` (Audit `contact.removed` by the User who moved it, then bulk delete); `RemovalJob` now calls the latter. `DELETE /groups/{id}/recycle-bin/{contactId}` → 204. Merged Contacts (D-21) are T-47.
-  - SpotBugs EI_EXPOSE_REP2: service or repository methods starting with `remove…`/`delete…` make every class that stores the bean fail the check; run the check before committing.
-  - Frontend: `useIsOwner` (`api/groups.ts`), `usePermanentlyDelete` (`api/recycleBin.ts`), `features/recycle-bin/DeletePermanently.tsx` (WF-11, Owner only). The stack's frontend image copies `frontend/dist/`: run `npm run build` before `docker compose --env-file ../.env up -d --build`.
-  - Frozen US-013: API 0/6, UI 0/2 chromium, all stop in `team()` at Invitations (US-004); EX-013-03 also needs Merge (US-018). On the stack with SQL Memberships: all other steps pass (D-59).
-  - No regressions: backend 274 unit green, IT 244 run with the same failures per class (+3 passing repository ITs); frontend 249 tests, prettier/eslint/tsc clean; UI acceptance: the same 13 pass; checks and gitleaks clean. Stack still up with `APP_HOST_PORT=8090`.
+  - Backend: `ContactQuery(search, sort, dir, page, ContactQuery.Filters)` (as sent, from the controller); `ContactQueryService` checks them into `domain/ContactFilters` (trimmed, lengths, ISO country, Tag ids of the Group or 404) and `ContactQueryRepository.findPage/count(groupId, pattern, ContactFilters, …)` build the filtered query in `filtered(groupId, …)`. US-016 Export: reuse the same check and `filtered` query for its scope.
+  - Frontend: `listQuery.ts` holds `filters` (URL and API path); `FilterPanel.tsx`, `FilterChips.tsx`, `FilterBar` in `ContactListPage.tsx`; `useGroupTags` (`api/tags.ts`).
+  - Run the whole unit suite (`./mvnw test`, incl. `ArchitectureTest`: AR-03 web never touches `domain`, AR-04 every repository method, even private, takes `groupId`) before each commit; D-60 (f).
+  - The stack's backend image copies `backend/target/contacts-backend.jar`: run `./mvnw -DskipTests package` (and `npm run build`) before `docker compose --env-file ../.env up -d --build`.
+  - Frozen US-015: API 0/10, UI 0/5 chromium, all stop in `team()` at Invitations (US-004). On the stack with SQL Memberships every step passes (D-60).
+  - No regressions: backend 284 unit green, IT 252 run with the same failures per class (+8 passing repository ITs); frontend 262 tests, eslint/tsc/prettier (src) clean; UI acceptance: the same 13 pass; checks and gitleaks clean. Stack still up with `APP_HOST_PORT=8090`.
 
 ## Next
-- Command: /implement US-015
+- Command: /implement US-016
 - Waiting for: nothing
 
 ## Stories
@@ -37,7 +37,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-012 | INC-1 | in progress | DoD-S-01 open until US-004, US-016 (D-58); others met |
 | US-013 | INC-1 | in progress | DoD-S-01 open until US-004, US-018 (D-59); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
 | US-014 | INC-1 | in progress | DoD-S-01 open until US-004 (D-52; US-008, US-009, US-012 built); DoD-S-07 see notes; others met |
-| US-015 | INC-1 | ready | |
+| US-015 | INC-1 | in progress | DoD-S-01 open until US-004 (D-60); DoD-S-07 c1b76ff subject without IDs, bacf2c9 subject 73 characters, c1b76ff … bacf2c9 failed ArchitectureTest (fixed in 3f369fd); others met |
 | US-016 | INC-1 | ready | |
 | US-017 | INC-2 | ready | |
 | US-018 | INC-2 | ready | |
