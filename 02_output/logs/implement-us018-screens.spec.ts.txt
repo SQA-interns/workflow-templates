@@ -1,0 +1,70 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { createContact, editContact, resetStack, signIn, team } from "./support/stack";
+
+// Throwaway check of WF-18, WF-17 and WF-07 for US-018 (build-ui steps 4 and 5); not committed.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, screen: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    if (overflow) {
+      await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}_overflow.png`, fullPage: true });
+      console.log("wide:", await page.evaluate(() => [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 1).slice(0, 8).map((e) => `${e.tagName}.${(e as HTMLElement).className} w=${Math.round(e.getBoundingClientRect().width)}`)));
+    }
+    expect(overflow, `${screen} ${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${screen} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("US-018 screens", async ({ page }) => {
+  const t = await team();
+  const janez = await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si", city: "Maribor" },
+    attributes: [{ key: "kompetenca", value: "java" }],
+    tags: ["udelezenec2025"],
+  });
+  await editContact(t.marko, t.groupId, janez, (u) => (u.fields.company = "Podjetje d.o.o."));
+  await createContact(t.ana, t.groupId, {
+    fields: { firstName: "J.", lastName: "Novak", email: "janez.novak@example.si", phone: "+386 41 123 456" },
+    attributes: [{ key: "kompetenca", value: "python" }],
+    tags: ["vip"],
+  });
+  await signIn(page, t.marko);
+
+  await page.goto(`/groups/${t.groupId}/duplicates`);
+  await expect(page.getByRole("button", { name: "Merge" })).toBeVisible();
+  await shot(page, "WF-17_possible-duplicates", "list-merge");
+
+  await page.getByRole("button", { name: "Merge" }).click();
+  await expect(page.getByRole("heading", { name: "Primary contact" })).toBeVisible();
+  const mergeUrl = page.url();
+  await shot(page, "WF-18_merge", "form");
+
+  await page.getByRole("button", { name: "Merge", exact: true }).click();
+  await expect(page.getByText("Choose a value for kompetenca.")).toBeVisible();
+  await shot(page, "WF-18_merge", "refused");
+
+  await page.getByRole("radio", { name: "java" }).check();
+  await page.getByRole("button", { name: "Merge", exact: true }).click();
+  await expect(page.getByText(/Merged from/)).toBeVisible();
+  await shot(page, "WF-07_contact-details", "merged-from");
+
+  await page.route("**/api/v1/groups/*/contacts/*", (route) => route.abort());
+  await page.goto(mergeUrl);
+  await expect(page.getByRole("button", { name: "Try again" })).toBeVisible({ timeout: 15000 });
+  await shot(page, "WF-18_merge", "error");
+
+  await page.unroute("**/api/v1/groups/*/contacts/*");
+  await page.route("**/api/v1/groups/*/contacts/*", () => undefined);
+  await page.goto(mergeUrl);
+  await expect(page.getByRole("status")).toBeVisible();
+  await shot(page, "WF-18_merge", "loading");
+});

@@ -1,0 +1,26 @@
+
+Running 8 tests using 1 worker
+
+
+  ✓  1 [chromium] › acceptance/us017-duplicates.spec.ts:13:1 › AC-017-01 a pair with the same e-mail is listed with Same e-mail (2.3s)
+
+  ✓  2 [chromium] › acceptance/us017-duplicates.spec.ts:32:1 › AC-017-02 a pair with the same phone is listed with Same phone (1.2s)
+
+  ✓  3 [chromium] › acceptance/us017-duplicates.spec.ts:47:1 › AC-017-03 similar names with the same company: Similar name, same company (1.1s)
+
+  ✓  4 [chromium] › acceptance/us017-duplicates.spec.ts:64:1 › EX-017-07 no pairs: No possible duplicates found. (1.1s)
+
+  ✓  5 [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected (1.4s)
+
+  ✓  6 [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak (1.8s)
+
+  ✓  7 [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca. (1.3s)
+
+  ✓  8 [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing (1.4s)
+
+  8 passed (12.7s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

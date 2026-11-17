@@ -1,0 +1,17 @@
+
+Running 1 test using 1 worker
+
+axe WF-17_possible-duplicates list-merge: none
+axe WF-18_merge form: none
+axe WF-18_merge refused: none
+axe WF-07_contact-details merged-from: none
+axe WF-18_merge error: none
+axe WF-18_merge loading: none
+  ✓  1 [chromium] › acceptance/zz-us018-screens.spec.ts:27:1 › US-018 screens (21.1s)
+
+  1 passed (22.3s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
