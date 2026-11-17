@@ -12,6 +12,7 @@ import { GroupRoute } from "../features/groups/GroupRoute";
 import { GroupStart } from "../features/groups/GroupStart";
 import { HistoryPage } from "../features/history/HistoryPage";
 import { VersionPage } from "../features/history/VersionPage";
+import { RecycleBinPage } from "../features/recycle-bin/RecycleBinPage";
 import { AppLayout } from "./AppLayout";
 import { NotFoundPage } from "./pages";
 import { PublicLayout } from "./PublicLayout";
@@ -59,6 +60,7 @@ export const routes: RouteObject[] = [
           { path: "contacts/:contactId/edit", element: <EditContactPage /> },
           { path: "contacts/:contactId/history", element: <HistoryPage /> },
           { path: "contacts/:contactId/history/:number", element: <VersionPage /> },
+          { path: "recycle-bin", element: <RecycleBinPage /> },
         ],
       },
       { path: "*", element: <NotFoundPage /> },

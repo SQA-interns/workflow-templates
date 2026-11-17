@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -168,5 +168,38 @@ describe("header of US-002", () => {
     const switcher = await screen.findByRole("button", { name: /Izbira skupine/ });
     expect(screen.getByRole("banner").contains(switcher)).toBe(true);
     expect(switcher.textContent).toContain("Podjetje Alfa");
+  });
+});
+
+describe("routes and header of US-012", () => {
+  it("R-012-02 an Owner or Editor gets Recycle bin in the navigation of the Group", async () => {
+    answer([konferenca, { ...alfa, role: "EDITOR" }]);
+
+    renderAt("/groups/g2/contacts");
+
+    const navigation = screen.getByRole("navigation", { name: "Glavna navigacija" });
+    const link = await within(navigation).findByRole("link", { name: "Koš" });
+    expect(link.getAttribute("href")).toBe("/groups/g2/recycle-bin");
+  });
+
+  it("R-012-02 a Viewer gets no Recycle bin in the navigation", async () => {
+    answer([{ ...konferenca, role: "VIEWER" }]);
+
+    renderAt("/groups/g1/contacts");
+
+    await screen.findByRole("button", { name: /Izbira skupine/ });
+    expect(screen.queryByRole("link", { name: "Koš" })).toBeNull();
+  });
+
+  it("R-012-02 /groups/:groupId/recycle-bin shows WF-11", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+      if (path === "/groups") return [konferenca];
+      return path === "/groups/g1/recycle-bin" ? [] : ana;
+    });
+
+    renderAt("/groups/g1/recycle-bin");
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Koš" })).toBeTruthy();
+    expect(await screen.findByText("Koš je prazen.")).toBeTruthy();
   });
 });
