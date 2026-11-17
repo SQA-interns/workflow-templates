@@ -9,7 +9,8 @@
   "nav": {
     "contacts": "Contacts",
     "recycleBin": "Recycle bin",
-    "members": "Members"
+    "members": "Members",
+    "settings": "Settings"
   },
   "page": {
     "contacts": {
@@ -113,6 +114,22 @@
     "switcher": {
       "label": "Group switcher: {{name}}",
       "create": "Create a Group"
+    },
+    "settings": {
+      "title": "Group settings",
+      "rename": {
+        "title": "Rename the Group",
+        "hint": "1 to 100 characters",
+        "submit": "Save",
+        "saved": "The name was saved."
+      },
+      "move": {
+        "title": "Move Group to recycle bin",
+        "description": "The Group and its Contacts are hidden from all Members. You can restore it from \"Deleted Groups\" for 30 days; after that it is removed for good.",
+        "action": "Move Group to recycle bin",
+        "confirm": "Move {{name}} to the recycle bin?",
+        "cancel": "Cancel"
+      }
     }
   },
   "contacts": {

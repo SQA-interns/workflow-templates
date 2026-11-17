@@ -9,7 +9,8 @@
   "nav": {
     "contacts": "Kontakti",
     "recycleBin": "Koš",
-    "members": "Člani"
+    "members": "Člani",
+    "settings": "Nastavitve"
   },
   "page": {
     "contacts": {
@@ -113,6 +114,22 @@
     "switcher": {
       "label": "Izbira skupine: {{name}}",
       "create": "Ustvari skupino"
+    },
+    "settings": {
+      "title": "Nastavitve skupine",
+      "rename": {
+        "title": "Preimenuj skupino",
+        "hint": "1 do 100 znakov",
+        "submit": "Shrani",
+        "saved": "Ime je shranjeno."
+      },
+      "move": {
+        "title": "Premakni skupino v koš",
+        "description": "Skupina in njeni kontakti so skriti vsem članom. Iz »Izbrisanih skupin« jo lahko obnovite 30 dni, nato je dokončno odstranjena.",
+        "action": "Premakni skupino v koš",
+        "confirm": "Želite premakniti {{name}} v koš?",
+        "cancel": "Prekliči"
+      }
     }
   },
   "contacts": {

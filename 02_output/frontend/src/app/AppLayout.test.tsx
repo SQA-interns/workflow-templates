@@ -203,3 +203,34 @@ describe("routes and header of US-012", () => {
     expect(await screen.findByText("Koš je prazen.")).toBeTruthy();
   });
 });
+
+describe("routes and header of US-003", () => {
+  it("BR-04 only the Owner gets Settings in the navigation of the Group", async () => {
+    answer([konferenca, { ...alfa, role: "EDITOR" }]);
+
+    renderAt("/groups/g1/contacts");
+
+    const navigation = screen.getByRole("navigation", { name: "Glavna navigacija" });
+    const link = await within(navigation).findByRole("link", { name: "Nastavitve" });
+    expect(link.getAttribute("href")).toBe("/groups/g1/settings");
+  });
+
+  it("BR-04 an Editor gets no Settings in the navigation", async () => {
+    answer([{ ...konferenca, role: "EDITOR" }]);
+
+    renderAt("/groups/g1/contacts");
+
+    await screen.findByRole("link", { name: "Koš" });
+    expect(screen.queryByRole("link", { name: "Nastavitve" })).toBeNull();
+  });
+
+  it("R-003-01 /groups/:groupId/settings shows WF-14", async () => {
+    answer([konferenca]);
+
+    renderAt("/groups/g1/settings");
+
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Nastavitve skupine" }),
+    ).toBeTruthy();
+  });
+});

@@ -37,3 +37,21 @@ export function useCreateGroup() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
   });
 }
+
+/** Renames the Group; Owner only (R-003-01); the Group list is read again. */
+export function useRenameGroup(groupId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (name: string) => apiRequest<Group>("PATCH", `/groups/${groupId}`, { name }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
+  });
+}
+
+/** Moves the Group to the recycle bin; Owner only (R-003-02); the Group list is read again. */
+export function useMoveGroupToRecycleBin(groupId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiRequest<undefined>("POST", `/groups/${groupId}/move-to-recycle-bin`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
+  });
+}

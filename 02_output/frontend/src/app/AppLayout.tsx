@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NavLink, Outlet, useParams } from "react-router";
 import { Button } from "@/components/ui/button";
-import { useCanChangeContacts } from "../api/groups";
+import { useCanChangeContacts, useIsOwner } from "../api/groups";
 import { GroupSwitcher } from "../features/groups/GroupSwitcher";
 import { Footer } from "./Footer";
 import { UserMenu } from "./UserMenu";
@@ -12,13 +12,15 @@ import { UserMenu } from "./UserMenu";
  * Responsive base layout (UI-08 … UI-10, UI-22 … UI-25): header with text logo, navigation and
  * user menu; main content at most 1200 px wide with 16 px gutters on mobile and 24 px above.
  * The Group switcher (US-002) follows the logo; the Recycle bin of the Group is for the Owner and
- * Editors (R-012-02); more user menu items come with US-021.
+ * Editors (R-012-02), the Group settings for the Owner (BR-04, WF-14); more user menu items come
+ * with US-021.
  */
 export function AppLayout() {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const { groupId = "" } = useParams();
   const canUseRecycleBin = useCanChangeContacts(groupId);
+  const isOwner = useIsOwner(groupId);
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -52,6 +54,14 @@ export function AppLayout() {
                 className="rounded-md px-3 py-2 text-sm font-semibold"
               >
                 {t("nav.recycleBin")}
+              </NavLink>
+            )}
+            {isOwner && (
+              <NavLink
+                to={`/groups/${groupId}/settings`}
+                className="rounded-md px-3 py-2 text-sm font-semibold"
+              >
+                {t("nav.settings")}
               </NavLink>
             )}
           </nav>

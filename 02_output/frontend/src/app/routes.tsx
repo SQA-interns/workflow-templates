@@ -9,6 +9,7 @@ import { EditContactPage } from "../features/contacts/EditContactPage";
 import { NewContactPage } from "../features/contacts/NewContactPage";
 import { CreateGroupPage } from "../features/groups/CreateGroupPage";
 import { GroupRoute } from "../features/groups/GroupRoute";
+import { GroupSettingsPage } from "../features/groups/GroupSettingsPage";
 import { GroupStart } from "../features/groups/GroupStart";
 import { HistoryPage } from "../features/history/HistoryPage";
 import { VersionPage } from "../features/history/VersionPage";
@@ -61,6 +62,7 @@ export const routes: RouteObject[] = [
           { path: "contacts/:contactId/history", element: <HistoryPage /> },
           { path: "contacts/:contactId/history/:number", element: <VersionPage /> },
           { path: "recycle-bin", element: <RecycleBinPage /> },
+          { path: "settings", element: <GroupSettingsPage /> },
         ],
       },
       { path: "*", element: <NotFoundPage /> },
