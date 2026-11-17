@@ -705,3 +705,14 @@
 - Human response: none
 - Resolution: pending review
 - Overrides: none
+
+## D-65: Human answers to D-51, D-63 and D-64
+- Timestamp: 2026-11-17T17:10+01:00
+- Session: S5 /implement US-004 (answer given after the handover)
+- Class: allow
+- Type: non-blocking
+- Trigger: The developer answered the decisions presented at the end of /implement US-004: "i approve the decisions and have reviewed".
+- Options: none (records the answers).
+- Human response: D-51 option 1, D-63 option 1, D-64 option 1, approved after review; 2026-11-17.
+- Resolution: D-63 → option 1 as written (resolved). D-51 and D-64 → the frozen helper `stubGet` (`02_output/frontend/acceptance/support/stack.ts`) shall fulfil only `fetch`/`xhr` requests, with `docs/03_acceptance-manifest.sha256` re-hashed in its own commit; only `/acceptance-tests` writes the test harness and the manifest, so it applies the change; then EX-020-02 (US-020) and AC-012-01 (US-012) are run again. Every other record marked "pending review" stays pending.
+- Overrides: none
