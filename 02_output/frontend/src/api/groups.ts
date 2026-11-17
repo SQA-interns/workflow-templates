@@ -55,3 +55,35 @@ export function useMoveGroupToRecycleBin(groupId: string) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
   });
 }
+
+/** A Group of the User in the recycle bin (`DeletedGroup` of the contract, R-003-04). */
+export interface DeletedGroup {
+  id: string;
+  name: string;
+  deletedAt: string;
+  removalAt: string;
+}
+
+const deletedGroupsQueryKey = ["deleted-groups"] as const;
+
+/** The User's own Groups in the recycle bin, newest first (R-003-04). */
+export function useDeletedGroups() {
+  return useQuery({
+    queryKey: deletedGroupsQueryKey,
+    queryFn: () => apiRequest<DeletedGroup[]>("GET", "/deleted-groups"),
+  });
+}
+
+/** Restores a Group before its removal date (R-003-05); both Group lists are read again. */
+export function useRestoreGroup() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (groupId: string) =>
+      apiRequest<Group>("POST", `/deleted-groups/${groupId}/restore`),
+    onSuccess: () =>
+      Promise.all([
+        queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
+        queryClient.invalidateQueries({ queryKey: deletedGroupsQueryKey }),
+      ]),
+  });
+}

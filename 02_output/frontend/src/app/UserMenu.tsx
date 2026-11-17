@@ -1,7 +1,8 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { Check, ChevronDown, LogOut, UserRound } from "lucide-react";
+import { Check, ChevronDown, LogOut, Trash2, UserRound } from "lucide-react";
 import { type KeyboardEvent, useEffect, useId, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useChangeLanguage, useMe } from "../api/me";
 import { signOutAccount } from "../auth/firebase";
@@ -13,7 +14,10 @@ const languageNames: [Language, string][] = [
   ["en", "English"],
 ];
 
-/** The user menu of the header, named by the display name (UI-10): language, Sign out. */
+/**
+ * The user menu of the header, named by the display name (UI-10): language, Deleted Groups
+ * (WF-15), Sign out.
+ */
 export function UserMenu() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
@@ -82,6 +86,14 @@ export function UserMenu() {
             )}
           </li>
           <li className="pt-1">
+            <Button asChild variant="ghost" className="w-full justify-start">
+              <Link to="/deleted-groups" onKeyDown={closeOnEscape} onClick={() => setOpen(false)}>
+                <Trash2 aria-hidden="true" />
+                {t("deletedGroups.title")}
+              </Link>
+            </Button>
+          </li>
+          <li>
             <Button
               variant="ghost"
               className="w-full justify-start"

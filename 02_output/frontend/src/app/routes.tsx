@@ -8,6 +8,7 @@ import { ContactListPage } from "../features/contacts/ContactListPage";
 import { EditContactPage } from "../features/contacts/EditContactPage";
 import { NewContactPage } from "../features/contacts/NewContactPage";
 import { CreateGroupPage } from "../features/groups/CreateGroupPage";
+import { DeletedGroupsPage } from "../features/groups/DeletedGroupsPage";
 import { GroupRoute } from "../features/groups/GroupRoute";
 import { GroupSettingsPage } from "../features/groups/GroupSettingsPage";
 import { GroupStart } from "../features/groups/GroupStart";
@@ -51,6 +52,7 @@ export const routes: RouteObject[] = [
     children: [
       { index: true, element: <GroupStart /> },
       { path: "/groups/new", element: <CreateGroupPage /> },
+      { path: "/deleted-groups", element: <DeletedGroupsPage /> },
       {
         path: "/groups/:groupId",
         element: <GroupRoute />,

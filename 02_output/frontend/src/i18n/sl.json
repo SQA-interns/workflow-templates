@@ -36,7 +36,8 @@
     "rateLimited": "Preveč zahtev. Poskusite znova čez minuto.",
     "internal": "Nekaj je šlo narobe.",
     "group": {
-      "nameLength": "Vnesite ime z 1 do 100 znaki."
+      "nameLength": "Vnesite ime z 1 do 100 znaki.",
+      "noLongerRestorable": "Te skupine ni več mogoče obnoviti."
     },
     "contact": {
       "nameRequired": "Vnesite ime, priimek ali podjetje.",
@@ -304,6 +305,20 @@
       "title": "Želite trajno izbrisati {{name}}?",
       "description": "Trajno izbriši. Tega ni mogoče razveljaviti.",
       "cancel": "Prekliči"
+    }
+  },
+  "deletedGroups": {
+    "title": "Izbrisane skupine",
+    "intro": "Vaše skupine v košu. Obnovite jo pred datumom odstranitve.",
+    "empty": "Ni izbrisanih skupin.",
+    "restore": "Obnovi",
+    "column": {
+      "name": "Ime",
+      "removalAt": "Datum odstranitve",
+      "actions": "Dejanja"
+    },
+    "card": {
+      "removalAt": "odstranitev"
     }
   }
 }

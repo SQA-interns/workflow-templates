@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import i18n from "../i18n";
 import { apiRequest } from "../api/apiClient";
@@ -13,7 +14,9 @@ vi.mock("../auth/firebase", () => ({ signOutAccount: vi.fn(async () => undefined
 function renderMenu(client = new QueryClient()) {
   render(
     <QueryClientProvider client={client}>
-      <UserMenu />
+      <MemoryRouter>
+        <UserMenu />
+      </MemoryRouter>
     </QueryClientProvider>,
   );
   return client;

@@ -36,7 +36,8 @@
     "rateLimited": "Too many requests. Try again in a minute.",
     "internal": "Something went wrong.",
     "group": {
-      "nameLength": "Enter a name of 1 to 100 characters."
+      "nameLength": "Enter a name of 1 to 100 characters.",
+      "noLongerRestorable": "This Group can no longer be restored."
     },
     "contact": {
       "nameRequired": "Enter a first name, last name or company.",
@@ -302,6 +303,20 @@
       "title": "Delete {{name}} permanently?",
       "description": "Delete permanently. This cannot be undone.",
       "cancel": "Cancel"
+    }
+  },
+  "deletedGroups": {
+    "title": "Deleted Groups",
+    "intro": "Your Groups in the recycle bin. Restore one before its removal date.",
+    "empty": "No deleted Groups.",
+    "restore": "Restore",
+    "column": {
+      "name": "Name",
+      "removalAt": "Removal date",
+      "actions": "Actions"
+    },
+    "card": {
+      "removalAt": "removal"
     }
   }
 }

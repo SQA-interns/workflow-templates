@@ -233,4 +233,20 @@ describe("routes and header of US-003", () => {
       await screen.findByRole("heading", { level: 1, name: "Nastavitve skupine" }),
     ).toBeTruthy();
   });
+
+  it("R-003-04 the user menu opens WF-15 Deleted Groups", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+      if (path === "/groups" || path === "/deleted-groups") return [];
+      return ana;
+    });
+    renderAt("/");
+
+    await userEvent.click(await screen.findByRole("button", { name: /Ana Kovač/ }));
+    await userEvent.click(screen.getByRole("link", { name: "Izbrisane skupine" }));
+
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Izbrisane skupine" }),
+    ).toBeTruthy();
+    expect(await screen.findByText("Ni izbrisanih skupin.")).toBeTruthy();
+  });
 });
