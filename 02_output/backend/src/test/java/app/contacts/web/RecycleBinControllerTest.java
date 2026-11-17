@@ -5,7 +5,9 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
+import app.contacts.service.ContactRefView;
 import app.contacts.service.ContactView;
+import app.contacts.service.RecycleBinEntryView;
 import app.contacts.service.RecycleBinService;
 import app.contacts.service.UserView;
 import java.time.Instant;
@@ -45,5 +47,19 @@ class RecycleBinControllerTest {
 
     assertThat(moved.state()).isEqualTo("inRecycleBin");
     assertThat(moved.versionNumber()).isEqualTo(4);
+  }
+
+  @Test
+  void r01202GetRecycleBinAnswersTheEntries() {
+    RecycleBinEntryView entry =
+        new RecycleBinEntryView(
+            new ContactRefView(CONTACT_ID, "Janez Novak"),
+            4,
+            "Marko Kranjc",
+            MOVED_AT,
+            Instant.parse("2026-04-04T10:00:00Z"));
+    when(recycleBin.list(GROUP_ID, MARKO_ID)).thenReturn(List.of(entry));
+
+    assertThat(controller.list(MARKO, GROUP_ID)).containsExactly(entry);
   }
 }

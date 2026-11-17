@@ -9,6 +9,7 @@ import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Group;
 import app.contacts.domain.User;
 import jakarta.persistence.EntityManager;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
@@ -170,5 +171,26 @@ class ContactRepositoryIT {
     ContactFields fields =
         new ContactFields("Janez", "Novak", email, null, null, null, null, null, null, null, null);
     return contacts.add(group, Contact.create(group, fields, "janez", "Novak", marko, createdAt));
+  }
+
+  @Test
+  void r01202FindsTheGroupsContactsInTheRecycleBinNewestFirst() {
+    final Contact active = Contact.create(groupId, ZIGA, "", "a", marko, NOW);
+    Contact older = Contact.create(groupId, ZIGA, "", "b", marko, NOW);
+    Contact newer = Contact.create(groupId, ZIGA, "", "c", marko, NOW);
+    UUID otherGroupId = groups.save(Group.create("Drugo", marko, NOW)).getId();
+    Contact other = Contact.create(otherGroupId, ZIGA, "", "d", marko, NOW);
+    older.moveToRecycleBin(marko, NOW.plus(Duration.ofHours(1)));
+    newer.moveToRecycleBin(marko, NOW.plus(Duration.ofHours(2)));
+    other.moveToRecycleBin(marko, NOW.plus(Duration.ofHours(3)));
+    contacts.add(groupId, active);
+    contacts.add(groupId, older);
+    contacts.add(groupId, newer);
+    contacts.add(otherGroupId, other);
+    entityManager.flush();
+
+    assertThat(contacts.findInRecycleBin(groupId))
+        .extracting(Contact::getId)
+        .containsExactly(newer.getId(), older.getId());
   }
 }

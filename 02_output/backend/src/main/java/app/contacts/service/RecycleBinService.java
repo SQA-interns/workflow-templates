@@ -1,6 +1,12 @@
 package app.contacts.service;
 
+import app.contacts.domain.Contact;
+import app.contacts.repository.ContactRepository;
+import app.contacts.repository.UserRepository;
+import java.time.Duration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,18 +15,58 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class RecycleBinService {
 
+  /** The recycle bin period, counted from {@code deletedAt} (project-wide facts, D-18). */
+  public static final Duration PERIOD = Duration.ofDays(30);
+
   private final AccessGuard guard;
   private final ContactService contacts;
+  private final ContactRepository contactRepository;
+  private final UserRepository users;
 
   /**
    * The service.
    *
    * @param guard the access check
    * @param contacts changes the state of the Contact
+   * @param contactRepository reads the Contacts in the recycle bin
+   * @param users names the User who moved each Contact
    */
-  public RecycleBinService(AccessGuard guard, ContactService contacts) {
+  public RecycleBinService(
+      AccessGuard guard,
+      ContactService contacts,
+      ContactRepository contactRepository,
+      UserRepository users) {
     this.guard = guard;
     this.contacts = contacts;
+    this.contactRepository = contactRepository;
+    this.users = users;
+  }
+
+  /**
+   * The Group's Contacts in the recycle bin, newest first, with who moved them, when, and their
+   * removal date (R-012-02); the Owner and Editors may see it.
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @return the entries
+   * @throws NotFoundException for a non-Member (BR-02)
+   * @throws ForbiddenException for a Viewer (AC-012-05)
+   */
+  @Transactional(readOnly = true)
+  public List<RecycleBinEntryView> list(UUID groupId, UUID userId) {
+    guard.require(groupId, userId, Permission.VIEW_RECYCLE_BIN);
+    List<Contact> found = contactRepository.findInRecycleBin(groupId);
+    Map<UUID, String> names = namesOf(found);
+    return found.stream()
+        .map(
+            contact ->
+                new RecycleBinEntryView(
+                    new ContactRefView(contact.getId(), contact.getFields().name()),
+                    contact.getVersionNumber(),
+                    names.get(contact.getUpdatedBy()),
+                    contact.getDeletedAt(),
+                    contact.getDeletedAt().plus(PERIOD)))
+        .toList();
   }
 
   /**
@@ -44,5 +90,14 @@ public class RecycleBinService {
       throw new ValidationException(List.of());
     }
     return contacts.moveToRecycleBin(groupId, userId, contactId, versionNumber);
+  }
+
+  /** The display name of the User who moved each Contact: the User of its current Version. */
+  private Map<UUID, String> namesOf(List<Contact> found) {
+    Map<UUID, String> names = new HashMap<>();
+    users
+        .findAllById(found.stream().map(Contact::getUpdatedBy).distinct().toList())
+        .forEach(user -> names.put(user.getId(), user.getDisplayName()));
+    return names;
   }
 }

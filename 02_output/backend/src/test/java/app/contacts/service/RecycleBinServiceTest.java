@@ -6,7 +6,15 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
+import app.contacts.domain.Contact;
+import app.contacts.domain.ContactFields;
 import app.contacts.domain.Role;
+import app.contacts.domain.User;
+import app.contacts.repository.ContactRepository;
+import app.contacts.repository.UserRepository;
+import java.time.Instant;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +27,48 @@ class RecycleBinServiceTest {
 
   private final AccessGuard guard = mock(AccessGuard.class);
   private final ContactService contacts = mock(ContactService.class);
-  private final RecycleBinService service = new RecycleBinService(guard, contacts);
+  private final ContactRepository contactRepository = mock(ContactRepository.class);
+  private final UserRepository users = mock(UserRepository.class);
+  private final RecycleBinService service =
+      new RecycleBinService(guard, contacts, contactRepository, users);
+
+  @Test
+  void ac01201RecycleBinListsNameDeletedByDeletedAtAndRemovalDateNewestFirst() {
+    final User marko =
+        User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", Instant.EPOCH);
+    Contact janez =
+        Contact.create(
+            GROUP_ID,
+            ContactFields.ofNames(Map.of("firstName", "Janez", "lastName", "Novak")),
+            "",
+            "",
+            marko.getId(),
+            Instant.EPOCH);
+    janez.moveToRecycleBin(marko.getId(), Instant.parse("2026-03-05T10:00:00Z"));
+    when(guard.require(GROUP_ID, MARKO, Permission.VIEW_RECYCLE_BIN)).thenReturn(Role.EDITOR);
+    when(contactRepository.findInRecycleBin(GROUP_ID)).thenReturn(List.of(janez));
+    when(users.findAllById(List.of(marko.getId()))).thenReturn(List.of(marko));
+
+    List<RecycleBinEntryView> entries = service.list(GROUP_ID, MARKO);
+
+    assertThat(entries)
+        .containsExactly(
+            new RecycleBinEntryView(
+                new ContactRefView(janez.getId(), "Janez Novak"),
+                2,
+                "Marko Kranjc",
+                Instant.parse("2026-03-05T10:00:00Z"),
+                Instant.parse("2026-04-04T10:00:00Z")));
+  }
+
+  @Test
+  void ac01205ViewerCannotOpenTheRecycleBin() {
+    when(guard.require(GROUP_ID, PETRA, Permission.VIEW_RECYCLE_BIN))
+        .thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.list(GROUP_ID, PETRA)).isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(contactRepository);
+  }
 
   @Test
   void r01201EditorMovesTheContactToTheRecycleBin() {

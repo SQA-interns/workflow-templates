@@ -29,6 +29,20 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
   List<Contact> findActiveByEmail(UUID groupId, String email);
 
   /**
+   * The Contacts of the Group in the recycle bin, newest first (R-012-02).
+   *
+   * @param groupId the Group
+   * @return the Contacts
+   */
+  @Query(
+      """
+      SELECT c FROM Contact c
+      WHERE c.groupId = :groupId AND c.state = 'inRecycleBin'
+      ORDER BY c.deletedAt DESC, c.id
+      """)
+  List<Contact> findInRecycleBin(UUID groupId);
+
+  /**
    * A Contact of the Group in any state (R-014-06).
    *
    * @param groupId the Group
