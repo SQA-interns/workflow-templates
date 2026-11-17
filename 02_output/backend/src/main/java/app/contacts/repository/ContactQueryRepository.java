@@ -1,6 +1,9 @@
 package app.contacts.repository;
 
 import app.contacts.domain.ContactAttributeRow;
+import app.contacts.domain.ContactExportAttributeRow;
+import app.contacts.domain.ContactExportRow;
+import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
@@ -34,7 +37,30 @@ public class ContactQueryRepository {
   private static final String NAME_DESC =
       "sort_name COLLATE \"sl-x-icu\" DESC, first_name COLLATE \"sl-x-icu\" DESC NULLS LAST,"
           + " company COLLATE \"sl-x-icu\" DESC NULLS LAST, id DESC";
+  private static final String EXPORT_COLUMNS =
+      "SELECT id, first_name, last_name, email, phone, company, job_title, street, postal_code,"
+          + " city, country, note FROM contact ";
+
+  /** The ORDER BY of each sort key A–Z; ties stay in name order (R-014-02, R-014-03). */
+  private static final Map<ContactSort, String> ASCENDING =
+      Map.of(
+          ContactSort.NAME, NAME_ASC,
+          ContactSort.COMPANY, "company COLLATE \"sl-x-icu\" NULLS LAST, " + NAME_ASC,
+          ContactSort.EMAIL, "lower(email) NULLS LAST, " + NAME_ASC,
+          ContactSort.UPDATED_AT, "updated_at, " + NAME_ASC);
+
+  /** The ORDER BY of each sort key Z–A; ties stay in name order (R-014-03). */
+  private static final Map<ContactSort, String> DESCENDING =
+      Map.of(
+          ContactSort.NAME, NAME_DESC,
+          ContactSort.COMPANY, "company COLLATE \"sl-x-icu\" DESC NULLS LAST, " + NAME_ASC,
+          ContactSort.EMAIL, "lower(email) DESC NULLS LAST, " + NAME_ASC,
+          ContactSort.UPDATED_AT, "updated_at DESC, " + NAME_ASC);
+
   private static final String PAGE = " LIMIT :limit OFFSET :offset";
+
+  /** Only the Checked contacts among the list (R-016-02). */
+  private static final String CHECKED = "AND id IN (:contactIds) ";
 
   /** Every one of the Tags (R-015-01); the ids are distinct, so the count says "all". */
   private static final String HAS_TAGS =
@@ -86,22 +112,14 @@ public class ContactQueryRepository {
       boolean descending,
       int offset,
       int limit) {
-    String order =
-        switch (sort) {
-          case NAME -> descending ? NAME_DESC : NAME_ASC;
-          case COMPANY ->
-              descending
-                  ? "company COLLATE \"sl-x-icu\" DESC NULLS LAST, " + NAME_ASC
-                  : "company COLLATE \"sl-x-icu\" NULLS LAST, " + NAME_ASC;
-          case EMAIL ->
-              descending
-                  ? "lower(email) DESC NULLS LAST, " + NAME_ASC
-                  : "lower(email) NULLS LAST, " + NAME_ASC;
-          case UPDATED_AT ->
-              descending ? "updated_at DESC, " + NAME_ASC : "updated_at, " + NAME_ASC;
-        };
     Query query =
-        filtered(groupId, COLUMNS, pattern, filters, "ORDER BY " + order + PAGE)
+        filtered(
+                groupId,
+                COLUMNS,
+                pattern,
+                filters,
+                null,
+                "ORDER BY " + (descending ? DESCENDING : ASCENDING).get(sort) + PAGE)
             .setParameter("limit", limit)
             .setParameter("offset", offset);
     List<ContactListRow> rows = new ArrayList<>();
@@ -130,9 +148,7 @@ public class ContactQueryRepository {
    * @return the total
    */
   public long count(UUID groupId, String pattern, ContactFilters filters) {
-    Object total =
-        filtered(groupId, "SELECT count(*) FROM contact ", pattern, filters, "").getSingleResult();
-    return ((Number) total).longValue();
+    return countExport(groupId, pattern, filters, null);
   }
 
   /**
@@ -161,11 +177,20 @@ public class ContactQueryRepository {
    * parameters bound.
    */
   private Query filtered(
-      UUID groupId, String select, String pattern, ContactFilters filters, String tail) {
+      UUID groupId,
+      String select,
+      String pattern,
+      ContactFilters filters,
+      List<UUID> contactIds,
+      String tail) {
     StringBuilder sql = new StringBuilder(select).append(WHERE);
     Map<String, Object> parameters = new HashMap<>();
     parameters.put("groupId", groupId);
     parameters.put("pattern", pattern);
+    if (contactIds != null) {
+      sql.append(CHECKED);
+      parameters.put("contactIds", contactIds);
+    }
     if (!filters.hasTagIds().isEmpty()) {
       sql.append(HAS_TAGS);
       parameters.put("hasTagIds", filters.hasTagIds());
@@ -248,6 +273,103 @@ public class ContactQueryRepository {
     for (Object result : query.getResultList()) {
       Object[] row = (Object[]) result;
       attributes.add(new ContactAttributeRow((String) row[0], (String) row[1]));
+    }
+    return attributes;
+  }
+
+  /**
+   * The number of Contacts of {@link #findExport}: the Export scope (R-016-05, R-016-07).
+   *
+   * @param groupId the Group
+   * @param pattern the LIKE pattern of the list
+   * @param filters the Active filters of the list
+   * @param contactIds the Checked contacts, at least one; {@code null} for the whole list
+   * @return the size of the Export scope
+   */
+  public long countExport(
+      UUID groupId, String pattern, ContactFilters filters, List<UUID> contactIds) {
+    Object total =
+        filtered(groupId, "SELECT count(*) FROM contact ", pattern, filters, contactIds, "")
+            .getSingleResult();
+    return ((Number) total).longValue();
+  }
+
+  /**
+   * The Export scope with every Field: the active Contacts of the list, or only the Checked
+   * contacts among them, in the list's sort order (R-016-01, R-016-02, BR-09, EX-016-07).
+   *
+   * @param groupId the Group
+   * @param pattern the LIKE pattern of the list
+   * @param filters the Active filters of the list
+   * @param contactIds the Checked contacts, at least one; {@code null} for the whole list
+   * @param sort the sort key of the list
+   * @param descending whether the sort key runs Z–A
+   * @return the rows
+   */
+  public List<ContactExportRow> findExport(
+      UUID groupId,
+      String pattern,
+      ContactFilters filters,
+      List<UUID> contactIds,
+      ContactSort sort,
+      boolean descending) {
+    Query query =
+        filtered(
+            groupId,
+            EXPORT_COLUMNS,
+            pattern,
+            filters,
+            contactIds,
+            "ORDER BY " + (descending ? DESCENDING : ASCENDING).get(sort));
+    List<ContactExportRow> rows = new ArrayList<>();
+    for (Object result : query.getResultList()) {
+      Object[] row = (Object[]) result;
+      rows.add(
+          new ContactExportRow(
+              (UUID) row[0],
+              new ContactFields(
+                  (String) row[1],
+                  (String) row[2],
+                  (String) row[3],
+                  (String) row[4],
+                  (String) row[5],
+                  (String) row[6],
+                  (String) row[7],
+                  (String) row[8],
+                  (String) row[9],
+                  (String) row[10],
+                  (String) row[11])));
+    }
+    return rows;
+  }
+
+  /**
+   * The Attributes of the given Contacts of the Group, by key A–Z in Slovenian collation
+   * (R-016-03).
+   *
+   * @param groupId the Group
+   * @param contactIds the Contacts
+   * @return one row per Attribute; none for Contacts of another Group
+   */
+  public List<ContactExportAttributeRow> findExportAttributes(UUID groupId, List<UUID> contactIds) {
+    if (contactIds.isEmpty()) {
+      return List.of();
+    }
+    Query query =
+        entityManager
+            .createNativeQuery(
+                """
+                SELECT contact_id, key, value FROM attribute
+                WHERE group_id = :groupId AND contact_id IN (:contactIds)
+                ORDER BY key COLLATE "sl-x-icu", id
+                """)
+            .setParameter("groupId", groupId)
+            .setParameter("contactIds", contactIds);
+    List<ContactExportAttributeRow> attributes = new ArrayList<>();
+    for (Object result : query.getResultList()) {
+      Object[] row = (Object[]) result;
+      attributes.add(
+          new ContactExportAttributeRow((UUID) row[0], (String) row[1], (String) row[2]));
     }
     return attributes;
   }

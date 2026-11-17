@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactAttributeRow;
+import app.contacts.domain.ContactExportAttributeRow;
+import app.contacts.domain.ContactExportRow;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
@@ -391,5 +393,80 @@ class ContactQueryRepositoryIT {
     jdbc.update("INSERT INTO tag (id, group_id, name) VALUES (?, ?, 'vip')", vip, beta);
 
     assertThat(query.countTags(groupId, List.of(udel, vip))).isEqualTo(1);
+  }
+
+  private List<String> exported(ContactFilters filters, List<UUID> contactIds) {
+    return query.findExport(groupId, ALL, filters, contactIds, ContactSort.NAME, false).stream()
+        .map(row -> row.fields().firstName() + " " + row.fields().lastName())
+        .toList();
+  }
+
+  @Test
+  void r01601ExportRowsCarryEveryFieldOfTheActiveContactsInListOrder() {
+    add(
+        groupId,
+        Map.of(
+            "firstName", "Janez",
+            "lastName", "Novak",
+            "jobTitle", "Vodja",
+            "street", "Glavna 1",
+            "postalCode", "1000",
+            "city", "Ljubljana",
+            "country", "SI",
+            "note", "=1+1"),
+        "janez",
+        NOW);
+    add("Žiga", "Čuk");
+    moveToRecycleBin(add("Ana", "Bizjak"));
+
+    List<ContactExportRow> rows =
+        query.findExport(groupId, ALL, NONE, null, ContactSort.NAME, false);
+
+    assertThat(rows).extracting(row -> row.fields().lastName()).containsExactly("Čuk", "Novak");
+    assertThat(rows.get(1).fields().byName().values())
+        .containsExactly(
+            "Janez",
+            "Novak",
+            null,
+            null,
+            null,
+            "Vodja",
+            "Glavna 1",
+            "1000",
+            "Ljubljana",
+            "SI",
+            "=1+1");
+    assertThat(query.countExport(groupId, ALL, NONE, null)).isEqualTo(2);
+  }
+
+  @Test
+  void r01602Ex01607CheckedContactsWithinTheFilteredListAndActiveOnly() {
+    Contact janez = add("Janez", "Novak");
+    Contact maja = add("Maja", "Zupan");
+    Contact ziga = add("Žiga", "Čuk");
+    UUID udel = tag("udelezenec2025", janez, maja);
+    moveToRecycleBin(janez);
+    List<UUID> checked = List.of(janez.getId(), maja.getId(), ziga.getId());
+    ContactFilters hasUdel = tags(List.of(udel), null);
+
+    assertThat(exported(hasUdel, checked)).containsExactly("Maja Zupan");
+    assertThat(exported(NONE, List.of(ziga.getId()))).containsExactly("Žiga Čuk");
+    assertThat(query.countExport(groupId, ALL, hasUdel, checked)).isEqualTo(1);
+  }
+
+  @Test
+  void r01603ExportAttributesOfTheContactsByKeyAndOfTheGroupOnly() {
+    Contact janez = add("Janez", "Novak");
+    Contact maja = add("Maja", "Zupan");
+    attribute(janez, "kompetenca", "spletnoProgramiranje");
+    attribute(maja, "jezik", "nemščina");
+    attribute(add("Žiga", "Čuk"), "velikost", "L");
+    UUID beta = groups.save(Group.create("Podjetje Beta", ana, NOW)).getId();
+
+    assertThat(query.findExportAttributes(groupId, List.of(janez.getId(), maja.getId())))
+        .containsExactly(
+            new ContactExportAttributeRow(maja.getId(), "jezik", "nemščina"),
+            new ContactExportAttributeRow(janez.getId(), "kompetenca", "spletnoProgramiranje"));
+    assertThat(query.findExportAttributes(beta, List.of(janez.getId()))).isEmpty();
   }
 }
