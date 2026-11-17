@@ -40,6 +40,22 @@ class RemovalJobTest {
   }
 
   @Test
+  void br08RemovesTheGroupsWhoseRecycleBinPeriodHasPassed() {
+    job.removeDueGroups();
+
+    verify(groups).deleteDue(NOW.minus(Duration.ofDays(30)));
+  }
+
+  @Test
+  void br08GroupsAreRemovedAtLeastOncePerHour() throws NoSuchMethodException {
+    Scheduled schedule =
+        RemovalJob.class.getMethod("removeDueGroups").getAnnotation(Scheduled.class);
+
+    assertThat(Duration.parse(schedule.fixedDelayString()))
+        .isLessThanOrEqualTo(Duration.ofHours(1));
+  }
+
+  @Test
   void r01205RunsAtLeastOncePerHour() throws NoSuchMethodException {
     Scheduled schedule =
         RemovalJob.class.getMethod("removeDueContacts").getAnnotation(Scheduled.class);

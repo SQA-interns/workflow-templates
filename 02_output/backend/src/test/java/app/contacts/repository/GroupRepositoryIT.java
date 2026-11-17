@@ -100,6 +100,33 @@ class GroupRepositoryIT {
         .containsExactly(newer, older);
   }
 
+  @Test
+  void br08DeletesTheGroupsMovedToTheRecycleBinAtOrBeforeTheCutoffWithTheirMemberships() {
+    UUID due = group(ana, "Konferenca 2025");
+    memberships.saveAndFlush(Membership.of(due, marko.getId(), Role.EDITOR));
+    UUID notYet = group(ana, "Konferenca 2026");
+    UUID active = group(ana, "Aktivna");
+    Instant cutoff = Instant.parse("2026-03-05T10:00:00Z");
+    moveToRecycleBin(due, cutoff);
+    moveToRecycleBin(notYet, cutoff.plusSeconds(1));
+
+    int deleted = groups.deleteDue(cutoff);
+
+    assertThat(deleted).isEqualTo(1);
+    assertThat(groups.findAllIds()).containsExactlyInAnyOrder(notYet, active);
+    assertThat(
+            jdbc.queryForObject(
+                "SELECT count(*) FROM membership WHERE group_id = ?", Integer.class, due))
+        .isZero();
+  }
+
+  private void moveToRecycleBin(UUID groupId, Instant at) {
+    jdbc.update(
+        "UPDATE contact_group SET state = 'inRecycleBin', deleted_at = ? WHERE id = ?",
+        java.sql.Timestamp.from(at),
+        groupId);
+  }
+
   private UUID group(User owner, String name) {
     Group group = groups.save(Group.create(name, owner.getId(), NOW));
     memberships.saveAndFlush(Membership.of(group.getId(), owner.getId(), Role.OWNER));

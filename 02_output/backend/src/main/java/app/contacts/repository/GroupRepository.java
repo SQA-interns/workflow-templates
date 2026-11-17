@@ -3,12 +3,15 @@ package app.contacts.repository;
 import app.contacts.domain.Group;
 import app.contacts.domain.MemberGroup;
 import jakarta.persistence.LockModeType;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 /** Groups; a Group is the tenant itself, so exempt from AR-04 (ADR-02). */
 public interface GroupRepository extends JpaRepository<Group, UUID> {
@@ -63,4 +66,17 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
   @Lock(LockModeType.PESSIMISTIC_WRITE)
   @Query("SELECT g FROM Group g WHERE g.id = :id")
   Optional<Group> findForUpdate(UUID id);
+
+  /**
+   * Permanently deletes the Groups moved to the recycle bin at or before the cutoff, with all their
+   * Contacts, Versions, Members, Invitations, Tags, Merges and Audit entries (BR-08, D-19; the
+   * database cascades), in one transaction (ADR-10).
+   *
+   * @param cutoff now minus the recycle bin period
+   * @return how many Groups were deleted
+   */
+  @Transactional
+  @Modifying
+  @Query("DELETE FROM Group g WHERE g.state = 'inRecycleBin' AND g.deletedAt <= :cutoff")
+  int deleteDue(Instant cutoff);
 }
