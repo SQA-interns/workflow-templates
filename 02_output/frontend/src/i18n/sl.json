@@ -192,7 +192,9 @@
       "pages": "Strani",
       "previous": "Prejšnja",
       "next": "Naslednja",
-      "pageOf": "Stran {{page}} od {{pages}}"
+      "pageOf": "Stran {{page}} od {{pages}}",
+      "check": "Označi {{name}}",
+      "checkPage": "Označi vse na tej strani"
     },
     "details": {
       "edit": "Uredi",

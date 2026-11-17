@@ -8,6 +8,7 @@ import { useCanChangeContacts } from "../../api/groups";
 import { useGroupTags } from "../../api/tags";
 import type { Language } from "../../i18n";
 import { formatNumber } from "../../i18n/format";
+import { ExportButtons } from "../export/ExportButtons";
 import { ContactListControls } from "./ContactListControls";
 import { ContactTable } from "./ContactTable";
 import { FilterChips } from "./FilterChips";
@@ -20,13 +21,14 @@ import {
   NO_FILTERS,
   searchParamsOf,
 } from "./listQuery";
+import { type Selection, useSelection } from "./useSelection";
 
 /** Wait after the last key before searching, so typing does not ask for every letter. */
 const SEARCH_DELAY_MS = 300;
 
 /**
- * WF-06 Contact list of the current Group: count, search, sort, filters, Pages, four states (US-014,
- * US-015).
+ * WF-06 Contact list of the current Group: count, search, sort, filters, Pages, four states, Export
+ * (US-014, US-015, US-016).
  */
 export function ContactListPage() {
   const { t, i18n } = useTranslation();
@@ -36,6 +38,7 @@ export function ContactListPage() {
   const query = listQueryOf(params);
   const list = useContactList(groupId, query);
   const canAdd = useCanChangeContacts(groupId);
+  const selection = useSelection(JSON.stringify([query.q, query.filters]));
   const [search, setSearch] = useState(query.q);
   const [shownQ, setShownQ] = useState(query.q);
   if (query.q !== shownQ) {
@@ -83,10 +86,14 @@ export function ContactListPage() {
       >
         <FilterBar groupId={groupId} query={query} onFilters={(filters) => change({ filters })} />
       </ContactListControls>
+      {list.data && (
+        <ExportButtons groupId={groupId} query={query} total={total} checked={selection.checked} />
+      )}
       <ListBody
         list={list}
         query={query}
         groupId={groupId}
+        selection={selection}
         add={add}
         onClear={() => change({ q: "" })}
         onPage={(page) => change({ page })}
@@ -104,13 +111,14 @@ interface ListBodyProps {
   list: ReturnType<typeof useContactList>;
   query: ListQuery;
   groupId: string;
+  selection: Selection;
   add: React.ReactNode;
   onClear: () => void;
   onPage: (page: number) => void;
 }
 
 /** The rows with their Pages, or the loading, error, empty or no-match state (UI-14, R-014-05). */
-function ListBody({ list, query, groupId, add, onClear, onPage }: ListBodyProps) {
+function ListBody({ list, query, groupId, selection, add, onClear, onPage }: ListBodyProps) {
   const { t } = useTranslation();
   if (list.isPending) {
     return (
@@ -150,7 +158,7 @@ function ListBody({ list, query, groupId, add, onClear, onPage }: ListBodyProps)
   const pages = Math.ceil(total / list.data.pageSize);
   return (
     <>
-      <ContactTable groupId={groupId} items={items} />
+      <ContactTable groupId={groupId} items={items} selection={selection} />
       {pages > 1 && (
         <nav aria-label={t("contacts.list.pages")} className="flex items-center justify-between">
           <Button

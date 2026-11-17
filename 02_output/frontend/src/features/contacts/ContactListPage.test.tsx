@@ -3,12 +3,12 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { apiRequest } from "../../api/apiClient";
+import { apiDownload, apiRequest } from "../../api/apiClient";
 import type { ContactListItem } from "../../api/contacts";
 import i18n from "../../i18n";
 import { ContactListPage } from "./ContactListPage";
 
-vi.mock("../../api/apiClient", () => ({ apiRequest: vi.fn() }));
+vi.mock("../../api/apiClient", () => ({ apiRequest: vi.fn(), apiDownload: vi.fn() }));
 
 const LIST = "/groups/g1/contacts";
 
@@ -323,5 +323,53 @@ describe("WF-06 filter panel and chips (US-015)", () => {
 
     expect(await screen.findByText("No Contacts match.")).toBeTruthy();
     expect(screen.queryByText("No Contacts yet.")).toBeNull();
+  });
+});
+
+describe("WF-06 Export and Checked contacts (US-016)", () => {
+  const check = (name: string) =>
+    userEvent.click(screen.getByRole("checkbox", { name: `Check ${name}` }));
+
+  it("AC-016-02 a checked row is counted and Export checked sends it", async () => {
+    vi.mocked(apiDownload).mockReturnValue(new Promise(() => {}));
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage(`${LIST}?q=a`);
+    await screen.findByText("3 Contacts");
+
+    await check("Maja Zupan");
+    expect(screen.getByText("1 checked")).toBeTruthy();
+    await userEvent.click(screen.getByRole("button", { name: "Export checked (1)" }));
+
+    expect(apiDownload).toHaveBeenCalledWith(
+      "/groups/g1/exports",
+      expect.objectContaining({ q: "a", contactIds: ["c3"] }),
+    );
+  });
+
+  it("D-24 (b) checks stay across Pages and are cleared when the search changes", async () => {
+    answer("VIEWER", (path) =>
+      path.includes("page=2") ? pageOf([item("c4", "Ana", "Bizjak")], 51, 2) : pageOf(THREE, 51),
+    );
+    renderPage();
+    await screen.findByText("51 Contacts");
+    await check("Maja Zupan");
+
+    await userEvent.click(screen.getByRole("button", { name: "Next" }));
+    await screen.findByRole("link", { name: "Ana Bizjak" });
+    await check("Ana Bizjak");
+    expect(screen.getByText("2 checked")).toBeTruthy();
+
+    await userEvent.type(screen.getByLabelText("Search"), "x");
+    await waitFor(() => expect(screen.queryByText("2 checked")).toBeNull());
+    expect(screen.getByRole("button", { name: "Export checked" })).toBeTruthy();
+  });
+
+  it("EX-016-02 an empty filtered list: Export disabled, Nothing to export.", async () => {
+    answer("VIEWER", () => pageOf([]));
+    renderPage(`${LIST}?q=xyz`);
+
+    expect(await screen.findByText("No Contacts match.")).toBeTruthy();
+    expect(screen.getByRole("button", { name: "Export" }).hasAttribute("disabled")).toBe(true);
+    expect(screen.getByText("Nothing to export.")).toBeTruthy();
   });
 });

@@ -190,7 +190,9 @@
       "pages": "Pages",
       "previous": "Previous",
       "next": "Next",
-      "pageOf": "Page {{page}} of {{pages}}"
+      "pageOf": "Page {{page}} of {{pages}}",
+      "check": "Check {{name}}",
+      "checkPage": "Check all on this Page"
     },
     "details": {
       "edit": "Edit",

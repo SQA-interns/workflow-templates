@@ -1,9 +1,11 @@
 import { render, screen, within } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { ContactListItem } from "../../api/contacts";
 import i18n from "../../i18n";
 import { ContactTable } from "./ContactTable";
+import type { Selection } from "./useSelection";
 
 const JANEZ: ContactListItem = {
   id: "c1",
@@ -26,9 +28,23 @@ const ALFA: ContactListItem = {
   updatedAt: "2026-03-05T10:00:00Z",
 };
 
-function renderTable(items: ContactListItem[]) {
+function selectionOf(checked: string[] = []): Selection {
+  return {
+    checked,
+    isChecked: (id) => checked.includes(id),
+    check: vi.fn(),
+    checkAll: vi.fn(),
+  };
+}
+
+function renderTable(items: ContactListItem[], selection = selectionOf()) {
   const router = createMemoryRouter(
-    [{ path: "/groups/:groupId/contacts", element: <ContactTable groupId="g1" items={items} /> }],
+    [
+      {
+        path: "/groups/:groupId/contacts",
+        element: <ContactTable groupId="g1" items={items} selection={selection} />,
+      },
+    ],
     { initialEntries: ["/groups/g1/contacts"] },
   );
   render(<RouterProvider router={router} />);
@@ -46,7 +62,7 @@ describe("Contact table of WF-06 (R-014-01)", () => {
     renderTable([JANEZ]);
 
     const headers = screen.getAllByRole("columnheader").map((h) => h.textContent);
-    expect(headers).toEqual(["Name", "Company", "E-mail", "Phone", "Tags"]);
+    expect(headers).toEqual(["", "Name", "Company", "E-mail", "Phone", "Tags"]);
   });
 
   it("R-014-06 the name opens the Contact's details", () => {
@@ -65,6 +81,7 @@ describe("Contact table of WF-06 (R-014-01)", () => {
       .getAllByRole("cell")
       .map((c) => c.textContent);
     expect(cells).toEqual([
+      "",
       "Janez Novak",
       "Podjetje d.o.o.",
       "janez.novak@example.si",
@@ -86,5 +103,39 @@ describe("Contact table of WF-06 (R-014-01)", () => {
       "Alfa d.o.o.",
       "Janez Novak",
     ]);
+  });
+
+  it("R-016-02 each row has a checkbox named after the Contact that checks it", async () => {
+    const selection = selectionOf(["c2"]);
+    renderTable([JANEZ, ALFA], selection);
+
+    const janez = screen.getByRole("checkbox", { name: "Check Janez Novak" });
+    expect((janez as HTMLInputElement).checked).toBe(false);
+    expect(
+      (screen.getByRole("checkbox", { name: "Check Alfa d.o.o." }) as HTMLInputElement).checked,
+    ).toBe(true);
+
+    await userEvent.click(janez);
+    expect(selection.check).toHaveBeenCalledWith("c1", true);
+  });
+
+  it("R-016-02 the header checkbox checks every Contact of the Page", async () => {
+    const selection = selectionOf(["c2"]);
+    renderTable([JANEZ, ALFA], selection);
+
+    await userEvent.click(screen.getByRole("checkbox", { name: "Check all on this Page" }));
+
+    expect(selection.checkAll).toHaveBeenCalledWith(["c1", "c2"], true);
+  });
+
+  it("R-016-02 the header checkbox is checked when the whole Page is", async () => {
+    const selection = selectionOf(["c1", "c2"]);
+    renderTable([JANEZ, ALFA], selection);
+
+    const all = screen.getByRole("checkbox", { name: "Check all on this Page" });
+    expect((all as HTMLInputElement).checked).toBe(true);
+
+    await userEvent.click(all);
+    expect(selection.checkAll).toHaveBeenCalledWith(["c1", "c2"], false);
   });
 });
