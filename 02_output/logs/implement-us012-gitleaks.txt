@@ -1,0 +1,31 @@
+--- git: commits of /implement US-012 (6c520c4..HEAD)
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+10:24AM INF 10 commits scanned.
+10:24AM INF scanned ~55220 bytes (55.22 KB) in 243ms
+10:24AM INF no leaks found
+--- dir 02_output/logs
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+10:24AM INF scanned ~9099873 bytes (9.10 MB) in 1.4s
+10:24AM INF no leaks found
+--- dir 02_output/frontend/reports/us012-check
+
+    ○
+    │╲
+    │ ○
+    ○ ░
+    ░    gitleaks
+
+10:24AM INF scanned ~12160 bytes (12.16 KB) in 15.1ms
+10:24AM INF no leaks found

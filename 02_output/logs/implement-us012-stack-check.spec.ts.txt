@@ -1,0 +1,225 @@
+import AxeBuilder from "@axe-core/playwright";
+import { execFileSync } from "node:child_process";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, cancelDialog, confirmDialog, createContact, createGroup, editContact,
+  getContact, listPath, moveContactToRecycleBin, resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+type U = Team["ana"];
+
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+const path = (t: Team, id: string) => `/groups/${t.groupId}/contacts/${id}`;
+const move = (u: U, t: Team, id: string, n: number) =>
+  api(u, "POST", `${path(t, id)}/move-to-recycle-bin`, { versionNumber: n });
+const restore = (u: U, t: Team, id: string, n: number) =>
+  api(u, "POST", `/groups/${t.groupId}/recycle-bin/${id}/restore`, { versionNumber: n });
+const bin = async (u: U, t: Team) => (await api(u, "GET", `/groups/${t.groupId}/recycle-bin`)).json;
+const kinds = async (t: Team, id: string) =>
+  ((await api(t.ana, "GET", `${path(t, id)}/versions`)).json as { number: number; kind: string }[]).map(
+    (v) => `${v.number} ${v.kind}`,
+  );
+const names = async (t: Team, q = "") =>
+  ((await api(t.ana, "GET", `/groups/${t.groupId}/contacts?${q}`)).json.items as { firstName: string; lastName: string }[]).map(
+    (c) => `${c.firstName} ${c.lastName}`,
+  );
+/** Moves the Contact's deletedAt back, as if the clock stood later (ADR-10 boundaries). */
+const movedAgo = (id: string, interval: string) =>
+  sql(`UPDATE contact SET deleted_at = now() - interval '${interval}' WHERE id = '${id}'`);
+
+/** "Janez Novak" with Tag and Attribute at Version 3 (as the frozen API test). */
+async function janezAtVersion3(t: Team) {
+  const id = await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si" },
+    tags: ["udelezenec2025"],
+    attributes: [{ key: "kompetenca", value: "spletnoProgramiranje" }],
+  });
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.city = "Ljubljana"));
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.phone = "+386 41 123 456"));
+  return id;
+}
+
+test("API AC-012-01..05, EX-012-01, -02, -04 … -06", async () => {
+  const t = await team();
+  const id = await janezAtVersion3(t);
+  const maja = await createContact(t.ana, t.groupId, { fields: { firstName: "Maja", lastName: "Zupan" } });
+
+  // AC-012-04, AC-012-05
+  let r = await move(t.petra, t, id, 3);
+  log("AC-012-04", [r.status, r.json.code, (await getContact(t.ana, t.groupId, id)).versionNumber]);
+  expect([r.status, r.json.code]).toEqual([403, "auth.forbidden"]);
+  // EX-012-04
+  r = await move(t.marko, t, id, 2);
+  log("EX-012-04", [r.status, r.json.code, r.json.params]);
+  expect([r.status, r.json.code]).toEqual([409, "version.conflict"]);
+  // AC-012-01
+  r = await move(t.marko, t, id, 3);
+  const entries = await bin(t.marko, t);
+  log("AC-012-01", [r.status, r.json.state, await names(t), entries, (await kinds(t, id))[0]]);
+  expect(r.status).toBe(200);
+  expect(await names(t)).toEqual(["Maja Zupan"]);
+  expect(entries).toHaveLength(1);
+  expect(entries[0].contact.name).toBe("Janez Novak");
+  expect(entries[0].deletedBy).toBe("Marko Kranjc");
+  expect(Date.parse(entries[0].removalAt) - Date.parse(entries[0].deletedAt)).toBe(30 * 86_400_000);
+  expect((await kinds(t, id))[0]).toBe("4 movedToRecycleBin");
+  r = await api(t.petra, "GET", `/groups/${t.groupId}/recycle-bin`);
+  log("AC-012-05", [r.status, r.json.code, r.text?.includes("Novak") ?? false]);
+  expect([r.status, r.json.code]).toEqual([403, "auth.forbidden"]);
+  // EX-012-05 (search and filter; Export is US-016)
+  const tag = (await getContact(t.ana, t.groupId, maja)).tags;
+  log("EX-012-05", [await names(t, "q=novak"), tag]);
+  expect(await names(t, "q=novak")).toEqual([]);
+  // EX-012-06
+  r = await move(t.marko, t, id, 4);
+  log("EX-012-06", [r.status, r.json.code]);
+  expect([r.status, r.json.code]).toEqual([409, "contact.inRecycleBin"]);
+  // EX-012-02: exactly at the removal date
+  movedAgo(id, "30 days");
+  r = await restore(t.marko, t, id, 4);
+  log("EX-012-02", [r.status, r.json.code, (await bin(t.ana, t)).length, await names(t)]);
+  expect([r.status, r.json.code]).toEqual([409, "contact.noLongerRestorable"]);
+  // EX-012-01: one minute before
+  movedAgo(id, "30 days - 1 minute");
+  r = await restore(t.marko, t, id, 4);
+  log("EX-012-01", [r.status, r.json.state]);
+  expect(r.status).toBe(200);
+  // AC-012-02
+  r = await move(t.marko, t, id, 5);
+  r = await restore(t.ana, t, id, 6);
+  const c = await getContact(t.ana, t.groupId, id);
+  log("AC-012-02", [r.status, await names(t), c.tags.map((x: { name: string }) => x.name), c.attributes, c.fields.phone, (await kinds(t, id)).slice(0, 4), (await bin(t.ana, t)).length]);
+  expect((await kinds(t, id))[0]).toBe("7 restoredFromRecycleBin");
+});
+
+test("API AC-012-03 removal after 30 days and 1 hour (job at backend start)", async () => {
+  const t = await team();
+  const id = await janezAtVersion3(t);
+  const keep = await createContact(t.ana, t.groupId, { fields: { firstName: "Maja", lastName: "Zupan" } });
+  await moveContactToRecycleBin(t.marko, t.groupId, id);
+  await moveContactToRecycleBin(t.marko, t.groupId, keep);
+  movedAgo(id, "30 days 1 hour");
+  movedAgo(keep, "29 days");
+  execFileSync("docker", ["restart", "kontakti-backend-1"]);
+  for (let i = 0; i < 60; i++) {
+    const s = execFileSync("docker", ["inspect", "-f", "{{.State.Health.Status}}", "kontakti-backend-1"]).toString().trim();
+    if (s === "healthy") break;
+    await new Promise((r) => setTimeout(r, 2000));
+  }
+  const entries = await bin(t.ana, t);
+  const r = await api(t.ana, "GET", path(t, id));
+  log("AC-012-03", [entries.map((e: { contact: { name: string } }) => e.contact.name), r.status]);
+  expect(entries.map((e: { contact: { name: string } }) => e.contact.name)).toEqual(["Maja Zupan"]);
+  expect(r.status).toBe(404);
+});
+
+async function shot(page: Page, dir: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${dir} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+async function janez(t: Team) {
+  return createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak" },
+    tags: ["udelezenec2025"],
+    attributes: [{ key: "kompetenca", value: "spletnoProgramiranje" }],
+  });
+}
+
+test("UI AC-012-01 (frozen steps) with screens", async ({ page }) => {
+  const t = await team();
+  const id = await janez(t);
+  await signIn(page, t.marko);
+  await page.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await expect(page.getByRole("button", { name: "Move to recycle bin" })).toBeVisible();
+  await shot(page, "WF-07_contact-details/recycle-bin", "editor");
+  await page.getByRole("button", { name: "Move to recycle bin" }).click();
+  await expect(page.getByRole("alertdialog")).toBeVisible();
+  await shot(page, "WF-07_contact-details/recycle-bin", "confirmation");
+  await confirmDialog(page, "Move to recycle bin");
+  await expect.poll(async () => (await api(t.marko, "GET", `/groups/${t.groupId}/recycle-bin`)).json.length).toBe(1);
+  await page.goto(listPath(t.groupId));
+  await expect(page.getByText("No Contacts yet.")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Janez Novak" })).toHaveCount(0);
+  console.log("UI AC-012-01 move passed");
+  await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Recycle bin" }).click();
+  await expect(page).toHaveURL(new RegExp(`/groups/${t.groupId}/recycle-bin$`));
+  const row = page.getByRole("row", { name: /Janez Novak/ });
+  await expect(row).toContainText("Marko Kranjc");
+  const e = (await api(t.marko, "GET", `/groups/${t.groupId}/recycle-bin`)).json[0];
+  log("UI AC-012-01 row", [await row.innerText(), e.deletedAt, e.removalAt]);
+  await shot(page, "WF-11_recycle-bin", "success");
+});
+
+test("UI AC-012-01 stubbed row (frozen) and AC-012-02 restore (frozen steps), states", async ({ page }) => {
+  const t = await team();
+  const id = await janez(t);
+  await moveContactToRecycleBin(t.marko, t.groupId, id);
+  await signIn(page, t.ana);
+  await page.goto(`/groups/${t.groupId}/recycle-bin`);
+  const row = page.getByRole("row", { name: /Janez Novak/ });
+  await expect(row).toBeVisible();
+  // refused restore: removal date passed
+  movedAgo(id, "30 days");
+  await row.getByRole("button", { name: "Restore" }).click();
+  await expect(page.getByText("This Contact can no longer be restored.")).toBeVisible();
+  await shot(page, "WF-11_recycle-bin", "error-no-longer-restorable");
+  movedAgo(id, "1 day");
+  await page.reload();
+  await page.getByRole("row", { name: /Janez Novak/ }).getByRole("button", { name: "Restore" }).click();
+  await expect.poll(async () => (await getContact(t.ana, t.groupId, id)).state).toBe("active");
+  await expect(page.getByText("The recycle bin is empty.")).toBeVisible();
+  await shot(page, "WF-11_recycle-bin", "empty");
+  await page.goto(listPath(t.groupId));
+  await expect(page.getByRole("row", { name: /Janez Novak/ })).toContainText("udelezenec2025");
+  expect((await getContact(t.ana, t.groupId, id)).attributes[0].value).toBe("spletnoProgramiranje");
+  console.log("UI AC-012-02 passed");
+});
+
+test("UI EX-012-03 (frozen steps); Viewer without the action and without the recycle bin", async ({ page, browser }) => {
+  const t = await team();
+  const id = await janez(t);
+  await signIn(page, t.marko);
+  await page.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await page.getByRole("button", { name: "Move to recycle bin" }).click();
+  await cancelDialog(page);
+  const c = await getContact(t.ana, t.groupId, id);
+  expect([c.state, c.versionNumber]).toEqual(["active", 1]);
+  expect((await api(t.ana, "GET", `/groups/${t.groupId}/recycle-bin`)).json).toEqual([]);
+  console.log("UI EX-012-03 passed");
+  const viewer = await (await browser.newContext()).newPage();
+  await signIn(viewer, t.petra);
+  await viewer.goto(`/groups/${t.groupId}/contacts/${id}`);
+  await expect(viewer.getByRole("heading", { level: 1, name: "Janez Novak" })).toBeVisible();
+  await expect(viewer.getByRole("button", { name: "Move to recycle bin" })).toHaveCount(0);
+  await expect(viewer.getByRole("link", { name: "Recycle bin" })).toHaveCount(0);
+  await viewer.goto(`/groups/${t.groupId}/recycle-bin`);
+  await expect(viewer.getByText("You are not allowed to do this.")).toBeVisible();
+  await shot(viewer, "WF-11_recycle-bin", "viewer-not-allowed");
+  console.log("UI Viewer: no Move to recycle bin, no Recycle bin link, 403 page");
+});

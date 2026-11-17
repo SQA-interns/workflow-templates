@@ -1,0 +1,260 @@
+npm warn deprecated whatwg-encoding@3.1.1: Use @exodus/bytes instead for a more spec-conformant and faster implementation
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated glob@10.5.0: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+npm warn deprecated eslint@9.38.0: This version is no longer supported. Please see https://eslint.org/version-support for other options.
+
+added 920 packages in 10s
+
+> contacts-frontend@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+node_modules/zod/v4/core/regexes.js (74:0): A comment
+
+"/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+ * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+ * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+
+in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+node_modules/zod/v4/core/util.js (400:0): A comment
+
+"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+
+in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 2034 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-C0baJKQS.css   18.82 kB │ gzip:   4.56 kB
+dist/assets/index-B3w5Svr0.js   634.34 kB │ gzip: 198.26 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 3.94s
+ Image contacts-backend:local Building 
+ Image contacts-frontend:local Building 
+ Image contacts-postgres:16.15 Building 
+ Image contacts-firebase-emulator:14.20.0 Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.35kB done
+#1 DONE 0.0s
+
+#2 [postgres internal] load build definition from Dockerfile
+#2 transferring dockerfile: 216B done
+#2 DONE 0.0s
+
+#3 [firebase-emulator internal] load build definition from Dockerfile
+#3 transferring dockerfile: 436B done
+#3 DONE 0.0s
+
+#4 [frontend internal] load build definition from Dockerfile
+#4 transferring dockerfile: 581B done
+#4 DONE 0.0s
+
+#5 [backend internal] load build definition from Dockerfile
+#5 transferring dockerfile: 707B done
+#5 DONE 0.1s
+
+#6 [firebase-emulator internal] load metadata for docker.io/library/node:22.23.3-bookworm-slim
+#6 DONE 0.1s
+
+#7 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#7 ...
+
+#8 [postgres internal] load metadata for docker.io/library/postgres:16.15
+#8 DONE 0.1s
+
+#9 [firebase-emulator internal] load .dockerignore
+#9 transferring context: 2B done
+#9 DONE 0.0s
+
+#10 [postgres internal] load .dockerignore
+#10 transferring context: 2B done
+#10 DONE 0.0s
+
+#11 [firebase-emulator internal] load build context
+#11 transferring context: 35B done
+#11 DONE 0.0s
+
+#12 [firebase-emulator 1/4] FROM docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9
+#12 resolve docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9 0.0s done
+#12 DONE 0.0s
+
+#13 [firebase-emulator 2/4] RUN npm install -g firebase-tools@14.20.0 --no-audit --no-fund && npm cache clean --force
+#13 CACHED
+
+#14 [firebase-emulator 3/4] WORKDIR /emulator
+#14 CACHED
+
+#15 [firebase-emulator 4/4] COPY --chown=node:node firebase.json /emulator/firebase.json
+#15 CACHED
+
+#16 [postgres 1/2] FROM docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657
+#16 resolve docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657 0.0s done
+#16 DONE 0.0s
+
+#17 [postgres 2/2] RUN apt-get update && apt-get -y upgrade && rm -rf /var/lib/apt/lists/*
+#17 CACHED
+
+#18 [postgres] exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:869b24d030d24d36064c09b8fbf26905be6fc7009232e183a5f89751f6291733 0.0s done
+#18 exporting config sha256:06c65d3c8022fb019b6292f657a455b64d2b172d550e107524fe59dd7d5e6ce5 done
+#18 exporting attestation manifest sha256:bbbff7ba3dd4ae1afaacb6c064e86bbc057f3fa7283edbfe77227deadfd97f58 0.1s done
+#18 exporting manifest list sha256:ad117d4981deef8345201f1f2ab0e728c0a4404416048df13aa88861c76fff52
+#18 exporting manifest list sha256:ad117d4981deef8345201f1f2ab0e728c0a4404416048df13aa88861c76fff52 0.0s done
+#18 naming to docker.io/library/contacts-postgres:16.15 done
+#18 unpacking to docker.io/library/contacts-postgres:16.15 0.0s done
+#18 DONE 0.3s
+
+#19 [firebase-emulator] exporting to image
+#19 exporting layers done
+#19 exporting manifest sha256:393219a8d7110ba38645b8a0abc9a769fc4a2c6d1adf64c843fb35bdd5b1d373 done
+#19 exporting config sha256:46dd6f8c8c4fe23e1ffdff04fc8c8a0778f30cb560623840e85efd975581099b done
+#19 exporting attestation manifest sha256:cc704def118e7f27e9f25a60a79ea2c6dd63b6da6e8043dadf9e2881b6967642 0.1s done
+#19 exporting manifest list sha256:37836268d00b00cde0adf7720fd92bd1dd25d26f3d4f02bbddccd3e59785e703 0.0s done
+#19 naming to docker.io/library/contacts-firebase-emulator:14.20.0 0.0s done
+#19 unpacking to docker.io/library/contacts-firebase-emulator:14.20.0 0.0s done
+#19 DONE 0.2s
+
+#20 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#20 ...
+
+#21 [auth] library/eclipse-temurin:pull token for registry-1.docker.io
+#21 DONE 0.0s
+
+#22 [auth] library/nginx:pull token for registry-1.docker.io
+#22 DONE 0.0s
+
+#23 [firebase-emulator] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [postgres] resolving provenance for metadata file
+#24 DONE 0.0s
+
+#7 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#7 ...
+
+#20 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#20 DONE 1.2s
+
+#25 [frontend internal] load .dockerignore
+#25 transferring context: 118B done
+#25 DONE 0.2s
+
+#26 [frontend internal] load build context
+#26 transferring context: 654.24kB 0.0s done
+#26 DONE 0.1s
+
+#27 [frontend 1/5] FROM docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+#27 resolve docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a 0.1s done
+#27 DONE 0.1s
+
+#28 [frontend 2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#28 CACHED
+
+#29 [frontend 3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#29 DONE 0.1s
+
+#7 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#7 DONE 1.5s
+
+#30 [backend internal] load .dockerignore
+#30 transferring context: 87B done
+#30 DONE 0.0s
+
+#31 [backend internal] load build context
+#31 ...
+
+#32 [backend 1/4] FROM docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6
+#32 resolve docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6 0.1s done
+#32 DONE 0.1s
+
+#33 [frontend 4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#33 DONE 0.1s
+
+#31 [backend internal] load build context
+#31 ...
+
+#34 [frontend 5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#34 DONE 0.4s
+
+#31 [backend internal] load build context
+#31 ...
+
+#35 [frontend] exporting to image
+#35 exporting layers 0.4s done
+#35 exporting manifest sha256:581837a252655da2df81d9a1f153eedc47a0da0065bb71f1b4f92868d39e8a14 0.1s done
+#35 exporting config sha256:1374596ba3d782b70e3d65a7a6189c5c94e2296170384adaf21f90e994d80e7f 0.0s done
+#35 exporting attestation manifest sha256:d9e7262ed942513a5b7c1ea570272fd8fd610219f24ad0afcd947a77a912459f 0.1s done
+#35 exporting manifest list sha256:23be7bf6e887b2436f8001b6f46a9f9f377272712e413b73da77d2ec30fde368 0.0s done
+#35 naming to docker.io/library/contacts-frontend:local done
+#35 unpacking to docker.io/library/contacts-frontend:local 0.2s done
+#35 DONE 0.9s
+
+#31 [backend internal] load build context
+#31 transferring context: 144.06MB 1.6s done
+#31 DONE 1.6s
+
+#36 [backend 2/4] RUN groupadd --system app && useradd --system --gid app --no-create-home app
+#36 CACHED
+
+#37 [frontend] resolving provenance for metadata file
+#37 DONE 0.0s
+
+#38 [backend 3/4] WORKDIR /app
+#38 CACHED
+
+#39 [backend 4/4] COPY target/contacts-backend.jar /app/app.jar
+#39 DONE 0.7s
+
+#40 [backend] exporting to image
+#40 exporting layers 5.9s done
+#40 exporting manifest sha256:4713351b548ce73352c7ee5ca6c8543b79a18c3b9889501b90c6c55b00cb8dce 0.0s done
+#40 exporting config sha256:f3c04bb7bb11293b82a0321c4c9bd090782735c40ffba100b3b5d74c12ce0c77 0.0s done
+#40 exporting attestation manifest sha256:76e70c110a0153b6cdbac42209ac27a12fafb7b51a9178b9fdd3bc998c6bc644 0.0s done
+#40 exporting manifest list sha256:0ab584c4f4deb08effbf95025fcbfdf46306bcc8d9b166d678c6bfd473bac86a 0.0s done
+#40 naming to docker.io/library/contacts-backend:local
+#40 naming to docker.io/library/contacts-backend:local done
+#40 unpacking to docker.io/library/contacts-backend:local
+#40 unpacking to docker.io/library/contacts-backend:local 0.7s done
+#40 DONE 6.8s
+
+#41 [backend] resolving provenance for metadata file
+#41 DONE 0.0s
+ Image contacts-firebase-emulator:14.20.0 Built 
+ Image contacts-postgres:16.15 Built 
+ Image contacts-backend:local Built 
+ Image contacts-frontend:local Built 
+ Container kontakti-postgres-1 Recreate 
+ Container kontakti-firebase-emulator-1 Recreate 
+ Container kontakti-firebase-emulator-1 Recreated 
+ Container kontakti-postgres-1 Recreated 
+ Container kontakti-backend-1 Recreate 
+ Container kontakti-backend-1 Recreated 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-firebase-emulator-1 Starting 
+ Container kontakti-postgres-1 Starting 
+ Container kontakti-postgres-1 Started 
+ Container kontakti-firebase-emulator-1 Started 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-backend-1 Starting 
+ Container kontakti-backend-1 Started 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-frontend-1 Starting 
+ Container kontakti-frontend-1 Started 
+ Container kontakti-frontend-1 Waiting 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-firebase-emulator-1 Waiting 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-frontend-1 Healthy 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-firebase-emulator-1 Healthy 
+Local stack is up: http://localhost:8090

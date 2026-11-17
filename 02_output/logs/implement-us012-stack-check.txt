@@ -1,0 +1,31 @@
+
+Running 5 tests using 1 worker
+
+AC-012-04 [403,"auth.forbidden",3]
+EX-012-04 [409,"version.conflict",{"changedBy":"Marko Kranjc"}]
+AC-012-01 [200,"inRecycleBin",["Maja Zupan"],[{"contact":{"id":"29a0f138-a414-4811-914c-c3ca52826951","name":"Janez Novak"},"versionNumber":4,"deletedBy":"Marko Kranjc","deletedAt":"2026-11-17T10:22:22.341268Z","removalAt":"2026-12-17T10:22:22.341268Z"}],"4 movedToRecycleBin"]
+AC-012-05 [403,"auth.forbidden",false]
+EX-012-05 [[],[]]
+EX-012-06 [409,"contact.inRecycleBin"]
+EX-012-02 [409,"contact.noLongerRestorable",1,["Maja Zupan"]]
+EX-012-01 [200,"active"]
+AC-012-02 [200,["Janez Novak","Maja Zupan"],["udelezenec2025"],[{"key":"kompetenca","value":"spletnoProgramiranje"}],"+386 41 123 456",["7 restoredFromRecycleBin","6 movedToRecycleBin","5 restoredFromRecycleBin","4 movedToRecycleBin"],0]
+  ✓  1 [chromium] › reports/us012-check/us012.spec.ts:57:1 › API AC-012-01..05, EX-012-01, -02, -04 … -06 (1.9s)
+AC-012-03 [["Maja Zupan"],404]
+  ✓  2 [chromium] › reports/us012-check/us012.spec.ts:110:1 › API AC-012-03 removal after 30 days and 1 hour (job at backend start) (18.7s)
+axe WF-07_contact-details/recycle-bin editor: none
+axe WF-07_contact-details/recycle-bin confirmation: none
+UI AC-012-01 move passed
+UI AC-012-01 row ["Janez Novak\tMarko Kranjc\t17.11.2026 11:22\t17.12.2026 11:22\tRestore","2026-11-17T10:22:47.170033Z","2026-12-17T10:22:47.170033Z"]
+axe WF-11_recycle-bin success: none
+  ✓  3 [chromium] › reports/us012-check/us012.spec.ts:154:1 › UI AC-012-01 (frozen steps) with screens (7.3s)
+axe WF-11_recycle-bin error-no-longer-restorable: none
+axe WF-11_recycle-bin empty: none
+UI AC-012-02 passed
+  ✓  4 [chromium] › reports/us012-check/us012.spec.ts:179:1 › UI AC-012-01 stubbed row (frozen) and AC-012-02 restore (frozen steps), states (5.5s)
+UI EX-012-03 passed
+axe WF-11_recycle-bin viewer-not-allowed: none
+UI Viewer: no Move to recycle bin, no Recycle bin link, 403 page
+  ✓  5 [chromium] › reports/us012-check/us012.spec.ts:204:1 › UI EX-012-03 (frozen steps); Viewer without the action and without the recycle bin (3.6s)
+
+  5 passed (38.8s)
