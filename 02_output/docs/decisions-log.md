@@ -799,6 +799,17 @@
 - Type: blocking
 - Trigger: The Docker daemon stopped during the baseline run (`Cannot connect to the Docker daemon at unix:///home/tjan-kazar/.docker/desktop/docker.sock`; `out/logs/implement-us018-baseline-full.txt`: 9 repository ITs error with "Could not find a valid Docker environment" after a 429 s stall). Testcontainers, the backend acceptance tests and the stack on port 8090 need it, so `MergeRepositoryIT` (new, uncommitted), the frozen API and UI tests of US-018, US-013 EX-013-03, US-017 EX-017-04, the WF-18 screenshots and the accessibility scan cannot run. Starting Docker Desktop is the human's host (AGENTS.md "Never"). One open question waits on the database: whether "J. Novak" sorts before "Janez Novak" under `sl-x-icu` (R-014-02); if so, the pair's first Contact (D-25 (b)) is "J. Novak" and the frozen UI tests AC-018-02 and AC-018-05, which expect "Janez Novak" as Primary contact, would fail; that would be an approval decision, not a code change.
 - Options: 1. The human starts Docker Desktop and runs `/implement US-018` again; the session resumes at the first item not done: run and commit `MergeRepositoryIT`, the full backend suite, rebuild the stack, run the UI acceptance tests and screens, then DoD-S (proposed default). 2. Other (state it).
-- Human response: none
-- Resolution: pending
+- Human response: 1 (`/implement US-018 D-73: 1`, 2026-11-17; Docker 29.3.1 running)
+- Resolution: 1
 - Overrides: none
+
+## D-74: The Primary contact of the Merge screen and the US-018 resume
+- Timestamp: 2026-11-18T00:05+01:00
+- Session: S5 /implement US-018 (resume after D-73)
+- Class: open
+- Type: non-blocking
+- Trigger: With Docker back (D-73), `sl-x-icu` sorts "J. Novak" before "Janez Novak" (checked in the stack's PostgreSQL), so by D-25 (b) ("the first Contact is the one first in the R-014-02 order") the Merge screen made "J. Novak" the Primary contact and the frozen UI test AC-018-02 failed (the Merge kept "J. Novak"); AC-018-05 passed only because both names are within its text slice. US-018 AC-018-02 and AC-018-05 themselves name "Janez Novak" as the Primary contact, so D-25 (b) contradicts the story's acceptance criteria, which are input. The User can still choose the other Primary contact (R-018-01) and a Merge can be undone (US-019), so this is not a `Block` topic.
+- Options: 1. [ASSUMPTION] (a) R-018-01 "the first Contact" of a pair is the Contact created first (`Contact.createdAt`, contract `Contact`); on a tie the first of the link from WF-17; this replaces D-25 (b) for the Merge screen only, the order of the pairs in WF-17 (US-017) is unchanged; (b) the resume found and fixed two defects of this story: Audit entries of Contacts merged into a permanently deleted Primary contact were lost because the bulk delete cleared the persistence context before the pending entries were written (D-21, US-013 EX-013-03; `flushAutomatically`, 4657746); WF-18 overflowed at 390 px with a long e-mail and showed a table where the wireframe stacks the Fields on a phone (82a5f21, a layout change without behaviour change, checked by screenshots and axe); (c) DoD-S-07: fe2fef9 subject has 73 characters (history not rewritten); (d) `TagsField.test.tsx` (US-009) times out intermittently under `vitest --coverage` (1 to 5 of its tests at 5 s; also on b6ae058 before this session; 341/341 without coverage, `out/logs/implement-us018-frontend-test-nocoverage.txt`); not this story's code, left for `/review INC-2` or the quality gate (proposed default). 2. Keep D-25 (b) and ask for approval to change the frozen tests AC-018-02 and AC-018-05. 3. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: D-25 (b) (for the Primary contact of the Merge screen; reason: contradicts US-018 AC-018-02 and AC-018-05)
