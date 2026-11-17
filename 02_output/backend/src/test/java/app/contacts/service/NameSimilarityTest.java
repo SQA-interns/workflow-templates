@@ -24,7 +24,7 @@ class NameSimilarityTest {
   }
 
   @Test
-  void r01704NamesShorterThanATrigramScoreOneOnlyWhenEqual() {
+  void r01704NamesShorterThanOneTrigramScoreOneOnlyWhenEqual() {
     assertThat(NameSimilarity.of("jo", "jo")).isEqualTo(1.0);
     assertThat(NameSimilarity.of("jo", "ja")).isZero();
   }
