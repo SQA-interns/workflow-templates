@@ -75,6 +75,31 @@ class GroupRepositoryIT {
     assertThat(memberships.findActiveRole(beta, marko.getId())).isEmpty();
   }
 
+  @Test
+  void r00304FindsTheGroupsInTheRecycleBinThatTheUserOwnsNewestFirst() {
+    UUID older = group(ana, "Arhiv 2024");
+    UUID newer = group(ana, "Konferenca 2025");
+    group(ana, "Aktivna");
+    UUID markos = group(marko, "Podjetje Beta");
+    memberships.saveAndFlush(Membership.of(markos, ana.getId(), Role.EDITOR));
+    for (Object[] moved :
+        new Object[][] {
+          {older, "2026-03-01T10:00:00Z"},
+          {newer, "2026-03-05T10:00:00Z"},
+          {markos, "2026-03-06T10:00:00Z"}
+        }) {
+      jdbc.update(
+          "UPDATE contact_group SET state = 'inRecycleBin', deleted_at = ?::timestamptz"
+              + " WHERE id = ?",
+          moved[1],
+          moved[0]);
+    }
+
+    assertThat(groups.findInRecycleBinOwnedBy(ana.getId()))
+        .extracting(Group::getId)
+        .containsExactly(newer, older);
+  }
+
   private UUID group(User owner, String name) {
     Group group = groups.save(Group.create(name, owner.getId(), NOW));
     memberships.saveAndFlush(Membership.of(group.getId(), owner.getId(), Role.OWNER));

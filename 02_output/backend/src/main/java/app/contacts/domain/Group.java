@@ -75,6 +75,12 @@ public class Group {
     this.deletedAt = now;
   }
 
+  /** Takes the Group out of the recycle bin with everything it had (R-003-05). */
+  public void restore() {
+    this.state = ACTIVE;
+    this.deletedAt = null;
+  }
+
   public UUID getId() {
     return id;
   }

@@ -3,6 +3,8 @@ package app.contacts.service;
 import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Group;
 import app.contacts.domain.Membership;
+import app.contacts.domain.MembershipId;
+import app.contacts.domain.RecycleBin;
 import app.contacts.domain.Role;
 import app.contacts.repository.GroupRepository;
 import app.contacts.repository.MembershipRepository;
@@ -126,6 +128,59 @@ public class GroupService {
     Group group = groups.findForUpdate(groupId).orElseThrow(NotFoundException::new);
     group.moveToRecycleBin(clock.instant());
     audit.record(groupId, userId, AuditEntry.GROUP_MOVED_TO_RECYCLE_BIN, groupId);
+  }
+
+  /**
+   * The User's own Groups in the recycle bin with their removal date, newest first (R-003-04).
+   *
+   * @param userId the signed-in User
+   * @return the Groups of which the User is the Owner
+   */
+  @Transactional(readOnly = true)
+  public List<DeletedGroupView> listDeletedGroups(UUID userId) {
+    return groups.findInRecycleBinOwnedBy(userId).stream()
+        .map(
+            group ->
+                new DeletedGroupView(
+                    group.getId(),
+                    group.getName(),
+                    group.getDeletedAt(),
+                    RecycleBin.removalAt(group.getDeletedAt())))
+        .toList();
+  }
+
+  /**
+   * Restores the Group with all it had (R-003-05) before its removal date; writes an Audit entry
+   * (BR-10).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @return the Group, active again
+   * @throws NotFoundException unless the User owns this Group and it is in the recycle bin
+   * @throws ConflictException {@code group.noLongerRestorable} at or after the removal date
+   *     (R-003-06)
+   */
+  @Transactional
+  public GroupView restore(UUID groupId, UUID userId) {
+    Group group = ownedGroupInRecycleBin(groupId, userId);
+    if (!clock.instant().isBefore(RecycleBin.removalAt(group.getDeletedAt()))) {
+      throw new ConflictException("group.noLongerRestorable", Map.of());
+    }
+    group.restore();
+    audit.record(groupId, userId, AuditEntry.GROUP_RESTORED, groupId);
+    return new GroupView(group.getId(), group.getName(), Role.OWNER.name());
+  }
+
+  private Group ownedGroupInRecycleBin(UUID groupId, UUID userId) {
+    boolean owner =
+        memberships
+            .findById(new MembershipId(groupId, userId))
+            .filter(membership -> membership.getRole() == Role.OWNER)
+            .isPresent();
+    return groups
+        .findForUpdate(groupId)
+        .filter(group -> owner && Group.IN_RECYCLE_BIN.equals(group.getState()))
+        .orElseThrow(NotFoundException::new);
   }
 
   private static String checkedName(String name) {

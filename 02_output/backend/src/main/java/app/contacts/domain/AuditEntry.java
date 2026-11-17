@@ -33,6 +33,9 @@ public class AuditEntry implements GroupOwned {
   /** The Owner moved the Group to the recycle bin (R-003-02, BR-10); the target is the Group. */
   public static final String GROUP_MOVED_TO_RECYCLE_BIN = "group.movedToRecycleBin";
 
+  /** The Owner restored the Group from the recycle bin (R-003-05, BR-10). */
+  public static final String GROUP_RESTORED = "group.restored";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)

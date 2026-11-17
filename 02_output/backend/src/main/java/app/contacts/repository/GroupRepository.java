@@ -31,6 +31,21 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
   List<MemberGroup> findActiveGroupsOf(UUID userId);
 
   /**
+   * The Groups in the recycle bin of which the User is the Owner, newest first (R-003-04).
+   *
+   * @param userId the User
+   * @return the Groups
+   */
+  @Query(
+      """
+      SELECT g FROM Group g, Membership m
+      WHERE m.id.groupId = g.id AND m.id.userId = :userId AND m.role = app.contacts.domain.Role.OWNER
+        AND g.state = 'inRecycleBin'
+      ORDER BY g.deletedAt DESC, g.id
+      """)
+  List<Group> findInRecycleBinOwnedBy(UUID userId);
+
+  /**
    * The id of every Group in any state, for the removal job (BR-08, D-18).
    *
    * @return the ids

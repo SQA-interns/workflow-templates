@@ -14,10 +14,12 @@ import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Group;
 import app.contacts.domain.MemberGroup;
 import app.contacts.domain.Membership;
+import app.contacts.domain.MembershipId;
 import app.contacts.domain.Role;
 import app.contacts.repository.GroupRepository;
 import app.contacts.repository.MembershipRepository;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.List;
@@ -175,6 +177,81 @@ class GroupServiceTest {
     assertThatThrownBy(() -> service.moveToRecycleBin(groupId, ANA))
         .isInstanceOf(ForbiddenException.class);
     verifyNoInteractions(groups, audit);
+  }
+
+  @Test
+  void r00304DeletedGroupsListsTheOwnersGroupsInTheRecycleBinWithTheirRemovalDate() {
+    Group group = inRecycleBinSince(NOW.minus(Duration.ofDays(2)));
+    when(groups.findInRecycleBinOwnedBy(ANA)).thenReturn(List.of(group));
+
+    assertThat(service.listDeletedGroups(ANA))
+        .containsExactly(
+            new DeletedGroupView(
+                group.getId(),
+                "Konferenca 2025",
+                NOW.minus(Duration.ofDays(2)),
+                NOW.plus(Duration.ofDays(28))));
+  }
+
+  @Test
+  void ex00301OwnerRestoresOneMinuteBeforeTheRemovalDateWithAnAuditEntry() {
+    Group group = inRecycleBinSince(NOW.minus(Duration.ofDays(30)).plusSeconds(60));
+    ownedByAna(group);
+
+    GroupView restored = service.restore(group.getId(), ANA);
+
+    assertThat(restored).isEqualTo(new GroupView(group.getId(), "Konferenca 2025", "OWNER"));
+    assertThat(group.getState()).isEqualTo(Group.ACTIVE);
+    assertThat(group.getDeletedAt()).isNull();
+    verify(audit).record(group.getId(), ANA, AuditEntry.GROUP_RESTORED, group.getId());
+  }
+
+  @Test
+  void ex00302RestoreExactlyAtTheRemovalDateIsRejectedAndNothingChanges() {
+    Group group = inRecycleBinSince(NOW.minus(Duration.ofDays(30)));
+    ownedByAna(group);
+
+    assertThatThrownBy(() -> service.restore(group.getId(), ANA))
+        .isInstanceOfSatisfying(
+            ConflictException.class,
+            conflict -> assertThat(conflict.getCode()).isEqualTo("group.noLongerRestorable"));
+    assertThat(group.getState()).isEqualTo(Group.IN_RECYCLE_BIN);
+    verifyNoInteractions(audit);
+  }
+
+  @Test
+  void r00305OnlyTheOwnerRestoresTheGroupOthersGetNotFound() {
+    Group group = inRecycleBinSince(NOW.minus(Duration.ofDays(1)));
+    when(groups.findForUpdate(group.getId())).thenReturn(Optional.of(group));
+    when(memberships.findById(new MembershipId(group.getId(), ANA)))
+        .thenReturn(Optional.of(Membership.of(group.getId(), ANA, Role.EDITOR)));
+
+    assertThatThrownBy(() -> service.restore(group.getId(), ANA))
+        .isInstanceOf(NotFoundException.class);
+    assertThat(group.getState()).isEqualTo(Group.IN_RECYCLE_BIN);
+    verifyNoInteractions(audit);
+  }
+
+  @Test
+  void r00305AnActiveGroupIsNotRestorable() {
+    Group group = Group.create("Konferenca 2025", ANA, NOW);
+    ownedByAna(group);
+
+    assertThatThrownBy(() -> service.restore(group.getId(), ANA))
+        .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(audit);
+  }
+
+  private static Group inRecycleBinSince(Instant deletedAt) {
+    Group group = Group.create("Konferenca 2025", ANA, deletedAt.minus(Duration.ofDays(1)));
+    group.moveToRecycleBin(deletedAt);
+    return group;
+  }
+
+  private void ownedByAna(Group group) {
+    when(groups.findForUpdate(group.getId())).thenReturn(Optional.of(group));
+    when(memberships.findById(new MembershipId(group.getId(), ANA)))
+        .thenReturn(Optional.of(Membership.of(group.getId(), ANA, Role.OWNER)));
   }
 
   private void assertNameRejected(String name) {
