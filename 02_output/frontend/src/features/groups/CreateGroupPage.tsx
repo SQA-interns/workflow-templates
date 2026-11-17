@@ -6,26 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useCreateGroup } from "../../api/groups";
-import { ApiError, messageKey } from "../../api/problem";
-
-/** Longest Group name after trimming (R-002-02, specification §3). */
-const NAME_MAX = 100;
-const NAME_LENGTH = "group.nameLength";
-const NAME_LENGTH_KEY = `errors.${NAME_LENGTH}`;
-
-/** R-002-02: 1 to 100 characters after trimming, counted as characters. */
-function nameIsValid(name: string): boolean {
-  const length = [...name].length;
-  return length > 0 && length <= NAME_MAX;
-}
-
-/** The catalog key of a failed create: the name rule, or the problem's own text (UI-13). */
-function errorKeyOf(error: unknown): string {
-  if (error instanceof ApiError && error.errors.some((e) => e.code === NAME_LENGTH)) {
-    return NAME_LENGTH_KEY;
-  }
-  return error instanceof ApiError ? messageKey(error.code) : "state.error";
-}
+import { NAME_LENGTH_KEY, nameErrorKeyOf, nameIsValid } from "./groupName";
 
 /** WF-04 Create a Group: the new Group opens as the current Group (R-002-01). */
 export function CreateGroupPage() {
@@ -46,7 +27,7 @@ export function CreateGroupPage() {
     setErrorKey(null);
     createGroup.mutate(trimmed, {
       onSuccess: (group) => void navigate(`/groups/${group.id}/contacts`),
-      onError: (error) => setErrorKey(errorKeyOf(error)),
+      onError: (error) => setErrorKey(nameErrorKeyOf(error)),
     });
   }
 
