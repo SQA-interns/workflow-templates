@@ -225,5 +225,13 @@
       "description": "Kontakt dobi vsebino različice {{number}} kot novo različico. Nobena različica se ne izbriše.",
       "cancel": "Prekliči"
     }
+  },
+  "recycleBin": {
+    "move": {
+      "action": "Premakni v koš",
+      "title": "Želite premakniti v koš?",
+      "description": "Iz koša ga lahko obnovite 30 dni.",
+      "cancel": "Prekliči"
+    }
   }
 }

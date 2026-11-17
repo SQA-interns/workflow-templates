@@ -223,5 +223,13 @@
       "description": "The Contact gets the content of Version {{number}} as a new Version. No Version is deleted.",
       "cancel": "Cancel"
     }
+  },
+  "recycleBin": {
+    "move": {
+      "action": "Move to recycle bin",
+      "title": "Move to recycle bin?",
+      "description": "You can restore it from the recycle bin for 30 days.",
+      "cancel": "Cancel"
+    }
   }
 }

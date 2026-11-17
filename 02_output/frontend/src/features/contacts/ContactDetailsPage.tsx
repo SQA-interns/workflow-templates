@@ -11,8 +11,12 @@ import { formatDateTime } from "../../i18n/format";
 import { GroupsPending } from "../groups/GroupsPending";
 import { AttributesSection, FieldsSection, TagsSection } from "./ContactContent";
 import { contactName } from "./contactFields";
+import { MoveToRecycleBin } from "./MoveToRecycleBin";
 
-/** WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit and the way to the History. */
+/**
+ * WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit, the way to the History and
+ * Move to recycle bin (US-012).
+ */
 export function ContactDetailsPage() {
   const { t } = useTranslation();
   const { groupId = "", contactId = "" } = useParams();
@@ -40,6 +44,9 @@ export function ContactDetailsPage() {
           <Link to={history} className={buttonVariants({ variant: "secondary" })}>
             {t("contacts.details.history")}
           </Link>
+          {canEdit && contact.data.state === "active" && (
+            <MoveToRecycleBin groupId={groupId} contact={contact.data} />
+          )}
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2">

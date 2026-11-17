@@ -42,7 +42,10 @@ function answer(contact: unknown, role = "EDITOR") {
 
 function renderPage() {
   const router = createMemoryRouter(
-    [{ path: "/groups/:groupId/contacts/:contactId", element: <ContactDetailsPage /> }],
+    [
+      { path: "/groups/:groupId/contacts", element: <p>Contact list</p> },
+      { path: "/groups/:groupId/contacts/:contactId", element: <ContactDetailsPage /> },
+    ],
     { initialEntries: ["/groups/g1/contacts/c1"] },
   );
   render(
@@ -120,6 +123,60 @@ describe("WF-07 Contact details (R-014-06)", () => {
 
     await screen.findByRole("heading", { level: 1, name: "Janez Novak" });
     expect(screen.queryByRole("link", { name: "Edit" })).toBeNull();
+  });
+
+  it("AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list", async () => {
+    renderPage();
+
+    await userEvent.click(await screen.findByRole("button", { name: "Move to recycle bin" }));
+    const dialog = screen.getByRole("alertdialog", { name: "Move to recycle bin?" });
+    expect(
+      within(dialog).getByText("You can restore it from the recycle bin for 30 days."),
+    ).toBeTruthy();
+    await userEvent.click(within(dialog).getByRole("button", { name: "Move to recycle bin" }));
+
+    expect(await screen.findByText("Contact list")).toBeTruthy();
+    expect(apiRequest).toHaveBeenCalledWith("POST", "/groups/g1/contacts/c1/move-to-recycle-bin", {
+      versionNumber: 3,
+    });
+  });
+
+  it("EX-012-03 Cancel closes the confirmation and moves nothing", async () => {
+    renderPage();
+
+    await userEvent.click(await screen.findByRole("button", { name: "Move to recycle bin" }));
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+    expect(apiRequest).not.toHaveBeenCalledWith("POST", expect.anything(), expect.anything());
+  });
+
+  it("BR-06 a refused move shows its message in the confirmation", async () => {
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: "Move to recycle bin" }));
+    vi.mocked(apiRequest).mockRejectedValueOnce(
+      new ApiError(409, { code: "version.conflict", params: { changedBy: "Ana Kovač" } }),
+    );
+
+    const dialog = screen.getByRole("alertdialog");
+    await userEvent.click(within(dialog).getByRole("button", { name: "Move to recycle bin" }));
+
+    expect(await within(dialog).findByRole("alert")).toBeTruthy();
+    expect(screen.queryByText("Contact list")).toBeNull();
+  });
+
+  it("AC-012-04 a Viewer gets no Move to recycle bin", async () => {
+    answer(JANEZ, "VIEWER");
+    renderPage();
+    await screen.findByRole("heading", { level: 1, name: "Janez Novak" });
+    expect(screen.queryByRole("button", { name: "Move to recycle bin" })).toBeNull();
+  });
+
+  it("EX-012-06 a Contact in the recycle bin offers no Move to recycle bin", async () => {
+    answer({ ...JANEZ, state: "inRecycleBin" });
+    renderPage();
+    await screen.findByRole("heading", { level: 1, name: "Janez Novak" });
+    expect(screen.queryByRole("button", { name: "Move to recycle bin" })).toBeNull();
   });
 
   it("BR-02 an unknown Contact: This page cannot be found.", async () => {
