@@ -48,6 +48,13 @@ public class ContactValidator {
   private static final AttributeView BLANK = new AttributeView("", "");
 
   /**
+   * E-mail syntax: one {@code @}, a local part and a dot in the domain, no spaces (R-006-04); also
+   * used for Invitations (EX-004-06).
+   */
+  static final Predicate<String> EMAIL =
+      Pattern.compile("[^@\\s]+@[^@\\s]*\\.[^@\\s]*").asMatchPredicate();
+
+  /**
    * Syntax rules: e-mail with one {@code @}, a local part and a dot in the domain, no spaces
    * (R-006-04); phone of digits, spaces and {@code + - ( ) /} (D-23); ISO 3166-1 alpha-2 country
    * (R-006-05).
@@ -55,9 +62,7 @@ public class ContactValidator {
   private static final Map<String, Format> FORMATS =
       Map.of(
           "email",
-          new Format(
-              Pattern.compile("[^@\\s]+@[^@\\s]*\\.[^@\\s]*").asMatchPredicate(),
-              "field.emailInvalid"),
+          new Format(EMAIL, "field.emailInvalid"),
           "phone",
           new Format(Pattern.compile("[0-9 +\\-()/]*").asMatchPredicate(), "field.phoneInvalid"),
           "country",
