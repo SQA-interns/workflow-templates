@@ -12,7 +12,7 @@ import { UserMenu } from "./UserMenu";
  * Responsive base layout (UI-08 … UI-10, UI-22 … UI-25): header with text logo, navigation and
  * user menu; main content at most 1200 px wide with 16 px gutters on mobile and 24 px above.
  * The Group switcher (US-002) follows the logo; the Recycle bin of the Group is for the Owner and
- * Editors (R-012-02), the Group settings for the Owner (BR-04, WF-14); more user menu items come
+ * Editors (R-012-02), Members and the Group settings for the Owner (BR-04, WF-13, WF-14); more user menu items come
  * with US-021.
  */
 export function AppLayout() {
@@ -57,12 +57,20 @@ export function AppLayout() {
               </NavLink>
             )}
             {isOwner && (
-              <NavLink
-                to={`/groups/${groupId}/settings`}
-                className="rounded-md px-3 py-2 text-sm font-semibold"
-              >
-                {t("nav.settings")}
-              </NavLink>
+              <>
+                <NavLink
+                  to={`/groups/${groupId}/members`}
+                  className="rounded-md px-3 py-2 text-sm font-semibold"
+                >
+                  {t("nav.members")}
+                </NavLink>
+                <NavLink
+                  to={`/groups/${groupId}/settings`}
+                  className="rounded-md px-3 py-2 text-sm font-semibold"
+                >
+                  {t("nav.settings")}
+                </NavLink>
+              </>
             )}
           </nav>
           <div className="min-w-0 md:ml-auto">

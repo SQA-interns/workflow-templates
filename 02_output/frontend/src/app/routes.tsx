@@ -14,6 +14,7 @@ import { GroupSettingsPage } from "../features/groups/GroupSettingsPage";
 import { GroupStart } from "../features/groups/GroupStart";
 import { HistoryPage } from "../features/history/HistoryPage";
 import { VersionPage } from "../features/history/VersionPage";
+import { MembersPage } from "../features/members/MembersPage";
 import { RecycleBinPage } from "../features/recycle-bin/RecycleBinPage";
 import { AppLayout } from "./AppLayout";
 import { NotFoundPage } from "./pages";
@@ -64,6 +65,7 @@ export const routes: RouteObject[] = [
           { path: "contacts/:contactId/history", element: <HistoryPage /> },
           { path: "contacts/:contactId/history/:number", element: <VersionPage /> },
           { path: "recycle-bin", element: <RecycleBinPage /> },
+          { path: "members", element: <MembersPage /> },
           { path: "settings", element: <GroupSettingsPage /> },
         ],
       },

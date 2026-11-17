@@ -250,3 +250,48 @@ describe("routes and header of US-003", () => {
     expect(await screen.findByText("Ni izbrisanih skupin.")).toBeTruthy();
   });
 });
+
+describe("routes and header of US-004", () => {
+  it("BR-04 only the Owner gets Members in the navigation of the Group", async () => {
+    answer([konferenca]);
+
+    renderAt("/groups/g1/contacts");
+
+    const navigation = screen.getByRole("navigation", { name: "Glavna navigacija" });
+    const link = await within(navigation).findByRole("link", { name: "Člani" });
+    expect(link.getAttribute("href")).toBe("/groups/g1/members");
+  });
+
+  it("BR-04 an Editor gets no Members in the navigation", async () => {
+    answer([{ ...konferenca, role: "EDITOR" }]);
+
+    renderAt("/groups/g1/contacts");
+
+    await screen.findByRole("link", { name: "Koš" });
+    expect(screen.queryByRole("link", { name: "Člani" })).toBeNull();
+  });
+
+  it("R-004-08 /groups/:groupId/members shows WF-13 with the Invitations for the Owner", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+      if (path === "/groups") return [konferenca];
+      if (path === "/groups/g1/invitations") return [];
+      return ana;
+    });
+
+    renderAt("/groups/g1/members");
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Člani" })).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 2, name: "Povabi člana" })).toBeTruthy();
+    expect(await screen.findByText("Ni odprtih povabil.")).toBeTruthy();
+  });
+
+  it("BR-04 an Editor at /groups/:groupId/members sees Tega ne smete storiti.", async () => {
+    vi.mocked(apiRequest).mockClear();
+    answer([{ ...konferenca, role: "EDITOR" }]);
+
+    renderAt("/groups/g1/members");
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Tega ne smete storiti.");
+    expect(apiRequest).not.toHaveBeenCalledWith("GET", "/groups/g1/invitations");
+  });
+});
