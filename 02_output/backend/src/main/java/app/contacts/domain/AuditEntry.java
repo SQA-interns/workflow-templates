@@ -48,6 +48,9 @@ public class AuditEntry implements GroupOwned {
   /** The Owner changed a Member's Role (R-005-02, BR-10); the target is the Member's User. */
   public static final String MEMBER_ROLE_CHANGED = "member.roleChanged";
 
+  /** The Owner removed a Member (R-005-03, BR-10); the target is the removed Member's User. */
+  public static final String MEMBER_REMOVED = "member.removed";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)

@@ -2,6 +2,7 @@ package app.contacts.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
@@ -11,6 +12,8 @@ import app.contacts.service.UserView;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 class MemberControllerTest {
 
@@ -42,5 +45,13 @@ class MemberControllerTest {
     assertThat(controller.changeRole(ANA, GROUP_ID, MARKO_ID, new RoleChangeRequest("VIEWER")))
         .isEqualTo(
             new MemberResponse(MARKO_ID, "Marko Kranjc", "marko.kranjc@gmail.com", "VIEWER"));
+  }
+
+  @Test
+  void r00503RemoveAnswers204() {
+    ResponseEntity<Void> res = controller.remove(ANA, GROUP_ID, MARKO_ID);
+
+    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    verify(memberships).endMembership(GROUP_ID, ANA_ID, MARKO_ID);
   }
 }

@@ -82,6 +82,24 @@ public class MembershipService {
         .orElseThrow(NotFoundException::new);
   }
 
+  /**
+   * Removes a Member from the Group with an Audit entry (R-005-03, BR-10); the Versions they made
+   * keep their User id and so their display name (R-005-04).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param memberId the Member to remove
+   * @throws NotFoundException for a non-Member caller (BR-02) or a User who is not a Member
+   * @throws ForbiddenException for an Editor or a Viewer (BR-04)
+   * @throws ConflictException {@code member.ownerRequired} for the Owner (R-005-05)
+   */
+  @Transactional
+  public void endMembership(UUID groupId, UUID userId, UUID memberId) {
+    guard.require(groupId, userId, Permission.MANAGE_GROUP);
+    memberships.delete(notOwner(groupId, memberId));
+    audit.record(groupId, userId, AuditEntry.MEMBER_REMOVED, memberId);
+  }
+
   private Stream<MemberView> members(UUID groupId) {
     return memberships.findMembers(groupId).stream()
         .map(row -> new MemberView(row.userId(), row.displayName(), row.email(), row.role()));

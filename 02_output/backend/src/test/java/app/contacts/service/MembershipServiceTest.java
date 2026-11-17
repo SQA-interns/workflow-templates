@@ -2,7 +2,9 @@ package app.contacts.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
@@ -113,6 +115,47 @@ class MembershipServiceTest {
   void r00502RoleChangeOfNonMemberIsNotFound() {
     assertThatThrownBy(() -> service.changeRole(GROUP, ANA, MARKO, "VIEWER"))
         .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(audit);
+  }
+
+  @Test
+  void r00503OwnerRemovesMemberWithAuditEntry() {
+    Membership marko = Membership.of(GROUP, MARKO, Role.EDITOR);
+    when(memberships.findById(new MembershipId(GROUP, MARKO))).thenReturn(Optional.of(marko));
+
+    service.endMembership(GROUP, ANA, MARKO);
+
+    verify(guard).require(GROUP, ANA, Permission.MANAGE_GROUP);
+    verify(memberships).delete(marko);
+    verify(audit).record(GROUP, ANA, AuditEntry.MEMBER_REMOVED, MARKO);
+  }
+
+  @Test
+  void br04OnlyTheOwnerRemovesMembers() {
+    when(guard.require(GROUP, MARKO, Permission.MANAGE_GROUP)).thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.endMembership(GROUP, MARKO, ANA))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(memberships, audit);
+  }
+
+  @Test
+  void ex00501OwnerCannotRemoveThemselves() {
+    Membership ana = Membership.of(GROUP, ANA, Role.OWNER);
+    when(memberships.findById(new MembershipId(GROUP, ANA))).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(() -> service.endMembership(GROUP, ANA, ANA))
+        .isInstanceOf(ConflictException.class)
+        .hasMessage("member.ownerRequired");
+    verify(memberships, never()).delete(any());
+    verifyNoInteractions(audit);
+  }
+
+  @Test
+  void r00503RemovalOfNonMemberIsNotFound() {
+    assertThatThrownBy(() -> service.endMembership(GROUP, ANA, MARKO))
+        .isInstanceOf(NotFoundException.class);
+    verify(memberships, never()).delete(any());
     verifyNoInteractions(audit);
   }
 }

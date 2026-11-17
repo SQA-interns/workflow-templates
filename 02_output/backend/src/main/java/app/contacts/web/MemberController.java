@@ -4,7 +4,9 @@ import app.contacts.auth.CurrentUser;
 import app.contacts.service.MembershipService;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -57,5 +59,22 @@ public class MemberController {
       @PathVariable UUID userId,
       @RequestBody RoleChangeRequest body) {
     return MemberResponse.of(memberships.changeRole(groupId, current.id(), userId, body.role()));
+  }
+
+  /**
+   * Removes a Member from the Group (R-005-03, R-005-05).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param userId the Member
+   * @return 204
+   */
+  @DeleteMapping("/{userId}")
+  public ResponseEntity<Void> remove(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID userId) {
+    memberships.endMembership(groupId, current.id(), userId);
+    return ResponseEntity.noContent().build();
   }
 }
