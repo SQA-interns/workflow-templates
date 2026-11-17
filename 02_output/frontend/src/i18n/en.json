@@ -62,6 +62,10 @@
     "version": {
       "conflict": "Contact was changed by {{changedBy}}, reload",
       "sameAsCurrent": "This Version is the same as the current one."
+    },
+    "export": {
+      "tooMany": "Narrow the list to at most 10,000 Contacts to export.",
+      "empty": "Nothing to export."
     }
   },
   "account": {
@@ -215,6 +219,12 @@
       "attributeChip": "{{key}} = {{value}}",
       "remove": "Remove filter {{name}}",
       "removeTag": "Remove {{name}}"
+    },
+    "export": {
+      "all": "Export",
+      "checked": "Export checked",
+      "checkedCount": "Export checked ({{formatted}})",
+      "count": "{{formatted}} checked"
     }
   },
   "history": {
