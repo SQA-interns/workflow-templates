@@ -5,19 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-015
+- Session: S5 /implement US-016
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-015 wait for US-004, D-60)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-016 wait for US-004, D-61)
 - Notes for the next session:
-  - Backend: `ContactQuery(search, sort, dir, page, ContactQuery.Filters)` (as sent, from the controller); `ContactQueryService` checks them into `domain/ContactFilters` (trimmed, lengths, ISO country, Tag ids of the Group or 404) and `ContactQueryRepository.findPage/count(groupId, pattern, ContactFilters, …)` build the filtered query in `filtered(groupId, …)`. US-016 Export: reuse the same check and `filtered` query for its scope.
-  - Frontend: `listQuery.ts` holds `filters` (URL and API path); `FilterPanel.tsx`, `FilterChips.tsx`, `FilterBar` in `ContactListPage.tsx`; `useGroupTags` (`api/tags.ts`).
-  - Run the whole unit suite (`./mvnw test`, incl. `ArchitectureTest`: AR-03 web never touches `domain`, AR-04 every repository method, even private, takes `groupId`) before each commit; D-60 (f).
-  - The stack's backend image copies `backend/target/contacts-backend.jar`: run `./mvnw -DskipTests package` (and `npm run build`) before `docker compose --env-file ../.env up -d --build`.
-  - Frozen US-015: API 0/10, UI 0/5 chromium, all stop in `team()` at Invitations (US-004). On the stack with SQL Memberships every step passes (D-60).
-  - No regressions: backend 284 unit green, IT 252 run with the same failures per class (+8 passing repository ITs); frontend 262 tests, eslint/tsc/prettier (src) clean; UI acceptance: the same 13 pass; checks and gitleaks clean. Stack still up with `APP_HOST_PORT=8090`.
+  - Export: `POST /groups/{groupId}/exports` → `ExportController` → `ExportService` (EXPORT; `ContactQueryService.scope` checks the list query once, shared with the Page; `ContactQueryRepository.findExport/countExport(groupId, pattern, filters, contactIds, …)`; `ExportWorkbook` SXSSF, SR-07; Audit `contacts.exported`, target the Group).
+  - Frontend: `api/apiClient.ts` `apiDownload`, `api/exports.ts` `useExport`; `features/export/ExportButtons.tsx`; `features/contacts/useSelection.ts`; `ContactTable` takes `selection` (checkbox column first).
+  - Run `./mvnw test` (incl. `ArchitectureTest`, AR-04 covers private repository methods) before each commit; D-61 (f) lists this session's commit-rule slips.
+  - Backend image copies `backend/target/contacts-backend.jar`: `./mvnw -DskipTests package` and `npm run build` before `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`; gitleaks runs via the `zricethezav/gitleaks:v8.30.1` image.
+  - Frozen US-016: API 1/11 (EX-016-05), UI 0/4 chromium; the rest stop in `team()` at Invitations (US-004). With SQL Memberships every step passes (D-61).
+  - No regressions: backend 309 unit green, IT 255 run, failures per class unchanged or fewer; frontend 281 tests (TagsField timing flake, D-61 (g)), eslint/tsc clean; UI acceptance: the same 13 pass; gitleaks clean. Stack still up on 8090.
 
 ## Next
-- Command: /implement US-016
+- Command: /implement US-003
 - Waiting for: nothing
 
 ## Stories
@@ -34,11 +34,11 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-009 | INC-1 | in progress | DoD-S-01 open until US-004 (D-55; US-010 built); others met |
 | US-010 | INC-1 | in progress | DoD-S-01 open until US-004 (D-56; US-011 built); others met |
 | US-011 | INC-1 | in progress | DoD-S-01 open until US-004 (D-57; US-012 built); DoD-S-07 one subject over 72 characters (24e39f9); others met |
-| US-012 | INC-1 | in progress | DoD-S-01 open until US-004, US-016 (D-58); others met |
+| US-012 | INC-1 | in progress | DoD-S-01 open until US-004 (D-58; US-016 built); others met |
 | US-013 | INC-1 | in progress | DoD-S-01 open until US-004, US-018 (D-59); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
 | US-014 | INC-1 | in progress | DoD-S-01 open until US-004 (D-52; US-008, US-009, US-012 built); DoD-S-07 see notes; others met |
 | US-015 | INC-1 | in progress | DoD-S-01 open until US-004 (D-60); DoD-S-07 c1b76ff subject without IDs, bacf2c9 subject 73 characters, c1b76ff … bacf2c9 failed ArchitectureTest (fixed in 3f369fd); others met |
-| US-016 | INC-1 | ready | |
+| US-016 | INC-1 | in progress | DoD-S-01 open until US-004 (D-61); DoD-S-07 b7b36b7 554 lines, 5168f66 and daf3e85 subjects over 72 characters; others met |
 | US-017 | INC-2 | ready | |
 | US-018 | INC-2 | ready | |
 | US-019 | INC-2 | ready | |
