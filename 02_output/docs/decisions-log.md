@@ -766,8 +766,8 @@
 - Type: non-blocking
 - Trigger: Implementing R-017-01 … R-017-05 and WF-17 needs values the story, the specification and D-25 do not give.
 - Options: 1. [ASSUMPTION] (a) Two Contacts without first and last name have equal (empty) Normalised full names, so Name similarity 1: two company-only Contacts of the same company are a pair "Similar name, same company"; names shorter than three characters score 1 only when equal, else 0 (no trigrams). (b) The "leading +" of a Normalised phone is the first character of the stored (trimmed) phone; the 6 digits of R-017-03 do not count the "+". (c) Companies compare after `toLowerCase(Locale.ROOT)` in Java, e-mails the same (BR-11); every comparison runs in the service (ADR-12), none in SQL. (d) The active Contacts come from `ContactQueryRepository.findExport` with the whole list and sort NAME (R-014-02 order, already tested); no new query. (e) Pairs are ordered by the first Contact's, then the second's position in that order; reasons in the order sameEmail, samePhone, similarNameSameCompany. (f) Every Member (Viewer too) may read Possible duplicates (`Permission.READ`) and gets "Possible duplicates" in the navigation. (g) WF-17 is built without its Merge button, which belongs to US-018 (R-018-01); its intro is the wireframe's text without "(Increment 2)". (h) Slovenian texts: "Možni dvojniki", "Pari kontaktov, ki so morda ista oseba ali podjetje. Nič se ne spremeni, dokler jih ne združite.", "Ni najdenih možnih dvojnikov.", "Enak e-naslov", "Enak telefon", "Podobno ime, isto podjetje". (i) DoD-S-07: the subjects of 12e656f (75) and 2c2c717 (73) exceed 72 characters; 12e656f and 2c2c717 each failed checkstyle on a test name (two capitals in a row), fixed in 157a862 and 669d4ff; history is not rewritten. 2. Other (state it).
-- Human response: none
-- Resolution: 1 — pending review
+- Human response: "agree with all decisions" — option 1, 2026-11-17.
+- Resolution: 1
 - Overrides: none
 
 ## D-71: US-017 EX-017-04 depends on Merge (US-018)
@@ -777,6 +777,6 @@
 - Type: non-blocking
 - Trigger: The frozen API test EX-017-04 sets up a merged Contact with `POST /merges` and expects 201 before it asks for the pairs; Merge comes with US-018 (T-47), the next story of INC-2, so the test fails at its setup. Duplicate detection already excludes every Contact that is not `active` (BR-09); the recycle-bin half of the test is met.
 - Options: 1. As D-68: US-017 DoD-S-01 is met for its own rules now (API 11/12, UI 4/4); EX-017-04 must pass after US-018 and is checked by `/implement US-018` and `/review INC-2` (proposed default). 2. Other (state it).
-- Human response: none
-- Resolution: 1 — pending review
+- Human response: "agree with all decisions" — option 1, 2026-11-17.
+- Resolution: 1
 - Overrides: none
