@@ -58,7 +58,8 @@
       "invalid": "A Tag must have 1 to 50 characters and no comma."
     },
     "version": {
-      "conflict": "Contact was changed by {{changedBy}}, reload"
+      "conflict": "Contact was changed by {{changedBy}}, reload",
+      "sameAsCurrent": "This Version is the same as the current one."
     }
   },
   "account": {
@@ -215,6 +216,12 @@
       "mergeUndone": "merge undone"
     },
     "versionOf": "Version {{number}} of {{name}}",
-    "readOnly": "read-only"
+    "readOnly": "read-only",
+    "restore": {
+      "action": "Restore this Version",
+      "title": "Restore this Version?",
+      "description": "The Contact gets the content of Version {{number}} as a new Version. No Version is deleted.",
+      "cancel": "Cancel"
+    }
   }
 }

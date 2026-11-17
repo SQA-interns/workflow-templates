@@ -1,5 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { AttributeRow } from "../features/contacts/attributes";
+import type { Contact } from "./contacts";
 import type { ContactFields } from "../features/contacts/contactFields";
 import { apiRequest } from "./apiClient";
 
@@ -41,5 +42,29 @@ export function useVersion(groupId: string, contactId: string, number: string) {
     queryKey: ["groups", groupId, "contacts", contactId, "versions", number],
     queryFn: () =>
       apiRequest<Version>("GET", `/groups/${groupId}/contacts/${contactId}/versions/${number}`),
+  });
+}
+
+/**
+ * Makes Version `number` current as a new Version `restored`, sent with the current Version number
+ * read (R-011-01, BR-06). The restored Contact replaces the one read; its History and the lists
+ * are read again.
+ */
+export function useRestoreVersion(groupId: string, contactId: string, number: string) {
+  const queryClient = useQueryClient();
+  const contactKey = ["groups", groupId, "contacts", contactId];
+  return useMutation({
+    mutationFn: (read: Contact) =>
+      apiRequest<Contact>(
+        "POST",
+        `/groups/${groupId}/contacts/${contactId}/versions/${number}/restore`,
+        { versionNumber: read.versionNumber },
+      ),
+    onSuccess: async (restored) => {
+      queryClient.setQueryData(contactKey, restored);
+      await queryClient.invalidateQueries({ queryKey: [...contactKey, "versions"] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "contacts", "list"] });
+    },
+    onError: () => queryClient.invalidateQueries({ queryKey: contactKey, exact: true }),
   });
 }

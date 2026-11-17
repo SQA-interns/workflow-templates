@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../../api/apiClient";
@@ -29,17 +29,40 @@ const VERSION_1 = {
   },
 };
 
-function answer(version: unknown) {
-  vi.mocked(apiRequest).mockImplementation(() =>
-    version instanceof Error ? Promise.reject(version) : Promise.resolve(version),
-  );
+const JANEZ_AT_VERSION_2 = {
+  id: "c1",
+  versionNumber: 2,
+  state: "active",
+  fields: { ...VERSION_1.snapshot.fields, email: "janez@novak.si" },
+  attributes: [],
+  tags: [],
+  updatedAt: "2026-07-01T08:00:00Z",
+};
+
+const settle = (value: unknown) =>
+  value instanceof Error ? Promise.reject(value) : Promise.resolve(value);
+
+/**
+ * Answers the Version path with the Version, the Groups with Marko's role, the Contact with Janez
+ * at Version 2 and a restore with `restored`.
+ */
+function answer(version: unknown, role = "EDITOR", restored: unknown = JANEZ_AT_VERSION_2) {
+  vi.mocked(apiRequest).mockImplementation((method: string, path: string) => {
+    if (method === "POST") return settle(restored);
+    if (path === "/groups") return settle([{ id: "g1", name: "Konferenca 2025", role }]);
+    if (path === "/groups/g1/contacts/c1") return settle(JANEZ_AT_VERSION_2);
+    return settle(version);
+  });
 }
 
 function renderPage() {
   const router = createMemoryRouter(
     [
       { path: "/groups/:groupId/contacts/:contactId/history/:number", element: <VersionPage /> },
-      { path: "/groups/:groupId/contacts/:contactId/history", element: <p>History</p> },
+      {
+        path: "/groups/:groupId/contacts/:contactId/history",
+        element: <p>History of the Contact</p>,
+      },
     ],
     { initialEntries: ["/groups/g1/contacts/c1/history/1"] },
   );
@@ -112,5 +135,65 @@ describe("WF-10 Version (R-010-02)", () => {
     renderPage();
 
     expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
+  });
+});
+
+describe("WF-10 Restore this Version (US-011)", () => {
+  async function confirmRestore() {
+    fireEvent.click(await screen.findByRole("button", { name: "Restore this Version" }));
+    const dialog = within(
+      await screen.findByRole("alertdialog", { name: "Restore this Version?" }),
+    );
+    expect(
+      dialog.getByText(
+        "The Contact gets the content of Version 1 as a new Version. No Version is deleted.",
+      ),
+    ).toBeTruthy();
+    fireEvent.click(dialog.getByRole("button", { name: "Restore this Version" }));
+  }
+
+  it("AC-011-01 restores Version 1 with the current Version number read and opens the History", async () => {
+    renderPage();
+
+    await confirmRestore();
+
+    expect(await screen.findByText("History of the Contact")).toBeTruthy();
+    expect(apiRequest).toHaveBeenCalledWith("POST", "/groups/g1/contacts/c1/versions/1/restore", {
+      versionNumber: 2,
+    });
+  });
+
+  it("EX-011-03 Cancel closes the confirmation and restores nothing", async () => {
+    renderPage();
+
+    fireEvent.click(await screen.findByRole("button", { name: "Restore this Version" }));
+    const dialog = await screen.findByRole("alertdialog");
+    fireEvent.click(within(dialog).getByRole("button", { name: "Cancel" }));
+
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+    expect(apiRequest).not.toHaveBeenCalledWith("POST", expect.anything(), expect.anything());
+  });
+
+  it.each([
+    ["AC-011-04", "version.sameAsCurrent", "This Version is the same as the current one."],
+    ["EX-011-04", "contact.inRecycleBin", "This Contact is in the recycle bin."],
+  ])("%s a refused restore shows its message in the confirmation", async (_id, code, text) => {
+    answer(VERSION_1, "EDITOR", new ApiError(409, { code }));
+    renderPage();
+
+    await confirmRestore();
+
+    const alert = await screen.findByRole("alert");
+    expect(alert.textContent).toBe(text);
+    expect(screen.getByRole("alertdialog")).toBeTruthy();
+  });
+
+  it("AC-011-03 a Viewer is not offered Restore this Version", async () => {
+    answer(VERSION_1, "VIEWER");
+    renderPage();
+
+    await screen.findByRole("heading", { level: 1 });
+    await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", "/groups"));
+    expect(screen.queryByRole("button", { name: "Restore this Version" })).toBeNull();
   });
 });

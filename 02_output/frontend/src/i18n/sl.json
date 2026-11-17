@@ -58,7 +58,8 @@
       "invalid": "Značka mora imeti od 1 do 50 znakov in nobene vejice."
     },
     "version": {
-      "conflict": "Kontakt je spremenil {{changedBy}}, osvežite"
+      "conflict": "Kontakt je spremenil {{changedBy}}, osvežite",
+      "sameAsCurrent": "Ta različica je enaka trenutni."
     }
   },
   "account": {
@@ -217,6 +218,12 @@
       "mergeUndone": "združitev razveljavljena"
     },
     "versionOf": "Različica {{number}}: {{name}}",
-    "readOnly": "samo za branje"
+    "readOnly": "samo za branje",
+    "restore": {
+      "action": "Obnovi to različico",
+      "title": "Želite obnoviti to različico?",
+      "description": "Kontakt dobi vsebino različice {{number}} kot novo različico. Nobena različica se ne izbriše.",
+      "cancel": "Prekliči"
+    }
   }
 }
