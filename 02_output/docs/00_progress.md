@@ -5,20 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-018
-- Result: blocked
-- Gate: phase 4 (US-018 DoD-S) not passed (DoD-S-01, DoD-S-05: Docker stopped, D-73)
+- Session: S5 /implement US-018 D-73: 1
+- Result: done
+- Gate: phase 4 (US-018 DoD-S) passed
 - Notes for the next session:
-  - Built test-first, unit tests green: `MergedContent`, `MergeService`, `POST /groups/{id}/merges`, `mergedFrom`/`mergedInto` on Contact, D-21 delete of merged Contacts (`PermanentDeleteService`), WF-17 Merge button, WF-18 `MergePage`, WF-07 "Merged from" (D-72). Frontend unit 340/340 (`out/logs/implement-us018-frontend-test.txt`).
-  - Not run (Docker down, D-73): `MergeRepositoryIT` (committed, never run; covers `findByGroupIdAndPrimaryIdOrderByMergedAt`, `findByGroupIdAndMergedInto`), the full backend suite, the frozen API and UI tests of US-018, US-013 EX-013-03, US-017 EX-017-04, WF-18 screenshots and axe.
-  - Baseline before the change: 212 tests, 21 failures (INC-2 frozen tests, EX-013-03, EX-017-04) and 9 repository-IT errors from Docker (`out/logs/implement-us018-baseline-full.txt`).
-  - Check under `sl-x-icu` whether "J. Novak" sorts before "Janez Novak" (pair order, D-25 (b)); if so AC-018-02/05 (UI) expect another Primary contact: approval decision (D-73).
-  - Resume: run `MergeRepositoryIT`, `./mvnw -B verify`, rebuild the stack 8090 (`npm run build`, then `docker compose --env-file ../.env up -d --build`, `APP_HOST_PORT=8090`), run `acceptance/us018-merge.spec.ts`, screenshot WF-18 at three widths, then DoD-S.
-  - `frontend/README.md` fails prettier --check; it was like that before this session (also in the US-017 log).
+  - Resumed after D-73 (Docker back). Backend 267 tests, only US-019 and US-021 frozen tests fail (not built); unit 441/441; UI 83/89, the 6 failures are US-019 and US-021 (`out/logs/implement-us018-full-verify.txt`, `implement-us018-ui-acceptance-all.txt`).
+  - Pair order (D-73 question): `sl-x-icu` sorts "J. Novak" first; the Merge screen now makes the Contact created first the Primary contact (D-74, overrides D-25 (b) for WF-18 only). WF-19 (Undo merge) can rely on `Contact.createdAt` already in the frontend `Contact` type.
+  - Fixed: Audit entries of merged Contacts lost on permanent delete (`ContactRepository.permanentlyDelete` now flushes first); WF-18 stacks the Field choices on a phone.
+  - `TagsField.test.tsx` (US-009) times out intermittently under `npm test` (coverage), also before this session; passes without coverage (D-74 (d)). `frontend/README.md` still fails prettier --check (older).
+  - Stack on 8090 is built from HEAD; rebuild after changes (`npm run build`, `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`). gitleaks runs from `zricethezav/gitleaks:v8.28.0` (D-04).
 
 ## Next
-- Command: /implement US-018
-- Waiting for: D-73
+- Command: /implement US-019
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
@@ -35,12 +34,12 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-010 | INC-1 | done | DoD-S-01 met after US-004 (API 8/8, UI 3/3); others met |
 | US-011 | INC-1 | done | DoD-S-01 met after US-004 (API 7/7, UI 3/3); DoD-S-07 one subject over 72 characters (24e39f9); others met |
 | US-012 | INC-1 | done | DoD-S-01 met after D-65 (API 10/10, UI 4/4, D-69); others met |
-| US-013 | INC-1 | in progress | DoD-S-01 open until US-018 (API 5/6, EX-013-03 needs Merge; UI 2/2); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
+| US-013 | INC-1 | done | DoD-S-01 met after US-018 (API 6/6, UI 2/2; EX-013-03 needed 4657746); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
 | US-014 | INC-1 | done | DoD-S-01 met after US-004 (API 12/12, UI 5/5); DoD-S-07 see notes of US-014; others met |
 | US-015 | INC-1 | done | DoD-S-01 met after US-004 (API 10/10, UI 5/5); DoD-S-07 c1b76ff subject without IDs, bacf2c9 subject 73 characters, c1b76ff … bacf2c9 failed ArchitectureTest (fixed in 3f369fd); others met |
 | US-016 | INC-1 | done | DoD-S-01 met after US-004 (API 11/11, UI 4/4); DoD-S-07 b7b36b7 554 lines, 5168f66 and daf3e85 subjects over 72 characters; others met |
-| US-017 | INC-2 | done | DoD-S-01 API 11/12, UI 4/4; EX-017-04 after US-018 (D-71); DoD-S-07 see D-70 (i); others met |
-| US-018 | INC-2 | in progress | open: DoD-S-01, DoD-S-05 wait for Docker (D-73); DoD-S-07 see D-72 (j) |
+| US-017 | INC-2 | done | DoD-S-01 met after US-018 (API 12/12, UI 4/4; D-71); DoD-S-07 see D-70 (i); others met |
+| US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c) |
 | US-019 | INC-2 | ready | |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
 | US-021 | INC-2 | ready | |
