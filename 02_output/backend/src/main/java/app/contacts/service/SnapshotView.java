@@ -7,7 +7,8 @@ import java.util.SequencedMap;
 /**
  * The full content of a Contact after a Version (contract {@code Version.snapshot}, R-010-02).
  *
- * @param fields Field name to value in form order; {@code null} for an empty Field
+ * @param fields Field name to value (in the order PostgreSQL keeps jsonb keys, not form order);
+ *     {@code null} for an empty Field
  * @param attributes the Attributes by key A–Z
  * @param tags the Tag names A–Z
  */
@@ -28,7 +29,7 @@ public record SnapshotView(
   }
 
   /**
-   * The Fields in form order.
+   * The Fields.
    *
    * @return a copy of the Fields
    */
