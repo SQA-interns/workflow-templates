@@ -25,6 +25,9 @@ public class ContactVersion implements GroupOwned {
   /** Kind of the Version that saves edited Fields (R-007-01). */
   public static final String EDITED = "edited";
 
+  /** Kind of the Version that makes an earlier Version current again (R-011-01). */
+  public static final String RESTORED = "restored";
+
   @Id
   @Column(name = "contact_id")
   private UUID contactId;
@@ -42,6 +45,9 @@ public class ContactVersion implements GroupOwned {
 
   @Column(name = "changed_at", nullable = false)
   private Instant changedAt;
+
+  @Column(name = "restored_from")
+  private Integer restoredFrom;
 
   @JdbcTypeCode(SqlTypes.JSON)
   @Column(nullable = false)
@@ -77,6 +83,23 @@ public class ContactVersion implements GroupOwned {
     return version;
   }
 
+  /**
+   * The Version {@link #RESTORED} of the Contact's current Version number that names the restored
+   * Version (R-011-01).
+   *
+   * @param contact the Contact after the restore
+   * @param restoredFrom the number of the restored Version
+   * @param changes JSON list of the changed items (item, oldValue, newValue)
+   * @param snapshot JSON of the full content after the restore
+   * @return the new, unsaved Version
+   */
+  public static ContactVersion restored(
+      Contact contact, int restoredFrom, String changes, String snapshot) {
+    ContactVersion version = of(contact, RESTORED, changes, snapshot);
+    version.restoredFrom = restoredFrom;
+    return version;
+  }
+
   @Override
   public UUID getGroupId() {
     return groupId;
@@ -96,6 +119,15 @@ public class ContactVersion implements GroupOwned {
 
   public int getNumber() {
     return number;
+  }
+
+  /**
+   * The number of the Version a {@link #RESTORED} Version made current again.
+   *
+   * @return the number; {@code null} for every other kind
+   */
+  public Integer getRestoredFrom() {
+    return restoredFrom;
   }
 
   public String getChanges() {

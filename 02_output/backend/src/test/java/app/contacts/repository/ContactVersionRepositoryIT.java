@@ -72,6 +72,19 @@ class ContactVersionRepositoryIT {
   }
 
   @Test
+  void r01101StoresWhichVersionARestoredVersionNames() {
+    janez.edit(janez.getFields(), "janez", "janez", ana, EDITED_AT);
+    versions.add(groupId, ContactVersion.restored(janez, 1, "[]", "{}"));
+
+    assertThat(versions.findVersion(groupId, janez.getId(), 3))
+        .map(ContactVersion::getRestoredFrom)
+        .contains(1);
+    assertThat(versions.findVersion(groupId, janez.getId(), 2))
+        .map(ContactVersion::getRestoredFrom)
+        .isEmpty();
+  }
+
+  @Test
   void ac01003VersionsAreNotFoundThroughAnotherGroup() {
     UUID beta = groups.save(Group.create("Podjetje Beta", ana, CREATED_AT)).getId();
 

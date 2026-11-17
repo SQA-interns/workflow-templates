@@ -50,16 +50,40 @@ public class VersionWriter {
    * @param after the content after the change
    */
   public void record(Contact contact, String kind, ContactContent before, ContactContent after) {
-    SequencedMap<String, String> fields = after.fields().byName();
-    List<ChangeView> changes = new ArrayList<>();
-    changes.addAll(changed(before.fields().byName(), fields, ""));
-    changes.addAll(changed(byKey(before), byKey(after), ATTRIBUTE));
-    changes.addAll(changed(byName(before), byName(after), TAG));
-    SnapshotView snapshot = new SnapshotView(fields, after.attributes(), after.tags());
     versions.add(
         contact.getGroupId(),
-        ContactVersion.of(
-            contact, kind, JSON.writeValueAsString(changes), JSON.writeValueAsString(snapshot)));
+        ContactVersion.of(contact, kind, changes(before, after), snapshot(after)));
+  }
+
+  /**
+   * Writes the Version {@link ContactVersion#RESTORED} of the Contact's current Version number that
+   * names the restored Version and lists each changed item as {@link #record} does (R-011-01).
+   *
+   * @param contact the Contact after the restore
+   * @param restoredFrom the number of the restored Version
+   * @param before the content before the restore
+   * @param after the content of the restored Version
+   */
+  public void recordRestored(
+      Contact contact, int restoredFrom, ContactContent before, ContactContent after) {
+    versions.add(
+        contact.getGroupId(),
+        ContactVersion.restored(contact, restoredFrom, changes(before, after), snapshot(after)));
+  }
+
+  /** JSON of the items that differ: Fields, then Attributes, then Tags. */
+  private static String changes(ContactContent before, ContactContent after) {
+    List<ChangeView> changes = new ArrayList<>();
+    changes.addAll(changed(before.fields().byName(), after.fields().byName(), ""));
+    changes.addAll(changed(byKey(before), byKey(after), ATTRIBUTE));
+    changes.addAll(changed(byName(before), byName(after), TAG));
+    return JSON.writeValueAsString(changes);
+  }
+
+  /** JSON of the full content after the change. */
+  private static String snapshot(ContactContent after) {
+    SequencedMap<String, String> fields = after.fields().byName();
+    return JSON.writeValueAsString(new SnapshotView(fields, after.attributes(), after.tags()));
   }
 
   /** The items whose value differs, in the order of {@code old} and then of new items. */

@@ -75,6 +75,37 @@ class VersionWriterTest {
   }
 
   @Test
+  void r01101RestoredVersionNamesTheVersionAndListsEachChangedItem() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", ANA, NOW);
+    ContactFields changed =
+        ContactFields.ofNames(
+            Map.of("firstName", "Janez", "lastName", "Novak", "email", "janez@novak.si"));
+    contact.edit(changed, "janez", "Novak", MARKO, NOW);
+    contact.edit(JANEZ, "janez", "Novak", MARKO, LATER);
+
+    writer.recordRestored(contact, 1, content(changed), content(JANEZ));
+
+    ArgumentCaptor<ContactVersion> written = ArgumentCaptor.forClass(ContactVersion.class);
+    verify(versions).add(eq(GROUP_ID), written.capture());
+    ContactVersion version = written.getValue();
+    assertThat(version.getNumber()).isEqualTo(3);
+    assertThat(version.getKind()).isEqualTo("restored");
+    assertThat(version.getRestoredFrom()).isEqualTo(1);
+    JsonNode changes = json.readTree(version.getChanges());
+    assertThat(changes.size()).isEqualTo(1);
+    assertThat(changes.get(0).path("item").asString()).isEqualTo("email");
+    assertThat(changes.get(0).path("oldValue").asString()).isEqualTo("janez@novak.si");
+    assertThat(changes.get(0).path("newValue").asString()).isEqualTo("janez.novak@example.si");
+  }
+
+  @Test
+  void r01101OtherVersionsNameNoRestoredVersion() {
+    Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
+
+    assertThat(written(contact, ContactFields.EMPTY).getRestoredFrom()).isNull();
+  }
+
+  @Test
   void adr07SnapshotHoldsTheFullContentAfterTheChange() {
     Contact contact = Contact.create(GROUP_ID, JANEZ, "janez", "Novak", MARKO, NOW);
 
