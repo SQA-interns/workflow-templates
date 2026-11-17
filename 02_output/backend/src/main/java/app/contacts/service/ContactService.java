@@ -271,7 +271,7 @@ public class ContactService {
    */
   ContactView moveToRecycleBin(UUID groupId, UUID userId, UUID contactId, int versionNumber) {
     Contact contact = lockedForChange(groupId, contactId, versionNumber);
-    ContactContent content = contentOf(contact, tagsOf(contact));
+    ContactContent content = contentOf(contact);
     contact.moveToRecycleBin(userId, clock.instant());
     versionWriter.record(contact, ContactVersion.MOVED_TO_RECYCLE_BIN, content, content);
     return view(contact);
@@ -304,10 +304,69 @@ public class ContactService {
       throw new ConflictException("contact.noLongerRestorable", Map.of());
     }
     requireCurrent(contact, versionNumber);
-    ContactContent content = contentOf(contact, tagsOf(contact));
+    ContactContent content = contentOf(contact);
     contact.restoreFromRecycleBin(userId, now);
     versionWriter.record(contact, ContactVersion.RESTORED_FROM_RECYCLE_BIN, content, content);
     return view(contact);
+  }
+
+  /**
+   * The Contact of the Group locked for a change, if it is at the Version number read
+   * (specification §4, BR-06), in any state.
+   *
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @param versionNumber the Version number the client read
+   * @return the locked Contact
+   * @throws NotFoundException for a Contact that is not the Group's (BR-02)
+   * @throws ConflictException {@code version.conflict} for a Version number that is not current
+   */
+  Contact lockedCurrent(UUID groupId, UUID contactId, int versionNumber) {
+    Contact contact =
+        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    requireCurrent(contact, versionNumber);
+    return contact;
+  }
+
+  /**
+   * Gives the locked Primary contact the merged content as a new Version {@code merged} (R-018-02).
+   * In the transaction of the caller, which checked the Merge.
+   *
+   * @param primary the locked, active Primary contact
+   * @param userId the signed-in User
+   * @param merged the merged content, checked
+   */
+  void saveMerged(Contact primary, UUID userId, ContactContent merged) {
+    List<TagView> stored = tagsOf(primary);
+    ContactContent before = contentOf(primary, stored);
+    List<Tag> wanted = tags.resolve(primary.getGroupId(), merged.tags());
+    change(primary, userId, before, merged);
+    tags.retag(primary, ids(stored), wanted);
+    versionWriter.record(primary, ContactVersion.MERGED, before, merged);
+  }
+
+  /**
+   * Sets the locked Other contact {@code merged} into the Primary contact as a new Version {@code
+   * merged} with its content unchanged (R-018-04). In the transaction of the caller.
+   *
+   * @param other the locked, active Other contact
+   * @param primaryId the Primary contact
+   * @param userId the signed-in User
+   */
+  void markMerged(Contact other, UUID primaryId, UUID userId) {
+    ContactContent content = contentOf(other);
+    other.mergeInto(primaryId, userId, clock.instant());
+    versionWriter.record(other, ContactVersion.MERGED, content, content);
+  }
+
+  /**
+   * The Fields, Attributes and Tags the Contact has.
+   *
+   * @param contact the Contact
+   * @return its content
+   */
+  ContactContent contentOf(Contact contact) {
+    return contentOf(contact, tagsOf(contact));
   }
 
   /** The content the Contact has, with the Tags it has. */
@@ -340,9 +399,7 @@ public class ContactService {
    * (specification §4, BR-06, EX-007-03, D-23).
    */
   private Contact lockedForChange(UUID groupId, UUID contactId, int versionNumber) {
-    Contact contact =
-        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
-    requireCurrent(contact, versionNumber);
+    Contact contact = lockedCurrent(groupId, contactId, versionNumber);
     requireActive(contact);
     return contact;
   }

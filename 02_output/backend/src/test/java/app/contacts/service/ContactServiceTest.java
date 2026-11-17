@@ -981,6 +981,46 @@ class ContactServiceTest {
     verifyNoInteractions(versionWriter);
   }
 
+  @Test
+  void r01802SaveMergedGivesThePrimaryTheMergedContentAsVersionMerged() {
+    Contact janez = stored(JANEZ_V1);
+    hasTags(janez, "udelezenec2025");
+    ContactContent merged =
+        new ContactContent(
+            ContactFields.ofNames(
+                Map.of(
+                    "firstName", "Janez",
+                    "lastName", "Novak",
+                    "email", "janez.novak@example.si",
+                    "phone", "+386 41 123 456")),
+            attributesOf("kompetenca", "java"),
+            List.of("udelezenec2025", "vip"));
+
+    service.saveMerged(janez, MARKO, merged);
+
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+    assertThat(janez.getFields().phone()).isEqualTo("+386 41 123 456");
+    assertThat(recorded(ContactVersion.MERGED)).isEqualTo(merged);
+    verify(attributes).add(eq(GROUP_ID), any(Attribute.class));
+    verify(contactTags).add(eq(GROUP_ID), any(ContactTag.class));
+  }
+
+  @Test
+  void r01804MarkMergedSetsTheOtherMergedIntoThePrimaryAsVersionMerged() {
+    Contact other = stored(Map.of("firstName", "J.", "lastName", "Novak"));
+    UUID primaryId = UUID.randomUUID();
+
+    service.markMerged(other, primaryId, MARKO);
+
+    assertThat(other.getState()).isEqualTo(Contact.MERGED);
+    assertThat(other.getMergedInto()).isEqualTo(primaryId);
+    assertThat(other.getVersionNumber()).isEqualTo(2);
+    ArgumentCaptor<ContactContent> content = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter)
+        .record(eq(other), eq(ContactVersion.MERGED), content.capture(), content.capture());
+    assertThat(content.getAllValues().get(1)).isEqualTo(content.getAllValues().get(0));
+  }
+
   private Contact stored(Map<String, String> fields) {
     Contact contact = Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", ANA, NOW);
     when(contacts.findForUpdate(GROUP_ID, contact.getId())).thenReturn(Optional.of(contact));

@@ -19,6 +19,9 @@ public class Contact implements GroupOwned {
   /** State of a Contact in the recycle bin (Data model, US-012). */
   public static final String IN_RECYCLE_BIN = "inRecycleBin";
 
+  /** State of a Contact merged into a Primary contact (Data model, US-018). */
+  public static final String MERGED = "merged";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)
@@ -31,6 +34,9 @@ public class Contact implements GroupOwned {
 
   @Column(name = "deleted_at")
   private Instant deletedAt;
+
+  @Column(name = "merged_into")
+  private UUID mergedInto;
 
   @Column(name = "version_number", nullable = false)
   private int versionNumber;
@@ -130,6 +136,19 @@ public class Contact implements GroupOwned {
     nextVersion(userId, now);
   }
 
+  /**
+   * Marks the Contact as merged into the Primary contact as the next Version (R-018-04).
+   *
+   * @param primaryId the Primary contact
+   * @param userId the User who merges
+   * @param now the time
+   */
+  public void mergeInto(UUID primaryId, UUID userId, Instant now) {
+    this.state = MERGED;
+    this.mergedInto = primaryId;
+    nextVersion(userId, now);
+  }
+
   private void nextVersion(UUID userId, Instant now) {
     this.versionNumber++;
     this.updatedAt = now;
@@ -143,6 +162,15 @@ public class Contact implements GroupOwned {
   @Override
   public UUID getGroupId() {
     return groupId;
+  }
+
+  /**
+   * The Primary contact this Contact was merged into.
+   *
+   * @return its id; {@code null} unless the Contact is merged
+   */
+  public UUID getMergedInto() {
+    return mergedInto;
   }
 
   public ContactFields getFields() {
