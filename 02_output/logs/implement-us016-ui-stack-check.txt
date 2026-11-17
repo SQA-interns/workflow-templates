@@ -1,0 +1,16 @@
+
+Running 4 tests using 1 worker
+
+UI AC-016-01 file kontakti-Konferenca 2025-2026-11-17.xlsx
+  ✓  1 [chromium] › reports/us016-check/us016.spec.ts:57:1 › UI AC-016-01 (frozen steps) (3.0s)
+axe WF-06 export checked: none
+UI AC-016-02 file kontakti-Konferenca 2025-2026-11-17.xlsx
+  ✓  2 [chromium] › reports/us016-check/us016.spec.ts:73:1 › UI AC-016-02 (frozen steps) with the checked screen (3.3s)
+UI AC-016-03 passed
+axe WF-06 export too-many: none
+  ✓  3 [chromium] › reports/us016-check/us016.spec.ts:88:1 › UI AC-016-03 (frozen steps) with the too-many screen (5.4s)
+UI EX-016-02 passed
+axe WF-06 export nothing-to-export: none
+  ✓  4 [chromium] › reports/us016-check/us016.spec.ts:105:1 › UI EX-016-02 (frozen steps) with the nothing-to-export screen (3.4s)
+
+  4 passed (16.3s)

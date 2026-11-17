@@ -1,0 +1,20 @@
+package app.contacts.acceptance;
+
+/** Throwaway (not committed): the frozen US-016 steps with Memberships set by SQL until US-004. */
+class Us016StackCheckIT extends Us016ExportAcceptanceIT {
+  @Override
+  protected Team team() {
+    var ana = ana();
+    var marko = marko();
+    var petra = petra();
+    String groupId = group(ana, "Konferenca 2025");
+    for (var m : new Object[][] {{marko, "EDITOR"}, {petra, "VIEWER"}}) {
+      db.update(
+          "INSERT INTO membership VALUES (?::uuid, ?::uuid, ?)",
+          groupId,
+          idOf((app.contacts.acceptance.support.TestUser) m[0]),
+          m[1]);
+    }
+    return new Team(ana, marko, petra, groupId);
+  }
+}

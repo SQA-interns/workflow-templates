@@ -1,0 +1,116 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, bulkContacts, choose, createContact, createGroup, listPath, resetStack,
+  signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; Memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+
+function today(): string {
+  return new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Ljubljana" }).format(new Date());
+}
+
+async function threeContacts(t: Team) {
+  await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak" },
+    tags: ["udelezenec2025", "vip"],
+    attributes: [{ key: "kompetenca", value: "spletnoProgramiranje" }],
+  });
+  await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Maja", lastName: "Zupan" },
+    tags: ["udelezenec2025"],
+    attributes: [{ key: "jezik", value: "nemščina" }],
+  });
+  await createContact(t.ana, t.groupId, { fields: { firstName: "Žiga", lastName: "Čuk" } });
+}
+
+async function shot(page: Page, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/WF-06_contact-list/export/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe WF-06 export ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("UI AC-016-01 (frozen steps)", async ({ page }) => {
+  const t = await team();
+  await threeContacts(t);
+  await signIn(page, t.petra);
+  await page.goto(listPath(t.groupId));
+  await page.getByRole("button", { name: "Filters" }).click();
+  await choose(page.getByLabel("has Tags"), "udelezenec2025");
+  await page.getByRole("button", { name: "Apply" }).click();
+  await expect(page.getByText("2 Contacts")).toBeVisible();
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Export", exact: true }).click();
+  const name = (await download).suggestedFilename();
+  console.log("UI AC-016-01 file", name);
+  expect(name).toBe(`kontakti-Konferenca 2025-${today()}.xlsx`);
+});
+
+test("UI AC-016-02 (frozen steps) with the checked screen", async ({ page }) => {
+  const t = await team();
+  await threeContacts(t);
+  await signIn(page, t.petra);
+  await page.goto(listPath(t.groupId));
+  await page.getByRole("row", { name: /Maja Zupan/ }).getByRole("checkbox").check();
+  await expect(page.getByText("1 checked")).toBeVisible();
+  await shot(page, "checked");
+  const download = page.waitForEvent("download");
+  await page.getByRole("button", { name: /Export checked/ }).click();
+  const name = (await download).suggestedFilename();
+  console.log("UI AC-016-02 file", name);
+  expect(name).toMatch(/^kontakti-Konferenca 2025-\d{4}-\d{2}-\d{2}\.xlsx$/);
+});
+
+test("UI AC-016-03 (frozen steps) with the too-many screen", async ({ page }) => {
+  const t = await team();
+  const anaId = (await api(t.ana, "GET", "/me")).json.id as string;
+  bulkContacts(t.groupId, anaId, 10_001);
+  await signIn(page, t.petra);
+  await page.goto(listPath(t.groupId));
+  let downloaded = false;
+  page.on("download", () => (downloaded = true));
+  const exportButton = page.getByRole("button", { name: "Export", exact: true });
+  await expect(page.getByText(/10,001 Contacts/)).toBeVisible();
+  if (await exportButton.isEnabled()) await exportButton.click();
+  await expect(page.getByText("Narrow the list to at most 10,000 Contacts to export.")).toBeVisible();
+  expect(downloaded).toBe(false);
+  console.log("UI AC-016-03 passed");
+  await shot(page, "too-many");
+});
+
+test("UI EX-016-02 (frozen steps) with the nothing-to-export screen", async ({ page }) => {
+  const t = await team();
+  await threeContacts(t);
+  await signIn(page, t.petra);
+  await page.goto(listPath(t.groupId));
+  await page.getByLabel("Search").fill("xyz");
+  await expect(page.getByText("No Contacts match.")).toBeVisible();
+  await expect(page.getByRole("button", { name: "Export", exact: true })).toBeDisabled();
+  await expect(page.getByText("Nothing to export.")).toBeVisible();
+  console.log("UI EX-016-02 passed");
+  await shot(page, "nothing-to-export");
+});
