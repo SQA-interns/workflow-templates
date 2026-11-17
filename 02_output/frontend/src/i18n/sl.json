@@ -214,6 +214,8 @@
       "restoredFromRecycleBin": "obnovljena iz koša",
       "merged": "združena",
       "mergeUndone": "združitev razveljavljena"
-    }
+    },
+    "versionOf": "Različica {{number}}: {{name}}",
+    "readOnly": "samo za branje"
   }
 }

@@ -212,6 +212,8 @@
       "restoredFromRecycleBin": "restored from recycle bin",
       "merged": "merged",
       "mergeUndone": "merge undone"
-    }
+    },
+    "versionOf": "Version {{number}} of {{name}}",
+    "readOnly": "read-only"
   }
 }

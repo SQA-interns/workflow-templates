@@ -32,3 +32,12 @@ export function useHistory(groupId: string, contactId: string) {
       apiRequest<VersionSummary[]>("GET", `/groups/${groupId}/contacts/${contactId}/versions`),
   });
 }
+
+/** Version `number` of the Contact with the content after it (R-010-02). */
+export function useVersion(groupId: string, contactId: string, number: string) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", contactId, "versions", number],
+    queryFn: () =>
+      apiRequest<Version>("GET", `/groups/${groupId}/contacts/${contactId}/versions/${number}`),
+  });
+}
