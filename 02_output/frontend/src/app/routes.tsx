@@ -14,6 +14,8 @@ import { GroupSettingsPage } from "../features/groups/GroupSettingsPage";
 import { GroupStart } from "../features/groups/GroupStart";
 import { HistoryPage } from "../features/history/HistoryPage";
 import { VersionPage } from "../features/history/VersionPage";
+import { InvitationLayout } from "../features/invitations/InvitationLayout";
+import { InvitationPage } from "../features/invitations/InvitationPage";
 import { MembersPage } from "../features/members/MembersPage";
 import { RecycleBinPage } from "../features/recycle-bin/RecycleBinPage";
 import { AppLayout } from "./AppLayout";
@@ -43,6 +45,11 @@ export const routes: RouteObject[] = [
       },
       { path: "/verify-email", element: <VerifyEmailPage /> },
     ],
+  },
+  {
+    path: "/invitations/:token",
+    element: <InvitationLayout />,
+    children: [{ index: true, element: <InvitationPage /> }],
   },
   {
     element: (

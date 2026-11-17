@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Navigate } from "react-router";
 import { type AuthState, useAuth } from "./AuthProvider";
+import { returnTo } from "./returnTo";
 
 /** Loading and error states while Firebase starts (UI-14); null once the account is known. */
 function Pending({ state }: { state: AuthState }) {
@@ -20,11 +21,14 @@ export function RequireAuth({ children }: { children: ReactNode }) {
   return children;
 }
 
-/** Sign-in and sign-up: a signed-in User goes on to the product (R-001-01). */
+/**
+ * Sign-in and sign-up: a signed-in User goes on to the product (R-001-01), or back to the
+ * Invitation opened before signing in (R-004-07).
+ */
 export function GuestOnly({ children }: { children: ReactNode }) {
   const { state } = useAuth();
   if (state.status === "signedIn") {
-    return <Navigate to={state.account.mustVerifyEmail ? "/verify-email" : "/"} replace />;
+    return <Navigate to={state.account.mustVerifyEmail ? "/verify-email" : returnTo()} replace />;
   }
   if (state.status !== "signedOut") return <Pending state={state} />;
   return children;

@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "./apiClient";
+import { type Group, groupsQueryKey } from "./groups";
 
 /** The Roles an Invitation can grant; never Owner (R-004-01). */
 export type InvitableRole = "EDITOR" | "VIEWER";
@@ -45,5 +46,30 @@ export function useRevokeInvitation(groupId: string) {
     mutationFn: (invitationId: string) =>
       apiRequest<undefined>("DELETE", `/groups/${groupId}/invitations/${invitationId}`),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: openInvitationsKey(groupId) }),
+  });
+}
+
+/** An Invitation as its invitee sees it (`InvitationView` of the contract, R-004-04). */
+export interface InvitationView {
+  groupName: string;
+  role: InvitableRole;
+  expiresAt: string;
+}
+
+/** The Invitation of a link for the signed-in User (R-004-04 … R-004-06). */
+export function useInvitation(token: string) {
+  return useQuery({
+    queryKey: ["invitations", token],
+    queryFn: () => apiRequest<InvitationView>("GET", `/invitations/${token}`),
+    retry: false,
+  });
+}
+
+/** Accepts the Invitation (R-004-04); the Group list is read again for the Group switcher. */
+export function useAcceptInvitation(token: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => apiRequest<Group>("POST", `/invitations/${token}/accept`),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: groupsQueryKey }),
   });
 }

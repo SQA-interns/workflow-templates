@@ -4,9 +4,13 @@ import { Navigate } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "../../auth/AuthProvider";
 import { signOutAccount } from "../../auth/firebase";
+import { returnTo } from "../../auth/returnTo";
 import { AccountCard } from "./AccountCard";
 
-/** WF-03 Confirm your e-mail: shown until the link in the e-mail was used (R-001-05, D-16). */
+/**
+ * WF-03 Confirm your e-mail: shown until the link in the e-mail was used (R-001-05, D-16); then
+ * the product, or the Invitation opened before (R-004-07).
+ */
 export function VerifyEmailPage() {
   const { t } = useTranslation();
   const { state, refresh } = useAuth();
@@ -14,7 +18,7 @@ export function VerifyEmailPage() {
 
   if (state.status === "signedOut") return <Navigate to="/sign-in" replace />;
   if (state.status === "signedIn" && !state.account.mustVerifyEmail) {
-    return <Navigate to="/" replace />;
+    return <Navigate to={returnTo()} replace />;
   }
   if (state.status !== "signedIn") return <p role="status">{t("state.loading")}</p>;
 
