@@ -59,7 +59,8 @@ export function TagsSection({ names }: { names: string[] }) {
   );
 }
 
-function Section({ title, children }: { title: string; children: ReactNode }) {
+/** A titled card of the Contact content, named by its heading. */
+export function Section({ title, children }: { title: string; children: ReactNode }) {
   const id = useId();
   return (
     <Card aria-labelledby={id} className="flex flex-col gap-3">

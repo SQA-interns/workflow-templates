@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "./apiClient";
 
 /** Why two Contacts may be the same (`DuplicateCandidate.reasons`, R-017-02 … R-017-04). */
@@ -16,5 +16,37 @@ export function useDuplicates(groupId: string) {
   return useQuery({
     queryKey: ["groups", groupId, "duplicates"],
     queryFn: () => apiRequest<DuplicateCandidate[]>("GET", `/groups/${groupId}/duplicates`),
+  });
+}
+
+/** Keep the Primary contact's or the Other contact's value (`Choice` of the contract). */
+export type Choice = "primary" | "other";
+
+/** A Merge as the User confirms it (`MergeRequest` of the contract, R-018-02). */
+export interface MergeRequest {
+  primaryId: string;
+  otherId: string;
+  primaryVersionNumber: number;
+  otherVersionNumber: number;
+  fieldChoices: Record<string, Choice>;
+  attributeChoices: Record<string, Choice>;
+}
+
+/**
+ * Merges the Other contact into the Primary contact (R-018-02 … R-018-04); afterwards the lists,
+ * the Possible duplicates and both Contacts are read again.
+ */
+export function useMerge(groupId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (request: MergeRequest) =>
+      apiRequest<unknown>("POST", `/groups/${groupId}/merges`, request),
+    onSuccess: async (_merge, request) => {
+      const contacts = ["groups", groupId, "contacts"];
+      await queryClient.invalidateQueries({ queryKey: [...contacts, "list"] });
+      await queryClient.invalidateQueries({ queryKey: [...contacts, request.primaryId] });
+      await queryClient.invalidateQueries({ queryKey: [...contacts, request.otherId] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "duplicates"] });
+    },
   });
 }
