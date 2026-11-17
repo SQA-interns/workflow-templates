@@ -747,3 +747,14 @@
 - Human response: "decifion for f-14: as suggested" — option 1, 2026-11-17.
 - Resolution: 1
 - Overrides: none
+
+## D-69: D-65 applied: frozen `stubGet` answers only API calls
+- Timestamp: 2026-11-17T19:40+01:00
+- Session: S4 /acceptance-tests D-65
+- Class: allow
+- Type: non-blocking
+- Trigger: D-65 approved D-51 and D-64 option 1; only `/acceptance-tests` writes the test harness and the manifest.
+- Options: none (records how the approved change was applied).
+- Human response: see D-65.
+- Resolution: `stubGet` now falls back unless the request is a GET of resource type `fetch` or `xhr` (be08cb8); `docs/03_acceptance-manifest.sha256` re-hashed for that file only, committed alone (7d602b3); every other manifest entry verified unchanged. Re-run on Chromium of all specs that call `stubGet`: 25/25 pass, US-012 AC-012-01 and US-020 EX-020-02 included (`out/logs/acceptance-tests-d65-ui.txt`). No other test, hidden test or the hidden manifest was touched. D-51 and D-64 are resolved by this.
+- Overrides: none

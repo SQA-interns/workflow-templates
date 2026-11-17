@@ -110,6 +110,12 @@ Run 2026-11-16 on the skeleton (no behaviour built): API tests with `./mvnw veri
 | E2E-01 … E2E-08 | 8 | 8 | E2E-01: no sign-up form on `/sign-up`; E2E-02 … E2E-08: setup through the API answers 401 |
 | Total | 199 API + 89 UI + 8 e2e = 296 | 296 | no failure from the build or the harness: both containers start, the emulator answers, the stack is up; logs `out/logs/acceptance-tests-backend-first-run.txt`, `out/logs/acceptance-tests-browser-first-run.txt` |
 
+## Approved changes to frozen tests
+
+| Decision | Change | Commits | Re-run |
+|---|---|---|---|
+| D-65 (D-51, D-64 option 1) | `frontend/acceptance/support/stack.ts` `stubGet` fulfils only GET requests of resource type `fetch` or `xhr`; a page navigation with the same path goes to the app | be08cb8 (helper), 7d602b3 (manifest re-hashed, alone) | Chromium, every spec that calls `stubGet` (US-003, US-004, US-010, US-012, US-020): 25/25 pass, AC-012-01 and EX-020-02 included (`out/logs/acceptance-tests-d65-ui.txt`) |
+
 ## Test measures (phase 5)
 
 <!-- Level rows: tests passed / failed. unit = unit tests only; non-unit = integration, acceptance, architecture and end-to-end tests under the coverage tool; all levels = one merged report. Mutation score only on the all-levels row, with scope, tool, killed of total and the tests run. -->
