@@ -1,5 +1,6 @@
 package app.contacts.service;
 
+import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
 import app.contacts.repository.ContactVersionRepository;
 import app.contacts.repository.UserRepository;
@@ -12,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.core.type.TypeReference;
 import tools.jackson.databind.json.JsonMapper;
 
-/** The History of a Contact and its Versions, read-only (US-010, ADR-07). */
+/** The History of a Contact, its Versions and restoring one (US-010, US-011, ADR-07). */
 @Service
 public class HistoryService {
 
@@ -24,6 +25,7 @@ public class HistoryService {
   private final ContactVersionRepository versions;
   private final UserRepository users;
   private final AccessGuard guard;
+  private final ContactService contacts;
 
   /**
    * The service.
@@ -31,12 +33,17 @@ public class HistoryService {
    * @param versions the Version repository
    * @param users names the User of each Version
    * @param guard the access check
+   * @param contacts changes the Contact to the restored content
    */
   public HistoryService(
-      ContactVersionRepository versions, UserRepository users, AccessGuard guard) {
+      ContactVersionRepository versions,
+      UserRepository users,
+      AccessGuard guard,
+      ContactService contacts) {
     this.versions = versions;
     this.users = users;
     this.guard = guard;
+    this.contacts = contacts;
   }
 
   /**
@@ -95,6 +102,34 @@ public class HistoryService {
         version.getRestoredFrom(),
         changesOf(version),
         JSON.readValue(version.getSnapshot(), SnapshotView.class));
+  }
+
+  /**
+   * Makes the content of Version n current as a new Version {@code restored} that names n; every
+   * Version stays (R-011-01, R-011-02); the Owner and Editors may do it (BR-03, D-27).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param number the number of the Version to restore
+   * @param versionNumber the current Version number the client read (BR-06)
+   * @return the restored Contact
+   * @throws NotFoundException for a non-Member, a Contact that is not the Group's (BR-02) or a
+   *     Version number it does not have
+   * @throws ForbiddenException for a Viewer (BR-03, AC-011-03)
+   * @throws ConflictException as {@link ContactService#restore}
+   */
+  @Transactional
+  public ContactView restoreVersion(
+      UUID groupId, UUID userId, UUID contactId, int number, int versionNumber) {
+    guard.require(groupId, userId, Permission.CHANGE_CONTACT);
+    ContactVersion version =
+        versions.findVersion(groupId, contactId, number).orElseThrow(NotFoundException::new);
+    SnapshotView snapshot = JSON.readValue(version.getSnapshot(), SnapshotView.class);
+    ContactContent content =
+        new ContactContent(
+            ContactFields.ofNames(snapshot.fields()), snapshot.attributes(), snapshot.tags());
+    return contacts.restore(groupId, userId, contactId, versionNumber, number, content);
   }
 
   /** The display name of the User of each Version, removed Members too (EX-010-02). */

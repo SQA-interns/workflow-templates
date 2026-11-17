@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.assertj.core.api.Assertions.tuple;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import app.contacts.domain.Contact;
@@ -27,6 +28,7 @@ class HistoryServiceTest {
   private static final Instant EDITED_AT = Instant.parse("2026-07-01T08:00:00Z");
   private static final UUID GROUP_ID = UUID.randomUUID();
   private static final UUID PETRA = UUID.randomUUID();
+  private static final UUID MARKO = UUID.randomUUID();
 
   private static final String CREATED_CHANGES =
       """
@@ -43,7 +45,8 @@ class HistoryServiceTest {
   private final ContactVersionRepository versions = mock(ContactVersionRepository.class);
   private final UserRepository users = mock(UserRepository.class);
   private final AccessGuard guard = mock(AccessGuard.class);
-  private final HistoryService service = new HistoryService(versions, users, guard);
+  private final ContactService contacts = mock(ContactService.class);
+  private final HistoryService service = new HistoryService(versions, users, guard, contacts);
 
   private final User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", CREATED_AT);
   private final User marko =
@@ -102,6 +105,39 @@ class HistoryServiceTest {
         .extracting(VersionSummaryView::kind, VersionSummaryView::restoredFrom)
         .containsExactly(tuple("restored", 1), tuple("edited", null), tuple("created", null));
     assertThat(service.version(GROUP_ID, PETRA, janez.getId(), 3).restoredFrom()).isEqualTo(1);
+  }
+
+  @Test
+  void r01101RestoreVersionMakesTheContentOfVersionNCurrent() {
+    when(versions.findVersion(GROUP_ID, janez.getId(), 1)).thenReturn(Optional.of(created));
+    ContactView restored = mock(ContactView.class);
+    ContactContent version1 =
+        new ContactContent(
+            ContactFields.ofNames(Map.of("firstName", "Janez", "email", "janez.novak@example.si")),
+            List.of(new AttributeView("Kompetenca", "Java")),
+            List.of("udelezenec2025"));
+    when(contacts.restore(GROUP_ID, MARKO, janez.getId(), 2, 1, version1)).thenReturn(restored);
+
+    assertThat(service.restoreVersion(GROUP_ID, MARKO, janez.getId(), 1, 2)).isSameAs(restored);
+  }
+
+  @Test
+  void ac01103ViewerCannotRestoreAVersionAndNothingIsRead() {
+    when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
+        .thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.restoreVersion(GROUP_ID, PETRA, janez.getId(), 1, 2))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(versions, contacts);
+  }
+
+  @Test
+  void r01101RestoreOfAVersionNumberThatDoesNotExistIsNotFound() {
+    when(versions.findVersion(GROUP_ID, janez.getId(), 99)).thenReturn(Optional.empty());
+
+    assertThatThrownBy(() -> service.restoreVersion(GROUP_ID, MARKO, janez.getId(), 99, 2))
+        .isInstanceOf(NotFoundException.class);
+    verifyNoInteractions(contacts);
   }
 
   @Test
