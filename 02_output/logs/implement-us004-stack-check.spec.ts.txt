@@ -1,0 +1,92 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { PASSWORD } from "./support/api";
+import {
+  ANA, BASE_URL, MARKO, PETRA, api, choose, createGroup, invite, resetStack, signIn, stubGet, user,
+} from "./support/stack";
+
+// Throwaway check of WF-13 and WF-16 (build-ui steps 4 and 5); not committed as a test.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, screen: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${screen} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("WF-13 states", async ({ page }) => {
+  const ana = await user(ANA, "Ana Kovač");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  await signIn(page, ana);
+  await page.goto(`/groups/${groupId}/members`);
+  await expect(page.getByText("No open Invitations.")).toBeVisible();
+  await shot(page, "WF-13_members", "empty");
+
+  await page.getByLabel("E-mail").fill("marko@");
+  await page.getByRole("button", { name: "Create Invitation" }).click();
+  await expect(page.getByRole("alert")).toHaveText("Enter a valid e-mail address.");
+  await shot(page, "WF-13_members", "error-email");
+
+  await page.getByLabel("E-mail").fill(MARKO);
+  await choose(page.getByLabel("Role"), "Editor");
+  await page.getByRole("button", { name: "Create Invitation" }).click();
+  await expect(page.getByRole("button", { name: "Copy link" })).toBeVisible();
+  await invite(groupId, ana, PETRA, "VIEWER");
+  await page.reload();
+  await expect(page.getByRole("row", { name: /petra/ })).toBeVisible();
+  await page.getByLabel("E-mail").fill("nina.kos@example.si");
+  await page.getByRole("button", { name: "Create Invitation" }).click();
+  await expect(page.getByRole("button", { name: "Copy link" })).toBeVisible();
+  await expect(page.getByRole("row", { name: /nina/ })).toBeVisible();
+  await shot(page, "WF-13_members", "success-link-and-list");
+
+  await stubGet(page, `/api/v1/groups/${groupId}/invitations`, []);
+  await page.route((url) => url.pathname.endsWith(`/groups/${groupId}/invitations`), (r) =>
+    r.request().method() === "GET" ? r.fulfill({ status: 500, body: "" }) : r.fallback());
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Try again" })).toBeVisible();
+  await shot(page, "WF-13_members", "error-list");
+});
+
+test("WF-16 states", async ({ page, browser }) => {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  const token = await invite(groupId, ana, MARKO, "EDITOR");
+
+  await page.goto(`/invitations/${token}`);
+  await expect(page.getByText("Prijavite se ali ustvarite račun, da vidite to povabilo.")).toBeVisible();
+  await shot(page, "WF-16_invitation", "signed-out");
+  await page.getByRole("link", { name: "Prijava" }).click();
+  await page.locator('input[type="email"]').fill(marko.email);
+  await page.locator('input[type="password"]').fill(PASSWORD);
+  await page.locator('input[type="password"]').press("Enter");
+  await expect(page).toHaveURL(new RegExp(`/invitations/${token}$`));
+  await expect(page.getByText("You are invited as Editor.")).toBeVisible();
+  await shot(page, "WF-16_invitation", "default");
+
+  const other = await browser.newContext({ baseURL: BASE_URL });
+  const petraPage = await other.newPage();
+  await signIn(petraPage, petra);
+  await petraPage.goto(`/invitations/${token}`);
+  await expect(petraPage.getByText("This Invitation is for another e-mail address.")).toBeVisible();
+  await shot(petraPage, "WF-16_invitation", "other-email");
+  await other.close();
+
+  await page.getByRole("button", { name: "Accept" }).click();
+  await expect(page.getByLabel("Group switcher")).toContainText("Konferenca 2025");
+  await page.goto(`/invitations/${token}`);
+  await expect(page.getByText("This Invitation is no longer valid.")).toBeVisible();
+  await shot(page, "WF-16_invitation", "no-longer-valid");
+  expect((await api(marko, "GET", "/groups")).json[0].role).toBe("EDITOR");
+});

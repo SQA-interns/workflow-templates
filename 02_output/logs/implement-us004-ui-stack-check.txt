@@ -1,0 +1,20 @@
+
+Running 2 tests using 1 worker
+
+axe WF-13_members empty: none
+axe WF-13_members error-email: none
+axe WF-13_members success-link-and-list: none
+axe WF-13_members error-list: none
+  ✓  1 [chromium] › acceptance/implement-us004-stack-check.spec.ts:26:1 › WF-13 states (16.2s)
+axe WF-16_invitation signed-out: none
+axe WF-16_invitation default: none
+axe WF-16_invitation other-email: none
+axe WF-16_invitation no-longer-valid: none
+  ✓  2 [chromium] › acceptance/implement-us004-stack-check.spec.ts:60:1 › WF-16 states (7.8s)
+
+  2 passed (25.5s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
