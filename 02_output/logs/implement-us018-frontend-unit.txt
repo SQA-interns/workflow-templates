@@ -1,0 +1,15 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ✓ src/i18n/catalogs.test.ts (4 tests) 26ms
+ ✓ src/i18n/format.test.ts (4 tests) 4ms
+ ✓ src/features/duplicates/DuplicatesPage.test.tsx (5 tests) 391ms
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (14 tests) 985ms
+ ✓ src/features/duplicates/MergePage.test.tsx (7 tests) 1059ms
+   ✓ WF-18 Merge (US-018) > AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's  457ms
+
+ Test Files  5 passed (5)
+      Tests  34 passed (34)
+   Start at  20:58:38
+   Duration  2.81s (transform 400ms, setup 1.16s, collect 1.75s, tests 2.47s, environment 3.06s, prepare 550ms)
+

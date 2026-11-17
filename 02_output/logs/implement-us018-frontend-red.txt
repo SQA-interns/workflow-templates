@@ -1,0 +1,1386 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ❯ src/features/duplicates/DuplicatesPage.test.tsx (5 tests | 1 failed) 1326ms
+   ✓ WF-17 Possible duplicates (US-017) > R-017-01 lists each pair with links to both Contacts and every reason 227ms
+   ✓ WF-17 Possible duplicates (US-017) > EX-017-07 without pairs: No possible duplicates found. 11ms
+   ✓ WF-17 Possible duplicates (US-017) > UI-14 shows loading, then an error with Try again 48ms
+   × WF-17 Possible duplicates (US-017) > R-018-01 an Editor opens Merge for a pair with its first and second Contact 1010ms
+     → Unable to find role="button" and name "Merge"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"text-2xl font-semibold"[39m
+      [36m>[39m
+        [0mPossible duplicates[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-text-muted"[39m
+      [36m>[39m
+        [0mPairs of Contacts that may be the same person or company. Nothing changes until you merge.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"flex flex-col gap-3"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface p-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+          [36m>[39m
+            [0mJanez Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+          [36m>[39m
+            [0m↔[0m
+          [36m</span>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c2"[39m
+          [36m>[39m
+            [0mJ. Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame e-mail[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame phone[0m
+          [36m</span>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"text-2xl font-semibold"[39m
+      [36m>[39m
+        [0mPossible duplicates[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-text-muted"[39m
+      [36m>[39m
+        [0mPairs of Contacts that may be the same person or company. Nothing changes until you merge.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"flex flex-col gap-3"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface p-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+          [36m>[39m
+            [0mJanez Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+          [36m>[39m
+            [0m↔[0m
+          [36m</span>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c2"[39m
+          [36m>[39m
+            [0mJ. Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame e-mail[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame phone[0m
+          [36m</span>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   ✓ WF-17 Possible duplicates (US-017) > BR-03 a Viewer sees no Merge 28ms
+ ❯ src/features/contacts/ContactDetailsPage.test.tsx (14 tests | 1 failed) 1925ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels 258ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Attributes and the Tags 69ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 links to the History with the current Version and its time 65ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 without Attributes or Tags it says so 20ms
+   ✓ WF-07 Contact details (R-014-06) > US-007 an Owner or Editor gets Edit, which opens the Contact form 44ms
+   ✓ WF-07 Contact details (R-014-06) > BR-03 a Viewer gets no Edit 39ms
+   ✓ WF-07 Contact details (R-014-06) > AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list 127ms
+   ✓ WF-07 Contact details (R-014-06) > EX-012-03 Cancel closes the confirmation and moves nothing 99ms
+   ✓ WF-07 Contact details (R-014-06) > BR-06 a refused move shows its message in the confirmation 95ms
+   ✓ WF-07 Contact details (R-014-06) > AC-012-04 a Viewer gets no Move to recycle bin 23ms
+   ✓ WF-07 Contact details (R-014-06) > EX-012-06 a Contact in the recycle bin offers no Move to recycle bin 22ms
+   ✓ WF-07 Contact details (R-014-06) > BR-02 an unknown Contact: This page cannot be found. 7ms
+   ✓ WF-07 Contact details (R-014-06) > UI-14 an error shows Something went wrong. and Try again asks again 40ms
+   × WF-07 Contact details (R-014-06) > R-018-05 the Primary contact shows Merged from with a link to the Other contact's History 1015ms
+     → Unable to find role="link" and name "J. Novak"
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/groups/g1/contacts"[39m
+      [36m>[39m
+        [36m<svg[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+          [33mfill[39m=[32m"none"[39m
+          [33mheight[39m=[32m"24"[39m
+          [33mstroke[39m=[32m"currentColor"[39m
+          [33mstroke-linecap[39m=[32m"round"[39m
+          [33mstroke-linejoin[39m=[32m"round"[39m
+          [33mstroke-width[39m=[32m"2"[39m
+          [33mviewBox[39m=[32m"0 0 24 24"[39m
+          [33mwidth[39m=[32m"24"[39m
+          [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+        [36m>[39m
+          [36m<path[39m
+            [33md[39m=[32m"m12 19-7-7 7-7"[39m
+          [36m/>[39m
+          [36m<path[39m
+            [33md[39m=[32m"M19 12H5"[39m
+          [36m/>[39m
+        [36m</svg>[39m
+        [0mContacts[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold break-words"[39m
+        [36m>[39m
+          [0mJanez Novak[0m
+        [36m</h1>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-primary bg-primary text-primary-foreground hover:opacity-90"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/edit"[39m
+          [36m>[39m
+            [0mEdit[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-border bg-surface text-text hover:bg-surface-raised"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+          [36m>[39m
+            [0mHistory[0m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"radix-:r1v:"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"dialog"[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-transparent bg-transparent text-text hover:bg-surface"[39m
+            [33mdata-state[39m=[32m"closed"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mMove to recycle bin[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m":r22:"[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+            [33mid[39m=[32m":r22:"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<dl[39m
+            [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+          [36m>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mFirst name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mJanez[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mLast name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mNovak[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mE-mail[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mjanez.novak@example.si[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPhone[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCompany[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mPodjetje d.o.o.[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mJob title[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mStreet[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPostal code[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCity[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCountry[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mSlovenia[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mNote[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+          [36m</dl>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r23:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r23:"[39m
+            [36m>[39m
+              [0mAttributes[0m
+            [36m</h2>[39m
+            [36m<dl[39m
+              [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+            [36m>[39m
+              [36m<dt[39m
+                [33mclass[39m=[32m"text-text-muted"[39m
+              [36m>[39m
+                [0mkompetenca[0m
+              [36m</dt>[39m
+              [36m<dd[39m
+                [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+              [36m>[39m
+                [0mspletnoProgramiranje[0m
+              [36m</dd>[39m
+            [36m</dl>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r24:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r24:"[39m
+            [36m>[39m
+              [0mTags[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"flex flex-wrap gap-1"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"inline-flex items-center rounded-full border border-border bg-surface px-2 py-0.5 text-sm text-text"[39m
+              [36m>[39m
+                [0mudelezenec2025[0m
+              [36m</span>[39m
+            [36m</p>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-wrap items-center gap-x-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"inline-flex min-h-11 items-center underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+            [36m>[39m
+              [0mHistory[0m
+            [36m</a>[39m
+            [36m<span>[39m
+              [0mVersion 3 · 05.03.2026 11:00[0m
+            [36m</span>[39m
+          [36m</section>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/groups/g1/contacts"[39m
+      [36m>[39m
+        [36m<svg[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+          [33mfill[39m=[32m"none"[39m
+          [33mheight[39m=[32m"24"[39m
+          [33mstroke[39m=[32m"currentColor"[39m
+          [33mstroke-linecap[39m=[32m"round"[39m
+          [33mstroke-linejoin[39m=[32m"round"[39m
+          [33mstroke-width[39m=[32m"2"[39m
+          [33mviewBox[39m=[32m"0 0 24 24"[39m
+          [33mwidth[39m=[32m"24"[39m
+          [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+        [36m>[39m
+          [36m<path[39m
+            [33md[39m=[32m"m12 19-7-7 7-7"[39m
+          [36m/>[39m
+          [36m<path[39m
+            [33md[39m=[32m"M19 12H5"[39m
+          [36m/>[39m
+        [36m</svg>[39m
+        [0mContacts[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold break-words"[39m
+        [36m>[39m
+          [0mJanez Novak[0m
+        [36m</h1>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-primary bg-primary text-primary-foreground hover:opacity-90"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/edit"[39m
+          [36m>[39m
+            [0mEdit[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-border bg-surface text-text hover:bg-surface-raised"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+          [36m>[39m
+            [0mHistory[0m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"radix-:r1v:"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"dialog"[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-transparent bg-transparent text-text hover:bg-surface"[39m
+            [33mdata-state[39m=[32m"closed"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mMove to recycle bin[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m":r22:"[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+            [33mid[39m=[32m":r22:"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<dl[39m
+            [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+          [36m>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mFirst name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mJanez[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mLast name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mNovak[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mE-mail[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mjanez.novak@example.si[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPhone[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCompany[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mPodjetje d.o.o.[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mJob title[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mStreet[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPostal code[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCity[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCountry[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mSlovenia[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mNote[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+          [36m</dl>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r23:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r23:"[39m
+            [36m>[39m
+              [0mAttributes[0m
+            [36m</h2>[39m
+            [36m<dl[39m
+              [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+            [36m>[39m
+              [36m<dt[39m
+                [33mclass[39m=[32m"text-text-muted"[39m
+              [36m>[39m
+                [0mkompetenca[0m
+              [36m</dt>[39m
+              [36m<dd[39m
+                [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+              [36m>[39m
+                [0mspletnoProgramiranje[0m
+              [36m</dd>[39m
+            [36m</dl>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r24:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r24:"[39m
+            [36m>[39m
+              [0mTags[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"flex flex-wrap gap-1"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"inline-flex items-center rounded-full border border-border bg-surface px-2 py-0.5 text-sm text-text"[39m
+              [36m>[39m
+                [0mudelezenec2025[0m
+              [36m</span>[39m
+            [36m</p>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-wrap items-center gap-x-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"inline-flex min-h-11 items-center underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+            [36m>[39m
+              [0mHistory[0m
+            [36m</a>[39m
+            [36m<span>[39m
+              [0mVersion 3 · 05.03.2026 11:00[0m
+            [36m</span>[39m
+          [36m</section>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/duplicates/MergePage.test.tsx [ src/features/duplicates/MergePage.test.tsx ]
+Error: Failed to resolve import "./MergePage" from "src/features/duplicates/MergePage.test.tsx". Does the file exist?
+  Plugin: vite:import-analysis
+  File: /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/duplicates/MergePage.test.tsx:10:0
+  9  |  const __vi_import_7__ = await import("../../i18n");
+  10 |  const __vi_import_8__ = await import("../contacts/contactFields");
+  11 |  const __vi_import_9__ = await import("./MergePage");
+     |                                       ^
+  12 |  
+  13 |  
+ ❯ TransformPluginContext._formatLog node_modules/vite/dist/node/chunks/config.js:29250:43
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/config.js:29247:14
+ ❯ normalizeUrl node_modules/vite/dist/node/chunks/config.js:27370:18
+ ❯ node_modules/vite/dist/node/chunks/config.js:27428:32
+ ❯ TransformPluginContext.transform node_modules/vite/dist/node/chunks/config.js:27396:4
+ ❯ EnvironmentPluginContainer.transform node_modules/vite/dist/node/chunks/config.js:29048:14
+ ❯ loadAndTransform node_modules/vite/dist/node/chunks/config.js:22914:26
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/duplicates/DuplicatesPage.test.tsx > WF-17 Possible duplicates (US-017) > R-018-01 an Editor opens Merge for a pair with its first and second Contact
+TestingLibraryElementError: Unable to find role="button" and name "Merge"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"text-2xl font-semibold"[39m
+      [36m>[39m
+        [0mPossible duplicates[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-text-muted"[39m
+      [36m>[39m
+        [0mPairs of Contacts that may be the same person or company. Nothing changes until you merge.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"flex flex-col gap-3"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface p-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+          [36m>[39m
+            [0mJanez Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+          [36m>[39m
+            [0m↔[0m
+          [36m</span>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c2"[39m
+          [36m>[39m
+            [0mJ. Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame e-mail[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame phone[0m
+          [36m</span>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<h1[39m
+        [33mclass[39m=[32m"text-2xl font-semibold"[39m
+      [36m>[39m
+        [0mPossible duplicates[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"text-text-muted"[39m
+      [36m>[39m
+        [0mPairs of Contacts that may be the same person or company. Nothing changes until you merge.[0m
+      [36m</p>[39m
+      [36m<ul[39m
+        [33mclass[39m=[32m"flex flex-col gap-3"[39m
+      [36m>[39m
+        [36m<li[39m
+          [33mclass[39m=[32m"flex flex-wrap items-center gap-2 rounded-lg border border-border bg-surface p-3"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+          [36m>[39m
+            [0mJanez Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33maria-hidden[39m=[32m"true"[39m
+          [36m>[39m
+            [0m↔[0m
+          [36m</span>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center font-semibold underline"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c2"[39m
+          [36m>[39m
+            [0mJ. Novak[0m
+          [36m</a>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame e-mail[0m
+          [36m</span>[39m
+          [36m<span[39m
+            [33mclass[39m=[32m"rounded-full border border-border px-2 py-0.5 text-sm"[39m
+          [36m>[39m
+            [0mSame phone[0m
+          [36m</span>[39m
+        [36m</li>[39m
+      [36m</ul>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/duplicates/DuplicatesPage.test.tsx:105:40
+    103| 
+    104|     renderPage();
+    105|     await userEvent.click(await screen.findByRole("button", { name: "M…
+       |                                        ^
+    106| 
+    107|     expect(await screen.findByText("Merge screen ?first=c1&second=c2")…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > R-018-05 the Primary contact shows Merged from with a link to the Other contact's History
+TestingLibraryElementError: Unable to find role="link" and name "J. Novak"
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/groups/g1/contacts"[39m
+      [36m>[39m
+        [36m<svg[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+          [33mfill[39m=[32m"none"[39m
+          [33mheight[39m=[32m"24"[39m
+          [33mstroke[39m=[32m"currentColor"[39m
+          [33mstroke-linecap[39m=[32m"round"[39m
+          [33mstroke-linejoin[39m=[32m"round"[39m
+          [33mstroke-width[39m=[32m"2"[39m
+          [33mviewBox[39m=[32m"0 0 24 24"[39m
+          [33mwidth[39m=[32m"24"[39m
+          [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+        [36m>[39m
+          [36m<path[39m
+            [33md[39m=[32m"m12 19-7-7 7-7"[39m
+          [36m/>[39m
+          [36m<path[39m
+            [33md[39m=[32m"M19 12H5"[39m
+          [36m/>[39m
+        [36m</svg>[39m
+        [0mContacts[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold break-words"[39m
+        [36m>[39m
+          [0mJanez Novak[0m
+        [36m</h1>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-primary bg-primary text-primary-foreground hover:opacity-90"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/edit"[39m
+          [36m>[39m
+            [0mEdit[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-border bg-surface text-text hover:bg-surface-raised"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+          [36m>[39m
+            [0mHistory[0m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"radix-:r1v:"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"dialog"[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-transparent bg-transparent text-text hover:bg-surface"[39m
+            [33mdata-state[39m=[32m"closed"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mMove to recycle bin[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m":r22:"[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+            [33mid[39m=[32m":r22:"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<dl[39m
+            [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+          [36m>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mFirst name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mJanez[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mLast name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mNovak[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mE-mail[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mjanez.novak@example.si[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPhone[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCompany[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mPodjetje d.o.o.[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mJob title[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mStreet[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPostal code[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCity[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCountry[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mSlovenia[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mNote[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+          [36m</dl>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r23:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r23:"[39m
+            [36m>[39m
+              [0mAttributes[0m
+            [36m</h2>[39m
+            [36m<dl[39m
+              [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+            [36m>[39m
+              [36m<dt[39m
+                [33mclass[39m=[32m"text-text-muted"[39m
+              [36m>[39m
+                [0mkompetenca[0m
+              [36m</dt>[39m
+              [36m<dd[39m
+                [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+              [36m>[39m
+                [0mspletnoProgramiranje[0m
+              [36m</dd>[39m
+            [36m</dl>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r24:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r24:"[39m
+            [36m>[39m
+              [0mTags[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"flex flex-wrap gap-1"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"inline-flex items-center rounded-full border border-border bg-surface px-2 py-0.5 text-sm text-text"[39m
+              [36m>[39m
+                [0mudelezenec2025[0m
+              [36m</span>[39m
+            [36m</p>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-wrap items-center gap-x-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"inline-flex min-h-11 items-center underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+            [36m>[39m
+              [0mHistory[0m
+            [36m</a>[39m
+            [36m<span>[39m
+              [0mVersion 3 · 05.03.2026 11:00[0m
+            [36m</span>[39m
+          [36m</section>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body[39m
+  [33mstyle[39m=[32m""[39m
+[36m>[39m
+  [36m<div>[39m
+    [36m<div[39m
+      [33mclass[39m=[32m"flex flex-col gap-4"[39m
+    [36m>[39m
+      [36m<a[39m
+        [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+        [33mdata-discover[39m=[32m"true"[39m
+        [33mhref[39m=[32m"/groups/g1/contacts"[39m
+      [36m>[39m
+        [36m<svg[39m
+          [33maria-hidden[39m=[32m"true"[39m
+          [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+          [33mfill[39m=[32m"none"[39m
+          [33mheight[39m=[32m"24"[39m
+          [33mstroke[39m=[32m"currentColor"[39m
+          [33mstroke-linecap[39m=[32m"round"[39m
+          [33mstroke-linejoin[39m=[32m"round"[39m
+          [33mstroke-width[39m=[32m"2"[39m
+          [33mviewBox[39m=[32m"0 0 24 24"[39m
+          [33mwidth[39m=[32m"24"[39m
+          [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+        [36m>[39m
+          [36m<path[39m
+            [33md[39m=[32m"m12 19-7-7 7-7"[39m
+          [36m/>[39m
+          [36m<path[39m
+            [33md[39m=[32m"M19 12H5"[39m
+          [36m/>[39m
+        [36m</svg>[39m
+        [0mContacts[0m
+      [36m</a>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"flex flex-wrap items-center justify-between gap-2"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold break-words"[39m
+        [36m>[39m
+          [0mJanez Novak[0m
+        [36m</h1>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-wrap gap-2"[39m
+        [36m>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-primary bg-primary text-primary-foreground hover:opacity-90"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/edit"[39m
+          [36m>[39m
+            [0mEdit[0m
+          [36m</a>[39m
+          [36m<a[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-border bg-surface text-text hover:bg-surface-raised"[39m
+            [33mdata-discover[39m=[32m"true"[39m
+            [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+          [36m>[39m
+            [0mHistory[0m
+          [36m</a>[39m
+          [36m<button[39m
+            [33maria-controls[39m=[32m"radix-:r1v:"[39m
+            [33maria-expanded[39m=[32m"false"[39m
+            [33maria-haspopup[39m=[32m"dialog"[39m
+            [33mclass[39m=[32m"inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-transparent bg-transparent text-text hover:bg-surface"[39m
+            [33mdata-state[39m=[32m"closed"[39m
+            [33mtype[39m=[32m"button"[39m
+          [36m>[39m
+            [0mMove to recycle bin[0m
+          [36m</button>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+      [36m>[39m
+        [36m<section[39m
+          [33maria-labelledby[39m=[32m":r22:"[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+            [33mid[39m=[32m":r22:"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<dl[39m
+            [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+          [36m>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mFirst name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mJanez[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mLast name[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mNovak[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mE-mail[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mjanez.novak@example.si[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPhone[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCompany[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mPodjetje d.o.o.[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mJob title[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mStreet[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mPostal code[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCity[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mCountry[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0mSlovenia[0m
+            [36m</dd>[39m
+            [36m<dt[39m
+              [33mclass[39m=[32m"text-text-muted"[39m
+            [36m>[39m
+              [0mNote[0m
+            [36m</dt>[39m
+            [36m<dd[39m
+              [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+            [36m>[39m
+              [0m—[0m
+            [36m</dd>[39m
+          [36m</dl>[39m
+        [36m</section>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r23:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r23:"[39m
+            [36m>[39m
+              [0mAttributes[0m
+            [36m</h2>[39m
+            [36m<dl[39m
+              [33mclass[39m=[32m"grid grid-cols-[auto_1fr] gap-x-4 gap-y-1"[39m
+            [36m>[39m
+              [36m<dt[39m
+                [33mclass[39m=[32m"text-text-muted"[39m
+              [36m>[39m
+                [0mkompetenca[0m
+              [36m</dt>[39m
+              [36m<dd[39m
+                [33mclass[39m=[32m"break-words whitespace-pre-line"[39m
+              [36m>[39m
+                [0mspletnoProgramiranje[0m
+              [36m</dd>[39m
+            [36m</dl>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33maria-labelledby[39m=[32m":r24:"[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-3"[39m
+          [36m>[39m
+            [36m<h2[39m
+              [33mclass[39m=[32m"text-xl font-semibold"[39m
+              [33mid[39m=[32m":r24:"[39m
+            [36m>[39m
+              [0mTags[0m
+            [36m</h2>[39m
+            [36m<p[39m
+              [33mclass[39m=[32m"flex flex-wrap gap-1"[39m
+            [36m>[39m
+              [36m<span[39m
+                [33mclass[39m=[32m"inline-flex items-center rounded-full border border-border bg-surface px-2 py-0.5 text-sm text-text"[39m
+              [36m>[39m
+                [0mudelezenec2025[0m
+              [36m</span>[39m
+            [36m</p>[39m
+          [36m</section>[39m
+          [36m<section[39m
+            [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-wrap items-center gap-x-2"[39m
+          [36m>[39m
+            [36m<a[39m
+              [33mclass[39m=[32m"inline-flex min-h-11 items-center underline"[39m
+              [33mdata-discover[39m=[32m"true"[39m
+              [33mhref[39m=[32m"/groups/g1/contacts/c1/history"[39m
+            [36m>[39m
+              [0mHistory[0m
+            [36m</a>[39m
+            [36m<span>[39m
+              [0mVersion 3 · 05.03.2026 11:00[0m
+            [36m</span>[39m
+          [36m</section>[39m
+        [36m</div>[39m
+      [36m</div>[39m
+    [36m</div>[39m
+  [36m</div>[39m
+[36m</body>[39m
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ src/features/contacts/ContactDetailsPage.test.tsx:210:31
+    208|     renderPage();
+    209| 
+    210|     const link = await screen.findByRole("link", { name: "J. Novak" });
+       |                               ^
+    211|     expect(link.getAttribute("href")).toBe("/groups/g1/contacts/c2/his…
+    212|     expect(screen.getByText(/Merged from/)).toBeTruthy();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed (3)
+      Tests  2 failed | 17 passed (19)
+   Start at  20:55:36
+   Duration  3.94s (transform 363ms, setup 797ms, collect 1.12s, tests 3.25s, environment 2.31s, prepare 258ms)
+
