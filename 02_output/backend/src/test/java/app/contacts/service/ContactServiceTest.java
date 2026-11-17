@@ -750,6 +750,97 @@ class ContactServiceTest {
     verifyNoInteractions(tags, contactTags, versionWriter);
   }
 
+  private static final Map<String, String> JANEZ_V1 =
+      Map.of("firstName", "Janez", "lastName", "Novak", "email", "janez.novak@example.si");
+
+  /** Janez at Version 2: the e-mail changed and the Tag {@code udelezenec2025} removed. */
+  private Contact janezAtVersion2() {
+    Contact janez = stored(JANEZ_V1);
+    janez.edit(
+        ContactFields.ofNames(
+            Map.of("firstName", "Janez", "lastName", "Novak", "email", "janez@novak.si")),
+        "",
+        "",
+        ANA,
+        NOW);
+    return janez;
+  }
+
+  private static ContactContent version1(String... tags) {
+    return new ContactContent(ContactFields.ofNames(JANEZ_V1), List.of(), List.of(tags));
+  }
+
+  @Test
+  void r01101RestoreMakesTheContentEqualToTheVersionAsVersionRestored() {
+    Contact janez = janezAtVersion2();
+    hasAttributes(janez, "kompetenca", "Java");
+
+    ContactView restored =
+        service.restore(GROUP_ID, MARKO, janez.getId(), 2, 1, version1("udelezenec2025"));
+
+    assertThat(restored.versionNumber()).isEqualTo(3);
+    assertThat(janez.getFields().email()).isEqualTo("janez.novak@example.si");
+    assertThat(janez.getUpdatedBy()).isEqualTo(MARKO);
+    assertThat(janez.getSearchText()).isEqualTo("janez novak janez.novak@example.si");
+    verify(attributes).discardOfContact(GROUP_ID, janez.getId());
+    assertThat(storedAttributes()).isEmpty();
+    ArgumentCaptor<ContactContent> before = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter)
+        .recordRestored(eq(janez), eq(1), before.capture(), eq(version1("udelezenec2025")));
+    assertThat(before.getValue().fields().email()).isEqualTo("janez@novak.si");
+  }
+
+  @Test
+  void r01104RestoreCreatesATagThatNoLongerExistsAndPutsItOn() {
+    Contact janez = janezAtVersion2();
+
+    service.restore(GROUP_ID, MARKO, janez.getId(), 2, 1, version1("vip"));
+
+    ArgumentCaptor<Tag> created = ArgumentCaptor.forClass(Tag.class);
+    verify(tags).add(eq(GROUP_ID), created.capture());
+    assertThat(created.getValue().getName()).isEqualTo("vip");
+    verify(contactTags).add(eq(GROUP_ID), any(ContactTag.class));
+  }
+
+  @Test
+  void r01103RestoreOfTheCurrentContentIsRejectedAndCreatesNoVersion() {
+    Contact janez = stored(JANEZ_V1);
+    hasTags(janez, "udelezenec2025");
+
+    assertThatThrownBy(
+            () -> service.restore(GROUP_ID, MARKO, janez.getId(), 1, 1, version1("udelezenec2025")))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.sameAsCurrent");
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    verifyNoInteractions(versionWriter, attributes, contactTags);
+  }
+
+  @Test
+  void ex01101RestoreWithAStaleVersionNumberIsRejectedAsBr06() {
+    Contact janez = janezAtVersion2();
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ANA)).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(() -> service.restore(GROUP_ID, MARKO, janez.getId(), 1, 1, version1()))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict")
+        .hasFieldOrPropertyWithValue("params", Map.of("changedBy", "Ana Kovač"));
+    assertThat(janez.getFields().email()).isEqualTo("janez@novak.si");
+    verifyNoInteractions(versionWriter, tags);
+  }
+
+  @Test
+  void ex01104ContactInTheRecycleBinCannotBeRestoredToAVersion() {
+    Contact janez = janezAtVersion2();
+    ReflectionTestUtils.setField(janez, "state", Contact.IN_RECYCLE_BIN);
+
+    assertThatThrownBy(() -> service.restore(GROUP_ID, MARKO, janez.getId(), 2, 1, version1()))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "contact.inRecycleBin");
+    assertThat(janez.getFields().email()).isEqualTo("janez@novak.si");
+    verifyNoInteractions(versionWriter, tags);
+  }
+
   private Contact stored(Map<String, String> fields) {
     Contact contact = Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", ANA, NOW);
     when(contacts.findForUpdate(GROUP_ID, contact.getId())).thenReturn(Optional.of(contact));

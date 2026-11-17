@@ -228,6 +228,58 @@ public class ContactService {
   }
 
   /**
+   * Makes the Contact's Fields, Attributes and Tags equal to an earlier Version, as a new Version
+   * {@code restored} that names it (R-011-01); Tags that no longer exist are created again
+   * (R-011-04). In the transaction of the caller, which checked the permission (BR-03).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param versionNumber the current Version number the client read (BR-06)
+   * @param restoredFrom the number of the restored Version
+   * @param restored the content of the restored Version
+   * @return the restored Contact
+   * @throws NotFoundException for a Contact that is not the Group's (BR-02)
+   * @throws ConflictException {@code version.conflict} for a Version number that is not current
+   *     (BR-06, EX-011-01), {@code contact.inRecycleBin} or {@code contact.merged} for a Contact
+   *     that is not active (EX-011-04, D-23), {@code version.sameAsCurrent} when the content is the
+   *     current one (R-011-03)
+   */
+  ContactView restore(
+      UUID groupId,
+      UUID userId,
+      UUID contactId,
+      int versionNumber,
+      int restoredFrom,
+      ContactContent restored) {
+    Contact contact = lockedForChange(groupId, contactId, versionNumber);
+    List<TagView> stored = tagsOf(contact);
+    ContactContent before =
+        new ContactContent(
+            contact.getFields(),
+            attributesOf(contact),
+            stored.stream().map(TagView::name).toList());
+    if (restored.equals(before)) {
+      throw new ConflictException("version.sameAsCurrent", Map.of());
+    }
+    List<Tag> wanted = tags.resolve(groupId, restored.tags());
+    ContactFields fields = restored.fields();
+    contact.edit(
+        fields,
+        normaliser.searchText(fields),
+        normaliser.sortName(fields),
+        userId,
+        clock.instant());
+    if (!restored.attributes().equals(before.attributes())) {
+      attributes.discardOfContact(groupId, contactId);
+      store(contact, restored.attributes());
+    }
+    tags.retag(contact, stored.stream().map(TagView::id).toList(), wanted);
+    versionWriter.recordRestored(contact, restoredFrom, before, restored);
+    return view(contact);
+  }
+
+  /**
    * The Contact of the Group locked for the change, if it is at the Version number read and active
    * (specification §4, BR-06, EX-007-03, D-23).
    */
