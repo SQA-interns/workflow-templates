@@ -39,7 +39,7 @@ public class ContactValidator {
 
   private static final int MAX_VALUE_LENGTH = 500;
 
-  private static final int MAX_ATTRIBUTES = 50;
+  static final int MAX_ATTRIBUTES = 50;
 
   /** Longest Tag name in characters (Data model, R-009-05). */
   private static final int MAX_TAG_LENGTH = 50;
