@@ -29,6 +29,9 @@ public class Contact implements GroupOwned {
   @Column(nullable = false)
   private String state;
 
+  @Column(name = "deleted_at")
+  private Instant deletedAt;
+
   @Column(name = "version_number", nullable = false)
   private int versionNumber;
 
@@ -100,6 +103,22 @@ public class Contact implements GroupOwned {
     this.fields = fields;
     this.searchText = searchText;
     this.sortName = sortName;
+    nextVersion(userId, now);
+  }
+
+  /**
+   * Puts the Contact in the recycle bin as the next Version (R-012-01).
+   *
+   * @param userId the User who moves it
+   * @param now the time, kept as {@code deletedAt}
+   */
+  public void moveToRecycleBin(UUID userId, Instant now) {
+    this.state = IN_RECYCLE_BIN;
+    this.deletedAt = now;
+    nextVersion(userId, now);
+  }
+
+  private void nextVersion(UUID userId, Instant now) {
     this.versionNumber++;
     this.updatedAt = now;
     this.updatedBy = userId;
@@ -120,6 +139,15 @@ public class Contact implements GroupOwned {
 
   public String getState() {
     return state;
+  }
+
+  /**
+   * When the Contact was moved to the recycle bin.
+   *
+   * @return the time; {@code null} unless it is in the recycle bin
+   */
+  public Instant getDeletedAt() {
+    return deletedAt;
   }
 
   public int getVersionNumber() {

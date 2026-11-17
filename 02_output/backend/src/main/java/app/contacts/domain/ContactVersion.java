@@ -28,6 +28,9 @@ public class ContactVersion implements GroupOwned {
   /** Kind of the Version that makes an earlier Version current again (R-011-01). */
   public static final String RESTORED = "restored";
 
+  /** Kind of the Version that moves a Contact to the recycle bin (R-012-01). */
+  public static final String MOVED_TO_RECYCLE_BIN = "movedToRecycleBin";
+
   @Id
   @Column(name = "contact_id")
   private UUID contactId;

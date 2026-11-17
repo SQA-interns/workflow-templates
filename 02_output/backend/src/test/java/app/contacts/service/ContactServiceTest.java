@@ -841,6 +841,52 @@ class ContactServiceTest {
     verifyNoInteractions(versionWriter, tags);
   }
 
+  @Test
+  void r01201MoveSetsTheContactInTheRecycleBinAsVersionMovedToRecycleBin() {
+    Contact janez = stored(JANEZ_V1);
+    hasAttributes(janez, "kompetenca", "Java");
+    hasTags(janez, "udelezenec2025");
+
+    ContactView moved = service.moveToRecycleBin(GROUP_ID, MARKO, janez.getId(), 1);
+
+    assertThat(moved.state()).isEqualTo(Contact.IN_RECYCLE_BIN);
+    assertThat(moved.versionNumber()).isEqualTo(2);
+    assertThat(janez.getDeletedAt()).isEqualTo(NOW);
+    assertThat(janez.getUpdatedBy()).isEqualTo(MARKO);
+    ArgumentCaptor<ContactContent> before = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter)
+        .record(
+            eq(janez), eq(ContactVersion.MOVED_TO_RECYCLE_BIN), before.capture(), before.capture());
+    assertThat(before.getAllValues().get(1)).isEqualTo(before.getAllValues().get(0));
+    assertThat(before.getValue().tags()).containsExactly("udelezenec2025");
+    verifyNoInteractions(contactTags);
+  }
+
+  @Test
+  void ex01204MoveWithStaleVersionNumberIsRejectedAsBr06() {
+    Contact janez = janezAtVersion2();
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ANA)).thenReturn(Optional.of(ana));
+
+    assertThatThrownBy(() -> service.moveToRecycleBin(GROUP_ID, MARKO, janez.getId(), 1))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict");
+    assertThat(janez.getState()).isEqualTo(Contact.ACTIVE);
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void ex01206MovingAContactAlreadyInTheRecycleBinIsRejected() {
+    Contact janez = stored(JANEZ_V1);
+    service.moveToRecycleBin(GROUP_ID, MARKO, janez.getId(), 1);
+
+    assertThatThrownBy(() -> service.moveToRecycleBin(GROUP_ID, MARKO, janez.getId(), 2))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "contact.inRecycleBin");
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+  }
+
   private Contact stored(Map<String, String> fields) {
     Contact contact = Contact.create(GROUP_ID, ContactFields.ofNames(fields), "", "", ANA, NOW);
     when(contacts.findForUpdate(GROUP_ID, contact.getId())).thenReturn(Optional.of(contact));

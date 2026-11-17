@@ -252,6 +252,29 @@ public class ContactService {
     return view(contact);
   }
 
+  /**
+   * Puts an active Contact in the recycle bin as a new Version {@code movedToRecycleBin} with its
+   * content unchanged (R-012-01). In the transaction of the caller, which checked the permission
+   * (BR-03).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param versionNumber the current Version number the client read (BR-06)
+   * @return the Contact in the recycle bin
+   * @throws NotFoundException for a Contact that is not the Group's (BR-02)
+   * @throws ConflictException {@code version.conflict} for a Version number that is not current
+   *     (BR-06, EX-012-04), {@code contact.inRecycleBin} or {@code contact.merged} for a Contact
+   *     that is not active (EX-012-06, D-23)
+   */
+  ContactView moveToRecycleBin(UUID groupId, UUID userId, UUID contactId, int versionNumber) {
+    Contact contact = lockedForChange(groupId, contactId, versionNumber);
+    ContactContent content = contentOf(contact, tagsOf(contact));
+    contact.moveToRecycleBin(userId, clock.instant());
+    versionWriter.record(contact, ContactVersion.MOVED_TO_RECYCLE_BIN, content, content);
+    return view(contact);
+  }
+
   /** The content the Contact has, with the Tags it has. */
   private ContactContent contentOf(Contact contact, List<TagView> stored) {
     return new ContactContent(
