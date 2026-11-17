@@ -51,11 +51,11 @@ public class VersionWriter {
    */
   public void record(Contact contact, String kind, ContactContent before, ContactContent after) {
     SequencedMap<String, String> fields = after.fields().byName();
-    List<Change> changes = new ArrayList<>();
+    List<ChangeView> changes = new ArrayList<>();
     changes.addAll(changed(before.fields().byName(), fields, ""));
     changes.addAll(changed(byKey(before), byKey(after), ATTRIBUTE));
     changes.addAll(changed(byName(before), byName(after), TAG));
-    Snapshot snapshot = new Snapshot(fields, after.attributes(), after.tags());
+    SnapshotView snapshot = new SnapshotView(fields, after.attributes(), after.tags());
     versions.add(
         contact.getGroupId(),
         ContactVersion.of(
@@ -63,13 +63,13 @@ public class VersionWriter {
   }
 
   /** The items whose value differs, in the order of {@code old} and then of new items. */
-  private static List<Change> changed(
+  private static List<ChangeView> changed(
       Map<String, String> old, Map<String, String> current, String prefix) {
     Set<String> items = new LinkedHashSet<>(old.keySet());
     items.addAll(current.keySet());
     return items.stream()
         .filter(item -> !Objects.equals(old.get(item), current.get(item)))
-        .map(item -> new Change(prefix + item, old.get(item), current.get(item)))
+        .map(item -> new ChangeView(prefix + item, old.get(item), current.get(item)))
         .toList();
   }
 
@@ -85,11 +85,4 @@ public class VersionWriter {
     content.tags().forEach(tag -> tags.put(tag, tag));
     return tags;
   }
-
-  /** One changed item of a Version (Data model "changes"). */
-  private record Change(String item, String oldValue, String newValue) {}
-
-  /** The full content of a Contact after a change (Data model "snapshot"). */
-  private record Snapshot(
-      SequencedMap<String, String> fields, List<AttributeView> attributes, List<String> tags) {}
 }
