@@ -1,0 +1,184 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, createContact, createGroup, editContact, getContact,
+  resetStack, signIn, sql, stubGet, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  const ids: Record<string, string> = {};
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    ids[u.email] = id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId, ids };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+
+const janez = (t: Team) =>
+  createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si", city: "Ljubljana" },
+  });
+const path = (t: Team, id: string) => `/groups/${t.groupId}/contacts/${id}`;
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+const lines = (v: { changes: { item: string; oldValue: string | null; newValue: string | null }[] }) =>
+  v.changes.map((c) => `${c.item}: ${c.oldValue ?? "∅"} → ${c.newValue ?? "∅"}`);
+
+test("API AC-010-01..03, EX-010-02..05", async () => {
+  const t = await team();
+  const id = await janez(t);
+  const before = Date.now();
+  await editContact(t.marko, t.groupId, id, (u) => (u.fields.email = "janez@novak.si"));
+
+  let r = await api(t.petra, "GET", `${path(t, id)}/versions`);
+  log("AC-010-01", [r.status, r.json.map((v: { number: number; kind: string; changedBy: string }) => `${v.number} ${v.kind} ${v.changedBy}`), lines(r.json[0])]);
+  expect(r.status).toBe(200);
+  expect(r.json.map((v: { number: number; kind: string }) => `${v.number} ${v.kind}`)).toEqual(["2 edited", "1 created"]);
+  expect(r.json[0].changedBy).toBe("Marko Kranjc");
+  expect(r.json[1].changedBy).toBe("Ana Kovač");
+  expect(lines(r.json[0])).toEqual(["email: janez.novak@example.si → janez@novak.si"]);
+  expect(Math.abs(Date.parse(r.json[0].changedAt) - before)).toBeLessThan(60_000);
+
+  r = await api(t.petra, "GET", `${path(t, id)}/versions/1`);
+  log("AC-010-02", [r.status, r.json.kind, r.json.snapshot.fields]);
+  expect(r.status).toBe(200);
+  expect(r.json.snapshot.fields).toMatchObject({ firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si", city: "Ljubljana" });
+
+  const nina = await user("nina.kos@example.si", "Nina Kos");
+  await createGroup(nina, "Podjetje Beta");
+  r = await api(nina, "GET", `${path(t, id)}/versions`);
+  const r1 = await api(nina, "GET", `${path(t, id)}/versions/1`);
+  log("AC-010-03", [r.status, r1.status, JSON.stringify(r.json).includes("Novak")]);
+  expect([r.status, r1.status]).toEqual([404, 404]);
+  expect(JSON.stringify(r.json) + JSON.stringify(r1.json)).not.toContain("Novak");
+
+  sql(`DELETE FROM membership WHERE user_id = '${t.ids[MARKO]}'`);
+  r = await api(t.petra, "GET", `${path(t, id)}/versions`);
+  log("EX-010-02", r.json[0].changedBy);
+  expect(r.json[0].changedBy).toBe("Marko Kranjc");
+
+  const v1 = JSON.stringify((await api(t.ana, "GET", `${path(t, id)}/versions/1`)).json);
+  const put = await api(t.ana, "PUT", `${path(t, id)}/versions/1`, { kind: "edited" });
+  const patch = await api(t.ana, "PATCH", `${path(t, id)}/versions/1`, { kind: "edited" });
+  const del = await api(t.ana, "DELETE", `${path(t, id)}/versions/1`);
+  log("EX-010-03", [put.status, patch.status, del.status, put.json]);
+  expect([put.status, patch.status, del.status]).toEqual([405, 405, 405]);
+  expect(JSON.stringify((await api(t.ana, "GET", `${path(t, id)}/versions/1`)).json)).toBe(v1);
+  expect((await api(t.ana, "GET", `${path(t, id)}/versions`)).json).toHaveLength(2);
+
+  const one = await janez(t);
+  r = await api(t.petra, "GET", `${path(t, one)}/versions`);
+  log("EX-010-04", r.json.map((v: { number: number; kind: string }) => `${v.number} ${v.kind}`));
+  expect(r.json).toHaveLength(1);
+
+  r = await api(t.petra, "GET", `${path(t, id)}/versions/99`);
+  log("EX-010-05", r.status);
+  expect(r.status).toBe(404);
+});
+
+async function shot(page: Page, dir: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${dir} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+function version(number: number, kind: string, changedBy: string, changedAt: string, changes: object[]) {
+  return { number, kind, changedBy, changedAt, restoredFrom: null, changes };
+}
+
+test("UI AC-010-01, AC-010-02, EX-010-01 with screens", async ({ page }) => {
+  const t = await team();
+  const id = await janez(t);
+  await editContact(t.marko, t.groupId, id, (u) => {
+    u.fields.email = "janez@novak.si";
+    u.attributes = [{ key: "kompetenca", value: "spletnoProgramiranje" }];
+    u.tags = ["udelezenec2025"];
+  });
+  await signIn(page, t.petra);
+
+  // real data: WF-09 success
+  await page.goto(`${path(t, id)}/history`);
+  const main = page.getByRole("main");
+  await expect(main.getByText("E-mail: janez.novak@example.si → janez@novak.si")).toBeVisible();
+  await expect(main.getByText("kompetenca: (empty) → spletnoProgramiranje")).toBeVisible();
+  await expect(main.getByText("tag:udelezenec2025 added")).toBeVisible();
+  console.log("UI real History:", JSON.stringify((await main.innerText()).split("\n").filter(Boolean)));
+  await shot(page, "WF-09_history", "success");
+
+  // AC-010-01 as the frozen test (stubbed instants)
+  await stubGet(page, `/contacts/${id}/versions`, [
+    version(2, "edited", "Marko Kranjc", "2026-07-01T08:00:00Z", [
+      { item: "email", oldValue: "janez.novak@example.si", newValue: "janez@novak.si" },
+    ]),
+    version(1, "created", "Ana Kovač", "2026-03-05T09:00:00Z", []),
+  ]);
+  await page.goto(`${path(t, id)}/history`);
+  await expect(main.getByText("E-mail: janez.novak@example.si → janez@novak.si")).toBeVisible();
+  await expect(main.getByText("Marko Kranjc")).toBeVisible();
+  await expect(main.getByText("01.07.2026 10:00")).toBeVisible();
+  await expect(main.getByText("Ana Kovač")).toBeVisible();
+  await expect(main.getByText("05.03.2026 10:00")).toBeVisible();
+  const text = await main.innerText();
+  expect(text.indexOf("Version 2")).toBeGreaterThanOrEqual(0);
+  expect(text.indexOf("Version 2")).toBeLessThan(text.indexOf("Version 1"));
+  console.log("UI AC-010-01 passed");
+
+  // EX-010-01
+  await page.unrouteAll();
+  await stubGet(page, `/contacts/${id}/versions`, [
+    version(1, "created", "Ana Kovač", "2026-12-31T23:30:00Z", []),
+  ]);
+  await page.goto(`${path(t, id)}/history`);
+  await expect(main.getByText("01.01.2027 00:30")).toBeVisible();
+  console.log("UI EX-010-01 passed");
+  await page.unrouteAll();
+
+  // AC-010-02
+  await page.goto(`${path(t, id)}/history/1`);
+  await expect(main.getByText("janez.novak@example.si", { exact: true })).toBeVisible();
+  await expect(main.getByText("Ljubljana", { exact: true })).toBeVisible();
+  await expect(main.getByText("janez@novak.si")).toHaveCount(0);
+  await expect(main.getByRole("textbox")).toHaveCount(0);
+  await expect(main.getByRole("button", { name: "Save" })).toHaveCount(0);
+  await expect(main.getByRole("button", { name: "Edit" })).toHaveCount(0);
+  console.log("UI AC-010-02 passed");
+  await shot(page, "WF-10_version", "success-v1");
+  await page.goto(`${path(t, id)}/history/2`);
+  await expect(main.getByText("spletnoProgramiranje")).toBeVisible();
+  await shot(page, "WF-10_version", "success-v2");
+
+  // not found and error states
+  await page.goto(`${path(t, id)}/history/99`);
+  await expect(main.getByText("This page cannot be found.")).toBeVisible();
+  await shot(page, "WF-10_version", "not-found");
+  await page.route((url) => url.pathname.endsWith("/versions"), (route) =>
+    route.fulfill({ status: 500, contentType: "application/problem+json", body: '{"status":500,"code":"internal"}' }));
+  await page.goto(`${path(t, id)}/history`);
+  await expect(main.getByRole("button", { name: "Try again" })).toBeVisible();
+  await shot(page, "WF-09_history", "error");
+  await page.unrouteAll();
+  await page.route((url) => url.pathname.endsWith("/versions/1"), async (route) => {
+    await new Promise((r) => setTimeout(r, 4000));
+    await route.fallback();
+  });
+  await page.goto(`${path(t, id)}/history/1`);
+  await expect(main.getByRole("status")).toBeVisible();
+  await page.screenshot({ path: "../logs/screens/WF-10_version/loading_desktop.png" });
+});

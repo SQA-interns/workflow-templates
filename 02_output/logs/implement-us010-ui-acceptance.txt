@@ -1,0 +1,266 @@
+
+Running 9 tests using 1 worker
+
+
+  ✘  1 [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time (2.2s)
+
+  ✘  2 [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls (705ms)
+
+  ✘  3 [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 (719ms)
+
+  ✘  4 [firefox] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time (243ms)
+
+  ✘  5 [firefox] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls (281ms)
+
+  ✘  6 [firefox] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 (267ms)
+
+  ✘  7 [webkit] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time (246ms)
+
+  ✘  8 [webkit] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls (295ms)
+
+  ✘  9 [webkit] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 (289ms)
+
+
+  1) [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:34:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:60:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us010-history.spec.ts:79:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [firefox] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [firefox] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [firefox] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [webkit] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-4526d-st-with-name-and-local-time-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [webkit] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-A-58d4e-eated-without-edit-controls-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [webkit] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us010-history-E-87536-s-shown-as-01-01-2027-00-30-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9 failed
+    [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+    [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+    [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+    [firefox] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+    [firefox] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+    [firefox] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+    [webkit] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time 
+    [webkit] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls 
+    [webkit] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

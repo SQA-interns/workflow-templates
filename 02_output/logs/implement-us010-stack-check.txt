@@ -1,0 +1,23 @@
+
+Running 2 tests using 1 worker
+
+AC-010-01 [200,["2 edited Marko Kranjc","1 created Ana Kovač"],["email: janez.novak@example.si → janez@novak.si"]]
+AC-010-02 [200,"created",{"city":"Ljubljana","note":null,"email":"janez.novak@example.si","phone":null,"street":null,"company":null,"country":null,"jobTitle":null,"lastName":"Novak","firstName":"Janez","postalCode":null}]
+AC-010-03 [404,404,false]
+EX-010-02 "Marko Kranjc"
+EX-010-03 [405,405,405,{"type":"about:blank","title":"Method Not Allowed","status":405,"code":"methodNotAllowed"}]
+EX-010-04 ["1 created"]
+EX-010-05 404
+  ✓  1 [chromium] › reports/us010-check/us010.spec.ts:35:1 › API AC-010-01..03, EX-010-02..05 (1.5s)
+UI real History: ["Janez Novak","History of Janez Novak","Newest first. Times in Europe/Ljubljana (dd.mm.yyyy HH:mm).","Version 2","edited","Marko Kranjc","17.11.2026 10:28","View","E-mail: janez.novak@example.si → janez@novak.si","kompetenca: (empty) → spletnoProgramiranje","tag:udelezenec2025 added","Version 1","created","Ana Kovač","17.11.2026 10:28","View","First name: (empty) → Janez","Last name: (empty) → Novak","E-mail: (empty) → janez.novak@example.si","City: (empty) → Ljubljana"]
+axe WF-09_history success: none
+UI AC-010-01 passed
+UI EX-010-01 passed
+UI AC-010-02 passed
+axe WF-10_version success-v1: none
+axe WF-10_version success-v2: none
+axe WF-10_version not-found: none
+axe WF-09_history error: none
+  ✓  2 [chromium] › reports/us010-check/us010.spec.ts:106:1 › UI AC-010-01, AC-010-02, EX-010-01 with screens (18.3s)
+
+  2 passed (21.1s)
