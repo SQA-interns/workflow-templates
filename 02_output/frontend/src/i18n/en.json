@@ -194,5 +194,11 @@
       "noTags": "No Tags.",
       "version": "Version {{number}} · {{at}}"
     }
+  },
+  "history": {
+    "empty": "(empty)",
+    "removed": "(removed)",
+    "tagAdded": "added",
+    "tagRemoved": "removed"
   }
 }

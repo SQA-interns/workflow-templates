@@ -196,5 +196,11 @@
       "noTags": "Ni značk.",
       "version": "Različica {{number}} · {{at}}"
     }
+  },
+  "history": {
+    "empty": "(prazno)",
+    "removed": "(odstranjeno)",
+    "tagAdded": "dodana",
+    "tagRemoved": "odstranjena"
   }
 }
