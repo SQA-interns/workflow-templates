@@ -67,7 +67,7 @@ public class PermanentDeleteService {
    * @return how many Contacts were deleted
    */
   @Transactional
-  public int removeDue(UUID groupId, Instant cutoff) {
+  public int permanentlyDeleteDue(UUID groupId, Instant cutoff) {
     contacts
         .findDueForRemoval(groupId, cutoff)
         .forEach(

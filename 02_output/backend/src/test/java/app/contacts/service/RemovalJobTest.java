@@ -35,8 +35,8 @@ class RemovalJobTest {
     job.removeDueContacts();
 
     Instant thirtyDaysAgo = NOW.minus(Duration.ofDays(30));
-    verify(permanentDelete).removeDue(konferenca, thirtyDaysAgo);
-    verify(permanentDelete).removeDue(drugo, thirtyDaysAgo);
+    verify(permanentDelete).permanentlyDeleteDue(konferenca, thirtyDaysAgo);
+    verify(permanentDelete).permanentlyDeleteDue(drugo, thirtyDaysAgo);
   }
 
   @Test

@@ -102,7 +102,7 @@ class PermanentDeleteServiceTest {
     when(contacts.findDueForRemoval(GROUP_ID, cutoff)).thenReturn(List.of(janez));
     when(contacts.permanentlyDeleteDue(GROUP_ID, cutoff)).thenReturn(1);
 
-    assertThat(service.removeDue(GROUP_ID, cutoff)).isOne();
+    assertThat(service.permanentlyDeleteDue(GROUP_ID, cutoff)).isOne();
 
     verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, janez.getId());
     verify(contacts).permanentlyDeleteDue(GROUP_ID, cutoff);
