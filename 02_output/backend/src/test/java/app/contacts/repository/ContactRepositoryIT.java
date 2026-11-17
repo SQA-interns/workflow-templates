@@ -228,7 +228,7 @@ class ContactRepositoryIT {
     final Contact otherGroups = withContent(otherGroupId, NOW);
     entityManager.flush();
 
-    int deleted = contacts.deleteDue(groupId, cutoff);
+    int deleted = contacts.permanentlyDeleteDue(groupId, cutoff);
     entityManager.clear();
 
     assertThat(deleted).isEqualTo(1);

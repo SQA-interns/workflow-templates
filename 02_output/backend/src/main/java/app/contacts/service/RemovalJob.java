@@ -39,6 +39,6 @@ public class RemovalJob {
   @Scheduled(fixedDelayString = "PT15M")
   public void removeDueContacts() {
     Instant cutoff = clock.instant().minus(RecycleBin.PERIOD);
-    groups.findAllIds().forEach(groupId -> contacts.deleteDue(groupId, cutoff));
+    groups.findAllIds().forEach(groupId -> contacts.permanentlyDeleteDue(groupId, cutoff));
   }
 }

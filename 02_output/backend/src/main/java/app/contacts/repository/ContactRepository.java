@@ -82,5 +82,5 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
       DELETE FROM Contact c
       WHERE c.groupId = :groupId AND c.state = 'inRecycleBin' AND c.deletedAt <= :cutoff
       """)
-  int deleteDue(UUID groupId, Instant cutoff);
+  int permanentlyDeleteDue(UUID groupId, Instant cutoff);
 }
