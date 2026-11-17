@@ -5,19 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-016
+- Session: S5 /implement US-003
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-016 wait for US-004, D-61)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-003 wait for US-004, D-62)
 - Notes for the next session:
-  - Export: `POST /groups/{groupId}/exports` → `ExportController` → `ExportService` (EXPORT; `ContactQueryService.scope` checks the list query once, shared with the Page; `ContactQueryRepository.findExport/countExport(groupId, pattern, filters, contactIds, …)`; `ExportWorkbook` SXSSF, SR-07; Audit `contacts.exported`, target the Group).
-  - Frontend: `api/apiClient.ts` `apiDownload`, `api/exports.ts` `useExport`; `features/export/ExportButtons.tsx`; `features/contacts/useSelection.ts`; `ContactTable` takes `selection` (checkbox column first).
-  - Run `./mvnw test` (incl. `ArchitectureTest`, AR-04 covers private repository methods) before each commit; D-61 (f) lists this session's commit-rule slips.
-  - Backend image copies `backend/target/contacts-backend.jar`: `./mvnw -DskipTests package` and `npm run build` before `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`; gitleaks runs via the `zricethezav/gitleaks:v8.30.1` image.
-  - Frozen US-016: API 1/11 (EX-016-05), UI 0/4 chromium; the rest stop in `team()` at Invitations (US-004). With SQL Memberships every step passes (D-61).
-  - No regressions: backend 309 unit green, IT 255 run, failures per class unchanged or fewer; frontend 281 tests (TagsField timing flake, D-61 (g)), eslint/tsc clean; UI acceptance: the same 13 pass; gitleaks clean. Stack still up on 8090.
+  - Group lifecycle: `GroupService.rename` (PATCH /groups/{id}), `moveToRecycleBin`, `listDeletedGroups`, `restore` (`DeletedGroupController`, /deleted-groups); `GroupRepository.findForUpdate`, `findInRecycleBinOwnedBy`, `permanentlyDeleteDue`; `RemovalJob.removeDueGroups`; Audit `group.movedToRecycleBin`, `group.restored`.
+  - US-004 must answer 409 `invitation.noLongerValid` for an Invitation of a Group in the recycle bin (EX-003-05, view and accept), then re-run US-003 … US-016 suites.
+  - Frontend: `features/groups/{GroupSettingsPage,MoveGroupToRecycleBin,DeletedGroupsPage}.tsx`, `groupName.ts`; hooks in `api/groups.ts`; Settings nav (Owner), Deleted Groups in the user menu.
+  - Run `./mvnw test` and the check command (`spotless`, `checkstyle`, `spotbugs`) before each commit; D-62 (f) lists this session's slips. SpotBugs reads a repository method starting with `delete` as mutating (EI_EXPOSE_REP2).
+  - Stack: `./mvnw -DskipTests package`, `npm run build`, then `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`; gitleaks via `zricethezav/gitleaks:v8.30.1`.
+  - Frozen US-003: API 0/10, UI 0/6 (all stop in `team()` at Invitations); with SQL Memberships 8/10 API and 5/6 UI pass, the rest need `invite()` (D-62).
+  - No regressions: backend 325 unit green, IT 257 run, failures per class unchanged or fewer (`Us002GroupsAcceptanceIT` now 10/10); frontend 294 tests, eslint/tsc/prettier clean; UI acceptance 14 pass (13 + EX-002-06); gitleaks clean. Stack still up on 8090.
 
 ## Next
-- Command: /implement US-003
+- Command: /implement US-004
 - Waiting for: nothing
 
 ## Stories
@@ -25,7 +26,7 @@ The handover between sessions. Every session reads it first and updates it last.
 |---|---|---|---|
 | US-001 | INC-1 | done | met |
 | US-002 | INC-1 | in progress | DoD-S-01 open until US-006, US-014, US-003 (D-46); others met |
-| US-003 | INC-1 | ready | |
+| US-003 | INC-1 | in progress | DoD-S-01 open until US-004 (D-62); DoD-S-07 5ef6708 spotless, b07874a … 7b687c6 checkstyle/SpotBugs (fixed in dc2c564, 896ccb9), bdb4dec subject 75 characters; others met |
 | US-004 | INC-1 | ready | |
 | US-005 | INC-1 | ready | |
 | US-006 | INC-1 | in progress | DoD-S-01 open until US-004, US-014 (D-49; US-010 built); DoD-S-07 see notes; others met |
