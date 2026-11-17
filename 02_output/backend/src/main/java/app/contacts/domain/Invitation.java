@@ -83,6 +83,17 @@ public class Invitation implements GroupOwned {
     return invitation;
   }
 
+  /**
+   * Whether the Invitation can still be used: open and before {@code expiresAt} (R-004-06,
+   * EX-004-01, EX-004-02).
+   *
+   * @param now the current time
+   * @return true while open
+   */
+  public boolean isOpenAt(Instant now) {
+    return OPEN.equals(state) && now.isBefore(expiresAt);
+  }
+
   /** Revokes the Invitation (R-004-03, R-004-09). */
   public void revoke() {
     state = REVOKED;

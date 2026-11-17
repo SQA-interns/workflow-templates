@@ -36,6 +36,12 @@ public class AuditEntry implements GroupOwned {
   /** The Owner restored the Group from the recycle bin (R-003-05, BR-10). */
   public static final String GROUP_RESTORED = "group.restored";
 
+  /** The Owner created an Invitation (R-004-01, BR-10); the target is the Invitation. */
+  public static final String INVITATION_CREATED = "invitation.created";
+
+  /** An Invitation was revoked by the Owner or by a newer one (R-004-03, R-004-09, D-17). */
+  public static final String INVITATION_REVOKED = "invitation.revoked";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)
