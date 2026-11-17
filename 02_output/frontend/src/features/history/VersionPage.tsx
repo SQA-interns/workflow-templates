@@ -94,14 +94,6 @@ function RestoreVersion({ number }: { number: number }) {
         <AlertDialogDescription>
           {t("history.restore.description", { number })}
         </AlertDialogDescription>
-        {message && (
-          <p
-            role="alert"
-            className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger"
-          >
-            {message}
-          </p>
-        )}
         <div className="flex flex-wrap gap-2">
           <Button
             disabled={!contact.isSuccess || restore.isPending}
@@ -119,6 +111,14 @@ function RestoreVersion({ number }: { number: number }) {
             {t("history.restore.cancel")}
           </AlertDialogCancel>
         </div>
+        {message && (
+          <p
+            role="alert"
+            className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger"
+          >
+            {message}
+          </p>
+        )}
       </AlertDialogContent>
     </AlertDialog>
   );
