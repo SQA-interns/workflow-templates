@@ -1,0 +1,214 @@
+
+Running 5 tests using 1 worker
+
+[1A[2K[1/5] [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts
+[1A[2K[chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts
+
+
+[1A[2K  1) [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:36:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-64bc7-ezenec2025-shows-2-Contacts-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[2/5] [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact
+[1A[2K[chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact
+
+
+[1A[2K  2) [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:50:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-2e2fa--neObvescaj-shows-1-Contact-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[3/5] [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively
+[1A[2K[chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively
+
+
+[1A[2K  3) [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:64:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-cd8bd--matches-case-insensitively-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[4/5] [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again
+[1A[2K[chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again
+
+
+[1A[2K  4) [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:78:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-3e211--shows-all-3-Contacts-again-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[5/5] [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match.
+[1A[2K[chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match.
+
+
+[1A[2K  5) [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. 
+
+    Error: {"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m201[39m
+    Received: [31m404[39m
+
+       at acceptance/support/api.ts:185
+
+      183 | async function ok(answer: Promise<Answer>, status = 200): Promise<Answer> {
+      184 |   const a = await answer;
+    > 185 |   expect(a.status, JSON.stringify(a.json)).toBe(status);
+          |                                            ^
+      186 |   return a;
+      187 | }
+      188 |
+        at ok (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:185:44)
+        at invite (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:201:5)
+        at join (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:213:17)
+        at team (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/support/api.ts:230:3)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us015-filters.spec.ts:97:13
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us015-filters-A-37ab9-rch-maja-No-Contacts-match--chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  5 failed
+    [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts 
+    [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact 
+    [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively 
+    [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again 
+    [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. 

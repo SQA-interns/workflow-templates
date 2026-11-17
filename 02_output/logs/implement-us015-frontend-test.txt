@@ -1,0 +1,173 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 2708ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  703ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-04 a blank name: Enter a name of 1 to 100 characters. and nothing is sent  312ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  1056ms
+stderr | src/features/contacts/AttributesField.test.tsx > WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields
+TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/EditContactPage.tsx:34:30)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at updateFunctionComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+    at HTMLUnknownElement.callCallback (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:114:17)
+Error handled by React Router default ErrorBoundary: TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/EditContactPage.tsx:34:30[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at updateFunctionComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:19617:20[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21640:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26124:20[90m)[39m
+    at flushSyncCallbacks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:12042:22[90m)[39m
+TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/EditContactPage.tsx:34:30[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at updateFunctionComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:19617:20[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21640:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26124:20[90m)[39m
+    at flushSyncCallbacks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:12042:22[90m)[39m
+
+ ✓ src/features/recycle-bin/RecycleBinPage.test.tsx (10 tests) 3124ms
+   ✓ WF-11 Recycle bin (US-012) > AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana  591ms
+   ✓ WF-11 Recycle bin (US-012) > AC-012-02 Restore sends the Version read and reads the recycle bin again  331ms
+   ✓ WF-11 Delete permanently (US-013) > AC-013-01 the Owner confirms and the recycle bin is read again  441ms
+   ✓ WF-11 Delete permanently (US-013) > EX-013-01 Cancel changes nothing  523ms
+   ✓ WF-11 Delete permanently (US-013) > R-013-03 a refused delete shows its message in the confirmation  463ms
+ ✓ src/features/contacts/EditContactPage.test.tsx (6 tests) 4761ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  1176ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  1370ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  837ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  579ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  750ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (20 tests) 7872ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  607ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  618ms
+   ✓ WF-06 filter panel and chips (US-015) > AC-015-01 has Tags is applied, shown as a chip and the panel closes  727ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 … R-015-04 every filter of the panel goes to the query  1839ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 a chosen Tag can be taken out of the panel again  691ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 Clear filters in the panel removes every filter  408ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-07 applying keeps the sort and starts at Page 1  499ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 the panel opens with the Active filters  508ms
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (13 tests) 2599ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  467ms
+   ✓ WF-07 Contact details (R-014-06) > AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list  337ms
+   ✓ WF-07 Contact details (R-014-06) > EX-012-03 Cancel closes the confirmation and moves nothing  338ms
+   ✓ WF-07 Contact details (R-014-06) > BR-06 a refused move shows its message in the confirmation  363ms
+ ✓ src/app/AppLayout.test.tsx (18 tests) 2637ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  323ms
+   ✓ header of US-002 > R-002-04 the header carries the Group switcher with the current Group  345ms
+   ✓ routes and header of US-012 > R-012-02 a Viewer gets no Recycle bin in the navigation  323ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 2649ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  2278ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 11830ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  2757ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  409ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  710ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  788ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  550ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  675ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  660ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  756ms
+   ✓ WF-08 Add a Contact (US-006) > UI-12 Cancel returns to the Contact list without saving  328ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  2066ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  908ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 an e-mail without a match shows no warning  662ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 a blank or invalid e-mail is not looked up  558ms
+ ✓ src/features/contacts/AttributesField.test.tsx (10 tests) 11891ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  1020ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  1840ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  1132ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  1588ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-04 Remove takes the Attribute out of the save  357ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  1283ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty  1077ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row  870ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  1451ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  1271ms
+ ✓ src/features/history/VersionPage.test.tsx (10 tests) 2139ms
+   ✓ WF-10 Version (R-010-02) > R-010-02 shows the Fields, Attributes and Tags as they were after the Version  561ms
+   ✓ WF-10 Restore this Version (US-011) > AC-011-01 restores Version 1 with the current Version number read and opens the History  305ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 1929ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  950ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  530ms
+ ✓ src/app/UserMenu.test.tsx (7 tests) 1921ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  417ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  388ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  400ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1918ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  993ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  800ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 430ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  428ms
+ ✓ src/features/history/HistoryPage.test.tsx (7 tests) 1038ms
+   ✓ WF-09 History (R-010-01) > AC-011-01 a restored Version names the Version it restored  520ms
+ ✓ src/features/contacts/ContactTable.test.tsx (5 tests) 1010ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  475ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 678ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  371ms
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1612ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  323ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-03 lists the User's Groups in the order of the API, the current one marked  486ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-02 selecting a Group opens its Contact list and closes the switcher  398ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 327ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 61ms
+ ✓ src/features/contacts/fieldMessages.test.ts (6 tests) 24ms
+ ✓ src/features/history/changes.test.ts (7 tests) 44ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 26ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 11ms
+ ✓ src/i18n/catalogs.test.ts (4 tests) 39ms
+ ✓ src/features/contacts/listQuery.test.ts (9 tests) 13ms
+ ✓ src/auth/firebase.test.ts (8 tests) 9ms
+ ✓ src/api/apiClient.test.ts (6 tests) 19ms
+ ✓ src/api/problem.test.ts (4 tests) 14ms
+ ✓ src/i18n/format.test.ts (4 tests) 7ms
+ ✓ src/features/contacts/attributes.test.ts (7 tests) 7ms
+ ✓ src/features/contacts/tags.test.ts (8 tests) 6ms
+ ✓ src/api/retry.test.ts (2 tests) 5ms
+ ✓ src/features/contacts/TagsField.test.tsx (14 tests) 27905ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 the form shows the Contact's Tags with the hint  1009ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-01 an added Tag is shown and sent with the Fields  1116ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-04 removing a Tag takes it out of the save  464ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-02 typing part of a Tag suggests the Group's Tag  4583ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 choosing a suggestion adds it  4720ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 the arrow keys choose a suggestion and Enter adds it  5024ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested  4639ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-03 a name in other case takes the spelling of the suggested Tag  2949ms
+   ✓ WF-08 Tags of a Contact (US-009) > EX-009-03 a Tag the Contact has is not added twice  400ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-05 a name with a comma shows the message at once and adds nothing  547ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 an invalid name left in the box stops the save  1105ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a valid name left in the box is saved with the Tags  356ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 the API's tag.invalid stands in the Tags section  460ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a new Contact is added with its Tags  526ms
+
+ Test Files  34 passed (34)
+      Tests  262 passed (262)
+   Start at  12:26:45
+   Duration  31.02s (transform 1.81s, setup 9.11s, collect 14.24s, tests 91.26s, environment 32.83s, prepare 6.14s)
+
+ % Coverage report from v8
+
+=============================== Coverage summary ===============================
+Statements   : 98.4% ( 2779/2824 )
+Branches     : 96.4% ( 723/750 )
+Functions    : 95.75% ( 248/259 )
+Lines        : 98.4% ( 2779/2824 )
+================================================================================

@@ -1,0 +1,158 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import {
+  ANA, MARKO, PETRA, api, choose, createContact, createGroup, editContact, listPath,
+  moveContactToRecycleBin, resetStack, signIn, sql, user,
+} from "../../acceptance/support/stack";
+
+test.beforeEach(resetStack);
+
+/** "Konferenca 2025": Ana Owner, Marko Editor, Petra Viewer; Memberships by SQL until US-004. */
+async function team() {
+  const ana = await user(ANA, "Ana Kovač");
+  const marko = await user(MARKO, "Marko Kranjc");
+  const petra = await user(PETRA, "Petra Horvat");
+  const groupId = await createGroup(ana, "Konferenca 2025");
+  for (const [u, role] of [[marko, "EDITOR"], [petra, "VIEWER"]] as const) {
+    const id = (await api(u, "GET", "/me")).json.id;
+    sql(`INSERT INTO membership VALUES ('${groupId}', '${id}', '${role}')`);
+  }
+  return { ana, marko, petra, groupId };
+}
+type Team = Awaited<ReturnType<typeof team>>;
+
+const log = (k: string, v: unknown) => console.log(k, JSON.stringify(v));
+
+async function threeContacts(t: Team, kompetenca = false) {
+  const janez = await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Janez", lastName: "Novak", country: "SI" },
+    tags: ["udelezenec2025"],
+    attributes: kompetenca ? [{ key: "kompetenca", value: "spletnoProgramiranje" }] : [],
+  });
+  await createContact(t.ana, t.groupId, {
+    fields: { firstName: "Maja", lastName: "Zupan", country: "AT" },
+    tags: ["udelezenec2025", "neObvescaj"],
+  });
+  const ziga = await createContact(t.ana, t.groupId, { fields: { firstName: "Žiga", lastName: "Čuk" } });
+  return { janez, ziga };
+}
+const list = async (t: Team, q: string) =>
+  (await api(t.petra, "GET", `/groups/${t.groupId}/contacts?${q}`)).json;
+const names = (page: any) => page.items.map((i: any) => `${i.firstName} ${i.lastName}`);
+const tag = async (t: Team, name: string) =>
+  (await api(t.ana, "GET", `/groups/${t.groupId}/tags?q=${name}`)).json[0].id as string;
+
+test("API AC-015-01..05, EX-015-01..05 (frozen steps)", async () => {
+  const t = await team();
+  const { janez, ziga } = await threeContacts(t);
+  const udel = await tag(t, "udelezenec2025");
+  const ne = await tag(t, "neObvescaj");
+  let p = await list(t, `hasTagIds=${udel}`);
+  log("AC-015-01", [p.total, names(p)]);
+  expect([p.total, names(p)]).toEqual([2, ["Janez Novak", "Maja Zupan"]]);
+  p = await list(t, `hasTagIds=${udel}&withoutTagIds=${ne}`);
+  log("AC-015-02", [p.total, names(p)]);
+  expect([p.total, names(p)]).toEqual([1, ["Janez Novak"]]);
+  p = await list(t, "");
+  log("AC-015-04", [p.total]);
+  expect(p.total).toBe(3);
+  p = await list(t, "country=SI&q=maja");
+  const si = await list(t, "country=SI");
+  log("AC-015-05", [p.total, names(si)]);
+  expect([p.total, names(si)]).toEqual([0, ["Janez Novak"]]);
+  p = await list(t, `hasTagIds=${udel}&hasTagIds=${ne}`);
+  log("EX-015-01", names(p));
+  expect(names(p)).toEqual(["Maja Zupan"]);
+  p = await list(t, `hasTagIds=${udel}&withoutTagIds=${udel}`);
+  log("EX-015-02", [p.total]);
+  expect(p.total).toBe(0);
+  await editContact(t.ana, t.groupId, janez, (u) => (u.attributes = [{ key: "kompetenca", value: "spletnoProgramiranje" }]));
+  p = await list(t, "attributeKey=Kompetenca&attributeValue=SPLETNOPROGRAMIRANJE");
+  log("AC-015-03", names(p));
+  expect(names(p)).toEqual(["Janez Novak"]);
+  await editContact(t.ana, t.groupId, janez, (u) => (u.attributes = [{ key: "jezik", value: "" }]));
+  await editContact(t.ana, t.groupId, ziga, (u) => (u.attributes = [{ key: "Jezik", value: "nemščina" }]));
+  p = await list(t, "attributeKey=jezik");
+  log("EX-015-03", names(p));
+  expect(names(p)).toEqual(["Žiga Čuk", "Janez Novak"]);
+  const nina = await user("nina.kos@example.si", "Nina Kos");
+  const beta = await createGroup(nina, "Podjetje Beta");
+  await createContact(nina, beta, { fields: { firstName: "Peter", lastName: "Kos" }, tags: ["vip"] });
+  const vip = (await api(nina, "GET", `/groups/${beta}/tags?q=vip`)).json[0].id;
+  const r = await api(t.petra, "GET", `/groups/${t.groupId}/contacts?hasTagIds=${vip}`);
+  log("EX-015-04", [r.status, JSON.stringify(r.json).includes("Peter")]);
+  expect(r.status).toBe(404);
+  await moveContactToRecycleBin(t.ana, t.groupId, janez);
+  p = await list(t, `hasTagIds=${udel}`);
+  log("EX-015-05", names(p));
+  expect(names(p)).toEqual(["Maja Zupan"]);
+});
+
+async function shot(page: Page, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/WF-06_contact-list/filters/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe WF-06 filters ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+async function openList(page: Page, t: Team) {
+  await signIn(page, t.petra);
+  await page.goto(listPath(t.groupId));
+  await expect(page.getByText("3 Contacts")).toBeVisible();
+}
+async function filter(page: Page, set: (page: Page) => Promise<void>, screen?: string) {
+  await page.getByRole("button", { name: "Filters" }).click();
+  await set(page);
+  if (screen) await shot(page, screen);
+  await page.getByRole("button", { name: "Apply" }).click();
+}
+
+test("UI AC-015-01, AC-015-02, AC-015-04 (frozen steps) with screens", async ({ page }) => {
+  const t = await team();
+  await threeContacts(t, true);
+  await openList(page, t);
+  await filter(page, (p) => choose(p.getByLabel("has Tags"), "udelezenec2025"));
+  await expect(page.getByText("2 Contacts")).toBeVisible();
+  await expect(page.getByRole("link", { name: "Janez Novak" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Maja Zupan" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Žiga Čuk" })).toHaveCount(0);
+  await expect(page.getByText(/has Tags: udelezenec2025/)).toBeVisible();
+  console.log("UI AC-015-01 passed");
+  await filter(page, (p) => choose(p.getByLabel("without Tags"), "neObvescaj"), "panel-open");
+  await expect(page.getByText("1 Contact", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Janez Novak" })).toBeVisible();
+  await shot(page, "chips");
+  console.log("UI AC-015-02 passed");
+  await page.getByRole("link", { name: "Clear filters" }).or(page.getByRole("button", { name: "Clear filters" })).first().click();
+  await expect(page.getByText("3 Contacts")).toBeVisible();
+  console.log("UI AC-015-04 passed");
+});
+
+test("UI AC-015-03, AC-015-05 (frozen steps) with the no-match screen", async ({ page }) => {
+  const t = await team();
+  await threeContacts(t, true);
+  await openList(page, t);
+  await filter(page, async (p) => {
+    await p.getByLabel("Attribute key").fill("Kompetenca");
+    await p.getByLabel("Attribute value").fill("SPLETNOPROGRAMIRANJE");
+  });
+  await expect(page.getByText("1 Contact", { exact: true })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Janez Novak" })).toBeVisible();
+  console.log("UI AC-015-03 passed");
+  await page.getByRole("link", { name: "Clear filters" }).click();
+  await expect(page.getByText("3 Contacts")).toBeVisible();
+  await filter(page, (p) => choose(p.getByLabel("Country"), "Slovenia"));
+  await expect(page.getByText("1 Contact", { exact: true })).toBeVisible();
+  await page.getByLabel("Search").fill("maja");
+  await expect(page.getByText("No Contacts match.")).toBeVisible();
+  await shot(page, "no-match");
+  console.log("UI AC-015-05 passed");
+});

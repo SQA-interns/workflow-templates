@@ -1,0 +1,26 @@
+
+Running 3 tests using 1 worker
+
+AC-015-01 [2,["Janez Novak","Maja Zupan"]]
+AC-015-02 [1,["Janez Novak"]]
+AC-015-04 [3]
+AC-015-05 [0,["Janez Novak"]]
+EX-015-01 ["Maja Zupan"]
+EX-015-02 [0]
+AC-015-03 ["Janez Novak"]
+EX-015-03 ["Žiga Čuk","Janez Novak"]
+EX-015-04 [404,false]
+EX-015-05 ["Maja Zupan"]
+  ✓  1 [chromium] › reports/us015-check/us015.spec.ts:45:1 › API AC-015-01..05, EX-015-01..05 (frozen steps) (2.2s)
+UI AC-015-01 passed
+axe WF-06 filters panel-open: none
+axe WF-06 filters chips: none
+UI AC-015-02 passed
+UI AC-015-04 passed
+  ✓  2 [chromium] › reports/us015-check/us015.spec.ts:118:1 › UI AC-015-01, AC-015-02, AC-015-04 (frozen steps) with screens (6.0s)
+UI AC-015-03 passed
+axe WF-06 filters no-match: none
+UI AC-015-05 passed
+  ✓  3 [chromium] › reports/us015-check/us015.spec.ts:139:1 › UI AC-015-03, AC-015-05 (frozen steps) with the no-match screen (3.8s)
+
+  3 passed (13.3s)
