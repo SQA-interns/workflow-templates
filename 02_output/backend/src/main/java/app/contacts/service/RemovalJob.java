@@ -1,7 +1,6 @@
 package app.contacts.service;
 
 import app.contacts.domain.RecycleBin;
-import app.contacts.repository.ContactRepository;
 import app.contacts.repository.GroupRepository;
 import java.time.Clock;
 import java.time.Instant;
@@ -16,29 +15,29 @@ import org.springframework.stereotype.Component;
 public class RemovalJob {
 
   private final GroupRepository groups;
-  private final ContactRepository contacts;
+  private final PermanentDeleteService permanentDelete;
   private final Clock clock;
 
   /**
    * The job.
    *
    * @param groups lists every Group
-   * @param contacts deletes the due Contacts of one Group
+   * @param permanentDelete deletes the due Contacts of one Group
    * @param clock the clock
    */
-  public RemovalJob(GroupRepository groups, ContactRepository contacts, Clock clock) {
+  public RemovalJob(GroupRepository groups, PermanentDeleteService permanentDelete, Clock clock) {
     this.groups = groups;
-    this.contacts = contacts;
+    this.permanentDelete = permanentDelete;
     this.clock = clock;
   }
 
   /**
    * Deletes, Group by Group, every Contact moved to the recycle bin at least the recycle bin period
-   * ago; runs every 15 minutes (R-012-05: at least hourly; ADR-10).
+   * ago, with an Audit entry each; runs every 15 minutes (R-012-05: at least hourly; ADR-10).
    */
   @Scheduled(fixedDelayString = "PT15M")
   public void removeDueContacts() {
     Instant cutoff = clock.instant().minus(RecycleBin.PERIOD);
-    groups.findAllIds().forEach(groupId -> contacts.permanentlyDeleteDue(groupId, cutoff));
+    groups.findAllIds().forEach(groupId -> permanentDelete.removeDue(groupId, cutoff));
   }
 }

@@ -260,4 +260,19 @@ class ContactRepositoryIT {
       assertThat(rows(table, other)).as(table).isOne();
     }
   }
+
+  @Test
+  void br08FindsTheGroupsContactsDueForRemoval() {
+    Instant cutoff = NOW.plus(Duration.ofDays(1));
+    final Contact due = withContent(groupId, cutoff);
+    withContent(groupId, cutoff.plusSeconds(1));
+    withContent(groupId, null);
+    UUID otherGroupId = groups.save(Group.create("Drugo", marko, NOW)).getId();
+    withContent(otherGroupId, NOW);
+    entityManager.flush();
+
+    assertThat(contacts.findDueForRemoval(groupId, cutoff))
+        .extracting(Contact::getId)
+        .containsExactly(due.getId());
+  }
 }

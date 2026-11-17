@@ -18,6 +18,12 @@ public class AuditEntry implements GroupOwned {
   /** The Owner permanently deleted a Contact from the recycle bin (R-013-02). */
   public static final String CONTACT_PERMANENTLY_DELETED = "contact.permanentlyDeleted";
 
+  /**
+   * A Contact was removed after the recycle bin period (BR-08, ADR-10); the User is the one who
+   * moved it to the recycle bin (BR-07).
+   */
+  public static final String CONTACT_REMOVED = "contact.removed";
+
   @Id private UUID id;
 
   @Column(name = "group_id", nullable = false, updatable = false)

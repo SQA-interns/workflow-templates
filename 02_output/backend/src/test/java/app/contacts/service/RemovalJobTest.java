@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.config.ApplicationConfig;
-import app.contacts.repository.ContactRepository;
 import app.contacts.repository.GroupRepository;
 import java.time.Clock;
 import java.time.Duration;
@@ -23,8 +22,9 @@ class RemovalJobTest {
   private static final Instant NOW = Instant.parse("2026-04-04T11:00:00Z");
 
   private final GroupRepository groups = mock(GroupRepository.class);
-  private final ContactRepository contacts = mock(ContactRepository.class);
-  private final RemovalJob job = new RemovalJob(groups, contacts, Clock.fixed(NOW, ZoneOffset.UTC));
+  private final PermanentDeleteService permanentDelete = mock(PermanentDeleteService.class);
+  private final RemovalJob job =
+      new RemovalJob(groups, permanentDelete, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void br08RemovesInEveryGroupTheContactsWhoseRecycleBinPeriodHasPassed() {
@@ -35,8 +35,8 @@ class RemovalJobTest {
     job.removeDueContacts();
 
     Instant thirtyDaysAgo = NOW.minus(Duration.ofDays(30));
-    verify(contacts).permanentlyDeleteDue(konferenca, thirtyDaysAgo);
-    verify(contacts).permanentlyDeleteDue(drugo, thirtyDaysAgo);
+    verify(permanentDelete).removeDue(konferenca, thirtyDaysAgo);
+    verify(permanentDelete).removeDue(drugo, thirtyDaysAgo);
   }
 
   @Test

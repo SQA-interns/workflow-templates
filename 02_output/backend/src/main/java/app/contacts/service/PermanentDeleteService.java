@@ -3,12 +3,16 @@ package app.contacts.service;
 import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Contact;
 import app.contacts.repository.ContactRepository;
+import java.time.Instant;
 import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Permanently deletes Contacts from the recycle bin (US-013, SR-06, BR-10). */
+/**
+ * Permanently deletes Contacts from the recycle bin, by the Owner (US-013) or after the recycle bin
+ * period (BR-08, ADR-10), each with an Audit entry (SR-06, BR-10).
+ */
 @Service
 public class PermanentDeleteService {
 
@@ -52,5 +56,24 @@ public class PermanentDeleteService {
     }
     contacts.permanentlyDelete(groupId, contactId);
     audit.record(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
+  }
+
+  /**
+   * Deletes the Group's Contacts moved to the recycle bin at or before the cutoff, in one
+   * transaction, with an Audit entry each by the User who moved it (BR-08, ADR-10).
+   *
+   * @param groupId the Group
+   * @param cutoff now minus the recycle bin period
+   * @return how many Contacts were deleted
+   */
+  @Transactional
+  public int removeDue(UUID groupId, Instant cutoff) {
+    contacts
+        .findDueForRemoval(groupId, cutoff)
+        .forEach(
+            contact ->
+                audit.record(
+                    groupId, contact.getUpdatedBy(), AuditEntry.CONTACT_REMOVED, contact.getId()));
+    return contacts.permanentlyDeleteDue(groupId, cutoff);
   }
 }

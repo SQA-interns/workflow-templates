@@ -15,6 +15,7 @@ import app.contacts.domain.ContactFields;
 import app.contacts.domain.Role;
 import app.contacts.repository.ContactRepository;
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
@@ -92,5 +93,19 @@ class PermanentDeleteServiceTest {
     assertThatThrownBy(() -> service.permanentlyDelete(GROUP_ID, ANA, unknown))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(audit);
+  }
+
+  @Test
+  void br08RemovesTheDueContactsWithAnAuditEntryEachByTheUserWhoMovedThem() {
+    Contact janez = janez(true);
+    Instant cutoff = MOVED_AT;
+    when(contacts.findDueForRemoval(GROUP_ID, cutoff)).thenReturn(List.of(janez));
+    when(contacts.permanentlyDeleteDue(GROUP_ID, cutoff)).thenReturn(1);
+
+    assertThat(service.removeDue(GROUP_ID, cutoff)).isOne();
+
+    verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, janez.getId());
+    verify(contacts).permanentlyDeleteDue(GROUP_ID, cutoff);
+    verifyNoInteractions(guard);
   }
 }

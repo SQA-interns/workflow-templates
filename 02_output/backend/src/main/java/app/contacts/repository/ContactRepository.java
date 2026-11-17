@@ -67,6 +67,20 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
   Optional<Contact> findForUpdate(UUID groupId, UUID id);
 
   /**
+   * The Group's Contacts moved to the recycle bin at or before the cutoff (BR-08).
+   *
+   * @param groupId the Group
+   * @param cutoff now minus the recycle bin period
+   * @return the Contacts
+   */
+  @Query(
+      """
+      SELECT c FROM Contact c
+      WHERE c.groupId = :groupId AND c.state = 'inRecycleBin' AND c.deletedAt <= :cutoff
+      """)
+  List<Contact> findDueForRemoval(UUID groupId, Instant cutoff);
+
+  /**
    * Permanently deletes the Group's Contacts moved to the recycle bin at or before the cutoff, with
    * their Versions, Attributes and Tag assignments (BR-08; the database cascades), in one
    * transaction (ADR-10).
