@@ -19,6 +19,7 @@ const JANEZ = {
   fields: { ...emptyFields(), firstName: "Janez", lastName: "Novak", email: "j@n.si" },
   attributes: [{ key: "kompetenca", value: "java" }],
   tags: [{ id: "t1", name: "udelezenec2025" }],
+  createdAt: "2026-03-01T09:00:00Z",
   updatedAt: "2026-03-05T10:00:00Z",
   mergedFrom: [],
   mergedInto: null,
@@ -30,6 +31,7 @@ const J_NOVAK = {
   fields: { ...JANEZ.fields, firstName: "J.", phone: "+386 41 123 456" },
   attributes: [{ key: "kompetenca", value: "python" }],
   tags: [{ id: "t2", name: "vip" }],
+  createdAt: "2026-03-02T09:00:00Z",
 };
 
 let merge: (body: unknown) => Promise<unknown>;
@@ -44,14 +46,14 @@ function answer() {
   });
 }
 
-function renderPage() {
+function renderPage(search = "first=c1&second=c2") {
   const router = createMemoryRouter(
     [
       { path: "/groups/:groupId/merge", element: <MergePage /> },
       { path: "/groups/:groupId/duplicates", element: <p>Duplicates list</p> },
       { path: "/groups/:groupId/contacts/:contactId", element: <p>Details of the Primary</p> },
     ],
-    { initialEntries: ["/groups/g1/merge?first=c1&second=c2"] },
+    { initialEntries: [`/groups/g1/merge?${search}`] },
   );
   render(
     <QueryClientProvider
@@ -86,6 +88,16 @@ describe("WF-18 Merge (US-018)", () => {
     expect(radio("J. Novak").checked).toBe(false);
     expect(radio("Janez").checked).toBe(true);
     expect(radio("+386 41 123 456").checked).toBe(true);
+  });
+
+  it("R-018-01 the Contact created first is Primary, whichever the list shows first (D-74)", async () => {
+    renderPage("first=c2&second=c1");
+
+    expect(
+      (await screen.findByRole<HTMLInputElement>("radio", { name: "Janez Novak" })).checked,
+    ).toBe(true);
+    expect(radio("J. Novak").checked).toBe(false);
+    expect(radio("Janez").checked).toBe(true);
   });
 
   it("R-018-01 choosing the other Primary contact preselects its values", async () => {

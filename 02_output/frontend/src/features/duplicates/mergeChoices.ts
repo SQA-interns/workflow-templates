@@ -8,6 +8,16 @@ export function fieldValue(contact: Contact, name: FieldName): string | null {
   return new Map(Object.entries(contact.fields)).get(name) ?? null;
 }
 
+/**
+ * The pair ordered as the Merge screen shows it: the Contact created first is the Primary contact
+ * (R-018-01 "the first Contact", D-74); on a tie the order given.
+ */
+export function primaryFirst(first: Contact, second: Contact): [Contact, Contact] {
+  return Date.parse(second.createdAt) < Date.parse(first.createdAt)
+    ? [second, first]
+    : [first, second];
+}
+
 /** The Fields of the Merge screen: those with a value in either Contact. */
 export function shownFields(primary: Contact, other: Contact): FieldName[] {
   return FIELD_NAMES.filter((name) => fieldValue(primary, name) || fieldValue(other, name));

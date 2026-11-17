@@ -30,6 +30,7 @@ export interface Contact {
   fields: ContactFields;
   attributes: AttributeRow[];
   tags: Tag[];
+  createdAt: string;
   updatedAt: string;
   /** The Contacts merged into this one, oldest first (R-018-05). */
   mergedFrom: MergedFrom[];

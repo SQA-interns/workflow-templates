@@ -9,10 +9,18 @@ import { ApiError, messageKey } from "../../api/problem";
 import { Section } from "../contacts/ContactContent";
 import { contactName } from "../contacts/contactFields";
 import { GroupsPending } from "../groups/GroupsPending";
-import { fieldValue, mergedAttributes, mergedTags, preselected, shownFields } from "./mergeChoices";
+import {
+  fieldValue,
+  mergedAttributes,
+  mergedTags,
+  preselected,
+  primaryFirst,
+  shownFields,
+} from "./mergeChoices";
 
 /**
- * WF-18 Merge (US-018): the pair of `?first=&second=` side by side, the first as Primary contact,
+ * WF-18 Merge (US-018): the pair of `?first=&second=` side by side, the one created first as Primary
+ * contact (D-74),
  * a value per Field (R-018-01), a choice for every Attribute key with two values (R-018-03), the
  * Tags of both; Merge sends it (R-018-02), Cancel changes nothing (EX-018-06).
  */
@@ -26,7 +34,7 @@ export function MergePage() {
   if (!second.isSuccess) return <Page groupId={groupId}>{<GroupsPending query={second} />}</Page>;
   return (
     <Page groupId={groupId}>
-      <MergeForm groupId={groupId} first={first.data} second={second.data} />
+      <MergeForm groupId={groupId} pair={primaryFirst(first.data, second.data)} />
     </Page>
   );
 }
@@ -49,15 +57,8 @@ function Page({ groupId, children }: { groupId: string; children: ReactNode }) {
   );
 }
 
-function MergeForm({
-  groupId,
-  first,
-  second,
-}: {
-  groupId: string;
-  first: Contact;
-  second: Contact;
-}) {
+function MergeForm({ groupId, pair }: { groupId: string; pair: [Contact, Contact] }) {
+  const [first, second] = pair;
   const { t } = useTranslation();
   const navigate = useNavigate();
   const merge = useMerge(groupId);
