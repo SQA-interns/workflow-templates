@@ -4,6 +4,7 @@ import app.contacts.domain.Attribute;
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
+import app.contacts.domain.RecycleBin;
 import app.contacts.domain.Tag;
 import app.contacts.domain.User;
 import app.contacts.repository.AttributeRepository;
@@ -11,6 +12,7 @@ import app.contacts.repository.ContactQueryRepository;
 import app.contacts.repository.ContactRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -272,6 +274,39 @@ public class ContactService {
     ContactContent content = contentOf(contact, tagsOf(contact));
     contact.moveToRecycleBin(userId, clock.instant());
     versionWriter.record(contact, ContactVersion.MOVED_TO_RECYCLE_BIN, content, content);
+    return view(contact);
+  }
+
+  /**
+   * Makes a Contact in the recycle bin active again with all its Fields, Attributes, Tags and
+   * History, as a new Version {@code restoredFromRecycleBin} (R-012-03), before its removal date
+   * only (R-012-04). In the transaction of the caller, which checked the permission (BR-03).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param versionNumber the current Version number the client read (BR-06)
+   * @return the active Contact
+   * @throws NotFoundException for a Contact that is not the Group's (BR-02) or not in the recycle
+   *     bin
+   * @throws ConflictException {@code contact.noLongerRestorable} at or after the removal date
+   *     (R-012-04, EX-012-02), {@code version.conflict} for a Version number that is not current
+   *     (BR-06)
+   */
+  ContactView restoreFromRecycleBin(UUID groupId, UUID userId, UUID contactId, int versionNumber) {
+    Contact contact =
+        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    if (!Contact.IN_RECYCLE_BIN.equals(contact.getState())) {
+      throw new NotFoundException();
+    }
+    Instant now = clock.instant();
+    if (!now.isBefore(RecycleBin.removalAt(contact.getDeletedAt()))) {
+      throw new ConflictException("contact.noLongerRestorable", Map.of());
+    }
+    requireCurrent(contact, versionNumber);
+    ContactContent content = contentOf(contact, tagsOf(contact));
+    contact.restoreFromRecycleBin(userId, now);
+    versionWriter.record(contact, ContactVersion.RESTORED_FROM_RECYCLE_BIN, content, content);
     return view(contact);
   }
 

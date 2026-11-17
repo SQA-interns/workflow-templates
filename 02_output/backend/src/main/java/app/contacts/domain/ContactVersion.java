@@ -31,6 +31,9 @@ public class ContactVersion implements GroupOwned {
   /** Kind of the Version that moves a Contact to the recycle bin (R-012-01). */
   public static final String MOVED_TO_RECYCLE_BIN = "movedToRecycleBin";
 
+  /** Kind of the Version that restores a Contact from the recycle bin (R-012-03). */
+  public static final String RESTORED_FROM_RECYCLE_BIN = "restoredFromRecycleBin";
+
   @Id
   @Column(name = "contact_id")
   private UUID contactId;

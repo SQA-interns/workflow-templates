@@ -82,11 +82,37 @@ public class RecycleBinService {
    */
   @Transactional
   public ContactView move(UUID groupId, UUID userId, UUID contactId, Integer versionNumber) {
+    requireChange(groupId, userId, versionNumber);
+    return contacts.moveToRecycleBin(groupId, userId, contactId, versionNumber);
+  }
+
+  /**
+   * Restores a Contact from the recycle bin before its removal date (R-012-03, R-012-04); the Owner
+   * and Editors may do it (BR-03, D-15).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param contactId the Contact
+   * @param versionNumber the current Version number the client read (BR-06)
+   * @return the active Contact
+   * @throws NotFoundException for a non-Member, a Contact that is not the Group's (BR-02) or not in
+   *     the recycle bin
+   * @throws ForbiddenException for a Viewer (BR-03)
+   * @throws ValidationException for a missing Version number
+   * @throws ConflictException as {@link ContactService#restoreFromRecycleBin}
+   */
+  @Transactional
+  public ContactView restore(UUID groupId, UUID userId, UUID contactId, Integer versionNumber) {
+    requireChange(groupId, userId, versionNumber);
+    return contacts.restoreFromRecycleBin(groupId, userId, contactId, versionNumber);
+  }
+
+  /** Checks the permission to change (BR-03), then that the Version number read was sent. */
+  private void requireChange(UUID groupId, UUID userId, Integer versionNumber) {
     guard.require(groupId, userId, Permission.CHANGE_CONTACT);
     if (versionNumber == null) {
       throw new ValidationException(List.of());
     }
-    return contacts.moveToRecycleBin(groupId, userId, contactId, versionNumber);
   }
 
   /** The display name of the User who moved each Contact: the User of its current Version. */

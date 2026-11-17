@@ -28,6 +28,7 @@ import app.contacts.repository.ContactTagRepository;
 import app.contacts.repository.TagRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.util.ArrayList;
@@ -885,6 +886,99 @@ class ContactServiceTest {
         .isInstanceOf(ConflictException.class)
         .hasFieldOrPropertyWithValue("code", "contact.inRecycleBin");
     assertThat(janez.getVersionNumber()).isEqualTo(2);
+  }
+
+  /** Janez moved to the recycle bin by Marko at {@code NOW}: Version 2. */
+  private Contact janezInRecycleBin() {
+    Contact janez = stored(JANEZ_V1);
+    janez.moveToRecycleBin(MARKO, NOW);
+    return janez;
+  }
+
+  private ContactService serviceAt(Instant now) {
+    return new ContactService(
+        contacts,
+        attributes,
+        new TagService(tags, contactTags, guard),
+        contactQueries,
+        users,
+        versionWriter,
+        guard,
+        new ContactValidator(),
+        new Normaliser(),
+        Clock.fixed(now, ZoneOffset.UTC));
+  }
+
+  @Test
+  void r01203RestoreMakesTheContactActiveWithItsContentAsVersionRestoredFromRecycleBin() {
+    Contact janez = janezInRecycleBin();
+    hasAttributes(janez, "kompetenca", "Java");
+    hasTags(janez, "udelezenec2025");
+    Instant later = Instant.parse("2026-03-20T08:00:00Z");
+
+    ContactView restored = serviceAt(later).restoreFromRecycleBin(GROUP_ID, ANA, janez.getId(), 2);
+
+    assertThat(restored.state()).isEqualTo(Contact.ACTIVE);
+    assertThat(restored.versionNumber()).isEqualTo(3);
+    assertThat(restored.tags()).extracting(TagView::name).containsExactly("udelezenec2025");
+    assertThat(janez.getDeletedAt()).isNull();
+    assertThat(janez.getUpdatedBy()).isEqualTo(ANA);
+    assertThat(janez.getUpdatedAt()).isEqualTo(later);
+    ArgumentCaptor<ContactContent> content = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter)
+        .record(
+            eq(janez),
+            eq(ContactVersion.RESTORED_FROM_RECYCLE_BIN),
+            content.capture(),
+            content.capture());
+    assertThat(content.getAllValues().get(1)).isEqualTo(content.getAllValues().get(0));
+    verifyNoInteractions(contactTags);
+  }
+
+  @Test
+  void ex01201RestoreOneMinuteBeforeTheRemovalDateSucceeds() {
+    Contact janez = janezInRecycleBin();
+    Instant oneMinuteBefore = NOW.plus(Duration.ofDays(30)).minus(Duration.ofMinutes(1));
+
+    serviceAt(oneMinuteBefore).restoreFromRecycleBin(GROUP_ID, ANA, janez.getId(), 2);
+
+    assertThat(janez.getState()).isEqualTo(Contact.ACTIVE);
+  }
+
+  @Test
+  void ex01202RestoreAtTheRemovalDateIsRejectedAndChangesNothing() {
+    Contact janez = janezInRecycleBin();
+    ContactService atRemovalDate = serviceAt(NOW.plus(Duration.ofDays(30)));
+
+    assertThatThrownBy(() -> atRemovalDate.restoreFromRecycleBin(GROUP_ID, ANA, janez.getId(), 2))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "contact.noLongerRestorable");
+    assertThat(janez.getState()).isEqualTo(Contact.IN_RECYCLE_BIN);
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void r01203RestoreWithStaleVersionNumberIsRejectedAsBr06() {
+    Contact janez = janezInRecycleBin();
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(MARKO)).thenReturn(Optional.of(marko));
+
+    assertThatThrownBy(() -> service.restoreFromRecycleBin(GROUP_ID, ANA, janez.getId(), 1))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("code", "version.conflict");
+    assertThat(janez.getState()).isEqualTo(Contact.IN_RECYCLE_BIN);
+    verifyNoInteractions(versionWriter);
+  }
+
+  @Test
+  void r01203AnActiveContactIsNotInTheRecycleBinAndCannotBeRestored() {
+    Contact janez = stored(JANEZ_V1);
+
+    assertThatThrownBy(() -> service.restoreFromRecycleBin(GROUP_ID, ANA, janez.getId(), 1))
+        .isInstanceOf(NotFoundException.class);
+    assertThat(janez.getVersionNumber()).isEqualTo(1);
+    verifyNoInteractions(versionWriter);
   }
 
   private Contact stored(Map<String, String> fields) {

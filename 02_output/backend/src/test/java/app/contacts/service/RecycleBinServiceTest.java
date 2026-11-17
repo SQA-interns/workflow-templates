@@ -95,4 +95,25 @@ class RecycleBinServiceTest {
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts);
   }
+
+  @Test
+  void r01203EditorRestoresTheContactFromTheRecycleBin() {
+    when(guard.require(GROUP_ID, MARKO, Permission.CHANGE_CONTACT)).thenReturn(Role.EDITOR);
+    ContactView restored = mock(ContactView.class);
+    when(contacts.restoreFromRecycleBin(GROUP_ID, MARKO, CONTACT_ID, 4)).thenReturn(restored);
+
+    assertThat(service.restore(GROUP_ID, MARKO, CONTACT_ID, 4)).isSameAs(restored);
+  }
+
+  @Test
+  void br03ViewerCannotRestoreAndNothingIsRead() {
+    when(guard.require(GROUP_ID, PETRA, Permission.CHANGE_CONTACT))
+        .thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.restore(GROUP_ID, PETRA, CONTACT_ID, 4))
+        .isInstanceOf(ForbiddenException.class);
+    assertThatThrownBy(() -> service.restore(GROUP_ID, MARKO, CONTACT_ID, null))
+        .isInstanceOf(ValidationException.class);
+    verifyNoInteractions(contacts);
+  }
 }

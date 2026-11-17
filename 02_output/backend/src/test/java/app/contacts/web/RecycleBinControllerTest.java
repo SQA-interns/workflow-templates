@@ -62,4 +62,25 @@ class RecycleBinControllerTest {
 
     assertThat(controller.list(MARKO, GROUP_ID)).containsExactly(entry);
   }
+
+  @Test
+  void r01203PostRestoreAnswersTheActiveContact() {
+    when(recycleBin.restore(GROUP_ID, MARKO_ID, CONTACT_ID, 4))
+        .thenReturn(
+            new ContactView(
+                CONTACT_ID,
+                5,
+                "active",
+                new LinkedHashMap<>(),
+                List.of(),
+                List.of(),
+                MOVED_AT,
+                MOVED_AT));
+
+    ContactResponse restored =
+        controller.restore(MARKO, GROUP_ID, CONTACT_ID, new VersionNumberRequest(4));
+
+    assertThat(restored.state()).isEqualTo("active");
+    assertThat(restored.versionNumber()).isEqualTo(5);
+  }
 }

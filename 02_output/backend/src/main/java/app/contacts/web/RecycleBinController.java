@@ -61,4 +61,23 @@ public class RecycleBinController {
       @AuthenticationPrincipal CurrentUser current, @PathVariable UUID groupId) {
     return recycleBin.list(groupId, current.id());
   }
+
+  /**
+   * Restores a Contact from the recycle bin before its removal date (R-012-03, R-012-04, BR-06).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @param body the current Version number read
+   * @return the active Contact
+   */
+  @PostMapping("/recycle-bin/{contactId}/restore")
+  public ContactResponse restore(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID contactId,
+      @RequestBody VersionNumberRequest body) {
+    return ContactResponse.of(
+        recycleBin.restore(groupId, current.id(), contactId, body.versionNumber()));
+  }
 }

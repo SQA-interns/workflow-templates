@@ -118,6 +118,18 @@ public class Contact implements GroupOwned {
     nextVersion(userId, now);
   }
 
+  /**
+   * Makes the Contact in the recycle bin active again as the next Version (R-012-03).
+   *
+   * @param userId the User who restores it
+   * @param now the time
+   */
+  public void restoreFromRecycleBin(UUID userId, Instant now) {
+    this.state = ACTIVE;
+    this.deletedAt = null;
+    nextVersion(userId, now);
+  }
+
   private void nextVersion(UUID userId, Instant now) {
     this.versionNumber++;
     this.updatedAt = now;
