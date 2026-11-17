@@ -17,3 +17,11 @@ export function useTagSuggestions(groupId: string, text: string) {
     enabled: text !== "" && [...text].length <= MAX_TEXT_LENGTH,
   });
 }
+
+/** Every Tag of the Group on an active Contact, A–Z, for the Tag filters (R-015-01, R-015-02). */
+export function useGroupTags(groupId: string) {
+  return useQuery({
+    queryKey: ["groups", groupId, "tags", ""],
+    queryFn: () => apiRequest<Tag[]>("GET", `/groups/${groupId}/tags`),
+  });
+}

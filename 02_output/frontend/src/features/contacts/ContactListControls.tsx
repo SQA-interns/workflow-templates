@@ -11,15 +11,17 @@ interface ContactListControlsProps {
   dir: Dir;
   onSearch: (search: string) => void;
   onSort: (sort: Sort, dir: Dir) => void;
+  children?: React.ReactNode;
 }
 
-/** Search, Sort by and Order of WF-06 (R-014-03, R-014-04). */
+/** Search, Sort by and Order of WF-06 (R-014-03, R-014-04), with the filters below them. */
 export function ContactListControls({
   search,
   sort,
   dir,
   onSearch,
   onSort,
+  children,
 }: ContactListControlsProps) {
   const { t } = useTranslation();
   const id = useId();
@@ -62,6 +64,7 @@ export function ContactListControls({
           </NativeSelect>
         </div>
       </div>
+      {children}
     </div>
   );
 }

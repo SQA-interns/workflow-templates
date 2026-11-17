@@ -4,16 +4,28 @@ import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useContactList } from "../../api/contacts";
 import { useCanChangeContacts } from "../../api/groups";
+import { useGroupTags } from "../../api/tags";
 import type { Language } from "../../i18n";
 import { formatNumber } from "../../i18n/format";
 import { ContactListControls } from "./ContactListControls";
 import { ContactTable } from "./ContactTable";
-import { type ListQuery, listQueryOf, searchParamsOf } from "./listQuery";
+import { FilterChips } from "./FilterChips";
+import {
+  type Filters,
+  hasFilters,
+  type ListQuery,
+  listQueryOf,
+  NO_FILTERS,
+  searchParamsOf,
+} from "./listQuery";
 
 /** Wait after the last key before searching, so typing does not ask for every letter. */
 const SEARCH_DELAY_MS = 300;
 
-/** WF-06 Contact list of the current Group (US-014): count, search, sort, Pages, four states. */
+/**
+ * WF-06 Contact list of the current Group: count, search, sort, filters, Pages, four states (US-014,
+ * US-015).
+ */
 export function ContactListPage() {
   const { t, i18n } = useTranslation();
   const { groupId = "" } = useParams();
@@ -66,7 +78,9 @@ export function ContactListPage() {
         dir={query.dir}
         onSearch={setSearch}
         onSort={(sort, dir) => change({ sort, dir })}
-      />
+      >
+        <FilterBar groupId={groupId} query={query} onFilters={(filters) => change({ filters })} />
+      </ContactListControls>
       <ListBody
         list={list}
         query={query}
@@ -117,16 +131,17 @@ function ListBody({ list, query, groupId, add, onClear, onPage }: ListBodyProps)
   }
   const { items, total } = list.data;
   if (total === 0) {
+    const narrowed = query.q !== "" || hasFilters(query.filters);
     return (
       <div className="flex flex-col items-start gap-2">
-        <p>{t(query.q ? "contacts.list.noMatch" : "contacts.list.empty")}</p>
-        {query.q ? (
-          <Button variant="secondary" onClick={onClear}>
-            {t("contacts.list.clearSearch")}
-          </Button>
-        ) : (
-          add
-        )}
+        <p>{t(narrowed ? "contacts.list.noMatch" : "contacts.list.empty")}</p>
+        {narrowed
+          ? query.q && (
+              <Button variant="secondary" onClick={onClear}>
+                {t("contacts.list.clearSearch")}
+              </Button>
+            )
+          : add}
       </div>
     );
   }
@@ -154,5 +169,27 @@ function ListBody({ list, query, groupId, add, onClear, onPage }: ListBodyProps)
         </nav>
       )}
     </>
+  );
+}
+
+interface FilterBarProps {
+  groupId: string;
+  query: ListQuery;
+  onFilters: (filters: Filters) => void;
+}
+
+/** The chips of the Active filters and "Clear filters" (US-015). */
+function FilterBar({ groupId, query, onFilters }: FilterBarProps) {
+  const tags = useGroupTags(groupId).data ?? [];
+  const clearTo = searchParamsOf({ ...query, page: 1, filters: NO_FILTERS }).toString();
+  return (
+    <div className="flex flex-wrap items-center gap-2 md:col-span-3">
+      <FilterChips
+        filters={query.filters}
+        tags={tags}
+        clearTo={`?${clearTo}`}
+        onChange={onFilters}
+      />
+    </div>
   );
 }

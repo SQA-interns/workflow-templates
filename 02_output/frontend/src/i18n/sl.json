@@ -198,6 +198,25 @@
       "noAttributes": "Ni atributov.",
       "noTags": "Ni značk.",
       "version": "Različica {{number}} · {{at}}"
+    },
+    "filters": {
+      "open": "Filtri",
+      "hasTags": "ima značke",
+      "hasTagsHint": "Kontakti z vsemi temi značkami",
+      "withoutTags": "brez značk",
+      "withoutTagsHint": "Kontakti brez vseh teh značk",
+      "attributeKey": "Ključ atributa",
+      "attributeValue": "Vrednost atributa",
+      "attribute": "Atribut",
+      "company": "Podjetje",
+      "country": "Država",
+      "select": "Izberite …",
+      "apply": "Uporabi",
+      "clear": "Počisti filtre",
+      "chip": "{{name}}: {{value}}",
+      "attributeChip": "{{key}} = {{value}}",
+      "remove": "Odstrani filter {{name}}",
+      "removeTag": "Odstrani {{name}}"
     }
   },
   "history": {

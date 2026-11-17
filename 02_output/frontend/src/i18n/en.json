@@ -196,6 +196,25 @@
       "noAttributes": "No Attributes.",
       "noTags": "No Tags.",
       "version": "Version {{number}} · {{at}}"
+    },
+    "filters": {
+      "open": "Filters",
+      "hasTags": "has Tags",
+      "hasTagsHint": "Contacts with all of these Tags",
+      "withoutTags": "without Tags",
+      "withoutTagsHint": "Contacts with none of these Tags",
+      "attributeKey": "Attribute key",
+      "attributeValue": "Attribute value",
+      "attribute": "Attribute",
+      "company": "Company",
+      "country": "Country",
+      "select": "Select …",
+      "apply": "Apply",
+      "clear": "Clear filters",
+      "chip": "{{name}}: {{value}}",
+      "attributeChip": "{{key}} = {{value}}",
+      "remove": "Remove filter {{name}}",
+      "removeTag": "Remove {{name}}"
     }
   },
   "history": {

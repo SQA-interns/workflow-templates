@@ -31,10 +31,16 @@ const THREE = [
   item("c3", "Maja", "Zupan"),
 ];
 
+const TAGS = [
+  { id: "t1", name: "neObvescaj" },
+  { id: "t2", name: "udelezenec2025" },
+];
+
 /** Answers GET /groups with the Role and the list with a Page per query (or an error). */
 function answer(role: string, page: (path: string) => unknown) {
   vi.mocked(apiRequest).mockImplementation((_method: string, path: string) => {
     if (path === "/groups") return Promise.resolve([{ id: "g1", name: "Konferenca 2025", role }]);
+    if (path === "/groups/g1/tags") return Promise.resolve(TAGS);
     const result = page(path);
     return result instanceof Error ? Promise.reject(result) : Promise.resolve(result);
   });
@@ -197,5 +203,34 @@ describe("WF-06 Contact list (US-014)", () => {
     await userEvent.click(screen.getByRole("button", { name: "Try again" }));
 
     expect(await screen.findByText("3 Contacts")).toBeTruthy();
+  });
+});
+
+describe("WF-06 filter panel and chips (US-015)", () => {
+  it("R-015-06 removing a chip removes only that filter", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?hasTagIds=t2&company=%C5%A0ola`);
+
+    await userEvent.click(await screen.findByRole("button", { name: "Remove filter has Tags" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe("?company=%C5%A0ola"));
+  });
+
+  it("R-015-06 Clear filters removes every filter and keeps the search and sort", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?q=maja&sort=company&hasTagIds=t2&withoutTagIds=t1`);
+
+    await userEvent.click(await screen.findByRole("link", { name: "Clear filters" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe("?q=maja&sort=company"));
+    expect(screen.queryByRole("link", { name: "Clear filters" })).toBeNull();
+  });
+
+  it("EX-015-02 an empty filtered list shows No Contacts match.", async () => {
+    answer("VIEWER", () => pageOf([]));
+    renderPage(`${LIST}?hasTagIds=t2&withoutTagIds=t2`);
+
+    expect(await screen.findByText("No Contacts match.")).toBeTruthy();
+    expect(screen.queryByText("No Contacts yet.")).toBeNull();
   });
 });
