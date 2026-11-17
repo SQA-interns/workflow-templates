@@ -1,0 +1,16 @@
+
+Running 1 test using 1 worker
+
+PATCH answer: [33m200[39m {"userId":"b30e5feb-6062-49ad-9df3-c65ed3d28099","displayName":"Marko Kranjc","email":"marko.kranjc@gmail.com","role":"VIEWER"}
+axe WF-13 members-list: none
+axe WF-13 error-role-change: none
+axe WF-13 confirm-remove: none
+axe WF-13 error-members: none
+  ✓  1 [chromium] › acceptance/zz-us005-stack-check.spec.ts:23:1 › WF-13 Member list states (18.3s)
+
+  1 passed (20.6s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

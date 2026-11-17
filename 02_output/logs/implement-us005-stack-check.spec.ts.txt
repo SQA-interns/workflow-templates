@@ -1,0 +1,65 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { MARKO, api, choose, resetStack, signIn, team } from "./support/stack";
+
+// Throwaway check of WF-13 with the Member list (build-ui steps 4 and 5); not committed as a test.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/WF-13_members/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe WF-13 ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("WF-13 Member list states", async ({ page }) => {
+  const t = await team();
+  const list = await api(t.ana, "GET", `/groups/${t.groupId}/members`);
+  const markoId = list.json.find((m: { email: string }) => m.email === MARKO).userId;
+  const marko = await api(t.ana, "PATCH", `/groups/${t.groupId}/members/${markoId}`, { role: "VIEWER" });
+  console.log("PATCH answer:", marko.status, JSON.stringify(marko.json));
+  expect(marko.json.role).toBe("VIEWER");
+  await api(t.ana, "PATCH", `/groups/${t.groupId}/members/${markoId}`, { role: "EDITOR" });
+
+  await signIn(page, t.ana);
+  await page.goto(`/groups/${t.groupId}/members`);
+  await expect(page.getByRole("row", { name: /Petra Horvat/ })).toBeVisible();
+  await shot(page, "members-list");
+
+  await choose(page.getByRole("row", { name: /Marko Kranjc/ }).getByRole("combobox"), "Viewer");
+  await page.reload();
+  await expect(page.getByRole("row", { name: /Marko Kranjc/ }).getByRole("combobox")).toHaveValue("VIEWER");
+
+  await page.route((url) => /\/members\/[0-9a-f-]+$/.test(url.pathname), (r) =>
+    r.request().method() === "PATCH"
+      ? r.fulfill({ status: 409, contentType: "application/problem+json", body: JSON.stringify({ status: 409, code: "member.ownerRequired" }) })
+      : r.fallback());
+  await choose(page.getByRole("row", { name: /Marko Kranjc/ }).getByRole("combobox"), "Editor");
+  await expect(page.getByRole("alert")).toHaveText("A Group always has one Owner.");
+  await shot(page, "error-role-change");
+  await page.unrouteAll();
+
+  await page.reload();
+  await page.getByRole("row", { name: /Marko Kranjc/ }).getByRole("button", { name: "Remove from Group" }).click();
+  await expect(page.getByRole("alertdialog")).toBeVisible();
+  await shot(page, "confirm-remove");
+  await page.getByRole("alertdialog").getByRole("button", { name: "Remove from Group" }).click();
+  await expect(page.getByRole("alertdialog")).toHaveCount(0);
+  await expect(page.getByRole("row", { name: /Marko Kranjc/ })).toHaveCount(0);
+  const members = await api(t.ana, "GET", `/groups/${t.groupId}/members`);
+  expect(members.json.map((m: { email: string }) => m.email)).not.toContain(MARKO);
+
+  await page.route((url) => url.pathname === `/api/v1/groups/${t.groupId}/members`, (r) =>
+    r.request().method() === "GET" ? r.fulfill({ status: 500, body: "" }) : r.fallback());
+  await page.reload();
+  await expect(page.getByRole("button", { name: "Try again" }).first()).toBeVisible();
+  await shot(page, "error-members");
+});

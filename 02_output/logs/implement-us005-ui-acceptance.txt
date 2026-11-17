@@ -1,0 +1,14 @@
+
+Running 2 tests using 1 worker
+
+
+  ✓  1 [chromium] › acceptance/us005-members.spec.ts:17:1 › AC-005-01 the Members screen lists every Member with e-mail and Role (3.5s)
+
+  ✓  2 [chromium] › acceptance/us005-members.spec.ts:34:1 › EX-005-04 cancelling Remove from Group changes nothing (1.2s)
+
+  2 passed (6.1s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
