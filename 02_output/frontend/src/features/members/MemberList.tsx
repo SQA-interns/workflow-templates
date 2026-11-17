@@ -38,7 +38,7 @@ export function MemberList({ groupId }: { groupId: string }) {
         />
       )}
       {changeRole.isError && (
-        <p role="alert" className="text-sm font-semibold text-danger">
+        <p role="alert" className="border-l-4 border-danger pl-3 text-sm font-semibold text-danger">
           {t(problemKey(changeRole.error))}
         </p>
       )}
@@ -90,7 +90,7 @@ function MemberTable({
           >
             <td className={`${cell} font-semibold`}>{member.displayName}</td>
             <td className={`${cell} break-all max-md:text-text-muted`}>{member.email}</td>
-            <td className={`${cell} max-md:pt-2`}>
+            <td className={`${cell} max-md:inline-block max-md:pt-2 max-md:align-middle`}>
               {member.role === "OWNER" ? (
                 t("roles.OWNER")
               ) : (
@@ -107,7 +107,9 @@ function MemberTable({
                 </NativeSelect>
               )}
             </td>
-            <td className={`${cell} max-md:pt-2 md:text-right`}>
+            <td
+              className={`${cell} max-md:ml-2 max-md:inline-block max-md:pt-2 max-md:align-middle md:text-right`}
+            >
               {member.role !== "OWNER" && <RemoveMember groupId={groupId} member={member} />}
             </td>
           </tr>
