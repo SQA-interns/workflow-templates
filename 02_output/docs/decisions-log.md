@@ -736,3 +736,14 @@
 - Options: 1. The next session that may change US-009's tests (`/review INC-1` raises it as a finding, `/fix` applies it) makes the file deterministic: fake timers for the suggestion delay, or a longer `testTimeout` for this file only (default). 2. Raise Vitest's `testTimeout` for the whole frontend (build file). 3. Leave it.
 - Human response: none
 - Resolution: pending review
+
+## D-68: DoD-I-01 of INC-1 with US-013 EX-013-03 depending on Merge (US-018, INC-2)
+- Timestamp: 2026-11-17T19:10+01:00
+- Session: R /review INC-1
+- Class: open
+- Type: blocking
+- Trigger: Review finding F-14 (`docs/04_review-INC-1.md`): the frozen API test EX-013-03 of US-013 (INC-1) needs Merge (US-018, INC-2; T-47), so US-013 cannot meet DoD-S-01 and INC-1 cannot meet DoD-I-01 within INC-1; `docs/02_tasks.md` does not say how this gate is passed.
+- Options: 1. Accept DoD-S-01 of US-013 at the end of INC-2: INC-1's DoD-I-01 counts US-013 as met for its INC-1 rules; EX-013-03 must pass after US-018 (T-47) and is checked by `/review INC-2` (proposed default). 2. Move US-013 to INC-2. 3. Other (state it).
+- Human response: "decifion for f-14: as suggested" — option 1, 2026-11-17.
+- Resolution: 1
+- Overrides: none

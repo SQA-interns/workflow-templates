@@ -7,18 +7,18 @@ The handover between sessions. Every session reads it first and updates it last.
 ## Last session
 - Session: R /review INC-1
 - Result: done
-- Gate: DoD-I not passed (DoD-I-01: US-012, US-013, US-020 DoD-S-01 open); DoD-I-02 … 04 met
+- Gate: DoD-I not passed (DoD-I-01: US-012, US-020 DoD-S-01 open until D-65 is applied; US-013 deferred to INC-2 by D-68); DoD-I-02 … 04 met
 - Notes for the next session:
   - `docs/04_review-INC-1.md`: 0 Critical, 0 High, 14 Medium (F-01 … F-14), 20 Low (F-15 … F-34). No fixes were made.
   - Medium and Low findings go to the next session of their story or to the release notes. The ones that touch INC-2 code paths (F-01 Tag count, F-02 Tag race, F-03 500 on malformed input, F-04 User provisioning, F-05 form reset) are worth fixing first.
-  - F-14 needs a human answer: frozen EX-013-03 (US-013, INC-1) needs Merge (US-018, INC-2), so DoD-I-01 cannot pass within INC-1. Proposed: accept US-013's DoD-S-01 at the end of INC-2.
+  - F-14 answered (D-68 option 1): US-013's DoD-S-01 is accepted at the end of INC-2; EX-013-03 must pass after US-018 (T-47) and `/review INC-2` checks it.
   - D-65 (approved) is still to be applied by `/acceptance-tests`: frozen `stubGet` fulfils only fetch/xhr. Then re-run US-012 AC-012-01 and US-020 EX-020-02.
   - Local stack 8090 holds review data (Groups "secrev", "Review Beta", extra emulator Users); `scripts/seed-local.sh` fails on it, so reset the volumes before the next run that needs the seed state.
   - Screens: `out/logs/screens/review-inc1/` (119, at 375/768/1440).
 
 ## Next
 - Command: /acceptance-tests D-65
-- Waiting for: F-14 (human: how DoD-I-01 of INC-1 is passed with US-013 EX-013-03 depending on US-018); then /implement US-017
+- Waiting for: nothing (after D-65 is applied and AC-012-01, EX-020-02 pass: /implement US-017)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
