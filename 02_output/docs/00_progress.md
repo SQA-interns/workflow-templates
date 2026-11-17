@@ -5,19 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-009
+- Session: S5 /implement US-010
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-009 wait for US-004, US-010, D-55)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-010 wait for US-004, D-56)
 - Notes for the next session:
-  - T-16 backend: `ContactContent(fields, attributes, tags)` (Tag names A–Z) feeds `VersionWriter`: items `tag:<name>`, snapshot `tags`. `Tag`/`TagRepository` (`add`, `findInGroup` case-insensitive, `suggest`), `ContactTag`/`ContactTagRepository` (`add`, `discardOfContact(groupId, contactId, tagIds)`). `TagService.resolve` (existing spelling, else created) and `retag` (puts on added, takes off removed). A Contact's Tags are read with `ContactQueryRepository.findTags`.
-  - US-011 (restore) re-creates missing Tags (R-011-04): `TagService.resolve` with the snapshot's names does that.
-  - T-17: `GET /groups/{groupId}/tags?q=` (`TagController`, `TagService.suggest`); frontend `api/tags.ts`, `TagsField` (combobox, 300 ms), `tags.ts`; `ContactForm` takes `initialTags`, `onSave(fields, attributes, tags)`; `problemsOfError` returns `tags`.
-  - Frozen US-009: API 0/12, UI 0/15 (5 × 3 browsers), all stop in `team()` at Invitations (US-004); UI AC-009-01/04 then read the History page (US-010). Checked on the stack with that data by SQL: all pass (D-55).
-  - Stack images copy the backend jar and `frontend/dist/`: `./mvnw -DskipTests package`, `npm run build`, then `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`.
-  - No regressions: backend 225 unit green, acceptance per class as before (`implement-us009-backend-full.txt`); frontend 207 tests, lint/types/prettier on `src` (README warning as before); UI acceptance of US-001/002/006/007/014/020 as before; US-008 stack check still passes; gitleaks clean.
+  - T-18 backend: `ContactVersionRepository.findHistory`/`findVersion` (with groupId); `HistoryService.history`/`version` (READ; empty History or missing Version → 404); `HistoryController` GET `…/versions`, `…/versions/{number}`; views `VersionSummaryView`, `VersionView`, `ChangeView`, `SnapshotView` (also used by `VersionWriter`). `ProblemHandler` maps an unsupported method to 405 `methodNotAllowed`.
+  - US-011 adds `restoredFrom` (column `restored_from` not mapped in `ContactVersion` yet), "Restore this Version" on `VersionPage` and the chip "restored · from Version n" on `HistoryPage` (WF-09/WF-10).
+  - Frontend: `api/history.ts` (`useHistory`, `useVersion`), `features/history/{HistoryPage,VersionPage,changes}.ts(x)`; WF-07 sections moved to `features/contacts/ContactContent.tsx` (`FieldsSection`, `AttributesSection`, `TagsSection`).
+  - Frozen US-010: API 0/8, UI 0/3 chromium, all stop in `team()` at Invitations (US-004); checked on the stack with SQL Memberships: all pass (D-56). US-020 AC-020-03 now passes; US-020 waits only for D-51.
+  - `TagsField.test.tsx` (US-009) tests take ~5 s each and time out when the host is loaded (seen while Maven ran in parallel); alone and in a quiet full run all 225 frontend tests pass. Run the frontend suite without other load; worth a look in `/review`.
+  - No regressions: backend 234 unit green, acceptance per class as before; frontend 225 tests, lint/types/prettier on `src` (README warning as before); UI acceptance of US-001/002/006/007/014/020 as before plus AC-020-03; gitleaks clean. Stack: `APP_HOST_PORT=8090` as before.
 
 ## Next
-- Command: /implement US-010
+- Command: /implement US-011
 - Waiting for: nothing
 
 ## Stories
@@ -28,11 +28,11 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-003 | INC-1 | ready | |
 | US-004 | INC-1 | ready | |
 | US-005 | INC-1 | ready | |
-| US-006 | INC-1 | in progress | DoD-S-01 open until US-004, US-014, US-010 (D-49); DoD-S-07 see notes; others met |
-| US-007 | INC-1 | in progress | DoD-S-01 open until US-004, US-010, US-012 (D-53); others met |
-| US-008 | INC-1 | in progress | DoD-S-01 open until US-004, US-010 (D-54); DoD-S-07 one commit over 400 lines (2ae5475); others met |
-| US-009 | INC-1 | in progress | DoD-S-01 open until US-004, US-010 (D-55); others met |
-| US-010 | INC-1 | ready | |
+| US-006 | INC-1 | in progress | DoD-S-01 open until US-004, US-014 (D-49; US-010 built); DoD-S-07 see notes; others met |
+| US-007 | INC-1 | in progress | DoD-S-01 open until US-004, US-012 (D-53; US-010 built); others met |
+| US-008 | INC-1 | in progress | DoD-S-01 open until US-004 (D-54; US-010 built); DoD-S-07 one commit over 400 lines (2ae5475); others met |
+| US-009 | INC-1 | in progress | DoD-S-01 open until US-004 (D-55; US-010 built); others met |
+| US-010 | INC-1 | in progress | DoD-S-01 open until US-004 (D-56); others met |
 | US-011 | INC-1 | ready | |
 | US-012 | INC-1 | ready | |
 | US-013 | INC-1 | ready | |
@@ -42,5 +42,5 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-017 | INC-2 | ready | |
 | US-018 | INC-2 | ready | |
 | US-019 | INC-2 | ready | |
-| US-020 | INC-1 | in progress | DoD-S-01 open until US-010 (D-44) and D-51 (approval); D-48 fixed; others met |
+| US-020 | INC-1 | in progress | DoD-S-01 open until D-51 (approval); US-010 part of D-44 passes; D-48 fixed; others met |
 | US-021 | INC-2 | ready | |
