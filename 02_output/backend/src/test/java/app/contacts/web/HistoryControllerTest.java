@@ -71,7 +71,7 @@ class HistoryControllerTest {
   }
 
   @Test
-  void ex01003ChangingOrDeletingAVersionIs405AndReachesNoService() throws Exception {
+  void ex01003ChangingOrDeletingVersionIs405AndReachesNoService() throws Exception {
     MockMvc mvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setControllerAdvice(new ProblemHandler())
