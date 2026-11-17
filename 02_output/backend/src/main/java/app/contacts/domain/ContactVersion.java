@@ -82,6 +82,14 @@ public class ContactVersion implements GroupOwned {
     return groupId;
   }
 
+  public UUID getChangedBy() {
+    return changedBy;
+  }
+
+  public Instant getChangedAt() {
+    return changedAt;
+  }
+
   public String getKind() {
     return kind;
   }
