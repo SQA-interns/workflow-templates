@@ -25,4 +25,18 @@ public interface MembershipRepository extends JpaRepository<Membership, Membersh
         AND g.state = 'active'
       """)
   Optional<Role> findActiveRole(UUID groupId, UUID userId);
+
+  /**
+   * Whether a Member of the Group has the e-mail, compared case-insensitively (R-004-02, BR-11).
+   *
+   * @param groupId the Group
+   * @param email the e-mail
+   * @return true for a Member
+   */
+  @Query(
+      """
+      SELECT count(m) > 0 FROM Membership m, User u
+      WHERE u.id = m.id.userId AND m.id.groupId = :groupId AND lower(u.email) = lower(:email)
+      """)
+  boolean existsMemberWithEmail(UUID groupId, String email);
 }
