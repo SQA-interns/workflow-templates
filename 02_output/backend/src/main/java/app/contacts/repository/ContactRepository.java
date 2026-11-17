@@ -83,4 +83,17 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
       WHERE c.groupId = :groupId AND c.state = 'inRecycleBin' AND c.deletedAt <= :cutoff
       """)
   int permanentlyDeleteDue(UUID groupId, Instant cutoff);
+
+  /**
+   * Permanently deletes one Contact of the Group with its Versions, Attributes and Tag assignments
+   * (R-013-01, SR-06; the database cascades).
+   *
+   * @param groupId the Group
+   * @param id the Contact
+   * @return how many Contacts were deleted: 1, or 0 when it is not one of the Group's
+   */
+  @Transactional
+  @Modifying(clearAutomatically = true)
+  @Query("DELETE FROM Contact c WHERE c.groupId = :groupId AND c.id = :id")
+  int permanentlyDelete(UUID groupId, UUID id);
 }

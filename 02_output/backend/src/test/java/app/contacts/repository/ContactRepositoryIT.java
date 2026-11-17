@@ -241,4 +241,23 @@ class ContactRepositoryIT {
     assertThat(contacts.findByGroupIdAndId(otherGroupId, otherGroups.getId())).isPresent();
     assertThat(groups.findAllIds()).contains(groupId, otherGroupId);
   }
+
+  @Test
+  void r01301DeletesOneContactOfTheGroupWithVersionsAttributesAndTagAssignments() {
+    final Contact janez = withContent(groupId, NOW);
+    final Contact other = withContent(groupId, NOW);
+    UUID otherGroupId = groups.save(Group.create("Drugo", marko, NOW)).getId();
+    entityManager.flush();
+
+    assertThat(contacts.permanentlyDelete(otherGroupId, janez.getId())).isZero();
+    int deleted = contacts.permanentlyDelete(groupId, janez.getId());
+    entityManager.clear();
+
+    assertThat(deleted).isEqualTo(1);
+    assertThat(contacts.findByGroupIdAndId(groupId, janez.getId())).isEmpty();
+    for (String table : new String[] {"contact_version", "attribute", "contact_tag"}) {
+      assertThat(rows(table, janez)).as(table).isZero();
+      assertThat(rows(table, other)).as(table).isOne();
+    }
+  }
 }
