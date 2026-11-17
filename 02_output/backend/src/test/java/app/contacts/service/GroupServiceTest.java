@@ -164,8 +164,7 @@ class GroupServiceTest {
 
     assertThat(group.getState()).isEqualTo(Group.IN_RECYCLE_BIN);
     assertThat(group.getDeletedAt()).isEqualTo(NOW);
-    verify(audit)
-        .record(group.getId(), ANA, AuditEntry.GROUP_MOVED_TO_RECYCLE_BIN, group.getId());
+    verify(audit).record(group.getId(), ANA, AuditEntry.GROUP_MOVED_TO_RECYCLE_BIN, group.getId());
   }
 
   @Test
