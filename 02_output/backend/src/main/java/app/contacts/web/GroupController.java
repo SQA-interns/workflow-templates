@@ -8,13 +8,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Groups of the signed-in User ({@code /groups}, US-002). */
+/** Groups of the signed-in User ({@code /groups}, US-002, US-003). */
 @RestController
 @RequestMapping("/api/v1/groups")
 public class GroupController {
@@ -66,5 +67,21 @@ public class GroupController {
   public GroupResponse get(
       @AuthenticationPrincipal CurrentUser current, @PathVariable UUID groupId) {
     return GroupResponse.of(groups.getGroup(groupId, current.id()));
+  }
+
+  /**
+   * Renames the Group; Owner only (R-003-01, BR-04).
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param body the new name
+   * @return the renamed Group
+   */
+  @PatchMapping("/{groupId}")
+  public GroupResponse rename(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @RequestBody GroupNameRequest body) {
+    return GroupResponse.of(groups.rename(groupId, current.id(), body.name()));
   }
 }

@@ -12,7 +12,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Groups: create, the Group switcher list and one Group (US-002). */
+/** Groups: create, the Group switcher list, one Group (US-002) and rename (US-003). */
 @Service
 public class GroupService {
 
@@ -81,6 +81,25 @@ public class GroupService {
   public GroupView getGroup(UUID groupId, UUID userId) {
     Role role = guard.require(groupId, userId, Permission.READ);
     Group group = groups.findById(groupId).orElseThrow(NotFoundException::new);
+    return new GroupView(group.getId(), group.getName(), role.name());
+  }
+
+  /**
+   * Renames the Group; only its Owner may (R-003-01, BR-04).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param name the new name; trimmed, then 1 to 100 characters (R-002-02)
+   * @return the renamed Group
+   * @throws NotFoundException for a non-Member or a Group in the recycle bin (BR-02, R-003-03)
+   * @throws ForbiddenException for an Editor or a Viewer (AC-003-02)
+   * @throws ValidationException {@code group.nameLength}; the name stays (EX-003-06)
+   */
+  @Transactional
+  public GroupView rename(UUID groupId, UUID userId, String name) {
+    Role role = guard.require(groupId, userId, Permission.MANAGE_GROUP);
+    Group group = groups.findById(groupId).orElseThrow(NotFoundException::new);
+    group.rename(checkedName(name));
     return new GroupView(group.getId(), group.getName(), role.name());
   }
 

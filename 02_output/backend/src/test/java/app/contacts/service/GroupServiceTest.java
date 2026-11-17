@@ -114,6 +114,44 @@ class GroupServiceTest {
         .isEqualTo(new GroupView(group.getId(), "Konferenca 2025", "EDITOR"));
   }
 
+  @Test
+  void r00301OwnerRenamesTheGroupWithTheTrimmedName() {
+    Group group = Group.create("Konferenca 2025", ANA, NOW);
+    when(guard.require(group.getId(), ANA, Permission.MANAGE_GROUP)).thenReturn(Role.OWNER);
+    when(groups.findById(group.getId())).thenReturn(Optional.of(group));
+
+    GroupView renamed = service.rename(group.getId(), ANA, "  Konferenca 2026 ");
+
+    assertThat(renamed).isEqualTo(new GroupView(group.getId(), "Konferenca 2026", "OWNER"));
+    assertThat(group.getName()).isEqualTo("Konferenca 2026");
+  }
+
+  @Test
+  void ac00302EditorCannotRenameAndTheNameIsNotRead() {
+    UUID groupId = UUID.randomUUID();
+    when(guard.require(groupId, ANA, Permission.MANAGE_GROUP)).thenThrow(new ForbiddenException());
+
+    assertThatThrownBy(() -> service.rename(groupId, ANA, "Test"))
+        .isInstanceOf(ForbiddenException.class);
+    verifyNoInteractions(groups);
+  }
+
+  @Test
+  void ex00306RenameToA101CharacterNameIsRejectedAndTheNameStays() {
+    Group group = Group.create("Konferenca 2025", ANA, NOW);
+    when(guard.require(group.getId(), ANA, Permission.MANAGE_GROUP)).thenReturn(Role.OWNER);
+    when(groups.findById(group.getId())).thenReturn(Optional.of(group));
+
+    assertThatThrownBy(() -> service.rename(group.getId(), ANA, "K".repeat(101)))
+        .isInstanceOfSatisfying(
+            ValidationException.class,
+            invalid ->
+                assertThat(invalid.problems())
+                    .extracting(FieldProblem::code)
+                    .containsExactly("group.nameLength"));
+    assertThat(group.getName()).isEqualTo("Konferenca 2025");
+  }
+
   private void assertNameRejected(String name) {
     assertThatThrownBy(() -> service.create(ANA, name))
         .isInstanceOfSatisfying(

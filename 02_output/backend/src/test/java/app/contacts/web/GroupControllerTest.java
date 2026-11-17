@@ -54,4 +54,13 @@ class GroupControllerTest {
     assertThat(controller.get(ANA, GROUP_ID))
         .isEqualTo(new GroupResponse(GROUP_ID, "Konferenca 2025", "OWNER"));
   }
+
+  @Test
+  void r00301PatchGroupAnswersTheRenamedGroup() {
+    when(groups.rename(GROUP_ID, ANA_ID, "Konferenca 2026"))
+        .thenReturn(new GroupView(GROUP_ID, "Konferenca 2026", "OWNER"));
+
+    assertThat(controller.rename(ANA, GROUP_ID, new GroupNameRequest("Konferenca 2026")))
+        .isEqualTo(new GroupResponse(GROUP_ID, "Konferenca 2026", "OWNER"));
+  }
 }

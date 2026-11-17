@@ -53,6 +53,15 @@ public class Group {
     return group;
   }
 
+  /**
+   * Gives the Group a new name (R-003-01).
+   *
+   * @param newName the name, already trimmed and checked
+   */
+  public void rename(String newName) {
+    this.name = newName;
+  }
+
   public UUID getId() {
     return id;
   }
