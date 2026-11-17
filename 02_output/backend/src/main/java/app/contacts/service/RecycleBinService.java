@@ -1,9 +1,9 @@
 package app.contacts.service;
 
 import app.contacts.domain.Contact;
+import app.contacts.domain.RecycleBin;
 import app.contacts.repository.ContactRepository;
 import app.contacts.repository.UserRepository;
-import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 /** The recycle bin of a Group's Contacts: move, list and restore (US-012, ADR-10). */
 @Service
 public class RecycleBinService {
-
-  /** The recycle bin period, counted from {@code deletedAt} (project-wide facts, D-18). */
-  public static final Duration PERIOD = Duration.ofDays(30);
 
   private final AccessGuard guard;
   private final ContactService contacts;
@@ -65,7 +62,7 @@ public class RecycleBinService {
                     contact.getVersionNumber(),
                     names.get(contact.getUpdatedBy()),
                     contact.getDeletedAt(),
-                    contact.getDeletedAt().plus(PERIOD)))
+                    RecycleBin.removalAt(contact.getDeletedAt())))
         .toList();
   }
 
