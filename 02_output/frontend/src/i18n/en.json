@@ -41,7 +41,8 @@
       "nameRequired": "Enter a first name, last name or company.",
       "noChanges": "No changes to save.",
       "inRecycleBin": "This Contact is in the recycle bin.",
-      "merged": "This Contact was merged into another Contact."
+      "merged": "This Contact was merged into another Contact.",
+      "noLongerRestorable": "This Contact can no longer be restored."
     },
     "field": {
       "tooLong": "{{field}} may have at most {{max}} characters.",
@@ -230,6 +231,22 @@
       "title": "Move to recycle bin?",
       "description": "You can restore it from the recycle bin for 30 days.",
       "cancel": "Cancel"
+    },
+    "title": "Recycle bin",
+    "intro": "Deleted Contacts stay here for 30 days, then they are removed for good. Newest first.",
+    "empty": "The recycle bin is empty.",
+    "restore": "Restore",
+    "column": {
+      "name": "Name",
+      "deletedBy": "Deleted by",
+      "deletedAt": "Deleted at",
+      "removalAt": "Removal date",
+      "actions": "Actions"
+    },
+    "card": {
+      "deletedBy": "Deleted by",
+      "deletedAt": "Deleted at",
+      "removalAt": "Removal date"
     }
   }
 }

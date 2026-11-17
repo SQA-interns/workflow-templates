@@ -41,7 +41,8 @@
       "nameRequired": "Vnesite ime, priimek ali podjetje.",
       "noChanges": "Ni sprememb za shranjevanje.",
       "inRecycleBin": "Ta kontakt je v košu.",
-      "merged": "Ta kontakt je bil združen z drugim kontaktom."
+      "merged": "Ta kontakt je bil združen z drugim kontaktom.",
+      "noLongerRestorable": "Tega kontakta ni več mogoče obnoviti."
     },
     "field": {
       "tooLong": "{{field}} ima lahko največ {{max}} znakov.",
@@ -232,6 +233,22 @@
       "title": "Želite premakniti v koš?",
       "description": "Iz koša ga lahko obnovite 30 dni.",
       "cancel": "Prekliči"
+    },
+    "title": "Koš",
+    "intro": "Izbrisani kontakti ostanejo tukaj 30 dni, nato so dokončno odstranjeni. Najnovejši najprej.",
+    "empty": "Koš je prazen.",
+    "restore": "Obnovi",
+    "column": {
+      "name": "Ime",
+      "deletedBy": "Izbrisal",
+      "deletedAt": "Izbrisano",
+      "removalAt": "Datum odstranitve",
+      "actions": "Dejanja"
+    },
+    "card": {
+      "deletedBy": "Izbrisal",
+      "deletedAt": "Izbrisano",
+      "removalAt": "Odstranitev"
     }
   }
 }
