@@ -5,18 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-012
+- Session: S5 /implement US-013
 - Result: done
-- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-012 wait for US-004 and US-016, D-58)
+- Gate: DoD-S not passed (DoD-S-01: frozen tests of US-013 wait for US-004 and US-018, D-59)
 - Notes for the next session:
-  - T-20 backend: `RecycleBinService` (move, list, restore; guard + missing `versionNumber` 400) calls package-private `ContactService.moveToRecycleBin` / `restoreFromRecycleBin`; `Contact.moveToRecycleBin`, `restoreFromRecycleBin`, `deletedAt`; Version kinds `MOVED_TO_RECYCLE_BIN`, `RESTORED_FROM_RECYCLE_BIN` (no changed items); `ContactRepository.findInRecycleBin`; `RecycleBinController` (POST `…/contacts/{id}/move-to-recycle-bin`, GET `…/recycle-bin`, POST `…/recycle-bin/{id}/restore`); not in recycle bin → 404.
-  - T-21: `domain/RecycleBin` (PERIOD 30 days, `removalAt`, reuse for US-003); `RemovalJob.removeDueContacts` (`@Scheduled` PT15M, `@EnableScheduling`) loops `GroupRepository.findAllIds` → `ContactRepository.permanentlyDeleteDue(groupId, cutoff)`. No Audit entry yet: US-013 (T-23, `AuditService`) must add it to `RemovalJob` (ADR-10, D-58 (f)). Method names starting with `delete…` make SpotBugs flag the repository as mutable (EI_EXPOSE_REP2).
-  - Frontend: `api/recycleBin.ts`; `features/contacts/MoveToRecycleBin.tsx` (WF-07); `features/recycle-bin/RecycleBinPage.tsx` (WF-11; US-013 adds "Delete permanently" there); route `recycle-bin`; header link for Owner/Editor.
-  - Frozen US-012: API 0/10, UI 0/4 chromium, all stop in `team()` at Invitations (US-004); EX-012-05 also needs Export (US-016). On the stack with SQL Memberships and `deleted_at` shifted by SQL: all pass (D-58). US-007 EX-007-03 and US-011 EX-011-04 no longer need SQL for the recycle bin.
-  - No regressions: backend 267 unit green, IT 241 run with the same failures per class (+2 passing repository ITs); frontend 245 tests, lint/types/prettier on `src` (README warning as before); UI acceptance: the same 13 pass; checks and gitleaks clean. Stack still up with `APP_HOST_PORT=8090`.
+  - T-23 backend: `domain/AuditEntry` (actions `contact.permanentlyDeleted`, `contact.removed`; add a constant per BR-10 action), `AuditEntryRepository` (add only, SR-04), `AuditService.record(groupId, userId, action, targetId)` at the clock's UTC time, in the caller's transaction: reuse it for US-003, US-004, US-005, US-016, US-018, US-019.
+  - `PermanentDeleteService.permanentlyDelete` (Owner; 404; active or merged → 409 `contact.notInRecycleBin`; `ContactRepository.permanentlyDelete` with the DB cascade) and `permanentlyDeleteDue(groupId, cutoff)` (Audit `contact.removed` by the User who moved it, then bulk delete); `RemovalJob` now calls the latter. `DELETE /groups/{id}/recycle-bin/{contactId}` → 204. Merged Contacts (D-21) are T-47.
+  - SpotBugs EI_EXPOSE_REP2: service or repository methods starting with `remove…`/`delete…` make every class that stores the bean fail the check; run the check before committing.
+  - Frontend: `useIsOwner` (`api/groups.ts`), `usePermanentlyDelete` (`api/recycleBin.ts`), `features/recycle-bin/DeletePermanently.tsx` (WF-11, Owner only). The stack's frontend image copies `frontend/dist/`: run `npm run build` before `docker compose --env-file ../.env up -d --build`.
+  - Frozen US-013: API 0/6, UI 0/2 chromium, all stop in `team()` at Invitations (US-004); EX-013-03 also needs Merge (US-018). On the stack with SQL Memberships: all other steps pass (D-59).
+  - No regressions: backend 274 unit green, IT 244 run with the same failures per class (+3 passing repository ITs); frontend 249 tests, prettier/eslint/tsc clean; UI acceptance: the same 13 pass; checks and gitleaks clean. Stack still up with `APP_HOST_PORT=8090`.
 
 ## Next
-- Command: /implement US-013
+- Command: /implement US-015
 - Waiting for: nothing
 
 ## Stories
@@ -34,7 +35,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-010 | INC-1 | in progress | DoD-S-01 open until US-004 (D-56; US-011 built); others met |
 | US-011 | INC-1 | in progress | DoD-S-01 open until US-004 (D-57; US-012 built); DoD-S-07 one subject over 72 characters (24e39f9); others met |
 | US-012 | INC-1 | in progress | DoD-S-01 open until US-004, US-016 (D-58); others met |
-| US-013 | INC-1 | ready | |
+| US-013 | INC-1 | in progress | DoD-S-01 open until US-004, US-018 (D-59); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
 | US-014 | INC-1 | in progress | DoD-S-01 open until US-004 (D-52; US-008, US-009, US-012 built); DoD-S-07 see notes; others met |
 | US-015 | INC-1 | ready | |
 | US-016 | INC-1 | ready | |
