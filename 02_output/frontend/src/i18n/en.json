@@ -9,6 +9,7 @@
   "nav": {
     "contacts": "Contacts",
     "recycleBin": "Recycle bin",
+    "duplicates": "Possible duplicates",
     "members": "Members",
     "settings": "Settings"
   },
@@ -313,6 +314,16 @@
       "title": "Delete {{name}} permanently?",
       "description": "Delete permanently. This cannot be undone.",
       "cancel": "Cancel"
+    }
+  },
+  "duplicates": {
+    "title": "Possible duplicates",
+    "intro": "Pairs of Contacts that may be the same person or company. Nothing changes until you merge.",
+    "empty": "No possible duplicates found.",
+    "reason": {
+      "sameEmail": "Same e-mail",
+      "samePhone": "Same phone",
+      "similarNameSameCompany": "Similar name, same company"
     }
   },
   "deletedGroups": {

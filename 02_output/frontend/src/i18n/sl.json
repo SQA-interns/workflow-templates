@@ -9,6 +9,7 @@
   "nav": {
     "contacts": "Kontakti",
     "recycleBin": "Koš",
+    "duplicates": "Možni dvojniki",
     "members": "Člani",
     "settings": "Nastavitve"
   },
@@ -315,6 +316,16 @@
       "title": "Želite trajno izbrisati {{name}}?",
       "description": "Trajno izbriši. Tega ni mogoče razveljaviti.",
       "cancel": "Prekliči"
+    }
+  },
+  "duplicates": {
+    "title": "Možni dvojniki",
+    "intro": "Pari kontaktov, ki so morda ista oseba ali podjetje. Nič se ne spremeni, dokler jih ne združite.",
+    "empty": "Ni najdenih možnih dvojnikov.",
+    "reason": {
+      "sameEmail": "Enak e-naslov",
+      "samePhone": "Enak telefon",
+      "similarNameSameCompany": "Podobno ime, isto podjetje"
     }
   },
   "deletedGroups": {
