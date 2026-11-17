@@ -1,0 +1,9 @@
+--- git: commits of /implement US-013 (a5f4444..HEAD)
+[90m10:53AM[0m [32mINF[0m [1m6 commits scanned.[0m
+[90m10:53AM[0m [32mINF[0m [1mscanned ~28815 bytes (28.82 KB) in 186ms[0m
+[90m10:53AM[0m [32mINF[0m [1mno leaks found[0m
+--- dir: changed source
+[90m10:53AM[0m [32mINF[0m [1mscanned ~551990 bytes (551.99 KB) in 171ms[0m
+[90m10:53AM[0m [32mINF[0m [1mno leaks found[0m
+[90m10:53AM[0m [32mINF[0m [1mscanned ~285450 bytes (285.45 KB) in 88.4ms[0m
+[90m10:53AM[0m [32mINF[0m [1mno leaks found[0m

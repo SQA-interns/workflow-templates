@@ -1,0 +1,21 @@
+
+Running 4 tests using 1 worker
+
+AC-013-02 [403,"auth.forbidden",1]
+AC-013-03 [409,"contact.notInRecycleBin",1]
+AC-013-01 [204,0,404,404,["0","0","0"],"0","6ecc7342-d7a4-454f-a822-9270bed8502e contact.permanentlyDeleted 5c076168-cc72-4adf-ba1a-4c637cf5677c"]
+EX-013-02 []
+EX-013-04 [404]
+  ✓  1 [chromium] › reports/us013-check/us013.spec.ts:51:1 › API AC-013-01..03, EX-013-02, EX-013-04 (3.0s)
+BR-08 [404,"8623cdb3-680e-4736-b2b3-5ca80404dbc1 contact.removed 41720ca7-6d58-4ec1-abe1-8698b698e6f8"]
+  ✓  2 [chromium] › reports/us013-check/us013.spec.ts:85:1 › API BR-08 removal writes contact.removed by the User who moved it (job at backend start) (18.9s)
+axe WF-11_recycle-bin/permanent-delete owner: none
+axe WF-11_recycle-bin/permanent-delete confirmation: none
+UI AC-013-01 passed
+  ✓  3 [chromium] › reports/us013-check/us013.spec.ts:117:1 › UI AC-013-01 (frozen steps) with screens (6.2s)
+UI EX-013-01 passed
+axe WF-11_recycle-bin/permanent-delete editor: none
+UI Editor: Restore only
+  ✓  4 [chromium] › reports/us013-check/us013.spec.ts:137:1 › UI EX-013-01 (frozen steps); Editor without the action (4.1s)
+
+  4 passed (33.6s)
