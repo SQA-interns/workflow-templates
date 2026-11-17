@@ -74,6 +74,10 @@
       "otherEmail": "To povabilo je za drug e-poštni naslov.",
       "noLongerValid": "To povabilo ni več veljavno.",
       "roleInvalid": "Izberite urednika ali bralca."
+    },
+    "member": {
+      "ownerRequired": "Skupina ima vedno enega lastnika.",
+      "roleInvalid": "Izberite urednika ali bralca."
     }
   },
   "account": {
@@ -333,7 +337,14 @@
     "VIEWER": "Bralec"
   },
   "members": {
-    "title": "Člani"
+    "title": "Člani",
+    "column": {
+      "name": "Ime",
+      "email": "E-pošta",
+      "role": "Vloga",
+      "actions": "Dejanja"
+    },
+    "roleOf": "Vloga: {{name}}"
   },
   "invitations": {
     "invite": {

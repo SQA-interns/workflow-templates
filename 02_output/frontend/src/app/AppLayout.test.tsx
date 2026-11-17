@@ -274,7 +274,7 @@ describe("routes and header of US-004", () => {
   it("R-004-08 /groups/:groupId/members shows WF-13 with the Invitations for the Owner", async () => {
     vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
       if (path === "/groups") return [konferenca];
-      if (path === "/groups/g1/invitations") return [];
+      if (path === "/groups/g1/invitations" || path === "/groups/g1/members") return [];
       return ana;
     });
 

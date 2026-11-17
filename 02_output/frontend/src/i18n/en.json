@@ -74,6 +74,10 @@
       "otherEmail": "This Invitation is for another e-mail address.",
       "noLongerValid": "This Invitation is no longer valid.",
       "roleInvalid": "Choose Editor or Viewer."
+    },
+    "member": {
+      "ownerRequired": "A Group always has one Owner.",
+      "roleInvalid": "Choose Editor or Viewer."
     }
   },
   "account": {
@@ -331,7 +335,14 @@
     "VIEWER": "Viewer"
   },
   "members": {
-    "title": "Members"
+    "title": "Members",
+    "column": {
+      "name": "Name",
+      "email": "E-mail",
+      "role": "Role",
+      "actions": "Actions"
+    },
+    "roleOf": "Role of {{name}}"
   },
   "invitations": {
     "invite": {

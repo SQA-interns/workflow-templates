@@ -3,10 +3,11 @@ import { useParams } from "react-router";
 import { useGroups } from "../../api/groups";
 import { GroupsPending } from "../groups/GroupsPending";
 import { InvitationsSection } from "./InvitationsSection";
+import { MemberList } from "./MemberList";
 
 /**
- * WF-13 Members and Invitations, for the Owner only (BR-04). US-004 adds Invite a Member and Open
- * Invitations; the Member list comes with US-005.
+ * WF-13 Members and Invitations, for the Owner only (R-005-01, BR-04): the Member list (US-005),
+ * Invite a Member and Open Invitations (US-004).
  */
 export function MembersPage() {
   const { t } = useTranslation();
@@ -19,6 +20,7 @@ export function MembersPage() {
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-2xl font-semibold">{t("members.title")}</h1>
+      <MemberList groupId={group.id} />
       <InvitationsSection groupId={group.id} />
     </div>
   );
