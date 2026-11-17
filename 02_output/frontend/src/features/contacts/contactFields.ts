@@ -45,9 +45,12 @@ const MAX_LENGTH = new Map<FieldName, number>([
   ["note", 2000],
 ]);
 
-/** One @, a local part, a dot in the domain, no spaces (R-006-04); digits, spaces, + - ( ) / (D-23). */
+/** One @, a local part, a dot in the domain, no spaces (R-006-04); also for Invitations (EX-004-06). */
+export const EMAIL_PATTERN = /^[^@\s]+@[^@\s]*\.[^@\s]*$/;
+
+/** E-mail syntax (R-006-04); digits, spaces, + - ( ) / (D-23). */
 const FORMATS = new Map<FieldName, { pattern: RegExp; code: string }>([
-  ["email", { pattern: /^[^@\s]+@[^@\s]*\.[^@\s]*$/, code: "field.emailInvalid" }],
+  ["email", { pattern: EMAIL_PATTERN, code: "field.emailInvalid" }],
   ["phone", { pattern: /^[0-9 +\-()/]*$/, code: "field.phoneInvalid" }],
 ]);
 
