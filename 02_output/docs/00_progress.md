@@ -17,7 +17,7 @@ The handover between sessions. Every session reads it first and updates it last.
 
 ## Next
 - Command: /implement US-005
-- Waiting for: D-51, D-64 (approval of the frozen `stubGet` helper; not blocking US-005)
+- Waiting for: nothing (D-51, D-64 approved in D-65; `/acceptance-tests` applies the `stubGet` change, then US-012 and US-020 UI suites are re-run)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
@@ -33,7 +33,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-009 | INC-1 | done | DoD-S-01 met after US-004 (API 12/12, UI 5/5); others met |
 | US-010 | INC-1 | done | DoD-S-01 met after US-004 (API 8/8, UI 3/3); others met |
 | US-011 | INC-1 | done | DoD-S-01 met after US-004 (API 7/7, UI 3/3); DoD-S-07 one subject over 72 characters (24e39f9); others met |
-| US-012 | INC-1 | in progress | DoD-S-01 open: API 10/10, UI 3/4, AC-012-01 details waits for D-64 (frozen `stubGet`); others met |
+| US-012 | INC-1 | in progress | DoD-S-01 open: API 10/10, UI 3/4, AC-012-01 waits for the approved `stubGet` change (D-64, D-65); others met |
 | US-013 | INC-1 | in progress | DoD-S-01 open until US-018 (API 5/6, EX-013-03 needs Merge; UI 2/2); DoD-S-07 one commit failed SpotBugs (527455f, fixed in ebd94c8); others met |
 | US-014 | INC-1 | done | DoD-S-01 met after US-004 (API 12/12, UI 5/5); DoD-S-07 see notes of US-014; others met |
 | US-015 | INC-1 | done | DoD-S-01 met after US-004 (API 10/10, UI 5/5); DoD-S-07 c1b76ff subject without IDs, bacf2c9 subject 73 characters, c1b76ff … bacf2c9 failed ArchitectureTest (fixed in 3f369fd); others met |
@@ -41,5 +41,5 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-017 | INC-2 | ready | |
 | US-018 | INC-2 | ready | |
 | US-019 | INC-2 | ready | |
-| US-020 | INC-1 | in progress | DoD-S-01 open until D-51 (approval); US-010 part of D-44 passes; D-48 fixed; others met |
+| US-020 | INC-1 | in progress | DoD-S-01 open until the approved `stubGet` change (D-51, D-65); US-010 part of D-44 passes; D-48 fixed; others met |
 | US-021 | INC-2 | ready | |
