@@ -204,6 +204,7 @@
     "order": "Newest first. Times in Europe/Ljubljana (dd.mm.yyyy HH:mm).",
     "version": "Version {{number}}",
     "view": "View",
+    "from": "from Version {{number}}",
     "kind": {
       "created": "created",
       "edited": "edited",

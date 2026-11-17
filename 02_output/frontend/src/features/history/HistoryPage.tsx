@@ -49,7 +49,12 @@ function VersionCard({ version, path }: { version: VersionSummary; path: string 
     <Card aria-label={title} className="flex flex-col gap-2">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
         <strong>{title}</strong>
-        <Badge>{t(`history.kind.${version.kind}`)}</Badge>
+        <Badge>
+          {[
+            t(`history.kind.${version.kind}`),
+            ...(version.restoredFrom ? [t("history.from", { number: version.restoredFrom })] : []),
+          ].join(" · ")}
+        </Badge>
         <span>{version.changedBy}</span>
         <span className="text-text-muted">{formatDateTime(version.changedAt)}</span>
         <Link

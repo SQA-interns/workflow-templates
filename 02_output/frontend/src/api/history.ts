@@ -16,6 +16,8 @@ export interface VersionSummary {
   kind: string;
   changedBy: string;
   changedAt: string;
+  /** The Version a `restored` Version made current again (R-011-01); null for other kinds. */
+  restoredFrom?: number | null;
   changes: Change[];
 }
 

@@ -206,6 +206,7 @@
     "order": "Najnovejše najprej. Časi v Europe/Ljubljana (dd.mm.llll HH:mm).",
     "version": "Različica {{number}}",
     "view": "Poglej",
+    "from": "iz različice {{number}}",
     "kind": {
       "created": "ustvarjena",
       "edited": "urejena",

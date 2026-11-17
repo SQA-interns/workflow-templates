@@ -75,6 +75,27 @@ afterEach(async () => {
 });
 
 describe("WF-09 History (R-010-01)", () => {
+  it("AC-011-01 a restored Version names the Version it restored", async () => {
+    answer([
+      {
+        number: 3,
+        kind: "restored",
+        changedBy: "Marko Kranjc",
+        changedAt: "2026-07-02T08:00:00Z",
+        restoredFrom: 1,
+        changes: [
+          { item: "email", oldValue: "janez@novak.si", newValue: "janez.novak@example.si" },
+        ],
+      },
+      ...HISTORY,
+    ]);
+    renderPage();
+
+    const version3 = within(await screen.findByRole("region", { name: "Version 3" }));
+    expect(version3.getByText("restored · from Version 1")).toBeTruthy();
+    expect(screen.getByRole("region", { name: "Version 2" })).toBeTruthy();
+  });
+
   it("R-010-01 lists the Versions newest first with kind, who, when and what", async () => {
     renderPage();
 
