@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
-import app.contacts.domain.ContactFilters;
 import app.contacts.service.AttributeView;
 import app.contacts.service.ContactPageView;
 import app.contacts.service.ContactQuery;
@@ -101,8 +100,8 @@ class ContactControllerTest {
   void r01401R01505GetContactsAnswersOnePageOfTheQueryWithItsFilters() {
     ContactPageView page = new ContactPageView(List.of(), 0, 2, 50);
     UUID ne = UUID.randomUUID();
-    ContactFilters filters =
-        new ContactFilters(List.of(TAG_ID), List.of(ne), "kompetenca", "splet", "Šola", "SI");
+    ContactQuery.Filters filters =
+        new ContactQuery.Filters(List.of(TAG_ID), List.of(ne), "kompetenca", "splet", "Šola", "SI");
     when(contactQueries.page(
             GROUP_ID, MARKO_ID, new ContactQuery("novak", "company", "desc", 2, filters)))
         .thenReturn(page);

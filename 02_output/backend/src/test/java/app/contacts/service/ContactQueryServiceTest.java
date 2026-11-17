@@ -46,11 +46,23 @@ class ContactQueryServiceTest {
   }
 
   private static ContactQuery query(String search, String sort, String dir, Integer page) {
-    return new ContactQuery(search, sort, dir, page, NONE);
+    return new ContactQuery(search, sort, dir, page, ContactQuery.Filters.NONE);
   }
 
-  private static ContactQuery filtered(ContactFilters filters) {
-    return new ContactQuery(null, null, null, null, filters);
+  /** The query with the filters sent as given. */
+  private static ContactQuery filtered(ContactFilters sent) {
+    return new ContactQuery(
+        null,
+        null,
+        null,
+        null,
+        new ContactQuery.Filters(
+            sent.hasTagIds(),
+            sent.withoutTagIds(),
+            sent.attributeKey(),
+            sent.attributeValue(),
+            sent.company(),
+            sent.country()));
   }
 
   private static ContactFilters other(String attributeKey, String attributeValue, String company) {

@@ -127,7 +127,7 @@ public class ContactQueryService {
    * @throws ValidationException for an Attribute value without key, a text longer than the contract
    *     allows or a country that is not an ISO 3166-1 alpha-2 code
    */
-  private static ContactFilters checked(ContactFilters sent) {
+  private static ContactFilters checked(ContactQuery.Filters sent) {
     ContactFilters filters =
         new ContactFilters(
             sent.hasTagIds(),

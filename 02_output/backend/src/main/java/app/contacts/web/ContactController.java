@@ -1,7 +1,6 @@
 package app.contacts.web;
 
 import app.contacts.auth.CurrentUser;
-import app.contacts.domain.ContactFilters;
 import app.contacts.service.ContactPageView;
 import app.contacts.service.ContactQuery;
 import app.contacts.service.ContactQueryService;
@@ -71,8 +70,8 @@ public class ContactController {
       @RequestParam(required = false) String attributeValue,
       @RequestParam(required = false) String company,
       @RequestParam(required = false) String country) {
-    ContactFilters filters =
-        new ContactFilters(
+    ContactQuery.Filters filters =
+        new ContactQuery.Filters(
             hasTagIds, withoutTagIds, attributeKey, attributeValue, company, country);
     return contactQueries.page(
         groupId, current.id(), new ContactQuery(q, sort, dir, page, filters));

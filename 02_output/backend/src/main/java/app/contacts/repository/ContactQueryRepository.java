@@ -10,7 +10,9 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
@@ -99,12 +101,7 @@ public class ContactQueryRepository {
               descending ? "updated_at DESC, " + NAME_ASC : "updated_at, " + NAME_ASC;
         };
     Query query =
-        bound(
-                entityManager.createNativeQuery(
-                    COLUMNS + where(filters) + "ORDER BY " + order + PAGE),
-                groupId,
-                pattern,
-                filters)
+        filtered(groupId, COLUMNS, pattern, filters, "ORDER BY " + order + PAGE)
             .setParameter("limit", limit)
             .setParameter("offset", offset);
     List<ContactListRow> rows = new ArrayList<>();
@@ -134,12 +131,7 @@ public class ContactQueryRepository {
    */
   public long count(UUID groupId, String pattern, ContactFilters filters) {
     Object total =
-        bound(
-                entityManager.createNativeQuery("SELECT count(*) FROM contact " + where(filters)),
-                groupId,
-                pattern,
-                filters)
-            .getSingleResult();
+        filtered(groupId, "SELECT count(*) FROM contact ", pattern, filters, "").getSingleResult();
     return ((Number) total).longValue();
   }
 
@@ -164,50 +156,42 @@ public class ContactQueryRepository {
     return ((Number) found).longValue();
   }
 
-  /** The conditions of the list: the Group, active, the search and each set filter. */
-  private static String where(ContactFilters filters) {
-    StringBuilder sql = new StringBuilder(WHERE);
+  /**
+   * The query of the Group's active Contacts that match the search and every set filter, with its
+   * parameters bound.
+   */
+  private Query filtered(
+      UUID groupId, String select, String pattern, ContactFilters filters, String tail) {
+    StringBuilder sql = new StringBuilder(select).append(WHERE);
+    Map<String, Object> parameters = new HashMap<>();
+    parameters.put("groupId", groupId);
+    parameters.put("pattern", pattern);
     if (!filters.hasTagIds().isEmpty()) {
       sql.append(HAS_TAGS);
+      parameters.put("hasTagIds", filters.hasTagIds());
+      parameters.put("hasTagCount", filters.hasTagIds().size());
     }
     if (!filters.withoutTagIds().isEmpty()) {
       sql.append(WITHOUT_TAGS);
+      parameters.put("withoutTagIds", filters.withoutTagIds());
     }
     if (filters.attributeKey() != null) {
       sql.append(filters.attributeValue() == null ? ATTRIBUTE_KEY : ATTRIBUTE_VALUE);
-    }
-    if (filters.company() != null) {
-      sql.append(COMPANY);
-    }
-    if (filters.country() != null) {
-      sql.append(COUNTRY);
-    }
-    return sql.toString();
-  }
-
-  /** Binds the parameters of {@link #where} that the filters use. */
-  private static Query bound(Query query, UUID groupId, String pattern, ContactFilters filters) {
-    query.setParameter("groupId", groupId).setParameter("pattern", pattern);
-    if (!filters.hasTagIds().isEmpty()) {
-      query
-          .setParameter("hasTagIds", filters.hasTagIds())
-          .setParameter("hasTagCount", filters.hasTagIds().size());
-    }
-    if (!filters.withoutTagIds().isEmpty()) {
-      query.setParameter("withoutTagIds", filters.withoutTagIds());
-    }
-    if (filters.attributeKey() != null) {
-      query.setParameter("attributeKey", filters.attributeKey());
+      parameters.put("attributeKey", filters.attributeKey());
       if (filters.attributeValue() != null) {
-        query.setParameter("attributeValue", filters.attributeValue());
+        parameters.put("attributeValue", filters.attributeValue());
       }
     }
     if (filters.company() != null) {
-      query.setParameter("company", filters.company());
+      sql.append(COMPANY);
+      parameters.put("company", filters.company());
     }
     if (filters.country() != null) {
-      query.setParameter("country", filters.country());
+      sql.append(COUNTRY);
+      parameters.put("country", filters.country());
     }
+    Query query = entityManager.createNativeQuery(sql.append(tail).toString());
+    parameters.forEach(query::setParameter);
     return query;
   }
 
