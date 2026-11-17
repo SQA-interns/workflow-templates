@@ -149,49 +149,46 @@ interface ChoicesProps {
   onChoose: (item: string, choice: Choice) => void;
 }
 
-/** One row per shown Field with a radio for each Contact's value (R-018-01, R-018-02). */
+/**
+ * One group per shown Field with a radio for each Contact's value (R-018-01, R-018-02): stacked on
+ * a phone, three columns (Field, Primary contact, Other contact) from the tablet width (WF-18).
+ */
 function FieldChoices({ primary, other, choices, onChoose }: ChoicesProps) {
   const { t } = useTranslation();
   const chosen = new Map(Object.entries(choices));
-  const head = "border-b border-border p-2 text-left font-semibold";
+  const columns = "md:grid md:grid-cols-3 md:gap-2";
   return (
     <Section title={t("contacts.fields")}>
-      <table className="w-full table-fixed border-collapse">
-        <thead>
-          <tr>
-            <th scope="col" className={head}>
-              {t("merge.field")}
-            </th>
-            <th scope="col" className={head}>
-              {t("merge.primary")}
-            </th>
-            <th scope="col" className={head}>
-              {t("merge.other")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {shownFields(primary, other).map((name) => (
-            <tr key={name} className="border-b border-border">
-              <th scope="row" className="p-2 text-left font-normal break-words">
-                {t(`contacts.field.${name}`)}
-              </th>
-              {(["primary", "other"] as const).map((choice) => (
-                <td key={choice} className="p-2 break-words">
-                  <Option
-                    group={`field-${name}`}
-                    label={
-                      fieldValue(choice === "primary" ? primary : other, name) ?? t("merge.empty")
-                    }
-                    checked={chosen.get(name) === choice}
-                    onChoose={() => onChoose(name, choice)}
-                  />
-                </td>
-              ))}
-            </tr>
+      <div
+        aria-hidden="true"
+        className={`hidden border-b border-border p-2 font-semibold ${columns}`}
+      >
+        <span>{t("merge.field")}</span>
+        <span>{t("merge.primary")}</span>
+        <span>{t("merge.other")}</span>
+      </div>
+      {shownFields(primary, other).map((name) => (
+        <div
+          key={name}
+          role="radiogroup"
+          aria-labelledby={`merge-field-${name}`}
+          className={`mb-2 rounded-md border border-border p-2 md:mb-0 md:items-center md:rounded-none md:border-0 md:border-b ${columns}`}
+        >
+          <span id={`merge-field-${name}`} className="block font-semibold md:font-normal">
+            {t(`contacts.field.${name}`)}
+          </span>
+          {(["primary", "other"] as const).map((choice) => (
+            <div key={choice} className="min-w-0">
+              <Option
+                group={`field-${name}`}
+                label={fieldValue(choice === "primary" ? primary : other, name) ?? t("merge.empty")}
+                checked={chosen.get(name) === choice}
+                onChoose={() => onChoose(name, choice)}
+              />
+            </div>
           ))}
-        </tbody>
-      </table>
+        </div>
+      ))}
     </Section>
   );
 }
@@ -240,7 +237,7 @@ function AttributeChoices({
 /** A radio named by its label, 44 px high (UI-20). */
 function Option(props: { group: string; label: string; checked: boolean; onChoose: () => void }) {
   return (
-    <label className="inline-flex min-h-11 items-center gap-2 break-words">
+    <label className="inline-flex min-h-11 max-w-full items-center gap-2 [overflow-wrap:anywhere]">
       <input
         type="radio"
         name={props.group}
