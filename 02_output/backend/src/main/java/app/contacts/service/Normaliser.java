@@ -27,7 +27,32 @@ public class Normaliser {
   }
 
   /**
-   * The search text: the Normalised first name, last name, e-mail, phone, company and city, one per
+   * Normalised phone: only the digits and a leading {@code +} (US-017).
+   *
+   * @param phone the phone
+   * @return the Normalised phone
+   */
+  public String phone(String phone) {
+    String digits = phone.replaceAll("[^0-9]", "");
+    return phone.startsWith("+") ? "+" + digits : digits;
+  }
+
+  /**
+   * Normalised full name: first and last name joined by one space as Normalised text, repeated
+   * spaces reduced to one (US-017).
+   *
+   * @param firstName the first name, or {@code null}
+   * @param lastName the last name, or {@code null}
+   * @return the Normalised full name, empty without either
+   */
+  public String fullName(String firstName, String lastName) {
+    String joined =
+        Stream.of(firstName, lastName).filter(Objects::nonNull).collect(Collectors.joining(" "));
+    return text(joined).replaceAll(" {2,}", " ");
+  }
+
+  /**
+   * The search text:the Normalised first name, last name, e-mail, phone, company and city, one per
    * line so that a search never matches across two Fields (R-014-04).
    *
    * @param fields the Fields

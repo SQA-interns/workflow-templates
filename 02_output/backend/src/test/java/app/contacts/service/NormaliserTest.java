@@ -64,4 +64,24 @@ class NormaliserTest {
 
     assertThat(normaliser.sortName(company)).isEqualTo("Podjetje");
   }
+
+  @Test
+  void r01703NormalisedPhoneKeepsOnlyDigitsAndALeadingPlus() {
+    assertThat(normaliser.phone("+386 41 123 456")).isEqualTo("+38641123456");
+    assertThat(normaliser.phone("+386-41-123-456")).isEqualTo("+38641123456");
+    assertThat(normaliser.phone("(01) 234/56+7")).isEqualTo("01234567");
+  }
+
+  @Test
+  void r01704NormalisedFullNameJoinsFirstAndLastNameAsNormalisedText() {
+    assertThat(normaliser.fullName("Žiga", "Čuk")).isEqualTo("ziga cuk");
+    assertThat(normaliser.fullName("Ana  Marija", "Novak")).isEqualTo("ana marija novak");
+  }
+
+  @Test
+  void r01704NormalisedFullNameOfOneNamePartIsThatPart() {
+    assertThat(normaliser.fullName(null, "Novak")).isEqualTo("novak");
+    assertThat(normaliser.fullName("Janez", null)).isEqualTo("janez");
+    assertThat(normaliser.fullName(null, null)).isEmpty();
+  }
 }
