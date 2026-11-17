@@ -42,8 +42,8 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
   @Query(
       """
       SELECT g FROM Group g, Membership m
-      WHERE m.id.groupId = g.id AND m.id.userId = :userId AND m.role = app.contacts.domain.Role.OWNER
-        AND g.state = 'inRecycleBin'
+      WHERE m.id.groupId = g.id AND m.id.userId = :userId
+        AND m.role = app.contacts.domain.Role.OWNER AND g.state = 'inRecycleBin'
       ORDER BY g.deletedAt DESC, g.id
       """)
   List<Group> findInRecycleBinOwnedBy(UUID userId);
@@ -78,5 +78,5 @@ public interface GroupRepository extends JpaRepository<Group, UUID> {
   @Transactional
   @Modifying
   @Query("DELETE FROM Group g WHERE g.state = 'inRecycleBin' AND g.deletedAt <= :cutoff")
-  int deleteDue(Instant cutoff);
+  int permanentlyDeleteDue(Instant cutoff);
 }

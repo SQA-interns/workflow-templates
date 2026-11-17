@@ -48,6 +48,6 @@ public class RemovalJob {
    */
   @Scheduled(fixedDelayString = "PT15M")
   public void removeDueGroups() {
-    groups.deleteDue(clock.instant().minus(RecycleBin.PERIOD));
+    groups.permanentlyDeleteDue(clock.instant().minus(RecycleBin.PERIOD));
   }
 }

@@ -43,7 +43,7 @@ class RemovalJobTest {
   void br08RemovesTheGroupsWhoseRecycleBinPeriodHasPassed() {
     job.removeDueGroups();
 
-    verify(groups).deleteDue(NOW.minus(Duration.ofDays(30)));
+    verify(groups).permanentlyDeleteDue(NOW.minus(Duration.ofDays(30)));
   }
 
   @Test

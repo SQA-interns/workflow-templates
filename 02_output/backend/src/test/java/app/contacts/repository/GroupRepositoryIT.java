@@ -105,12 +105,12 @@ class GroupRepositoryIT {
     UUID due = group(ana, "Konferenca 2025");
     memberships.saveAndFlush(Membership.of(due, marko.getId(), Role.EDITOR));
     UUID notYet = group(ana, "Konferenca 2026");
-    UUID active = group(ana, "Aktivna");
+    final UUID active = group(ana, "Aktivna");
     Instant cutoff = Instant.parse("2026-03-05T10:00:00Z");
     moveToRecycleBin(due, cutoff);
     moveToRecycleBin(notYet, cutoff.plusSeconds(1));
 
-    int deleted = groups.deleteDue(cutoff);
+    int deleted = groups.permanentlyDeleteDue(cutoff);
 
     assertThat(deleted).isEqualTo(1);
     assertThat(groups.findAllIds()).containsExactlyInAnyOrder(notYet, active);
