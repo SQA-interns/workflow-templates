@@ -1,0 +1,50 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { createContact, resetStack, signIn, team } from "./support/stack";
+
+// Throwaway check of WF-17 (build-ui steps 4 and 5); not committed as a test.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/WF-17_possible-duplicates/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe WF-17 ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("WF-17 states", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.marko);
+  const path = `/groups/${t.groupId}/duplicates`;
+
+  await page.goto(path);
+  await expect(page.getByText("No possible duplicates found.")).toBeVisible();
+  await shot(page, "empty");
+
+  await createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "Novak", email: "janez.novak@example.si", phone: "+386 41 123 456" } });
+  await createContact(t.ana, t.groupId, { fields: { firstName: "J.", lastName: "Novak", email: "Janez.Novak@example.si", phone: "+386-41-123-456" } });
+  await createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "Novack", company: "Podjetje d.o.o." } });
+  await createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "Novak", company: "Podjetje d.o.o." } });
+  await page.goto(path);
+  await expect(page.getByText("Similar name, same company")).toBeVisible();
+  await shot(page, "list");
+
+  await page.route("**/api/v1/groups/*/duplicates", (route) => route.abort());
+  await page.goto(path);
+  await expect(page.getByRole("button", { name: "Try again" })).toBeVisible({ timeout: 15000 });
+  await shot(page, "error");
+
+  await page.unroute("**/api/v1/groups/*/duplicates");
+  await page.route("**/api/v1/groups/*/duplicates", () => undefined);
+  await page.goto(path);
+  await expect(page.getByRole("status")).toBeVisible();
+  await shot(page, "loading");
+});

@@ -1,0 +1,15 @@
+
+Running 1 test using 1 worker
+
+axe WF-17 empty: none
+axe WF-17 list: none
+axe WF-17 error: none
+axe WF-17 loading: none
+  ✓  1 [chromium] › acceptance/zz-us017-screens.spec.ts:23:1 › WF-17 states (15.8s)
+
+  1 passed (17.2s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

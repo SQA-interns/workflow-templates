@@ -1,0 +1,178 @@
+
+> contacts-frontend@0.1.0 test
+> vitest run --coverage
+
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+      Coverage enabled with v8
+
+ ✓ src/features/recycle-bin/RecycleBinPage.test.tsx (10 tests) 3572ms
+   ✓ WF-11 Recycle bin (US-012) > AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana  589ms
+   ✓ WF-11 Recycle bin (US-012) > AC-012-02 Restore sends the Version read and reads the recycle bin again  516ms
+   ✓ WF-11 Recycle bin (US-012) > R-012-04 a refused restore shows This Contact can no longer be restored.  335ms
+   ✓ WF-11 Recycle bin (US-012) > UI-14 an error shows Something went wrong. and Try again asks again  303ms
+   ✓ WF-11 Delete permanently (US-013) > AC-013-01 the Owner confirms and the recycle bin is read again  441ms
+   ✓ WF-11 Delete permanently (US-013) > EX-013-01 Cancel changes nothing  633ms
+   ✓ WF-11 Delete permanently (US-013) > R-013-03 a refused delete shows its message in the confirmation  424ms
+ ✓ src/features/members/MemberList.test.tsx (7 tests) 4109ms
+   ✓ WF-13 Members (US-005) > AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed  1055ms
+   ✓ WF-13 Members (US-005) > R-005-02 choosing another Role changes it at once  441ms
+   ✓ WF-13 Members (US-005) > R-005-05 a refused Role change shows its message  345ms
+   ✓ WF-13 Members (US-005) > R-005-03 Remove from Group asks first, then removes the Member  782ms
+   ✓ WF-13 Members (US-005) > EX-005-04 Cancel changes nothing  862ms
+   ✓ WF-13 Members (US-005) > R-005-05 a refused removal shows its message in the confirmation  545ms
+ ✓ src/features/contacts/EditContactPage.test.tsx (6 tests) 5236ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  1298ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  1617ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  892ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  696ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  711ms
+ ✓ src/features/members/InvitationsSection.test.tsx (9 tests) 3214ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 creates the Invitation and shows its link once with Copy link  987ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 Copy link copies the link and says so  590ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > R-004-01 Viewer can be chosen; Owner cannot  476ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > EX-004-06 an invalid e-mail: Enter a valid e-mail address., nothing sent  348ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > EX-004-04 a Member's e-mail: This person is already a Member.  366ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (23 tests) 10229ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  579ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  761ms
+   ✓ WF-06 Contact list (US-014) > R-014-03 Sort by and Order ask for the whole list in that order  307ms
+   ✓ WF-06 filter panel and chips (US-015) > AC-015-01 has Tags is applied, shown as a chip and the panel closes  809ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 … R-015-04 every filter of the panel goes to the query  2103ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 a chosen Tag can be taken out of the panel again  819ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 Clear filters in the panel removes every filter  473ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-07 applying keeps the sort and starts at Page 1  478ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 the panel opens with the Active filters  490ms
+   ✓ WF-06 Export and Checked contacts (US-016) > D-24 (b) checks stay across Pages and are cleared when the search changes  876ms
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 2478ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  680ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  909ms
+ ✓ src/app/AppLayout.test.tsx (28 tests) 4165ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  402ms
+   ✓ header of US-002 > R-002-04 the header carries the Group switcher with the current Group  300ms
+   ✓ routes and header of US-003 > R-003-04 the user menu opens WF-15 Deleted Groups  345ms
+ ✓ src/features/contacts/AttributesField.test.tsx (10 tests) 11521ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  1262ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  2156ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  1184ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  1580ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-04 Remove takes the Attribute out of the save  394ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  1044ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty  774ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row  792ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  1176ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  1157ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 11868ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  3017ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  465ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  770ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  860ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  653ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  774ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  615ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  658ms
+   ✓ WF-08 Add a Contact (US-006) > UI-12 Cancel returns to the Contact list without saving  319ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  1923ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  696ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 an e-mail without a match shows no warning  556ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 a blank or invalid e-mail is not looked up  561ms
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (13 tests) 2709ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  485ms
+   ✓ WF-07 Contact details (R-014-06) > AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list  336ms
+   ✓ WF-07 Contact details (R-014-06) > EX-012-03 Cancel closes the confirmation and moves nothing  379ms
+   ✓ WF-07 Contact details (R-014-06) > BR-06 a refused move shows its message in the confirmation  349ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 1916ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  984ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  532ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 2253ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  1930ms
+ ✓ src/features/history/VersionPage.test.tsx (10 tests) 2232ms
+   ✓ WF-10 Version (R-010-02) > R-010-02 shows the Fields, Attributes and Tags as they were after the Version  614ms
+   ✓ WF-10 Restore this Version (US-011) > AC-011-01 restores Version 1 with the current Version number read and opens the History  300ms
+   ✓ WF-10 Restore this Version (US-011) > AC-011-04 a refused restore shows its message in the confirmation  334ms
+ ✓ src/features/invitations/InvitationPage.test.tsx (11 tests) 1912ms
+   ✓ WF-16 Invitation (US-004) > AC-004-02 shows the Group, the Role and the expiry in Europe/Ljubljana  453ms
+   ✓ WF-16 Invitation (US-004) > AC-004-02 Accept makes the User a Member and opens the Group's Contact list  434ms
+   ✓ WF-16 Invitation (US-004) > R-004-06 a refused Accept shows its message  309ms
+ ✓ src/app/UserMenu.test.tsx (7 tests) 1920ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  383ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  353ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  431ms
+ ✓ src/features/contacts/ContactTable.test.tsx (8 tests) 1386ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  389ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1643ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  897ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  586ms
+ ✓ src/features/groups/GroupSettingsPage.test.tsx (5 tests) 1837ms
+   ✓ WF-14 Group settings (US-003) > AC-003-01 saves the trimmed new name and reads the Groups again  743ms
+   ✓ WF-14 Group settings (US-003) > AC-003-03 Move Group to recycle bin asks first, then moves and opens the start  394ms
+   ✓ WF-14 Group settings (US-003) > EX-003-04 Cancel in the confirmation changes nothing  409ms
+ ✓ src/features/export/ExportButtons.test.tsx (8 tests) 929ms
+   ✓ Export buttons of WF-06 (US-016) > AC-016-01 Export sends the list query and saves the file with its name  376ms
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1362ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  335ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-03 lists the User's Groups in the order of the API, the current one marked  391ms
+ ✓ src/features/groups/DeletedGroupsPage.test.tsx (4 tests) 1085ms
+   ✓ WF-15 Deleted Groups (US-003) > AC-003-03 lists the name and the removal date in Europe/Ljubljana  538ms
+ ✓ src/features/history/HistoryPage.test.tsx (7 tests) 903ms
+   ✓ WF-09 History (R-010-01) > AC-011-01 a restored Version names the Version it restored  446ms
+ ✓ src/features/duplicates/DuplicatesPage.test.tsx (3 tests) 612ms
+   ✓ WF-17 Possible duplicates (US-017) > R-017-01 lists each pair with links to both Contacts and every reason  454ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 608ms
+ ✓ src/i18n/catalogs.test.ts (4 tests) 49ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 346ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 445ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  441ms
+ ✓ src/features/history/changes.test.ts (7 tests) 45ms
+ ✓ src/api/apiClient.test.ts (8 tests) 32ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 58ms
+ ✓ src/features/contacts/fieldMessages.test.ts (6 tests) 17ms
+ ✓ src/features/contacts/useSelection.test.ts (3 tests) 43ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 49ms
+ ✓ src/api/problem.test.ts (4 tests) 12ms
+ ✓ src/features/contacts/listQuery.test.ts (9 tests) 15ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 20ms
+ ✓ src/auth/firebase.test.ts (8 tests) 9ms
+ ✓ src/features/contacts/tags.test.ts (8 tests) 18ms
+ ✓ src/features/contacts/attributes.test.ts (7 tests) 8ms
+ ✓ src/i18n/format.test.ts (4 tests) 9ms
+ ✓ src/api/retry.test.ts (2 tests) 6ms
+ ❯ src/features/contacts/TagsField.test.tsx (14 tests | 1 failed) 31034ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 the form shows the Contact's Tags with the hint  1332ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-01 an added Tag is shown and sent with the Fields  1366ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-04 removing a Tag takes it out of the save  565ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-02 typing part of a Tag suggests the Group's Tag  4955ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 choosing a suggestion adds it  4558ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 the arrow keys choose a suggestion and Enter adds it  4933ms
+   × WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested 5540ms
+     → Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-03 a name in other case takes the spelling of the suggested Tag  4379ms
+   ✓ WF-08 Tags of a Contact (US-009) > EX-009-03 a Tag the Contact has is not added twice  432ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-05 a name with a comma shows the message at once and adds nothing  529ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 an invalid name left in the box stops the save  1093ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a valid name left in the box is saved with the Tags  354ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 the API's tag.invalid stands in the Tags section  457ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a new Contact is added with its Tags  537ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/contacts/TagsField.test.tsx > WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/features/contacts/TagsField.test.tsx:176:3
+    174|   });
+    175| 
+    176|   it("R-009-02 a Tag the Contact has is not suggested", async () => {
+       |   ^
+    177|     answer(janez("udelezenec2025"), ["udelezenec2025", "udeležba"]);
+    178|     await editJanez();
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 41 passed (42)
+      Tests  1 failed | 329 passed (330)
+   Start at  20:01:05
+   Duration  34.64s (transform 2.87s, setup 11.73s, collect 19.79s, tests 111.91s, environment 42.43s, prepare 7.34s)
+
