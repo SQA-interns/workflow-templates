@@ -42,7 +42,8 @@
       "noChanges": "Ni sprememb za shranjevanje.",
       "inRecycleBin": "Ta kontakt je v košu.",
       "merged": "Ta kontakt je bil združen z drugim kontaktom.",
-      "noLongerRestorable": "Tega kontakta ni več mogoče obnoviti."
+      "noLongerRestorable": "Tega kontakta ni več mogoče obnoviti.",
+      "notInRecycleBin": "Najprej premaknite kontakt v koš."
     },
     "field": {
       "tooLong": "{{field}} ima lahko največ {{max}} znakov.",
@@ -249,6 +250,12 @@
       "deletedBy": "Izbrisal",
       "deletedAt": "Izbrisano",
       "removalAt": "Odstranitev"
+    },
+    "permanentDelete": {
+      "action": "Trajno izbriši",
+      "title": "Želite trajno izbrisati {{name}}?",
+      "description": "Trajno izbriši. Tega ni mogoče razveljaviti.",
+      "cancel": "Prekliči"
     }
   }
 }

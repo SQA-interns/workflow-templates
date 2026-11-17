@@ -1,6 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router";
 import { Button } from "@/components/ui/button";
+import { useIsOwner } from "../../api/groups";
 import { ApiError, messageKey } from "../../api/problem";
 import {
   type RecycleBinEntry,
@@ -9,18 +10,21 @@ import {
 } from "../../api/recycleBin";
 import { formatDateTime } from "../../i18n/format";
 import { GroupsPending } from "../groups/GroupsPending";
+import { DeletePermanently } from "./DeletePermanently";
 
 const COLUMNS = ["name", "deletedBy", "deletedAt", "removalAt"] as const;
 
 /**
  * WF-11 Recycle bin (R-012-02): the Group's Contacts in the recycle bin, newest first, each with
- * Restore (R-012-03); a refused restore shows its message below the list (R-012-04).
+ * Restore (R-012-03) and, for the Owner, Delete permanently (R-013-01, BR-04); a refused restore
+ * shows its message below the list (R-012-04).
  */
 export function RecycleBinPage() {
   const { t } = useTranslation();
   const { groupId = "" } = useParams();
   const bin = useRecycleBin(groupId);
   const restore = useRestoreFromRecycleBin(groupId);
+  const isOwner = useIsOwner(groupId);
   const error = restore.error;
 
   if (bin.error instanceof ApiError && bin.error.status === 403) {
@@ -36,6 +40,8 @@ export function RecycleBinPage() {
         <p>{t("recycleBin.empty")}</p>
       ) : (
         <EntryTable
+          groupId={groupId}
+          isOwner={isOwner}
           entries={bin.data}
           busyId={restore.isPending ? restore.variables.contact.id : null}
           onRestore={(entry) => restore.mutate(entry)}
@@ -52,10 +58,14 @@ export function RecycleBinPage() {
 
 /** The entries: a table from 768 px, stacked cards below it (UI-16), one set of elements. */
 function EntryTable({
+  groupId,
+  isOwner,
   entries,
   busyId,
   onRestore,
 }: {
+  groupId: string;
+  isOwner: boolean;
   entries: RecycleBinEntry[];
   busyId: string | null;
   onRestore: (entry: RecycleBinEntry) => void;
@@ -95,15 +105,20 @@ function EntryTable({
               <span className="md:hidden">{t("recycleBin.card.removalAt")} </span>
               {formatDateTime(entry.removalAt)}
             </td>
-            <td className={`${cell} max-md:pt-2 md:text-right`}>
-              <Button
-                variant="secondary"
-                disabled={busyId !== null}
-                aria-busy={busyId === entry.contact.id}
-                onClick={() => onRestore(entry)}
-              >
-                {t("recycleBin.restore")}
-              </Button>
+            <td className={`${cell} max-md:pt-2`}>
+              <div className="flex flex-wrap gap-2 md:justify-end">
+                <Button
+                  variant="secondary"
+                  disabled={busyId !== null}
+                  aria-busy={busyId === entry.contact.id}
+                  onClick={() => onRestore(entry)}
+                >
+                  {t("recycleBin.restore")}
+                </Button>
+                {isOwner && (
+                  <DeletePermanently groupId={groupId} entry={entry} disabled={busyId !== null} />
+                )}
+              </div>
             </td>
           </tr>
         ))}

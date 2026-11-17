@@ -42,7 +42,8 @@
       "noChanges": "No changes to save.",
       "inRecycleBin": "This Contact is in the recycle bin.",
       "merged": "This Contact was merged into another Contact.",
-      "noLongerRestorable": "This Contact can no longer be restored."
+      "noLongerRestorable": "This Contact can no longer be restored.",
+      "notInRecycleBin": "Move the Contact to the recycle bin first."
     },
     "field": {
       "tooLong": "{{field}} may have at most {{max}} characters.",
@@ -247,6 +248,12 @@
       "deletedBy": "Deleted by",
       "deletedAt": "Deleted at",
       "removalAt": "Removal date"
+    },
+    "permanentDelete": {
+      "action": "Delete permanently",
+      "title": "Delete {{name}} permanently?",
+      "description": "Delete permanently. This cannot be undone.",
+      "cancel": "Cancel"
     }
   }
 }

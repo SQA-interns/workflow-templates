@@ -18,11 +18,17 @@ const JANEZ = {
   removalAt: "2026-04-04T10:00:00Z",
 };
 
-/** GET answers the recycle bin with the given entries; POST answers the restored Contact. */
-function answer(entries: unknown[]) {
-  vi.mocked(apiRequest).mockImplementation((method: string) =>
-    Promise.resolve(method === "GET" ? entries : { id: "c1", state: "active" }),
-  );
+/**
+ * GET answers the User's Groups with the Role, and the recycle bin with the given entries; POST
+ * answers the restored Contact; DELETE answers nothing.
+ */
+function answer(entries: unknown[], role = "EDITOR") {
+  vi.mocked(apiRequest).mockImplementation((method: string, path: string) => {
+    if (method === "GET") {
+      return Promise.resolve(path === "/groups" ? [{ id: "g1", name: "K", role }] : entries);
+    }
+    return Promise.resolve(method === "POST" ? { id: "c1", state: "active" } : undefined);
+  });
 }
 
 function renderPage() {
@@ -103,11 +109,73 @@ describe("WF-11 Recycle bin (US-012)", () => {
   });
 
   it("UI-14 an error shows Something went wrong. and Try again asks again", async () => {
-    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("down"));
+    let calls = 0;
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+      path === "/groups/g1/recycle-bin" && calls++ === 0
+        ? Promise.reject(new Error("down"))
+        : Promise.resolve(path === "/groups" ? [] : [JANEZ]),
+    );
     renderPage();
 
     await userEvent.click(await screen.findByRole("button", { name: "Try again" }));
 
     expect(await screen.findByRole("row", { name: /Janez Novak/ })).toBeTruthy();
+  });
+});
+
+describe("WF-11 Delete permanently (US-013)", () => {
+  it("BR-04 only the Owner sees Delete permanently", async () => {
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+
+    expect(within(row).queryByRole("button", { name: "Delete permanently" })).toBeNull();
+  });
+
+  it("AC-013-01 the Owner confirms and the recycle bin is read again", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+    const dialog = await screen.findByRole("alertdialog");
+    expect(within(dialog).getByText("Delete Janez Novak permanently?")).toBeTruthy();
+    expect(within(dialog).getByText("Delete permanently. This cannot be undone.")).toBeTruthy();
+    answer([], "OWNER");
+
+    await userEvent.click(within(dialog).getByRole("button", { name: "Delete permanently" }));
+
+    expect(apiRequest).toHaveBeenCalledWith("DELETE", "/groups/g1/recycle-bin/c1");
+    expect(await screen.findByText("The recycle bin is empty.")).toBeTruthy();
+    expect(screen.queryByRole("alertdialog")).toBeNull();
+  });
+
+  it("EX-013-01 Cancel changes nothing", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+
+    await userEvent.click(
+      within(await screen.findByRole("alertdialog")).getByRole("button", { name: "Cancel" }),
+    );
+
+    expect(apiRequest).not.toHaveBeenCalledWith("DELETE", expect.anything());
+    expect(screen.getByRole("row", { name: /Janez Novak/ })).toBeTruthy();
+  });
+
+  it("R-013-03 a refused delete shows its message in the confirmation", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+    const dialog = await screen.findByRole("alertdialog");
+    vi.mocked(apiRequest).mockRejectedValueOnce(
+      new ApiError(409, { code: "contact.notInRecycleBin" }),
+    );
+
+    await userEvent.click(within(dialog).getByRole("button", { name: "Delete permanently" }));
+
+    expect((await within(dialog).findByRole("alert")).textContent).toBe(
+      "Move the Contact to the recycle bin first.",
+    );
   });
 });

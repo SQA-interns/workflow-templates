@@ -61,3 +61,21 @@ export function useMoveToRecycleBin(groupId: string, contactId: string) {
     onError: () => queryClient.invalidateQueries({ queryKey: contactKey, exact: true }),
   });
 }
+
+/**
+ * Permanently deletes a Contact in the recycle bin (R-013-01); the Owner only (BR-04). The recycle
+ * bin is read again, the Contact is forgotten and the lists and Tags are read again.
+ */
+export function usePermanentlyDelete(groupId: string) {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (entry: RecycleBinEntry) =>
+      apiRequest<undefined>("DELETE", `/groups/${groupId}/recycle-bin/${entry.contact.id}`),
+    onSuccess: async (_deleted, entry) => {
+      queryClient.removeQueries({ queryKey: ["groups", groupId, "contacts", entry.contact.id] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "recycle-bin"] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "contacts", "list"] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "tags"] });
+    },
+  });
+}
