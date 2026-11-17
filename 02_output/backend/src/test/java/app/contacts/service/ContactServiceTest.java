@@ -878,7 +878,7 @@ class ContactServiceTest {
   }
 
   @Test
-  void ex01206MovingAContactAlreadyInTheRecycleBinIsRejected() {
+  void ex01206MovingContactAlreadyInRecycleBinIsRejected() {
     Contact janez = stored(JANEZ_V1);
     service.moveToRecycleBin(GROUP_ID, MARKO, janez.getId(), 1);
 
