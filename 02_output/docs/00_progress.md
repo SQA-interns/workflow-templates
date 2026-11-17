@@ -5,19 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-004
+- Session: S5 /implement US-005
 - Result: done
-- Gate: DoD-S passed (DoD-S-03 Prettier finding in `frontend/README.md` predates this session; DoD-S-07 slips in D-63 (j))
+- Gate: DoD-S passed (DoD-S-03 Prettier finding in `frontend/README.md` predates this session; DoD-S-07 slip in D-66 (i))
 - Notes for the next session:
-  - Invitations: `InvitationService` (create, listOpen, revoke, view, accept), `InvitationToken` (Group id + 128 random bits, SHA-256 stored, D-63 (a)), `InvitationRepository`, `InvitationController`; `ForbiddenException(code)`; Audit `invitation.created|revoked|accepted`.
-  - Frontend: `features/members/{MembersPage,InvitationsSection}.tsx` (WF-13 shell; US-005 adds the Member list to `MembersPage`), `features/invitations/{InvitationPage,InvitationLayout}.tsx`, `auth/returnTo.ts`, hooks in `api/invitations.ts`; Members nav for the Owner.
-  - Frozen US-004: API 14/14, UI 8/8 (Chromium). Re-run of all suites: API failures 176 → 41, only US-005, US-013 EX-013-03 (needs US-018), US-017 … US-019, US-021 fail; UI 14 → 71 pass, failing: US-005, US-017 … US-019, US-021, EX-020-02 (D-51), US-012 AC-012-01 (D-64, same `stubGet` defect). No regressions (`out/logs/implement-us004-*`).
-  - Run the check command before each commit and gate the commit on it (`check && git commit`); D-63 (j) lists this session's slips. `npm run check` fails on `frontend/README.md` Prettier (not in /implement's Writes).
-  - Stack on 8090 rebuilt with this code; gitleaks via `zricethezav/gitleaks:v8.30.1` clean.
+  - Members: `MembershipService` (list, changeRole, endMembership), `MemberController` (GET/PATCH/DELETE `/groups/{groupId}/members[/{userId}]`), `MembershipRepository.findMembers` (native, `sl-x-icu`); Audit `member.roleChanged|removed`; 400 code `member.roleInvalid` (D-66).
+  - Frontend: `features/members/MemberList.tsx` in `MembersPage` above the Invitations; hooks in `api/members.ts`.
+  - Frozen US-005: API 9/9, UI 2/2 (Chromium). All suites re-run: backend unit 393/393; API ITs failures 41 → 32, only US-013 EX-013-03 (needs US-018), US-017 … US-019, US-021; UI 71 → 73 pass, failing: US-017 … US-019, US-021, EX-020-02 and AC-012-01 (both wait for the `stubGet` change of D-65). No regressions (`out/logs/implement-us005-*`).
+  - Frontend unit 325 tests: `TagsField.test.tsx` (US-009) times out now and then in the full run (D-67, pending review; for `/review INC-1`).
+  - US-005 was the last story of INC-1; the `stubGet` change approved in D-65 (`/acceptance-tests`) is still to be applied.
+  - Stack on 8090 rebuilt with this code (`APP_HOST_PORT=8090`); gitleaks `v8.30.1` clean.
 
 ## Next
-- Command: /implement US-005
-- Waiting for: nothing (D-51, D-64 approved in D-65; `/acceptance-tests` applies the `stubGet` change, then US-012 and US-020 UI suites are re-run)
+- Command: /review INC-1
+- Waiting for: nothing (D-66, D-67 pending review; D-65 `stubGet` change by `/acceptance-tests`, then US-012 and US-020 UI suites are re-run)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
@@ -26,7 +27,7 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-002 | INC-1 | done | met (DoD-S-01 met after US-004: API 10/10, UI 5/5) |
 | US-003 | INC-1 | done | DoD-S-01 met after US-004 (API 10/10, UI 6/6); DoD-S-07 5ef6708 spotless, b07874a … 7b687c6 checkstyle/SpotBugs (fixed in dc2c564, 896ccb9), bdb4dec subject 75 characters; others met |
 | US-004 | INC-1 | done | met; DoD-S-07 see D-63 (j) |
-| US-005 | INC-1 | ready | |
+| US-005 | INC-1 | done | met (API 9/9, UI 2/2); DoD-S-07 577e900 subject 74 characters (D-66 (i)); others met |
 | US-006 | INC-1 | done | DoD-S-01 met after US-004 (API 15/15, UI 5/5); DoD-S-07 see notes of US-006; others met |
 | US-007 | INC-1 | done | DoD-S-01 met after US-004 (API 10/10, UI 4/4); others met |
 | US-008 | INC-1 | done | DoD-S-01 met after US-004 (API 11/11, UI 4/4); DoD-S-07 one commit over 400 lines (2ae5475); others met |
