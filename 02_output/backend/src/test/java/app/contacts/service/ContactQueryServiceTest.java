@@ -1,5 +1,6 @@
 package app.contacts.service;
 
+import static app.contacts.domain.ContactFilters.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -51,9 +52,9 @@ class ContactQueryServiceTest {
     UUID tag = UUID.randomUUID();
     ContactListRow row =
         new ContactListRow(janez, "Janez", "Novak", "Podjetje d.o.o.", null, null, NOW);
-    when(repository.findPage(GROUP_ID, "%", ContactSort.NAME, false, 0, 50))
+    when(repository.findPage(GROUP_ID, "%", NONE, ContactSort.NAME, false, 0, 50))
         .thenReturn(List.of(row));
-    when(repository.count(GROUP_ID, "%")).thenReturn(1L);
+    when(repository.count(GROUP_ID, "%", NONE)).thenReturn(1L);
     when(repository.findTags(GROUP_ID, List.of(janez)))
         .thenReturn(List.of(new ContactTagRow(janez, tag, "udelezenec2025")));
 
@@ -79,7 +80,7 @@ class ContactQueryServiceTest {
   void ac01405PageThreeStartsAfterOneHundredContacts() {
     service.page(GROUP_ID, PETRA, query(null, "name", "asc", 3));
 
-    verify(repository).findPage(GROUP_ID, "%", ContactSort.NAME, false, 100, 50);
+    verify(repository).findPage(GROUP_ID, "%", NONE, ContactSort.NAME, false, 100, 50);
   }
 
   @ParameterizedTest
@@ -94,22 +95,22 @@ class ContactQueryServiceTest {
       String sort, String dir, ContactSort expected, boolean descending) {
     service.page(GROUP_ID, PETRA, query(null, sort, dir, 1));
 
-    verify(repository).findPage(GROUP_ID, "%", expected, descending, 0, 50);
+    verify(repository).findPage(GROUP_ID, "%", NONE, expected, descending, 0, 50);
   }
 
   @Test
   void r01404Ex01403SearchIsTrimmedAndNormalised() {
     service.page(GROUP_ID, PETRA, query("  Čuk ", null, null, null));
 
-    verify(repository).findPage(GROUP_ID, "%cuk%", ContactSort.NAME, false, 0, 50);
-    verify(repository).count(GROUP_ID, "%cuk%");
+    verify(repository).findPage(GROUP_ID, "%cuk%", NONE, ContactSort.NAME, false, 0, 50);
+    verify(repository).count(GROUP_ID, "%cuk%", NONE);
   }
 
   @Test
   void ex01405PercentUnderscoreAndBackslashAreEscaped() {
     service.page(GROUP_ID, PETRA, query("100%_a\\b", null, null, null));
 
-    verify(repository).count(GROUP_ID, "%100\\%\\_a\\\\b%");
+    verify(repository).count(GROUP_ID, "%100\\%\\_a\\\\b%", NONE);
   }
 
   @ParameterizedTest
@@ -140,9 +141,15 @@ class ContactQueryServiceTest {
 
   @Test
   void ex01406PageBeyondTheLastIsEmptyWithItsTotal() {
-    when(repository.count(eq(GROUP_ID), anyString())).thenReturn(3L);
+    when(repository.count(eq(GROUP_ID), anyString(), eq(NONE))).thenReturn(3L);
     when(repository.findPage(
-            eq(GROUP_ID), anyString(), any(ContactSort.class), anyBoolean(), anyInt(), anyInt()))
+            eq(GROUP_ID),
+            anyString(),
+            eq(NONE),
+            any(ContactSort.class),
+            anyBoolean(),
+            anyInt(),
+            anyInt()))
         .thenReturn(List.of());
 
     ContactPageView page = service.page(GROUP_ID, PETRA, query(null, null, null, 9));

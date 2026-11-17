@@ -1,5 +1,6 @@
 package app.contacts.service;
 
+import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
 import app.contacts.domain.ContactTagRow;
@@ -75,8 +76,14 @@ public class ContactQueryService {
     String pattern = search.isEmpty() ? "%" : "%" + escaped(normaliser.text(search)) + "%";
     List<ContactListRow> rows =
         repository.findPage(
-            groupId, pattern, sort, dir.equals("desc"), (page - 1) * PAGE_SIZE, PAGE_SIZE);
-    long total = repository.count(groupId, pattern);
+            groupId,
+            pattern,
+            ContactFilters.NONE,
+            sort,
+            dir.equals("desc"),
+            (page - 1) * PAGE_SIZE,
+            PAGE_SIZE);
+    long total = repository.count(groupId, pattern, ContactFilters.NONE);
     return new ContactPageView(withTags(groupId, rows), total, page, PAGE_SIZE);
   }
 

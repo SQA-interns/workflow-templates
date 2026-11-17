@@ -1,10 +1,12 @@
 package app.contacts.repository;
 
+import static app.contacts.domain.ContactFilters.NONE;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import app.contacts.domain.Contact;
 import app.contacts.domain.ContactAttributeRow;
 import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
 import app.contacts.domain.ContactTagRow;
@@ -102,10 +104,10 @@ class ContactQueryRepositoryIT {
     add("Žiga", "Čuk");
     moveToRecycleBin(add("Ana", "Bizjak"));
 
-    List<ContactListRow> page = query.findPage(groupId, ALL, ContactSort.NAME, false, 0, 50);
+    List<ContactListRow> page = query.findPage(groupId, ALL, NONE, ContactSort.NAME, false, 0, 50);
 
     assertThat(names(page)).containsExactly("Žiga Čuk", "Janez Novak", "Maja Zupan");
-    assertThat(query.count(groupId, ALL)).isEqualTo(3);
+    assertThat(query.count(groupId, ALL, NONE)).isEqualTo(3);
   }
 
   @Test
@@ -113,7 +115,7 @@ class ContactQueryRepositoryIT {
     add("Janez", "Novak");
     add(groupId, Map.of("company", "Alfa d.o.o."), "alfa d.o.o.", NOW);
 
-    assertThat(names(query.findPage(groupId, ALL, ContactSort.NAME, false, 0, 50)))
+    assertThat(names(query.findPage(groupId, ALL, NONE, ContactSort.NAME, false, 0, 50)))
         .containsExactly("Alfa d.o.o.", "Janez Novak");
   }
 
@@ -122,7 +124,7 @@ class ContactQueryRepositoryIT {
     add("Janez", "Novak");
     add("Žiga", "Čuk");
 
-    assertThat(names(query.findPage(groupId, ALL, ContactSort.NAME, true, 0, 50)))
+    assertThat(names(query.findPage(groupId, ALL, NONE, ContactSort.NAME, true, 0, 50)))
         .containsExactly("Janez Novak", "Žiga Čuk");
   }
 
@@ -141,13 +143,13 @@ class ContactQueryRepositoryIT {
             "janez",
             NOW);
 
-    assertThat(query.findPage(groupId, ALL, ContactSort.COMPANY, false, 0, 50))
+    assertThat(query.findPage(groupId, ALL, NONE, ContactSort.COMPANY, false, 0, 50))
         .extracting(ContactListRow::id)
         .containsExactly(alfa.getId(), beta.getId());
-    assertThat(query.findPage(groupId, ALL, ContactSort.EMAIL, false, 0, 50))
+    assertThat(query.findPage(groupId, ALL, NONE, ContactSort.EMAIL, false, 0, 50))
         .extracting(ContactListRow::id)
         .containsExactly(beta.getId(), alfa.getId());
-    assertThat(query.findPage(groupId, ALL, ContactSort.UPDATED_AT, true, 0, 50))
+    assertThat(query.findPage(groupId, ALL, NONE, ContactSort.UPDATED_AT, true, 0, 50))
         .extracting(ContactListRow::id)
         .containsExactly(beta.getId(), alfa.getId());
   }
@@ -157,9 +159,9 @@ class ContactQueryRepositoryIT {
     add("Janez", "Novak");
     add("Žiga", "Čuk");
 
-    assertThat(names(query.findPage(groupId, "%cuk%", ContactSort.NAME, false, 0, 50)))
+    assertThat(names(query.findPage(groupId, "%cuk%", NONE, ContactSort.NAME, false, 0, 50)))
         .containsExactly("Žiga Čuk");
-    assertThat(query.count(groupId, "%cuk%")).isEqualTo(1);
+    assertThat(query.count(groupId, "%cuk%", NONE)).isEqualTo(1);
   }
 
   @Test
@@ -167,7 +169,7 @@ class ContactQueryRepositoryIT {
     add(groupId, Map.of("company", "Bio 100% d.o.o."), "bio 100% d.o.o.", NOW);
     add(groupId, Map.of("company", "Bio 100 d.o.o."), "bio 100 d.o.o.", NOW);
 
-    assertThat(names(query.findPage(groupId, "%100\\%%", ContactSort.NAME, false, 0, 50)))
+    assertThat(names(query.findPage(groupId, "%100\\%%", NONE, ContactSort.NAME, false, 0, 50)))
         .containsExactly("Bio 100% d.o.o.");
   }
 
@@ -177,11 +179,12 @@ class ContactQueryRepositoryIT {
       add("Oseba", String.format("Priimek%03d", i));
     }
 
-    List<ContactListRow> third = query.findPage(groupId, ALL, ContactSort.NAME, false, 100, 50);
+    List<ContactListRow> third =
+        query.findPage(groupId, ALL, NONE, ContactSort.NAME, false, 100, 50);
 
     assertThat(third).hasSize(20);
     assertThat(names(third).get(0)).isEqualTo("Oseba Priimek101");
-    assertThat(query.findPage(groupId, ALL, ContactSort.NAME, false, 400, 50)).isEmpty();
+    assertThat(query.findPage(groupId, ALL, NONE, ContactSort.NAME, false, 400, 50)).isEmpty();
   }
 
   @Test
@@ -190,9 +193,9 @@ class ContactQueryRepositoryIT {
     UUID beta = groups.save(Group.create("Podjetje Beta", ana, NOW)).getId();
     add(beta, Map.of("firstName", "Peter", "lastName", "Novak"), "peter novak", NOW);
 
-    assertThat(names(query.findPage(groupId, "%novak%", ContactSort.NAME, false, 0, 50)))
+    assertThat(names(query.findPage(groupId, "%novak%", NONE, ContactSort.NAME, false, 0, 50)))
         .containsExactly("Janez Novak");
-    assertThat(query.count(groupId, "%novak%")).isEqualTo(1);
+    assertThat(query.count(groupId, "%novak%", NONE)).isEqualTo(1);
   }
 
   @Test
@@ -248,11 +251,145 @@ class ContactQueryRepositoryIT {
         "janez",
         NOW);
 
-    ContactListRow row = query.findPage(groupId, ALL, ContactSort.NAME, false, 0, 50).get(0);
+    ContactListRow row = query.findPage(groupId, ALL, NONE, ContactSort.NAME, false, 0, 50).get(0);
 
     assertThat(row.company()).isEqualTo("Podjetje d.o.o.");
     assertThat(row.email()).isEqualTo("janez.novak@example.si");
     assertThat(row.phone()).isEqualTo("+386 41 123 456");
     assertThat(row.updatedAt()).isEqualTo(NOW);
+  }
+
+  private UUID tag(String name, Contact... tagged) {
+    entityManager.flush();
+    UUID tag = UUID.randomUUID();
+    jdbc.update("INSERT INTO tag (id, group_id, name) VALUES (?, ?, ?)", tag, groupId, name);
+    for (Contact contact : tagged) {
+      jdbc.update(
+          "INSERT INTO contact_tag (group_id, contact_id, tag_id) VALUES (?, ?, ?)",
+          groupId,
+          contact.getId(),
+          tag);
+    }
+    return tag;
+  }
+
+  private void attribute(Contact contact, String key, String value) {
+    entityManager.flush();
+    jdbc.update(
+        "INSERT INTO attribute (id, group_id, contact_id, key, value) VALUES (?, ?, ?, ?, ?)",
+        UUID.randomUUID(),
+        groupId,
+        contact.getId(),
+        key,
+        value);
+  }
+
+  private List<String> filtered(ContactFilters filters) {
+    return names(query.findPage(groupId, ALL, filters, ContactSort.NAME, false, 0, 50));
+  }
+
+  private static ContactFilters tags(List<UUID> has, List<UUID> without) {
+    return new ContactFilters(has, without, null, null, null, null);
+  }
+
+  private static ContactFilters byAttribute(String key, String value) {
+    return new ContactFilters(null, null, key, value, null, null);
+  }
+
+  @Test
+  void r01501Ex01501HasTagsKeepsContactsWithEveryTag() {
+    Contact janez = add("Janez", "Novak");
+    Contact maja = add("Maja", "Zupan");
+    add("Žiga", "Čuk");
+    UUID udel = tag("udelezenec2025", janez, maja);
+    UUID ne = tag("neObvescaj", maja);
+
+    assertThat(filtered(tags(List.of(udel), null))).containsExactly("Janez Novak", "Maja Zupan");
+    assertThat(filtered(tags(List.of(udel, ne, udel), null))).containsExactly("Maja Zupan");
+    assertThat(query.count(groupId, ALL, tags(List.of(udel), null))).isEqualTo(2);
+  }
+
+  @Test
+  void r01502R01505WithoutTagsExcludesContactsWithAnyOfThem() {
+    Contact janez = add("Janez", "Novak");
+    Contact maja = add("Maja", "Zupan");
+    add("Žiga", "Čuk");
+    UUID udel = tag("udelezenec2025", janez, maja);
+    UUID ne = tag("neObvescaj", maja);
+
+    assertThat(filtered(tags(null, List.of(ne)))).containsExactly("Žiga Čuk", "Janez Novak");
+    assertThat(filtered(tags(List.of(udel), List.of(ne)))).containsExactly("Janez Novak");
+    assertThat(filtered(tags(List.of(udel), List.of(udel)))).isEmpty();
+  }
+
+  @Test
+  void r01503AttributeKeyAndValueMatchCaseInsensitively() {
+    Contact janez = add("Janez", "Novak");
+    Contact ziga = add("Žiga", "Čuk");
+    add("Maja", "Zupan");
+    attribute(janez, "kompetenca", "spletnoProgramiranje");
+    attribute(ziga, "Kompetenca", "oblikovanje");
+
+    assertThat(filtered(byAttribute("KOMPETENCA", "SPLETNOPROGRAMIRANJE")))
+        .containsExactly("Janez Novak");
+  }
+
+  @Test
+  void ex01503AttributeKeyWithoutValueKeepsEveryContactWithTheKey() {
+    Contact janez = add("Janez", "Novak");
+    Contact ziga = add("Žiga", "Čuk");
+    add("Maja", "Zupan");
+    attribute(janez, "jezik", "");
+    attribute(ziga, "Jezik", "nemščina");
+
+    assertThat(filtered(byAttribute("jezik", null))).containsExactly("Žiga Čuk", "Janez Novak");
+  }
+
+  @Test
+  void r01504CompanyCaseInsensitivelyAndCountryExactly() {
+    add(
+        groupId,
+        Map.of(
+            "firstName", "Janez", "lastName", "Novak", "company", "Šola d.o.o.", "country", "SI"),
+        "janez",
+        NOW);
+    add(groupId, Map.of("firstName", "Maja", "lastName", "Zupan", "country", "AT"), "maja", NOW);
+
+    assertThat(filtered(new ContactFilters(null, null, null, null, "šOLA D.O.O.", null)))
+        .containsExactly("Janez Novak");
+    assertThat(filtered(new ContactFilters(null, null, null, null, null, "AT")))
+        .containsExactly("Maja Zupan");
+  }
+
+  @Test
+  void r01505FiltersCombineWithTheSearch() {
+    add(groupId, Map.of("firstName", "Janez", "lastName", "Novak", "country", "SI"), "janez", NOW);
+    add(groupId, Map.of("firstName", "Maja", "lastName", "Zupan", "country", "AT"), "maja", NOW);
+    ContactFilters slovenia = new ContactFilters(null, null, null, null, null, "SI");
+
+    assertThat(query.findPage(groupId, "%maja%", slovenia, ContactSort.NAME, false, 0, 50))
+        .isEmpty();
+    assertThat(query.count(groupId, "%maja%", slovenia)).isZero();
+  }
+
+  @Test
+  void ex01505ContactInTheRecycleBinIsNotFiltered() {
+    Contact janez = add("Janez", "Novak");
+    Contact maja = add("Maja", "Zupan");
+    UUID udel = tag("udelezenec2025", janez, maja);
+    moveToRecycleBin(janez);
+
+    assertThat(filtered(tags(List.of(udel), null))).containsExactly("Maja Zupan");
+  }
+
+  @Test
+  void ex01504CountsOnlyTheTagsOfTheGroup() {
+    UUID udel = tag("udelezenec2025");
+    UUID beta = groups.save(Group.create("Podjetje Beta", ana, NOW)).getId();
+    UUID vip = UUID.randomUUID();
+    entityManager.flush();
+    jdbc.update("INSERT INTO tag (id, group_id, name) VALUES (?, ?, 'vip')", vip, beta);
+
+    assertThat(query.countTags(groupId, List.of(udel, vip))).isEqualTo(1);
   }
 }

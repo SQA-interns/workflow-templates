@@ -1,6 +1,7 @@
 package app.contacts.repository;
 
 import app.contacts.domain.ContactAttributeRow;
+import app.contacts.domain.ContactFilters;
 import app.contacts.domain.ContactListRow;
 import app.contacts.domain.ContactSort;
 import app.contacts.domain.ContactTagRow;
@@ -15,7 +16,8 @@ import org.springframework.stereotype.Repository;
 
 /**
  * The Contact list of one Group: active Contacts only (BR-09), searched in {@code search_text} with
- * a LIKE pattern, sorted in Slovenian collation and paged (ADR-02, R-014-01 … R-014-04).
+ * a LIKE pattern, filtered, sorted in Slovenian collation and paged (ADR-02, R-014-01 … R-014-04,
+ * R-015-01 … R-015-05).
  */
 @Repository
 public class ContactQueryRepository {
@@ -32,13 +34,42 @@ public class ContactQueryRepository {
           + " company COLLATE \"sl-x-icu\" DESC NULLS LAST, id DESC";
   private static final String PAGE = " LIMIT :limit OFFSET :offset";
 
+  /** Every one of the Tags (R-015-01); the ids are distinct, so the count says "all". */
+  private static final String HAS_TAGS =
+      "AND id IN (SELECT contact_id FROM contact_tag WHERE group_id = :groupId"
+          + " AND tag_id IN (:hasTagIds) GROUP BY contact_id HAVING count(*) = :hasTagCount) ";
+
+  /** None of the Tags (R-015-02). */
+  private static final String WITHOUT_TAGS =
+      "AND NOT EXISTS (SELECT 1 FROM contact_tag ct WHERE ct.contact_id = contact.id"
+          + " AND ct.tag_id IN (:withoutTagIds)) ";
+
+  /** An Attribute with the key, compared case-insensitively (R-015-03, BR-11). */
+  private static final String ATTRIBUTE_KEY =
+      "AND EXISTS (SELECT 1 FROM attribute a WHERE a.group_id = :groupId"
+          + " AND a.contact_id = contact.id AND lower(a.key) = lower(:attributeKey)) ";
+
+  /** An Attribute with the key and the value, both compared case-insensitively (R-015-03). */
+  private static final String ATTRIBUTE_VALUE =
+      "AND EXISTS (SELECT 1 FROM attribute a WHERE a.group_id = :groupId"
+          + " AND a.contact_id = contact.id AND lower(a.key) = lower(:attributeKey)"
+          + " AND lower(a.value) = lower(:attributeValue)) ";
+
+  /** The company, compared case-insensitively (R-015-04). */
+  private static final String COMPANY = "AND lower(company) = lower(:company) ";
+
+  /** The country code (R-015-04). */
+  private static final String COUNTRY = "AND country = :country ";
+
   @PersistenceContext private EntityManager entityManager;
 
   /**
-   * One Page of the active Contacts of the Group whose search text matches the pattern.
+   * One Page of the active Contacts of the Group whose search text matches the pattern and that
+   * pass every filter (R-015-05).
    *
    * @param groupId the Group
    * @param pattern a LIKE pattern over the Normalised search text, {@code \} escaping
+   * @param filters the Active filters, with Tag ids of this Group only
    * @param sort the sort key
    * @param descending whether the sort key runs Z–A; ties stay in name order
    * @param offset rows to skip
@@ -46,39 +77,34 @@ public class ContactQueryRepository {
    * @return the rows
    */
   public List<ContactListRow> findPage(
-      UUID groupId, String pattern, ContactSort sort, boolean descending, int offset, int limit) {
-    String sql =
+      UUID groupId,
+      String pattern,
+      ContactFilters filters,
+      ContactSort sort,
+      boolean descending,
+      int offset,
+      int limit) {
+    String order =
         switch (sort) {
-          case NAME ->
-              descending
-                  ? COLUMNS + WHERE + "ORDER BY " + NAME_DESC + PAGE
-                  : COLUMNS + WHERE + "ORDER BY " + NAME_ASC + PAGE;
+          case NAME -> descending ? NAME_DESC : NAME_ASC;
           case COMPANY ->
               descending
-                  ? COLUMNS
-                      + WHERE
-                      + "ORDER BY company COLLATE \"sl-x-icu\" DESC NULLS LAST, "
-                      + NAME_ASC
-                      + PAGE
-                  : COLUMNS
-                      + WHERE
-                      + "ORDER BY company COLLATE \"sl-x-icu\" NULLS LAST, "
-                      + NAME_ASC
-                      + PAGE;
+                  ? "company COLLATE \"sl-x-icu\" DESC NULLS LAST, " + NAME_ASC
+                  : "company COLLATE \"sl-x-icu\" NULLS LAST, " + NAME_ASC;
           case EMAIL ->
               descending
-                  ? COLUMNS + WHERE + "ORDER BY lower(email) DESC NULLS LAST, " + NAME_ASC + PAGE
-                  : COLUMNS + WHERE + "ORDER BY lower(email) NULLS LAST, " + NAME_ASC + PAGE;
+                  ? "lower(email) DESC NULLS LAST, " + NAME_ASC
+                  : "lower(email) NULLS LAST, " + NAME_ASC;
           case UPDATED_AT ->
-              descending
-                  ? COLUMNS + WHERE + "ORDER BY updated_at DESC, " + NAME_ASC + PAGE
-                  : COLUMNS + WHERE + "ORDER BY updated_at, " + NAME_ASC + PAGE;
+              descending ? "updated_at DESC, " + NAME_ASC : "updated_at, " + NAME_ASC;
         };
     Query query =
-        entityManager
-            .createNativeQuery(sql)
-            .setParameter("groupId", groupId)
-            .setParameter("pattern", pattern)
+        bound(
+                entityManager.createNativeQuery(
+                    COLUMNS + where(filters) + "ORDER BY " + order + PAGE),
+                groupId,
+                pattern,
+                filters)
             .setParameter("limit", limit)
             .setParameter("offset", offset);
     List<ContactListRow> rows = new ArrayList<>();
@@ -98,20 +124,91 @@ public class ContactQueryRepository {
   }
 
   /**
-   * The number of active Contacts of the Group whose search text matches the pattern.
+   * The number of active Contacts of the Group of {@link #findPage}: the count of the filtered list
+   * (R-015-07).
    *
    * @param groupId the Group
    * @param pattern the LIKE pattern of {@link #findPage}
+   * @param filters the Active filters of {@link #findPage}
    * @return the total
    */
-  public long count(UUID groupId, String pattern) {
+  public long count(UUID groupId, String pattern, ContactFilters filters) {
     Object total =
-        entityManager
-            .createNativeQuery("SELECT count(*) FROM contact " + WHERE)
-            .setParameter("groupId", groupId)
-            .setParameter("pattern", pattern)
+        bound(
+                entityManager.createNativeQuery("SELECT count(*) FROM contact " + where(filters)),
+                groupId,
+                pattern,
+                filters)
             .getSingleResult();
     return ((Number) total).longValue();
+  }
+
+  /**
+   * How many of the Tags belong to the Group (EX-015-04).
+   *
+   * @param groupId the Group
+   * @param tagIds the Tags, each once
+   * @return the number of them in the Group
+   */
+  public long countTags(UUID groupId, List<UUID> tagIds) {
+    if (tagIds.isEmpty()) {
+      return 0;
+    }
+    Object found =
+        entityManager
+            .createNativeQuery(
+                "SELECT count(*) FROM tag WHERE group_id = :groupId AND id IN (:ids)")
+            .setParameter("groupId", groupId)
+            .setParameter("ids", tagIds)
+            .getSingleResult();
+    return ((Number) found).longValue();
+  }
+
+  /** The conditions of the list: the Group, active, the search and each set filter. */
+  private static String where(ContactFilters filters) {
+    StringBuilder sql = new StringBuilder(WHERE);
+    if (!filters.hasTagIds().isEmpty()) {
+      sql.append(HAS_TAGS);
+    }
+    if (!filters.withoutTagIds().isEmpty()) {
+      sql.append(WITHOUT_TAGS);
+    }
+    if (filters.attributeKey() != null) {
+      sql.append(filters.attributeValue() == null ? ATTRIBUTE_KEY : ATTRIBUTE_VALUE);
+    }
+    if (filters.company() != null) {
+      sql.append(COMPANY);
+    }
+    if (filters.country() != null) {
+      sql.append(COUNTRY);
+    }
+    return sql.toString();
+  }
+
+  /** Binds the parameters of {@link #where} that the filters use. */
+  private static Query bound(Query query, UUID groupId, String pattern, ContactFilters filters) {
+    query.setParameter("groupId", groupId).setParameter("pattern", pattern);
+    if (!filters.hasTagIds().isEmpty()) {
+      query
+          .setParameter("hasTagIds", filters.hasTagIds())
+          .setParameter("hasTagCount", filters.hasTagIds().size());
+    }
+    if (!filters.withoutTagIds().isEmpty()) {
+      query.setParameter("withoutTagIds", filters.withoutTagIds());
+    }
+    if (filters.attributeKey() != null) {
+      query.setParameter("attributeKey", filters.attributeKey());
+      if (filters.attributeValue() != null) {
+        query.setParameter("attributeValue", filters.attributeValue());
+      }
+    }
+    if (filters.company() != null) {
+      query.setParameter("company", filters.company());
+    }
+    if (filters.country() != null) {
+      query.setParameter("country", filters.country());
+    }
+    return query;
   }
 
   /**
