@@ -353,7 +353,7 @@ public class ContactService {
    * @param merged the merged content, checked
    */
   void saveMerged(Contact primary, UUID userId, ContactContent merged) {
-    replaceContent(primary, userId, merged, ContactVersion.MERGED);
+    saveContent(primary, userId, merged, ContactVersion.MERGED);
   }
 
   /**
@@ -365,11 +365,11 @@ public class ContactService {
    * @param beforeMerge the content of the Version before the Merge
    */
   void saveMergeUndone(Contact primary, UUID userId, ContactContent beforeMerge) {
-    replaceContent(primary, userId, beforeMerge, ContactVersion.MERGE_UNDONE);
+    saveContent(primary, userId, beforeMerge, ContactVersion.MERGE_UNDONE);
   }
 
   /** Gives the locked Contact the content, its Tags included, as a new Version of the kind. */
-  private void replaceContent(Contact contact, UUID userId, ContactContent after, String kind) {
+  private void saveContent(Contact contact, UUID userId, ContactContent after, String kind) {
     List<TagView> stored = tagsOf(contact);
     ContactContent before = contentOf(contact, stored);
     List<Tag> wanted = tags.resolve(contact.getGroupId(), after.tags());
