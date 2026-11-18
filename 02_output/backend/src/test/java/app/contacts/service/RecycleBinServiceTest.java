@@ -118,7 +118,7 @@ class RecycleBinServiceTest {
   }
 
   @Test
-  void r02103ContactDeletedByADeletedUserShowsTheCodeOfDeletedUser() {
+  void r02103ContactDeletedByDeletedUserShowsTheCodeOfDeletedUser() {
     final User marko =
         User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", Instant.EPOCH);
     Contact janez =

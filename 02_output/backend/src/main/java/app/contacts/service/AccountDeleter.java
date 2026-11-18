@@ -8,5 +8,5 @@ public interface AccountDeleter {
    *
    * @param firebaseUid the Firebase uid of the account
    */
-  void delete(String firebaseUid);
+  void purge(String firebaseUid);
 }

@@ -69,5 +69,5 @@ public interface MembershipRepository extends JpaRepository<Membership, Membersh
    */
   @Modifying
   @Query("DELETE FROM Membership m WHERE m.id.userId = :userId")
-  int deleteAllOfUser(UUID userId);
+  int dropAllOfUser(UUID userId);
 }

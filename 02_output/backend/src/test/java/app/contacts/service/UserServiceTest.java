@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -36,8 +36,7 @@ class UserServiceTest {
   private final MembershipRepository memberships = mock(MembershipRepository.class);
   private final AccountDeleter accounts = mock(AccountDeleter.class);
   private final UserService service =
-      new UserService(
-          users, groups, memberships, accounts, Clock.fixed(NOW, ZoneOffset.UTC));
+      new UserService(users, groups, memberships, accounts, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void r00104FirstCallCreatesTheUserWithTokenEmailNameAndLanguageSl() {
@@ -152,16 +151,16 @@ class UserServiceTest {
     when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
     when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
 
-    service.deleteAccount(marko.getId(), "marko.kranjc@gmail.com");
+    service.closeAccount(marko.getId(), "marko.kranjc@gmail.com");
 
     assertThat(marko.getDeletedAt()).isEqualTo(NOW);
     assertThat(marko.getEmail()).isNull();
     assertThat(marko.getDisplayName()).isNull();
     assertThat(marko.getFirebaseUid()).isEqualTo("uid-marko");
     InOrder order = inOrder(memberships, users, accounts);
-    order.verify(memberships).deleteAllOfUser(marko.getId());
+    order.verify(memberships).dropAllOfUser(marko.getId());
     order.verify(users).saveAndFlush(marko);
-    order.verify(accounts).delete("uid-marko");
+    order.verify(accounts).purge("uid-marko");
   }
 
   @Test
@@ -170,9 +169,9 @@ class UserServiceTest {
     when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
     when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
 
-    service.deleteAccount(marko.getId(), " Marko.Kranjc@Gmail.com ");
+    service.closeAccount(marko.getId(), " Marko.Kranjc@Gmail.com ");
 
-    verify(accounts).delete("uid-marko");
+    verify(accounts).purge("uid-marko");
   }
 
   @Test
@@ -181,7 +180,7 @@ class UserServiceTest {
     when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
 
     for (String typed : new String[] {"marko@example.si", "", null}) {
-      assertThatThrownBy(() -> service.deleteAccount(marko.getId(), typed))
+      assertThatThrownBy(() -> service.closeAccount(marko.getId(), typed))
           .isInstanceOfSatisfying(
               InvalidRequestException.class,
               invalid -> assertThat(invalid.getCode()).isEqualTo("validation"));
@@ -195,7 +194,7 @@ class UserServiceTest {
     when(users.findById(ana.getId())).thenReturn(Optional.of(ana));
     when(groups.findNamesOwnedBy(ana.getId())).thenReturn(List.of("Arhiv", "Konferenca 2025"));
 
-    assertThatThrownBy(() -> service.deleteAccount(ana.getId(), "ana.kovac@example.si"))
+    assertThatThrownBy(() -> service.closeAccount(ana.getId(), "ana.kovac@example.si"))
         .isInstanceOfSatisfying(
             ConflictException.class,
             conflict -> {
@@ -209,8 +208,8 @@ class UserServiceTest {
   private void assertNothingDeleted(User user) {
     assertThat(user.getDeletedAt()).isNull();
     assertThat(user.getEmail()).isNotNull();
-    verify(memberships, never()).deleteAllOfUser(any(UUID.class));
+    verify(memberships, never()).dropAllOfUser(any(UUID.class));
     verify(users, never()).saveAndFlush(any(User.class));
-    verify(accounts, never()).delete(anyString());
+    verify(accounts, never()).purge(anyString());
   }
 }

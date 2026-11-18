@@ -459,8 +459,7 @@ public class ContactService {
    */
   void requireCurrent(Contact contact, int versionNumber) {
     if (contact.getVersionNumber() != versionNumber) {
-      String changedBy =
-          users.findById(contact.getUpdatedBy()).map(User::shownName).orElseThrow();
+      String changedBy = users.findById(contact.getUpdatedBy()).map(User::shownName).orElseThrow();
       throw new ConflictException("version.conflict", Map.of("changedBy", changedBy));
     }
   }

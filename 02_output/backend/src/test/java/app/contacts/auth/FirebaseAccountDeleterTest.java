@@ -19,7 +19,7 @@ class FirebaseAccountDeleterTest {
 
   @Test
   void r02101DeletesTheFirebaseAccountOfTheUid() throws Exception {
-    deleter.delete("uid-marko");
+    deleter.purge("uid-marko");
 
     verify(firebase).deleteUser("uid-marko");
   }
@@ -30,14 +30,14 @@ class FirebaseAccountDeleterTest {
         .when(firebase)
         .deleteUser("uid-gone");
 
-    assertThatCode(() -> deleter.delete("uid-gone")).doesNotThrowAnyException();
+    assertThatCode(() -> deleter.purge("uid-gone")).doesNotThrowAnyException();
   }
 
   @Test
   void r02101AnyOtherFailureIsRaisedSoTheDeletionRollsBack() throws Exception {
     doThrow(failure(ErrorCode.UNAVAILABLE, null)).when(firebase).deleteUser("uid-marko");
 
-    assertThatThrownBy(() -> deleter.delete("uid-marko"))
+    assertThatThrownBy(() -> deleter.purge("uid-marko"))
         .isInstanceOf(IllegalStateException.class)
         .hasCauseInstanceOf(FirebaseAuthException.class);
   }

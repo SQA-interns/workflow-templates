@@ -16,7 +16,7 @@ public class FirebaseAccountDeleter implements AccountDeleter {
      * @param uid the Firebase uid
      * @throws FirebaseAuthException when the account cannot be deleted
      */
-    void deleteUser(String uid) throws FirebaseAuthException;
+    void perform(String uid) throws FirebaseAuthException;
   }
 
   private final UserDeletion firebase;
@@ -36,9 +36,9 @@ public class FirebaseAccountDeleter implements AccountDeleter {
    * @throws IllegalStateException when Firebase refuses or cannot be reached (500, rolls back)
    */
   @Override
-  public void delete(String firebaseUid) {
+  public void purge(String firebaseUid) {
     try {
-      firebase.deleteUser(firebaseUid);
+      firebase.perform(firebaseUid);
     } catch (FirebaseAuthException failed) {
       if (failed.getAuthErrorCode() != AuthErrorCode.USER_NOT_FOUND) {
         throw new IllegalStateException("Firebase account not deleted", failed);

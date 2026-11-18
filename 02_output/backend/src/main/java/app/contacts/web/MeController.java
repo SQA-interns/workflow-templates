@@ -64,7 +64,7 @@ public class MeController {
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void delete(
       @AuthenticationPrincipal CurrentUser current, @RequestBody AccountDeletion deletion) {
-    users.deleteAccount(current.id(), deletion.confirmEmail());
+    users.closeAccount(current.id(), deletion.confirmEmail());
   }
 
   private static MeResponse response(UserView user, CurrentUser current) {

@@ -101,7 +101,7 @@ public class UserService {
    *     User owns, active or in the recycle bin (R-021-02, EX-021-02)
    */
   @Transactional
-  public void deleteAccount(UUID userId, String confirmEmail) {
+  public void closeAccount(UUID userId, String confirmEmail) {
     User user = users.findById(userId).orElseThrow(NotFoundException::new);
     if (!sameEmail(confirmEmail, user.getEmail())) {
       throw new InvalidRequestException("validation", Map.of());
@@ -110,16 +110,19 @@ public class UserService {
     if (!owned.isEmpty()) {
       throw new ConflictException("account.ownsGroups", Map.of("names", String.join(", ", owned)));
     }
-    memberships.deleteAllOfUser(userId);
+    memberships.dropAllOfUser(userId);
     user.anonymise(clock.instant());
     users.saveAndFlush(user);
-    accounts.delete(user.getFirebaseUid());
+    accounts.purge(user.getFirebaseUid());
   }
 
   /** E-mails are compared ignoring case (BR-11); outer spaces of the typed one are ignored. */
   private static boolean sameEmail(String typed, String email) {
-    return typed != null
-        && typed.strip().toLowerCase(Locale.ROOT).equals(email.toLowerCase(Locale.ROOT));
+    return typed != null && lower(typed.strip()).equals(lower(email));
+  }
+
+  private static String lower(String text) {
+    return text.toLowerCase(Locale.ROOT);
   }
 
   /** Creates the User; if a parallel first call created it meanwhile, returns that one. */

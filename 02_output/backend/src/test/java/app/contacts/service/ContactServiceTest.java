@@ -441,7 +441,7 @@ class ContactServiceTest {
   }
 
   @Test
-  void r02103StaleVersionChangedByADeletedUserNamesTheCodeOfDeletedUser() {
+  void r02103StaleVersionChangedByDeletedUserNamesTheCodeOfDeletedUser() {
     Contact janez = stored(Map.of("firstName", "Janez"));
     janez.edit(ContactFields.ofNames(Map.of("firstName", "Jan")), "", "", MARKO, NOW);
     User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);

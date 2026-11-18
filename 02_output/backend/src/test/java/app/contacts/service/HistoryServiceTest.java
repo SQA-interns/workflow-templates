@@ -197,14 +197,15 @@ class HistoryServiceTest {
   }
 
   @Test
-  void r02103VersionsOfADeletedUserShowTheCodeOfDeletedUser() {
+  void r02103VersionsOfDeletedUserShowTheCodeOfDeletedUser() {
     marko.anonymise(EDITED_AT);
     when(versions.findHistory(GROUP_ID, janez.getId())).thenReturn(List.of(edited, created));
     when(versions.findVersion(GROUP_ID, janez.getId(), 2)).thenReturn(Optional.of(edited));
 
     List<VersionSummaryView> history = service.history(GROUP_ID, PETRA, janez.getId());
 
-    assertThat(history).extracting(VersionSummaryView::changedBy)
+    assertThat(history)
+        .extracting(VersionSummaryView::changedBy)
         .containsExactly("user.deleted", "Ana Kovač");
     assertThat(service.version(GROUP_ID, PETRA, janez.getId(), 2).changedBy())
         .isEqualTo("user.deleted");

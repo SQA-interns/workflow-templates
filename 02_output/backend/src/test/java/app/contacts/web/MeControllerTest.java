@@ -47,6 +47,6 @@ class MeControllerTest {
 
     controller.delete(marko, new AccountDeletion("marko.kranjc@gmail.com"));
 
-    verify(users).deleteAccount(ID, "marko.kranjc@gmail.com");
+    verify(users).closeAccount(ID, "marko.kranjc@gmail.com");
   }
 }

@@ -140,7 +140,7 @@ class GroupRepositoryIT {
     UUID gamma = group(marko, "Gama");
     memberships.saveAndFlush(Membership.of(gamma, ana.getId(), Role.VIEWER));
 
-    int deleted = memberships.deleteAllOfUser(ana.getId());
+    int deleted = memberships.dropAllOfUser(ana.getId());
 
     assertThat(deleted).isEqualTo(2);
     assertThat(jdbc.queryForObject("SELECT count(*) FROM membership", Integer.class)).isEqualTo(2);
