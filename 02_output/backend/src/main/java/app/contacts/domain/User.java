@@ -16,6 +16,9 @@ public class User {
   /** Language of a new User (R-001-04, project-wide facts: Slovenian is the default). */
   public static final String DEFAULT_LANGUAGE = "sl";
 
+  /** The catalog code shown instead of the name of a deleted User (R-021-03, `user.deleted`). */
+  public static final String DELETED_NAME = "user.deleted";
+
   /** The languages of the product (project-wide facts, R-020-02). */
   public static final Set<String> LANGUAGES = Set.of("sl", "en");
 
@@ -80,6 +83,16 @@ public class User {
     this.email = null;
     this.displayName = null;
     this.deletedAt = now;
+  }
+
+  /**
+   * The name shown as the author of Versions and changes: the display name, or {@link
+   * #DELETED_NAME} once the User deleted the account (R-021-03).
+   *
+   * @return the name to show
+   */
+  public String shownName() {
+    return deletedAt == null ? displayName : DELETED_NAME;
   }
 
   public UUID getId() {

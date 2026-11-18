@@ -116,4 +116,25 @@ class RecycleBinServiceTest {
         .isInstanceOf(ValidationException.class);
     verifyNoInteractions(contacts);
   }
+
+  @Test
+  void r02103ContactDeletedByADeletedUserShowsTheCodeOfDeletedUser() {
+    final User marko =
+        User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", Instant.EPOCH);
+    Contact janez =
+        Contact.create(
+            GROUP_ID,
+            ContactFields.ofNames(Map.of("firstName", "Janez")),
+            "",
+            "",
+            marko.getId(),
+            Instant.EPOCH);
+    janez.moveToRecycleBin(marko.getId(), Instant.parse("2026-03-05T10:00:00Z"));
+    marko.anonymise(Instant.parse("2026-03-06T10:00:00Z"));
+    when(guard.require(GROUP_ID, MARKO, Permission.VIEW_RECYCLE_BIN)).thenReturn(Role.EDITOR);
+    when(contactRepository.findInRecycleBin(GROUP_ID)).thenReturn(List.of(janez));
+    when(users.findAllById(List.of(marko.getId()))).thenReturn(List.of(marko));
+
+    assertThat(service.list(GROUP_ID, MARKO).get(0).deletedBy()).isEqualTo("user.deleted");
+  }
 }

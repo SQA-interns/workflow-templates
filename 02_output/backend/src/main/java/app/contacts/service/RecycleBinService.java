@@ -120,7 +120,7 @@ public class RecycleBinService {
     Map<UUID, String> names = new HashMap<>();
     users
         .findAllById(found.stream().map(Contact::getUpdatedBy).distinct().toList())
-        .forEach(user -> names.put(user.getId(), user.getDisplayName()));
+        .forEach(user -> names.put(user.getId(), user.shownName()));
     return names;
   }
 }

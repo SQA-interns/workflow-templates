@@ -132,12 +132,12 @@ public class HistoryService {
     return contacts.restore(groupId, userId, contactId, versionNumber, number, content);
   }
 
-  /** The display name of the User of each Version, removed Members too (EX-010-02). */
+  /** The shown name of the User of each Version, removed Members too (EX-010-02, R-021-03). */
   private Map<UUID, String> namesOf(List<ContactVersion> found) {
     Map<UUID, String> names = new HashMap<>();
     users
         .findAllById(found.stream().map(ContactVersion::getChangedBy).distinct().toList())
-        .forEach(user -> names.put(user.getId(), user.getDisplayName()));
+        .forEach(user -> names.put(user.getId(), user.shownName()));
     return names;
   }
 

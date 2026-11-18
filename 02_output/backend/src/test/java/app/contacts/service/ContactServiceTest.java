@@ -441,6 +441,22 @@ class ContactServiceTest {
   }
 
   @Test
+  void r02103StaleVersionChangedByADeletedUserNamesTheCodeOfDeletedUser() {
+    Contact janez = stored(Map.of("firstName", "Janez"));
+    janez.edit(ContactFields.ofNames(Map.of("firstName", "Jan")), "", "", MARKO, NOW);
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    marko.anonymise(NOW);
+    when(users.findById(MARKO)).thenReturn(Optional.of(marko));
+
+    assertThatThrownBy(
+            () ->
+                service.update(
+                    GROUP_ID, ANA, janez.getId(), 1, Map.of("firstName", "Janko"), null, null))
+        .isInstanceOf(ConflictException.class)
+        .hasFieldOrPropertyWithValue("params", Map.of("changedBy", "user.deleted"));
+  }
+
+  @Test
   void ex00704VersionNumberHigherThanCurrentIsRejectedAsBr06() {
     Contact janez = stored(Map.of("firstName", "Janez"));
     User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
