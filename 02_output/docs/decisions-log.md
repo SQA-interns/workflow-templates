@@ -843,6 +843,6 @@
 - Type: approval
 - Trigger: `frontend/acceptance/us021-delete-account.spec.ts:33` (AC-021-01) fills the e-mail on the sign-in screen with `page.getByRole("textbox")`; Playwright gives the password field the role `textbox` too, so the locator fails in strict mode ("resolved to 2 elements"), the cause of D-40. D-43 approved the change of five such locators only; this sixth one was not among them. The behaviour works: a copy of the test with only this locator changed to `page.locator('input[type="email"]')` passed on the local stack (`out/logs/implement-us021-ac02101-d76-check.txt`, copy deleted). AC-021-02 and EX-021-01 (UI) and all five API tests pass.
 - Options: 1. Change this one locator to `page.locator('input[type="email"]')` (as D-40), nothing else, and regenerate `docs/03_acceptance-manifest.sha256`, in one `test:` commit of the `/implement US-021` session that receives the answer (default). 2. Keep the test as it is; AC-021-01 (UI) stays failing and DoD-S-01 of US-021 is not met. 3. Other (state it).
-- Human response: none
-- Resolution: pending (approval needed)
+- Human response: "d-77: default(1)" — option 1, 2026-11-18.
+- Resolution: 1
 - Overrides: none
