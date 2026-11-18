@@ -30,7 +30,7 @@ test("AC-021-01 Delete my account: signed out, cannot sign in, Versions show Del
   await page.getByRole("button", { name: "Delete", exact: true }).click();
 
   await expect(page).toHaveURL(/\/sign-in/);
-  await page.getByRole("textbox").fill(MARKO);
+  await page.locator('input[type="email"]').fill(MARKO);
   await page.locator('input[type="password"]').fill(PASSWORD);
   await page.locator('input[type="password"]').press("Enter");
   await expect(page.getByRole("alert")).toBeVisible();
