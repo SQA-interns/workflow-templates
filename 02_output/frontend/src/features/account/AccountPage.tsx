@@ -10,14 +10,8 @@ import { NativeSelect } from "@/components/ui/native-select";
 import { type Me, useChangeLanguage, useDeleteAccount, useMe } from "../../api/me";
 import { ApiError, messageKey } from "../../api/problem";
 import { signOutAccount } from "../../auth/firebase";
-import { type Language } from "../../i18n";
+import { type Language, languageNames } from "../../i18n";
 import { GroupsPending } from "../groups/GroupsPending";
-
-/** Each language is named in itself, so a User finds it in any language (R-020-02). */
-const languageNames: [Language, string][] = [
-  ["sl", "Slovenščina"],
-  ["en", "English"],
-];
 
 /** WF-19 Account: the language (R-020-02) and "Delete my account" (US-021). */
 export function AccountPage() {

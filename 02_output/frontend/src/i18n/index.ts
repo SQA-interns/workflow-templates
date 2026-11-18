@@ -7,6 +7,12 @@ import sl from "./sl.json";
 export const languages = ["sl", "en"] as const;
 export type Language = (typeof languages)[number];
 
+/** Each language is named in itself, so a User finds it in any language (R-020-02). */
+export const languageNames: [Language, string][] = [
+  ["sl", "Slovenščina"],
+  ["en", "English"],
+];
+
 void i18n.use(initReactI18next).init({
   resources: { sl: { translation: sl }, en: { translation: en } },
   lng: "sl",

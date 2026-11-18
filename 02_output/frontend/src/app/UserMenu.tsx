@@ -6,13 +6,7 @@ import { Link } from "react-router";
 import { Button } from "@/components/ui/button";
 import { useChangeLanguage, useMe } from "../api/me";
 import { signOutAccount } from "../auth/firebase";
-import { type Language } from "../i18n";
-
-/** Each language is named in itself, so a User finds it in any language (R-020-02). */
-const languageNames: [Language, string][] = [
-  ["sl", "Slovenščina"],
-  ["en", "English"],
-];
+import { languageNames } from "../i18n";
 
 /**
  * The user menu of the header, named by the display name (UI-10): language, Account (WF-19),
