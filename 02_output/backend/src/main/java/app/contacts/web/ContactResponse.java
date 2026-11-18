@@ -1,9 +1,11 @@
 package app.contacts.web;
 
 import app.contacts.service.AttributeView;
+import app.contacts.service.ContactFieldsSchema;
 import app.contacts.service.ContactView;
 import app.contacts.service.MergedFromView;
 import app.contacts.service.TagView;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,7 +30,7 @@ public record ContactResponse(
     UUID id,
     int versionNumber,
     String state,
-    SequencedMap<String, String> fields,
+    @Schema(implementation = ContactFieldsSchema.class) SequencedMap<String, String> fields,
     List<AttributeView> attributes,
     List<TagView> tags,
     Instant createdAt,

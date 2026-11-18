@@ -2,6 +2,7 @@ package app.contacts.service;
 
 import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SequencedMap;
@@ -16,7 +17,9 @@ import tools.jackson.databind.json.JsonMapper;
  * @param tags the Tag names A–Z
  */
 public record SnapshotView(
-    SequencedMap<String, String> fields, List<AttributeView> attributes, List<String> tags) {
+    @Schema(implementation = ContactFieldsSchema.class) SequencedMap<String, String> fields,
+    List<AttributeView> attributes,
+    List<String> tags) {
 
   /** Reads the plain records of a Version; immutable and thread-safe. */
   private static final JsonMapper JSON = JsonMapper.builder().build();

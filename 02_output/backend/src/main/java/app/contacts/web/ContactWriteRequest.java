@@ -1,6 +1,8 @@
 package app.contacts.web;
 
 import app.contacts.service.AttributeView;
+import app.contacts.service.ContactFieldsSchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,7 +17,9 @@ import java.util.Map;
  * @param tags the Tag names (R-009-01), {@code null} when the body has none
  */
 public record ContactWriteRequest(
-    Map<String, String> fields, List<AttributeView> attributes, List<String> tags) {
+    @Schema(implementation = ContactFieldsSchema.class) Map<String, String> fields,
+    List<AttributeView> attributes,
+    List<String> tags) {
 
   /**
    * A request with unmodifiable copies of the Fields, Attributes and Tag names.

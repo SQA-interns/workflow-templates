@@ -1,6 +1,8 @@
 package app.contacts.web;
 
 import app.contacts.service.AttributeView;
+import app.contacts.service.ContactFieldsSchema;
+import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,7 +18,7 @@ import java.util.Map;
  * @param versionNumber the Version number the client read (BR-06), {@code null} when missing
  */
 public record ContactUpdateRequest(
-    Map<String, String> fields,
+    @Schema(implementation = ContactFieldsSchema.class) Map<String, String> fields,
     List<AttributeView> attributes,
     List<String> tags,
     Integer versionNumber) {
