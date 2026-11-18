@@ -5,18 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-018 D-73: 1
+- Session: S5 /implement US-019
 - Result: done
-- Gate: phase 4 (US-018 DoD-S) passed
+- Gate: phase 4 (US-019 DoD-S) passed
 - Notes for the next session:
-  - Resumed after D-73 (Docker back). Backend 267 tests, only US-019 and US-021 frozen tests fail (not built); unit 441/441; UI 83/89, the 6 failures are US-019 and US-021 (`out/logs/implement-us018-full-verify.txt`, `implement-us018-ui-acceptance-all.txt`).
-  - Pair order (D-73 question): `sl-x-icu` sorts "J. Novak" first; the Merge screen now makes the Contact created first the Primary contact (D-74, overrides D-25 (b) for WF-18 only). WF-19 (Undo merge) can rely on `Contact.createdAt` already in the frontend `Contact` type.
-  - Fixed: Audit entries of merged Contacts lost on permanent delete (`ContactRepository.permanentlyDelete` now flushes first); WF-18 stacks the Field choices on a phone.
-  - `TagsField.test.tsx` (US-009) times out intermittently under `npm test` (coverage), also before this session; passes without coverage (D-74 (d)). `frontend/README.md` still fails prettier --check (older).
-  - Stack on 8090 is built from HEAD; rebuild after changes (`npm run build`, `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`). gitleaks runs from `zricethezav/gitleaks:v8.28.0` (D-04).
+  - Backend unit 456/456; integration 263/268, only the 5 US-021 frozen tests fail (`out/logs/implement-us019-full-verify.txt`). Frontend unit 345/345; static checks clean (`frontend/README.md` still fails prettier, older).
+  - Browser run now includes `e2e/` (97): 92 pass; fail the 3 US-021 UI tests, E2E-01 (waits for the language choice of WF-19 Account, built by US-021 T-52) and E2E-08 (reload of a Group in the recycle bin shows "This page cannot be found." instead of "You have no Groups yet."; US-002/US-003 code; D-75 (j), for `/review INC-2`) (`out/logs/implement-us019-ui-acceptance-all.txt`).
+  - Undo merge: `POST /merges/{id}/undo` with the Primary contact's Version number; checks and Audit action `contacts.mergeUndone` in D-75.
+  - SpotBugs counts private `ContactService` methods named replace…/delete… as mutators (D-59 (f), D-75 (i)); avoid such names there.
+  - Stack on 8090 is built from a0149e8+ (rebuild after changes: `./mvnw -DskipTests package`, `npm run build`, `APP_HOST_PORT=8090 docker compose --env-file ../.env up -d --build`). gitleaks from `zricethezav/gitleaks:v8.28.0` (D-04).
 
 ## Next
-- Command: /implement US-019
+- Command: /implement US-021
 - Waiting for: nothing
 
 ## Stories
@@ -40,6 +40,6 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-016 | INC-1 | done | DoD-S-01 met after US-004 (API 11/11, UI 4/4); DoD-S-07 b7b36b7 554 lines, 5168f66 and daf3e85 subjects over 72 characters; others met |
 | US-017 | INC-2 | done | DoD-S-01 met after US-018 (API 12/12, UI 4/4; D-71); DoD-S-07 see D-70 (i); others met |
 | US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c) |
-| US-019 | INC-2 | ready | |
+| US-019 | INC-2 | done | met (API 5/5, UI 3/3; WF-07 Undo merge at three widths, axe clean); DoD-S-07 see D-75 (i) |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
 | US-021 | INC-2 | ready | |
