@@ -47,4 +47,18 @@ class MergeControllerTest {
     assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     assertThat(response.getBody()).isEqualTo(merge);
   }
+
+  @Test
+  void r01901PostUndoAnswers200WithTheUndoneMerge() {
+    UUID mergeId = UUID.randomUUID();
+    MergeView undone =
+        new MergeView(mergeId, JANEZ_ID, OTHER_ID, Instant.parse("2026-03-05T09:00:00Z"), true);
+    when(merges.undoMerge(GROUP_ID, MARKO_ID, mergeId, 4)).thenReturn(undone);
+
+    ResponseEntity<MergeView> response =
+        controller.undo(MARKO, GROUP_ID, mergeId, new VersionNumberRequest(4));
+
+    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+    assertThat(response.getBody()).isEqualTo(undone);
+  }
 }

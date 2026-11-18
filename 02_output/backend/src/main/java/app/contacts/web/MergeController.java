@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/** Merges of a Group's Contacts (US-018). */
+/** Merges of a Group's Contacts (US-018) and their undo (US-019). */
 @RestController
 @RequestMapping("/api/v1/groups/{groupId}/merges")
 public class MergeController {
@@ -45,5 +45,24 @@ public class MergeController {
       @RequestBody MergeRequest request) {
     return ResponseEntity.status(HttpStatus.CREATED)
         .body(merges.merge(groupId, current.id(), request.toCommand()));
+  }
+
+  /**
+   * Undoes a Merge (R-019-01 … R-019-03); the service view is the contract's {@code Merge}.
+   *
+   * @param current the signed-in User
+   * @param groupId the Group
+   * @param mergeId the Merge
+   * @param body the Primary contact's Version number read
+   * @return 200 with the undone Merge
+   */
+  @PostMapping("/{mergeId}/undo")
+  public ResponseEntity<MergeView> undo(
+      @AuthenticationPrincipal CurrentUser current,
+      @PathVariable UUID groupId,
+      @PathVariable UUID mergeId,
+      @RequestBody VersionNumberRequest body) {
+    return ResponseEntity.ok(
+        merges.undoMerge(groupId, current.id(), mergeId, body.versionNumber()));
   }
 }
