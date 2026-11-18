@@ -12,11 +12,11 @@ The handover between sessions. Every session reads it first and updates it last.
   - `docs/04_review-INC-2.md`: Critical 0, High 0, Medium 6 (F-01 … F-06), Low 22; open Medium findings go to the stories' next session or the release notes.
   - F-04: T-36 … T-43 (SR-02 access matrix, contract test, log hygiene, NFR checks) were never done, so T-53 has nothing to extend; no session in the plan picks them up.
   - F-05: frozen E2E-08 fails in INC-1 code (`GroupRoute.tsx`); F-01 (D-21 confirmation), F-02 (Firebase delete before commit), F-03 (R-019-02/R-019-03 conflict, needs a decision), F-06 (user menu invisible at 768 px).
-  - Pending review answered: D-72, D-74 accepted with reservations; D-76 accepted except (b) (F-02) and (h) (F-23). Specification §4 row US-018 is out of date (F-24).
+  - Human answer (2026-11-18): D-72, D-74, D-76 accepted (option 1); D-78 option 1 settles the findings: fix F-01 (`/implement US-018`), F-02 and F-06 (`/implement US-021`), F-05 and the header part of F-06 (`/implement US-002`), fix-only sessions; then `/implement US-021 T-36..T-43 T-53`; then `/design`. F-03 kept as is (release notes); Low findings to the release notes unless fixed on the way.
   - The local stack holds review data (see the review's "Notes"); reset its volumes before a run that needs the seed state.
 
 ## Next
-- Command: /design
+- Command: /implement US-018
 - Waiting for: nothing
 
 ## Stories
