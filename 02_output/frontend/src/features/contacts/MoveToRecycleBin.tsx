@@ -27,7 +27,7 @@ export function MoveToRecycleBin({ groupId, contact }: { groupId: string; contac
 
   return (
     <AlertDialog onOpenChange={() => move.reset()}>
-      <AlertDialogTrigger className={buttonVariants({ variant: "ghost" })}>
+      <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
         {t("recycleBin.move.action")}
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -35,6 +35,7 @@ export function MoveToRecycleBin({ groupId, contact }: { groupId: string; contac
         <AlertDialogDescription>{t("recycleBin.move.description")}</AlertDialogDescription>
         <div className="flex flex-wrap gap-2">
           <Button
+            variant="danger"
             disabled={move.isPending}
             aria-busy={move.isPending}
             onClick={() =>

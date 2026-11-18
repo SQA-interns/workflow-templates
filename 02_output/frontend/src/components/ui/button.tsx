@@ -12,6 +12,8 @@ const buttonVariants = cva(
         primary: "border-primary bg-primary text-primary-foreground hover:opacity-90",
         secondary: "border-border bg-surface text-text hover:bg-surface-raised",
         ghost: "border-transparent bg-transparent text-text hover:bg-surface",
+        danger: "border-danger bg-danger text-danger-foreground hover:opacity-90",
+        "danger-ghost": "border-transparent bg-transparent text-danger hover:bg-surface",
       },
     },
     defaultVariants: { variant: "primary" },

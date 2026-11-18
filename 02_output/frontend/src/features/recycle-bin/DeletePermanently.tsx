@@ -48,7 +48,10 @@ export function DeletePermanently({
         remove.reset();
       }}
     >
-      <AlertDialogTrigger className={buttonVariants({ variant: "ghost" })} disabled={disabled}>
+      <AlertDialogTrigger
+        className={buttonVariants({ variant: "danger-ghost" })}
+        disabled={disabled}
+      >
         {t("recycleBin.permanentDelete.action")}
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -65,6 +68,7 @@ export function DeletePermanently({
         )}
         <div className="flex flex-wrap gap-2">
           <Button
+            variant="danger"
             disabled={remove.isPending || !merged.isSuccess}
             aria-busy={remove.isPending}
             onClick={() => remove.mutate(entry)}

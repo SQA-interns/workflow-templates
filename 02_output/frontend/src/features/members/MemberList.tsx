@@ -134,7 +134,7 @@ function RemoveMember({ groupId, member }: { groupId: string; member: Member }) 
 
   return (
     <AlertDialog onOpenChange={() => remove.reset()}>
-      <AlertDialogTrigger className={buttonVariants({ variant: "ghost" })}>
+      <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
         {t("members.remove.action")}
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -146,6 +146,7 @@ function RemoveMember({ groupId, member }: { groupId: string; member: Member }) 
         </AlertDialogDescription>
         <div className="flex flex-wrap gap-2">
           <Button
+            variant="danger"
             disabled={remove.isPending}
             aria-busy={remove.isPending}
             onClick={() => remove.mutate(member.userId)}

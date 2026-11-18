@@ -116,6 +116,7 @@ function DeleteAccountCard({ me }: { me: Me }) {
           />
         </div>
         <Button
+          variant="danger"
           type="submit"
           disabled={!matches || deletion.isPending}
           aria-busy={deletion.isPending}

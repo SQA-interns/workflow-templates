@@ -218,7 +218,7 @@ function InvitationTable({
             </td>
             <td className={`${cell} max-md:pt-2 md:text-right`}>
               <Button
-                variant="ghost"
+                variant="danger-ghost"
                 disabled={busyId !== null}
                 aria-busy={busyId === invitation.id}
                 onClick={() => onRevoke(invitation)}

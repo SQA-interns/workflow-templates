@@ -26,7 +26,7 @@ export function MoveGroupToRecycleBin({ group }: { group: Group }) {
 
   return (
     <AlertDialog onOpenChange={() => move.reset()}>
-      <AlertDialogTrigger className={buttonVariants({ variant: "secondary" })}>
+      <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
         {t("groups.settings.move.action")}
       </AlertDialogTrigger>
       <AlertDialogContent>
@@ -36,6 +36,7 @@ export function MoveGroupToRecycleBin({ group }: { group: Group }) {
         <AlertDialogDescription>{t("groups.settings.move.description")}</AlertDialogDescription>
         <div className="flex flex-wrap gap-2">
           <Button
+            variant="danger"
             disabled={move.isPending}
             aria-busy={move.isPending}
             onClick={() => move.mutate(undefined, { onSuccess: () => void navigate("/") })}
