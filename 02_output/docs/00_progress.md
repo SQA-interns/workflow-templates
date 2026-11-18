@@ -5,19 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-021
-- Result: blocked
-- Gate: phase 4 (US-021 DoD-S) not passed (DoD-S-01: frozen UI test AC-021-01 fails at its sign-in locator, D-77)
+- Session: S5 /implement US-021 D-77: 1
+- Result: done
+- Gate: phase 4 (US-021 DoD-S) passed
 - Notes for the next session:
-  - D-77 (approval): `acceptance/us021-delete-account.spec.ts:33` uses `getByRole("textbox")` on WF-01 (same cause as D-40). With option 1, change only that locator to `page.locator('input[type="email"]')`, regenerate `docs/03_acceptance-manifest.sha256`, one `test:` commit, then rerun the UI test; a copy with that change already passed (`out/logs/implement-us021-ac02101-d76-check.txt`).
-  - All else is done: API 5/5; UI AC-021-02, EX-021-01 pass; backend unit 467/467, integration 270/270 (`out/logs/implement-us021-full-verify.txt`); frontend 355/355 without coverage (with coverage TagsField times out, D-67); static checks and gitleaks clean (`frontend/README.md` still fails prettier, older).
-  - Browser run 95/97 (`out/logs/implement-us021-ui-acceptance-all.txt`): fail AC-021-01 (D-77) and E2E-08 (D-75 (j), for `/review INC-2`); E2E-01 now passes.
-  - D-76 (non-blocking, pending review) holds the US-021 assumptions; `UserService.closeAccount` is the specification's `deleteAccount` (SpotBugs names, D-76 (h)).
-  - WF-19 screens and axe: `out/logs/screens/WF-19_account/`. Stack on 8090 is built from 81733ed.
+  - D-77 option 1 applied (one locator of `acceptance/us021-delete-account.spec.ts`, manifest regenerated); US-021 API 5/5, UI 3/3 (`out/logs/implement-us021-ui-acceptance.txt`).
+  - Backend unit 467/467, integration 270/270 (`out/logs/implement-us021-full-verify.txt`); frontend 355/355 without coverage (TagsField times out with coverage, D-67); static checks and gitleaks clean (`frontend/README.md` still fails prettier, older).
+  - Browser run (before the D-77 change) 95/97: AC-021-01 (now passes) and E2E-08 (D-75 (j), US-002/US-003 code, for `/review INC-2`); E2E-01 passes.
+  - D-76 (non-blocking, pending review): US-021 assumptions; `UserService.closeAccount` is the specification's `deleteAccount` (D-76 (h)); DoD-S-07 notes in D-76 (i).
+  - T-53 (SR-02 matrix and contract test for the INC-2 endpoints, incl. `DELETE /me`) is not done yet.
+  - Stack on 8090 is built from 81733ed (no code change since).
 
 ## Next
-- Command: /implement US-021 D-77: 1
-- Waiting for: D-77
+- Command: /review INC-2
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
@@ -42,4 +43,4 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c) |
 | US-019 | INC-2 | done | met (API 5/5, UI 3/3; WF-07 Undo merge at three widths, axe clean); DoD-S-07 see D-75 (i) |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
-| US-021 | INC-2 | in progress | DoD-S-01 not met (UI AC-021-01, D-77; API 5/5, UI 2/3); DoD-S-07 see D-76 (i); others met |
+| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i) |

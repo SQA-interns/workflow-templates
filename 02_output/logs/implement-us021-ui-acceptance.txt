@@ -1,52 +1,14 @@
 
-Running 4 tests using 1 worker
+Running 3 tests using 1 worker
 
 
-  ✘  1 [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user (2.2s)
+  ✓  1 [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user (2.0s)
 
-  ✓  2 [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. (1.3s)
+  ✓  2 [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. (1.1s)
 
-  ✓  3 [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled (995ms)
+  ✓  3 [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled (988ms)
 
-  ✓  4 [chromium] › e2e/e2e-01-sign-up-to-excel.spec.ts:17:1 › E2E-01 from sign-up to an Excel file (4.8s)
-
-
-  1) [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user 
-
-    Error: locator.fill: Error: strict mode violation: getByRole('textbox') resolved to 2 elements:
-        1) <input value="" required="" type="email" id=":r4:-email" autocomplete="email" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'E-mail' })
-        2) <input value="" required="" type="password" id=":r4:-password" autocomplete="current-password" class="min-h-11 w-full rounded-md border border-input bg-background px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"/> aka getByRole('textbox', { name: 'Password' })
-
-    Call log:
-    [2m  - waiting for getByRole('textbox')[22m
-
-
-      31 |
-      32 |   await expect(page).toHaveURL(/\/sign-in/);
-    > 33 |   await page.getByRole("textbox").fill(MARKO);
-         |                                   ^
-      34 |   await page.locator('input[type="password"]').fill(PASSWORD);
-      35 |   await page.locator('input[type="password"]').press("Enter");
-      36 |   await expect(page.getByRole("alert")).toBeVisible();
-        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/us021-delete-account.spec.ts:33:35
-
-    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
-    test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/test-failed-1.png
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-    Error Context: test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/error-context.md
-
-    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
-    test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/trace.zip
-    Usage:
-
-        npx playwright show-trace test-results/acceptance-us021-delete-ac-404bc--Versions-show-Deleted-user-chromium/trace.zip
-
-    ────────────────────────────────────────────────────────────────────────────────────────────────
-
-  1 failed
-    [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user 
-  3 passed (11.1s)
+  3 passed (5.2s)
 
 To open last HTML report run:
 [36m[39m
