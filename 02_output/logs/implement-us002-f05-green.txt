@@ -1,0 +1,29 @@
+
+Running 12 tests using 1 worker
+
+
+  ✓   1 [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. (1.1s)
+
+  ✓   2 [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only (959ms)
+
+  ✓   3 [chromium] › acceptance/us002-groups.spec.ts:49:1 › AC-002-04 a blank Group name: Enter a name of 1 to 100 characters. (828ms)
+
+  ✓   4 [chromium] › acceptance/us002-groups.spec.ts:61:1 › AC-002-05 after signing in again the Group selected last is current (1.2s)
+
+  ✓   5 [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups (1.6s)
+
+  ✓   6 [chromium] › acceptance/us003-group-lifecycle.spec.ts:17:1 › AC-003-01 the Owner renames the Group; the switcher shows the new name (1.0s)
+
+  ✓   7 [chromium] › acceptance/us003-group-lifecycle.spec.ts:28:1 › AC-003-03 Move Group to recycle bin: gone from the switcher (1.2s)
+
+  ✓   8 [chromium] › acceptance/us003-group-lifecycle.spec.ts:40:1 › AC-003-03 Deleted Groups shows the removal date 04.04.2026 12:00 (DST in between) (1.0s)
+
+  ✓   9 [chromium] › acceptance/us003-group-lifecycle.spec.ts:60:1 › AC-003-04 the Owner restores the Group from Deleted Groups (1.1s)
+
+  ✓  10 [chromium] › acceptance/us003-group-lifecycle.spec.ts:77:1 › EX-003-04 cancelling Move Group to recycle bin changes nothing (985ms)
+
+  ✓  11 [chromium] › acceptance/us003-group-lifecycle.spec.ts:89:1 › EX-003-05 an Invitation of a Group in the recycle bin: This Invitation is no longer valid. (998ms)
+
+  ✓  12 [chromium] › e2e/e2e-08-group-lifecycle.spec.ts:15:1 › E2E-08 Group lifecycle (2.4s)
+
+  12 passed (15.5s)

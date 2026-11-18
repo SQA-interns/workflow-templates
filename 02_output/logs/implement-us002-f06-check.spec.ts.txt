@@ -1,0 +1,55 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Locator, type Page } from "@playwright/test";
+import { api, resetStack, selectGroup, signIn, team } from "./support/stack";
+
+// Throwaway check of F-06 (US-002 part): the header at 768 px has two rows as WF-06 tablet; not committed.
+test.beforeEach(resetStack);
+
+const top = async (sel: Locator) => Math.round((await sel.boundingBox())!.y);
+
+async function check(page: Page, name: string, links: string[]) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [768, 1024, "768"], [820, 1180, "tablet"], [1024, 768, "1024"], [1280, 800, "1280"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    await page.screenshot({ path: `../logs/screens/WF-06_contact-list/f06-header/${name}_${label}.png` });
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${label} overflow`).toBe(false);
+    const switcher = page.getByRole("button", { name: /Group switcher|Izbira skupine/ });
+    if (label === "mobile") continue;
+    const cut = await switcher.evaluate((b) => {
+      const s = b.querySelector("span.truncate")!;
+      return s.scrollWidth > s.clientWidth || b.parentElement!.getBoundingClientRect().width < b.scrollWidth;
+    });
+    console.log(`${name} ${label}: switcher cut=${cut}`);
+    expect.soft(cut, `${label} Group name cut`).toBe(false);
+    const nav = page.getByRole("navigation");
+    const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+    const user = page.getByRole("button", { name: "Ana Kovač" });
+    const rows = { switcher: await top(switcher), nav: await top(nav), user: await top(user) };
+    console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+    expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+    if (w < 1280) {
+      expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+      expect.soft(Math.abs(rows.user - rows.nav), `${label} user menu on the navigation row`).toBeLessThanOrEqual(8);
+    } else {
+      expect(Math.abs(rows.nav - rows.switcher), `${label} one row`).toBeLessThanOrEqual(8);
+    }
+  }
+  const axe = await new AxeBuilder({ page: page as never }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+}
+
+test("F-06 header of the Owner at every width", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await selectGroup(page, "Konferenca 2025");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await check(page, "owner-en", ["Contacts", "Recycle bin", "Possible duplicates", "Members", "Settings"]);
+  await api(t.ana, "PATCH", "/me", { language: "sl" });
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await check(page, "owner-sl", ["Kontakti", "Koš", "Možni dvojniki", "Člani", "Nastavitve"]);
+});

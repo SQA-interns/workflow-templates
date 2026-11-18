@@ -1,0 +1,114 @@
+ Image contacts-frontend:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 634B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 581B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#3 ...
+
+#4 [auth] library/nginx:pull token for registry-1.docker.io
+#4 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#3 DONE 1.3s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 118B done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 333B done
+#6 DONE 0.0s
+
+#7 [1/5] FROM docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+#7 resolve docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a 0.0s done
+#7 DONE 0.0s
+
+#8 [2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#8 CACHED
+
+#9 [3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#9 CACHED
+
+#10 [4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#10 CACHED
+
+#11 [5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#11 CACHED
+
+#12 exporting to image
+#12 exporting layers done
+#12 exporting manifest sha256:6433de97d7830265247e9e74a3cbee72037cba9d63c6424f87c0ed928d54076c
+#12 exporting manifest sha256:6433de97d7830265247e9e74a3cbee72037cba9d63c6424f87c0ed928d54076c done
+#12 exporting config sha256:91dad7ded833cbcb1cab06099ac002b3d4e69e3d14147c176c4aaef480ecbb73 done
+#12 exporting attestation manifest sha256:7f2af4c6ccef474b54f63948b0a5a721c77ade67c5e7cd071e8cb9d7965ff7ae 0.0s done
+#12 exporting manifest list sha256:5ef9cbca8d4d85aa5965705a689f5dbb87e28dc1fd49cca84d1dc7523087a012 0.0s done
+#12 naming to docker.io/library/contacts-frontend:local done
+#12 unpacking to docker.io/library/contacts-frontend:local 0.0s done
+#12 DONE 0.2s
+
+#13 resolving provenance for metadata file
+#13 DONE 0.0s
+ Image contacts-frontend:local Built 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-frontend-1 Starting 
+ Container kontakti-frontend-1 Started 
+ Image contacts-frontend:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 634B done
+#1 DONE 0.0s
+
+#2 [internal] load build definition from Dockerfile
+#2 transferring dockerfile: 581B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#3 DONE 0.6s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 118B done
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+#5 resolve docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 706.13kB 0.0s done
+#6 DONE 0.1s
+
+#7 [2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#7 CACHED
+
+#8 [3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#8 DONE 0.1s
+
+#9 [4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#9 DONE 0.1s
+
+#10 [5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#10 DONE 0.0s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.2s done
+#11 exporting manifest sha256:7fdc0d1813c77ccf29e31b55799db4ab397974f0ec3ff59eae6c26eb2d9e1a01 0.0s done
+#11 exporting config sha256:1ea5457a3d1300f517e54c9b8ef6224336b5e9ef3fab03248353d5db089486e9 0.0s done
+#11 exporting attestation manifest sha256:d7e5491d8b51e8e688720d11f8382705f8014931a9fbc3c6f856d0a87eb14d45 0.0s done
+#11 exporting manifest list sha256:ff8b0cbcbf318588c216631ae57a4edebe203e63c5f67046eb3109c664036e48 0.0s done
+#11 naming to docker.io/library/contacts-frontend:local done
+#11 unpacking to docker.io/library/contacts-frontend:local 0.1s done
+#11 DONE 0.4s
+
+#12 resolving provenance for metadata file
+#12 DONE 0.0s
+ Image contacts-frontend:local Built 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-frontend-1 Starting 
+ Container kontakti-frontend-1 Started 

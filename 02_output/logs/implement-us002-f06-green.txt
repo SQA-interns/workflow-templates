@@ -1,0 +1,28 @@
+
+Running 1 test using 1 worker
+
+owner-en 768: switcher cut=false
+owner-en 768: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-en tablet: switcher cut=false
+owner-en tablet: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-en 1024: switcher cut=false
+owner-en 1024: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-en 1280: switcher cut=false
+owner-en 1280: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+owner-en desktop: switcher cut=false
+owner-en desktop: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+axe owner-en: none
+owner-sl 768: switcher cut=false
+owner-sl 768: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-sl tablet: switcher cut=false
+owner-sl tablet: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-sl 1024: switcher cut=false
+owner-sl 1024: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m64[39m, user: [33m60[39m }
+owner-sl 1280: switcher cut=false
+owner-sl 1280: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+owner-sl desktop: switcher cut=false
+owner-sl desktop: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+axe owner-sl: none
+  ✓  1 [chromium] › acceptance/zz-f06-header-check.spec.ts:45:1 › F-06 header of the Owner at every width (7.2s)
+
+  1 passed (8.7s)

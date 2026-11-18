@@ -1,0 +1,297 @@
+
+Running 1 test using 1 worker
+
+owner-en 768: switcher cut=true
+owner-en 768: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-en tablet: switcher cut=true
+owner-en tablet: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-en 1024: switcher cut=true
+owner-en 1024: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-en desktop: switcher cut=false
+owner-en desktop: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+axe owner-en: none
+owner-sl 768: switcher cut=true
+owner-sl 768: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-sl tablet: switcher cut=true
+owner-sl tablet: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-sl 1024: switcher cut=false
+owner-sl 1024: link heights [ [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m, [33m56[39m ] tops { switcher: [33m14[39m, nav: [33m8[39m, user: [33m14[39m }
+owner-sl desktop: switcher cut=false
+owner-sl desktop: link heights [ [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m, [33m36[39m ] tops { switcher: [33m8[39m, nav: [33m12[39m, user: [33m8[39m }
+axe owner-sl: none
+  ✘  1 [chromium] › acceptance/zz-f06-header-check.spec.ts:45:1 › F-06 header of the Owner at every width (6.7s)
+
+
+  1) [chromium] › acceptance/zz-f06-header-check.spec.ts:45:1 › F-06 header of the Owner at every width 
+
+    Error: 768 Group name cut
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      22 |     });
+      23 |     console.log(`${name} ${label}: switcher cut=${cut}`);
+    > 24 |     expect.soft(cut, `${label} Group name cut`).toBe(false);
+         |                                                 ^
+      25 |     const nav = page.getByRole("navigation");
+      26 |     const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      27 |     const user = page.getByRole("button", { name: "Ana Kovač" });
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:24:49)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: 768 a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: 768 navigation on the second row
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m44[39m
+    Received:   [31m8[39m
+
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+    > 33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+         |                                                                      ^
+      34 |       expect.soft(Math.abs(rows.user - rows.nav), `${label} user menu on the navigation row`).toBeLessThanOrEqual(8);
+      35 |     } else {
+      36 |       expect(Math.abs(rows.nav - rows.switcher), `${label} one row`).toBeLessThanOrEqual(8);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:33:70)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: tablet Group name cut
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      22 |     });
+      23 |     console.log(`${name} ${label}: switcher cut=${cut}`);
+    > 24 |     expect.soft(cut, `${label} Group name cut`).toBe(false);
+         |                                                 ^
+      25 |     const nav = page.getByRole("navigation");
+      26 |     const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      27 |     const user = page.getByRole("button", { name: "Ana Kovač" });
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:24:49)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: tablet a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: tablet navigation on the second row
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m44[39m
+    Received:   [31m8[39m
+
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+    > 33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+         |                                                                      ^
+      34 |       expect.soft(Math.abs(rows.user - rows.nav), `${label} user menu on the navigation row`).toBeLessThanOrEqual(8);
+      35 |     } else {
+      36 |       expect(Math.abs(rows.nav - rows.switcher), `${label} one row`).toBeLessThanOrEqual(8);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:33:70)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: 1024 Group name cut
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      22 |     });
+      23 |     console.log(`${name} ${label}: switcher cut=${cut}`);
+    > 24 |     expect.soft(cut, `${label} Group name cut`).toBe(false);
+         |                                                 ^
+      25 |     const nav = page.getByRole("navigation");
+      26 |     const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      27 |     const user = page.getByRole("button", { name: "Ana Kovač" });
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:24:49)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: 1024 a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:50:3
+
+    Error: 768 Group name cut
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      22 |     });
+      23 |     console.log(`${name} ${label}: switcher cut=${cut}`);
+    > 24 |     expect.soft(cut, `${label} Group name cut`).toBe(false);
+         |                                                 ^
+      25 |     const nav = page.getByRole("navigation");
+      26 |     const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      27 |     const user = page.getByRole("button", { name: "Ana Kovač" });
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:24:49)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: 768 a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: 768 navigation on the second row
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m44[39m
+    Received:   [31m8[39m
+
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+    > 33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+         |                                                                      ^
+      34 |       expect.soft(Math.abs(rows.user - rows.nav), `${label} user menu on the navigation row`).toBeLessThanOrEqual(8);
+      35 |     } else {
+      36 |       expect(Math.abs(rows.nav - rows.switcher), `${label} one row`).toBeLessThanOrEqual(8);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:33:70)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: tablet Group name cut
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32mfalse[39m
+    Received: [31mtrue[39m
+
+      22 |     });
+      23 |     console.log(`${name} ${label}: switcher cut=${cut}`);
+    > 24 |     expect.soft(cut, `${label} Group name cut`).toBe(false);
+         |                                                 ^
+      25 |     const nav = page.getByRole("navigation");
+      26 |     const heights = await nav.getByRole("link").evaluateAll((as) => as.map((a) => Math.round(a.getBoundingClientRect().height)));
+      27 |     const user = page.getByRole("button", { name: "Ana Kovač" });
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:24:49)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: tablet a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: tablet navigation on the second row
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThan[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: > [32m44[39m
+    Received:   [31m8[39m
+
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+    > 33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+         |                                                                      ^
+      34 |       expect.soft(Math.abs(rows.user - rows.nav), `${label} user menu on the navigation row`).toBeLessThanOrEqual(8);
+      35 |     } else {
+      36 |       expect(Math.abs(rows.nav - rows.switcher), `${label} one row`).toBeLessThanOrEqual(8);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:33:70)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    Error: 1024 a navigation item wraps
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeLessThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: <= [32m40[39m
+    Received:    [31m56[39m
+
+      28 |     const rows = { switcher: await top(page, switcher), nav: await top(page, nav), user: await top(page, user) };
+      29 |     console.log(`${name} ${label}: link heights`, heights, "tops", rows);
+    > 30 |     expect.soft(Math.max(...heights), `${label} a navigation item wraps`).toBeLessThanOrEqual(40);
+         |                                                                           ^
+      31 |     expect(await nav.getByRole("link").allTextContents()).toEqual(links);
+      32 |     if (w < 1024) {
+      33 |       expect.soft(rows.nav, `${label} navigation on the second row`).toBeGreaterThan(rows.switcher + 30);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:30:75)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-header-check.spec.ts:54:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f06-header-c-9512f-of-the-Owner-at-every-width-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-zz-f06-header-c-9512f-of-the-Owner-at-every-width-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f06-header-c-9512f-of-the-Owner-at-every-width-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-zz-f06-header-c-9512f-of-the-Owner-at-every-width-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › acceptance/zz-f06-header-check.spec.ts:45:1 › F-06 header of the Owner at every width 
