@@ -83,7 +83,10 @@
     "merge": {
       "choiceRequired": "Izberite vrednost za {{key}}.",
       "tooManyAttributes": "Skupaj imata ta kontakta več kot 50 atributov; najprej jih nekaj odstranite.",
-      "notPossible": "Teh kontaktov ni mogoče združiti."
+      "notPossible": "Teh kontaktov ni mogoče združiti.",
+      "alreadyUndone": "Ta združitev je že razveljavljena.",
+      "changedAfter": "Kontakt se je po združitvi spremenil. Namesto tega obnovite različice, ki jih potrebujete.",
+      "restoreFirst": "Najprej obnovite kontakt iz koša."
     }
   },
   "account": {
@@ -342,7 +345,11 @@
     "empty": "(prazno)",
     "confirm": "Združi",
     "cancel": "Prekliči",
-    "mergedFrom": "Združeno iz"
+    "mergedFrom": "Združeno iz",
+    "undo": {
+      "action": "Razveljavi združitev",
+      "title": "Želite razveljaviti združitev?"
+    }
   },
   "deletedGroups": {
     "title": "Izbrisane skupine",

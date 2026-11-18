@@ -83,7 +83,10 @@
     "merge": {
       "choiceRequired": "Choose a value for {{key}}.",
       "tooManyAttributes": "Together these Contacts have more than 50 Attributes; remove some first.",
-      "notPossible": "These Contacts cannot be merged."
+      "notPossible": "These Contacts cannot be merged.",
+      "alreadyUndone": "This Merge was already undone.",
+      "changedAfter": "The Contact changed after the Merge. Restore the Versions you need instead.",
+      "restoreFirst": "Restore the Contact from the recycle bin first."
     }
   },
   "account": {
@@ -340,7 +343,11 @@
     "empty": "(empty)",
     "confirm": "Merge",
     "cancel": "Cancel",
-    "mergedFrom": "Merged from"
+    "mergedFrom": "Merged from",
+    "undo": {
+      "action": "Undo merge",
+      "title": "Undo merge?"
+    }
   },
   "deletedGroups": {
     "title": "Deleted Groups",

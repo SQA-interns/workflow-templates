@@ -50,3 +50,31 @@ export function useMerge(groupId: string) {
     },
   });
 }
+
+/** The Merge to undo and the Primary contact's Version number read (BR-06). */
+export interface UndoMergeRequest {
+  mergeId: string;
+  otherId: string;
+  versionNumber: number;
+}
+
+/**
+ * Undoes a Merge into the Primary contact (R-019-01); afterwards the lists, the Possible duplicates
+ * and both Contacts are read again, after a refusal the Primary contact (R-019-02, R-019-03).
+ */
+export function useUndoMerge(groupId: string, primaryId: string) {
+  const queryClient = useQueryClient();
+  const contacts = ["groups", groupId, "contacts"];
+  return useMutation({
+    mutationFn: ({ mergeId, versionNumber }: UndoMergeRequest) =>
+      apiRequest<unknown>("POST", `/groups/${groupId}/merges/${mergeId}/undo`, { versionNumber }),
+    onSuccess: async (_merge, request) => {
+      await queryClient.invalidateQueries({ queryKey: [...contacts, "list"] });
+      await queryClient.invalidateQueries({ queryKey: [...contacts, primaryId] });
+      await queryClient.invalidateQueries({ queryKey: [...contacts, request.otherId] });
+      await queryClient.invalidateQueries({ queryKey: ["groups", groupId, "duplicates"] });
+    },
+    onError: () =>
+      queryClient.invalidateQueries({ queryKey: [...contacts, primaryId], exact: true }),
+  });
+}

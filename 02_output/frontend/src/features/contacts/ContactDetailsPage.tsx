@@ -12,10 +12,12 @@ import { GroupsPending } from "../groups/GroupsPending";
 import { AttributesSection, FieldsSection, TagsSection } from "./ContactContent";
 import { contactName } from "./contactFields";
 import { MoveToRecycleBin } from "./MoveToRecycleBin";
+import { UndoMerge } from "./UndoMerge";
 
 /**
  * WF-07 Contact details (R-014-06): Fields, Attributes, Tags, Edit, the way to the History,
- * Move to recycle bin (US-012) and "Merged from" each Contact merged into it (R-018-05).
+ * Move to recycle bin (US-012) and "Merged from" each Contact merged into it (R-018-05), with Undo
+ * merge for the Owner and Editors (R-019-01, BR-03).
  */
 export function ContactDetailsPage() {
   const { t } = useTranslation();
@@ -52,15 +54,21 @@ export function ContactDetailsPage() {
       {contact.data.mergedFrom
         .filter((merge) => !merge.undone)
         .map((merge) => (
-          <p key={merge.mergeId} className="border-l-4 border-text pl-2">
-            {t("merge.mergedFrom")}{" "}
-            <Link
-              to={`${path}/${merge.contact.id}/history`}
-              className="inline-flex min-h-11 items-center underline"
-            >
-              {merge.contact.name}
-            </Link>
-          </p>
+          <div
+            key={merge.mergeId}
+            className="flex flex-wrap items-center gap-x-2 gap-y-1 border-l-4 border-text pl-2"
+          >
+            <p>
+              {t("merge.mergedFrom")}{" "}
+              <Link
+                to={`${path}/${merge.contact.id}/history`}
+                className="inline-flex min-h-11 items-center underline"
+              >
+                {merge.contact.name}
+              </Link>
+            </p>
+            {canEdit && <UndoMerge groupId={groupId} contact={contact.data} merge={merge} />}
+          </div>
         ))}
       <div className="grid gap-4 md:grid-cols-2">
         <FieldsSection fields={contact.data.fields} />

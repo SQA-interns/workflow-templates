@@ -212,4 +212,60 @@ describe("WF-07 Contact details (R-014-06)", () => {
     expect(screen.getByText(/Merged from/)).toBeTruthy();
     expect(screen.queryByRole("link", { name: "Jani Novak" })).toBeNull();
   });
+
+  describe("US-019 Undo merge", () => {
+    const MERGED = {
+      ...JANEZ,
+      versionNumber: 4,
+      mergedFrom: [{ mergeId: "m1", contact: { id: "c2", name: "J. Novak" }, undone: false }],
+    };
+
+    it("R-019-01 Undo merge, confirmed, undoes the Merge with the Version read", async () => {
+      answer(MERGED);
+      renderPage();
+      await userEvent.click(await screen.findByRole("button", { name: "Undo merge" }));
+      const dialog = screen.getByRole("alertdialog", { name: "Undo merge?" });
+
+      await userEvent.click(within(dialog).getByRole("button", { name: "Undo merge" }));
+
+      expect(apiRequest).toHaveBeenCalledWith("POST", "/groups/g1/merges/m1/undo", {
+        versionNumber: 4,
+      });
+      await vi.waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+    });
+
+    it("EX-019-03 Cancel closes the confirmation and undoes nothing", async () => {
+      answer(MERGED);
+      renderPage();
+      await userEvent.click(await screen.findByRole("button", { name: "Undo merge" }));
+
+      await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+      expect(screen.queryByRole("alertdialog")).toBeNull();
+      expect(apiRequest).not.toHaveBeenCalledWith("POST", expect.anything(), expect.anything());
+    });
+
+    it("R-019-02 a refused undo shows its message in the confirmation", async () => {
+      answer(MERGED);
+      renderPage();
+      await userEvent.click(await screen.findByRole("button", { name: "Undo merge" }));
+      vi.mocked(apiRequest).mockRejectedValueOnce(
+        new ApiError(409, { code: "merge.changedAfter" }),
+      );
+
+      const dialog = screen.getByRole("alertdialog");
+      await userEvent.click(within(dialog).getByRole("button", { name: "Undo merge" }));
+
+      expect((await within(dialog).findByRole("alert")).textContent).toBe(
+        "The Contact changed after the Merge. Restore the Versions you need instead.",
+      );
+    });
+
+    it("BR-03 a Viewer gets no Undo merge", async () => {
+      answer(MERGED, "VIEWER");
+      renderPage();
+      await screen.findByRole("link", { name: "J. Novak" });
+      expect(screen.queryByRole("button", { name: "Undo merge" })).toBeNull();
+    });
+  });
 });
