@@ -62,10 +62,14 @@ public class ContactQueryRepository {
   /** Only the Checked contacts among the list (R-016-02). */
   private static final String CHECKED = "AND id IN (:contactIds) ";
 
-  /** Every one of the Tags (R-015-01); the ids are distinct, so the count says "all". */
+  /**
+   * Every one of the Tags (R-015-01); the ids are distinct, so the count says "all". Counted per
+   * Contact, so that a generic plan of the prepared statement cannot join the Group's Contacts with
+   * the Tag rows pair by pair (NFR-03, D-82).
+   */
   private static final String HAS_TAGS =
-      "AND id IN (SELECT contact_id FROM contact_tag WHERE group_id = :groupId"
-          + " AND tag_id IN (:hasTagIds) GROUP BY contact_id HAVING count(*) = :hasTagCount) ";
+      "AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id"
+          + " AND ct.tag_id IN (:hasTagIds)) = :hasTagCount ";
 
   /** None of the Tags (R-015-02). */
   private static final String WITHOUT_TAGS =
