@@ -2,6 +2,7 @@ package app.contacts.web;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.auth.CurrentUser;
@@ -37,5 +38,15 @@ class MeControllerTest {
     MeResponse me = controller.update(ana, new MeUpdate("en"));
 
     assertThat(me).isEqualTo(new MeResponse(ID, "ana.kovac@example.si", "Ana Kovač", "en", true));
+  }
+
+  @Test
+  void r02101DeleteMeDeletesTheAccountWithTheTypedEmail() {
+    CurrentUser marko =
+        new CurrentUser(new UserView(ID, "marko.kranjc@gmail.com", "Marko Kranjc", "sl"), true);
+
+    controller.delete(marko, new AccountDeletion("marko.kranjc@gmail.com"));
+
+    verify(users).deleteAccount(ID, "marko.kranjc@gmail.com");
   }
 }
