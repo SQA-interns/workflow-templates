@@ -1,0 +1,28 @@
+
+Running 9 tests using 1 worker
+
+
+  ✓  1 [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. (2.0s)
+
+  ✓  2 [chromium] › acceptance/us001-sign-in.spec.ts:53:1 › AC-001-02 Sign in with Google: signed in, GET /me has the Google e-mail (2.7s)
+
+  ✓  3 [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 (733ms)
+
+  ✓  4 [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token (1.2s)
+
+  ✓  5 [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in (983ms)
+
+  ✓  6 [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account (865ms)
+
+  ✓  7 [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user (3.0s)
+
+  ✓  8 [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. (1.5s)
+
+  ✓  9 [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled (1.4s)
+
+  9 passed (15.5s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
