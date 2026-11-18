@@ -1,0 +1,63 @@
+
+Running 3 tests using 1 worker
+
+[1A[2K[1/3] [chromium] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+[1A[2K[chromium] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+
+
+[1A[2Kaxe confirm-merged: none
+
+[1A[2K[2/3] [firefox] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+[1A[2K[firefox] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+
+
+[1A[2K  1) [firefox] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/firefox-1495/firefox/firefox
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f01-screens--6d16a-n-names-the-merged-Contacts-firefox/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-zz-f01-screens--6d16a-n-names-the-merged-Contacts-firefox/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[3/3] [webkit] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+[1A[2K[webkit] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts
+
+
+[1A[2K  2) [webkit] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts 
+
+    Error: browserType.launch: Executable doesn't exist at /home/tjan-kazar/.cache/ms-playwright/webkit-2215/pw_run.sh
+    ╔═════════════════════════════════════════════════════════════════════════╗
+    ║ Looks like Playwright Test or Playwright was just installed or updated. ║
+    ║ Please run the following command to download new browsers:              ║
+    ║                                                                         ║
+    ║     npx playwright install                                              ║
+    ║                                                                         ║
+    ║ <3 Playwright Team                                                      ║
+    ╚═════════════════════════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f01-screens--6d16a-n-names-the-merged-Contacts-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-zz-f01-screens--6d16a-n-names-the-merged-Contacts-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K  2 failed
+    [firefox] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts 
+    [webkit] › acceptance/zz-f01-screens.spec.ts:32:1 › F-01 confirmation names the merged Contacts 
+  1 passed (8.4s)

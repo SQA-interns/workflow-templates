@@ -1,0 +1,56 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { api, createContact, getContact, moveContactToRecycleBin, resetStack, signIn, team } from "./support/stack";
+
+// Throwaway check of the WF-11 permanent-delete confirmation for F-01 (build-ui steps 4 and 5); not committed.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, name: string) {
+  const dir = "../logs/screens/WF-11_recycle-bin/permanent-delete";
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `${dir}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+}
+
+async function merge(t: Awaited<ReturnType<typeof team>>, primaryId: string, otherId: string) {
+  const p = await getContact(t.ana, t.groupId, primaryId);
+  const o = await getContact(t.ana, t.groupId, otherId);
+  const a = await api(t.ana, "POST", `/groups/${t.groupId}/merges`, {
+    primaryId, otherId, primaryVersionNumber: p.versionNumber, otherVersionNumber: o.versionNumber,
+  });
+  expect(a.status, JSON.stringify(a.json)).toBe(201);
+}
+
+test("F-01 confirmation names the merged Contacts", async ({ page }) => {
+  const t = await team();
+  const janez = await createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "Novak" } });
+  const jn = await createContact(t.ana, t.groupId, { fields: { firstName: "J.", lastName: "Novak" } });
+  const nj = await createContact(t.ana, t.groupId, { fields: { firstName: "Janez", lastName: "N." } });
+  const deep = await createContact(t.ana, t.groupId, { fields: { firstName: "Novak", lastName: "Janez" } });
+  await merge(t, nj, deep);
+  await merge(t, janez, jn);
+  await merge(t, janez, nj);
+  await moveContactToRecycleBin(t.ana, t.groupId, janez);
+  await signIn(page, t.ana);
+
+  await page.goto(`/groups/${t.groupId}/recycle-bin`);
+  await page.getByRole("button", { name: "Delete permanently" }).first().click();
+  const dialog = page.getByRole("alertdialog");
+  await expect(dialog.getByText("Also deleted: the Contacts merged into it: J. Novak, Janez N., Novak Janez.")).toBeVisible();
+  await expect(dialog.getByRole("button", { name: "Delete permanently" })).toBeEnabled();
+  await shot(page, "confirm-merged");
+
+  await dialog.getByRole("button", { name: "Delete permanently" }).click();
+  await expect(page.getByText("The recycle bin is empty.")).toBeVisible();
+  for (const id of [janez, jn, nj, deep]) {
+    expect((await api(t.ana, "GET", `/groups/${t.groupId}/contacts/${id}`)).status).toBe(404);
+  }
+});

@@ -1,0 +1,418 @@
+ Image contacts-frontend:local Building 
+ Image contacts-postgres:16.15 Building 
+ Image contacts-firebase-emulator:14.20.0 Building 
+ Image contacts-backend:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.35kB done
+#1 DONE 0.0s
+
+#2 [firebase-emulator internal] load build definition from Dockerfile
+#2 transferring dockerfile: 436B done
+#2 DONE 0.0s
+
+#3 [backend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 707B done
+#3 DONE 0.0s
+
+#4 [postgres internal] load build definition from Dockerfile
+#4 transferring dockerfile: 216B done
+#4 DONE 0.0s
+
+#5 [frontend internal] load build definition from Dockerfile
+#5 transferring dockerfile: 581B done
+#5 DONE 0.0s
+
+#6 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#6 ...
+
+#7 [firebase-emulator internal] load metadata for docker.io/library/node:22.23.3-bookworm-slim
+#7 DONE 0.2s
+
+#8 [postgres internal] load metadata for docker.io/library/postgres:16.15
+#8 DONE 0.2s
+
+#9 [firebase-emulator internal] load .dockerignore
+#9 transferring context: 2B done
+#9 DONE 0.0s
+
+#10 [postgres internal] load .dockerignore
+#10 transferring context: 2B done
+#10 DONE 0.0s
+
+#11 [firebase-emulator internal] load build context
+#11 transferring context: 35B done
+#11 DONE 0.0s
+
+#12 [firebase-emulator 1/4] FROM docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9
+#12 resolve docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9 0.0s done
+#12 DONE 0.0s
+
+#13 [firebase-emulator 2/4] RUN npm install -g firebase-tools@14.20.0 --no-audit --no-fund && npm cache clean --force
+#13 CACHED
+
+#14 [firebase-emulator 3/4] WORKDIR /emulator
+#14 CACHED
+
+#15 [firebase-emulator 4/4] COPY --chown=node:node firebase.json /emulator/firebase.json
+#15 CACHED
+
+#16 [postgres 1/2] FROM docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657
+#16 resolve docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657 0.0s done
+#16 DONE 0.0s
+
+#17 [postgres 2/2] RUN apt-get update && apt-get -y upgrade && rm -rf /var/lib/apt/lists/*
+#17 CACHED
+
+#18 [firebase-emulator] exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:393219a8d7110ba38645b8a0abc9a769fc4a2c6d1adf64c843fb35bdd5b1d373 done
+#18 exporting config sha256:46dd6f8c8c4fe23e1ffdff04fc8c8a0778f30cb560623840e85efd975581099b done
+#18 exporting attestation manifest sha256:a342b5fa81af2c4366e2ba0ca991b4dea035623b692af863a6f9978ea4bd4a9a 0.1s done
+#18 exporting manifest list sha256:b8dbb46bc72b02f09db62172415581f21476d5e44478e762d542314bd7f3f305
+#18 exporting manifest list sha256:b8dbb46bc72b02f09db62172415581f21476d5e44478e762d542314bd7f3f305 0.0s done
+#18 naming to docker.io/library/contacts-firebase-emulator:14.20.0 0.0s done
+#18 unpacking to docker.io/library/contacts-firebase-emulator:14.20.0 0.0s done
+#18 DONE 0.2s
+
+#19 [postgres] exporting to image
+#19 exporting layers done
+#19 exporting manifest sha256:869b24d030d24d36064c09b8fbf26905be6fc7009232e183a5f89751f6291733 done
+#19 exporting config sha256:06c65d3c8022fb019b6292f657a455b64d2b172d550e107524fe59dd7d5e6ce5 done
+#19 exporting attestation manifest sha256:b697d44852e92a013cdaa8b8f9d06911909988f1c0f9967c1fe2e0ce3353be03 0.1s done
+#19 exporting manifest list sha256:2d6f1bb8cb4fa10f27fcc361e8d8f0fdaaaba9e7a46581d96202331a0455f87a 0.0s done
+#19 naming to docker.io/library/contacts-postgres:16.15 done
+#19 unpacking to docker.io/library/contacts-postgres:16.15 0.0s done
+#19 DONE 0.2s
+
+#20 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#20 ...
+
+#21 [auth] library/nginx:pull token for registry-1.docker.io
+#21 DONE 0.0s
+
+#22 [auth] library/eclipse-temurin:pull token for registry-1.docker.io
+#22 DONE 0.0s
+
+#23 [firebase-emulator] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [postgres] resolving provenance for metadata file
+#24 DONE 0.0s
+
+#20 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#20 ...
+
+#6 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#6 DONE 1.2s
+
+#25 [frontend internal] load .dockerignore
+#25 transferring context: 118B done
+#25 DONE 0.0s
+
+#26 [frontend internal] load build context
+#26 transferring context: 705.74kB 0.0s done
+#26 DONE 0.0s
+
+#27 [frontend 1/5] FROM docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+#27 resolve docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a 0.0s done
+#27 DONE 0.0s
+
+#28 [frontend 2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#28 CACHED
+
+#29 [frontend 3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#29 DONE 0.1s
+
+#20 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#20 DONE 1.5s
+
+#30 [frontend 4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#30 DONE 0.1s
+
+#31 [backend internal] load .dockerignore
+#31 transferring context: 87B done
+#31 DONE 0.1s
+
+#32 [frontend 5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#32 DONE 0.2s
+
+#33 [backend internal] load build context
+#33 transferring context: 77B done
+#33 DONE 0.0s
+
+#34 [backend 1/4] FROM docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6
+#34 resolve docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6 0.0s done
+#34 DONE 0.1s
+
+#35 [backend 3/4] WORKDIR /app
+#35 CACHED
+
+#36 [backend 2/4] RUN groupadd --system app && useradd --system --gid app --no-create-home app
+#36 CACHED
+
+#37 [backend 4/4] COPY target/contacts-backend.jar /app/app.jar
+#37 CACHED
+
+#38 [backend] exporting to image
+#38 exporting layers done
+#38 exporting manifest sha256:4658d30733fc4355f1b7543d548088b1098cc54adcc32df3f62a65d6bb7b389b done
+#38 exporting config sha256:6bc2cfc34f078bd5d2a5e34bd1a3724042711b65d5b3c9304d63623142ce0d1a done
+#38 exporting attestation manifest sha256:d2357e8571b6d425ef49d4519021fb7b9d69be33f3161f1bd9f765d957329742
+#38 exporting attestation manifest sha256:d2357e8571b6d425ef49d4519021fb7b9d69be33f3161f1bd9f765d957329742 0.1s done
+#38 exporting manifest list sha256:f71608f3fe648bbca5ffef0ded45ea272791837ab1942d48ec4ffc74155d1819
+#38 exporting manifest list sha256:f71608f3fe648bbca5ffef0ded45ea272791837ab1942d48ec4ffc74155d1819 0.0s done
+#38 naming to docker.io/library/contacts-backend:local 0.0s done
+#38 unpacking to docker.io/library/contacts-backend:local 0.0s done
+#38 DONE 0.3s
+
+#39 [frontend] exporting to image
+#39 exporting layers 0.3s done
+#39 exporting manifest sha256:f6773c14bf849ae5ed0004e7b0957d4567593010f4f04d5f72c30311924fbb88 0.0s done
+#39 exporting config sha256:d0230cd6ba9c69e2071f5c641f727c106d8ad3b8e043f06104903bdda4512f78 0.0s done
+#39 exporting attestation manifest sha256:34ec0972f99635a3411136ad57027b0a6ccb1d9bc804941103ede3ee96ac3980
+#39 ...
+
+#40 [backend] resolving provenance for metadata file
+#40 DONE 0.0s
+
+#39 [frontend] exporting to image
+#39 exporting attestation manifest sha256:34ec0972f99635a3411136ad57027b0a6ccb1d9bc804941103ede3ee96ac3980 0.0s done
+#39 exporting manifest list sha256:407a029fea984278cbfeea2f5bc677b1127a1d9cdbaf78dd62d8794f69e16ada 0.0s done
+#39 naming to docker.io/library/contacts-frontend:local done
+#39 unpacking to docker.io/library/contacts-frontend:local 0.1s done
+#39 DONE 0.7s
+
+#41 [frontend] resolving provenance for metadata file
+#41 DONE 0.0s
+ Image contacts-postgres:16.15 Built 
+ Image contacts-firebase-emulator:14.20.0 Built 
+ Image contacts-backend:local Built 
+ Image contacts-frontend:local Built 
+ Container kontakti-firebase-emulator-1 Recreate 
+ Container kontakti-postgres-1 Recreate 
+ Container kontakti-firebase-emulator-1 Recreated 
+ Container kontakti-postgres-1 Recreated 
+ Container kontakti-backend-1 Recreate 
+ Container kontakti-backend-1 Recreated 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-postgres-1 Starting 
+ Container kontakti-firebase-emulator-1 Starting 
+ Container kontakti-postgres-1 Started 
+ Container kontakti-firebase-emulator-1 Started 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-backend-1 Starting 
+ Container kontakti-backend-1 Started 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-frontend-1 Starting 
+Error response from daemon: ports are not available: exposing port TCP 127.0.0.1:8080 -> 127.0.0.1:0: listen tcp4 127.0.0.1:8080: bind: address already in use
+ Image contacts-postgres:16.15 Building 
+ Image contacts-firebase-emulator:14.20.0 Building 
+ Image contacts-backend:local Building 
+ Image contacts-frontend:local Building 
+#1 [internal] load local bake definitions
+#1 reading from stdin 2.35kB done
+#1 DONE 0.0s
+
+#2 [postgres internal] load build definition from Dockerfile
+#2 transferring dockerfile: 216B done
+#2 DONE 0.0s
+
+#3 [backend internal] load build definition from Dockerfile
+#3 transferring dockerfile: 707B done
+#3 DONE 0.0s
+
+#4 [frontend internal] load build definition from Dockerfile
+#4 transferring dockerfile: 581B done
+#4 DONE 0.0s
+
+#5 [firebase-emulator internal] load build definition from Dockerfile
+#5 transferring dockerfile: 436B done
+#5 DONE 0.0s
+
+#6 [postgres internal] load metadata for docker.io/library/postgres:16.15
+#6 DONE 0.0s
+
+#7 [postgres internal] load .dockerignore
+#7 transferring context: 2B done
+#7 DONE 0.0s
+
+#8 [firebase-emulator internal] load metadata for docker.io/library/node:22.23.3-bookworm-slim
+#8 DONE 0.0s
+
+#9 [firebase-emulator internal] load .dockerignore
+#9 transferring context: 2B done
+#9 DONE 0.0s
+
+#10 [postgres 1/2] FROM docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657
+#10 resolve docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657
+#10 resolve docker.io/library/postgres:16.15@sha256:f9a7b9ebf6f56201f949db745e47bc423c0f0f8294bafe991cc10bf74b029657 0.0s done
+#10 DONE 0.0s
+
+#11 [firebase-emulator internal] load build context
+#11 transferring context: 35B done
+#11 DONE 0.0s
+
+#12 [postgres 2/2] RUN apt-get update && apt-get -y upgrade && rm -rf /var/lib/apt/lists/*
+#12 CACHED
+
+#13 [firebase-emulator 1/4] FROM docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9
+#13 resolve docker.io/library/node:22.23.3-bookworm-slim@sha256:3ed98443660ff48413b5af19ecefce3b9d50845a901a43420d47cc63a9fddbe9 0.0s done
+#13 DONE 0.0s
+
+#14 [firebase-emulator 2/4] RUN npm install -g firebase-tools@14.20.0 --no-audit --no-fund && npm cache clean --force
+#14 CACHED
+
+#15 [firebase-emulator 3/4] WORKDIR /emulator
+#15 CACHED
+
+#16 [firebase-emulator 4/4] COPY --chown=node:node firebase.json /emulator/firebase.json
+#16 CACHED
+
+#17 [postgres] exporting to image
+#17 exporting layers done
+#17 exporting manifest sha256:869b24d030d24d36064c09b8fbf26905be6fc7009232e183a5f89751f6291733 done
+#17 exporting config sha256:06c65d3c8022fb019b6292f657a455b64d2b172d550e107524fe59dd7d5e6ce5 done
+#17 exporting attestation manifest sha256:0d8ee27a30b9a444ee0d73d98a9c725bf240432d6566b3f83e183b530ff836be 0.1s done
+#17 exporting manifest list sha256:461528fb78de3df50545090eed8e127bb5876b1c6290811fc1a794c34ce477f5
+#17 ...
+
+#18 [firebase-emulator] exporting to image
+#18 exporting layers done
+#18 exporting manifest sha256:393219a8d7110ba38645b8a0abc9a769fc4a2c6d1adf64c843fb35bdd5b1d373 done
+#18 exporting config sha256:46dd6f8c8c4fe23e1ffdff04fc8c8a0778f30cb560623840e85efd975581099b done
+#18 exporting attestation manifest sha256:6997e077922535da0b84cb31c9be9e18bad5066b56e1a85aed5bd8570fe2ce39 0.1s done
+#18 exporting manifest list sha256:2e147777f3df74ea1d30293d44bf3f12b677034dda309b57d34e95e5a86c1731 0.0s done
+#18 naming to docker.io/library/contacts-firebase-emulator:14.20.0 done
+#18 unpacking to docker.io/library/contacts-firebase-emulator:14.20.0 done
+#18 DONE 0.2s
+
+#17 [postgres] exporting to image
+#17 exporting manifest list sha256:461528fb78de3df50545090eed8e127bb5876b1c6290811fc1a794c34ce477f5 0.0s done
+#17 naming to docker.io/library/contacts-postgres:16.15 0.0s done
+#17 unpacking to docker.io/library/contacts-postgres:16.15 0.0s done
+#17 DONE 0.2s
+
+#19 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#19 ...
+
+#20 [backend internal] load metadata for docker.io/library/eclipse-temurin:21.0.13_9-jre
+#20 DONE 0.5s
+
+#19 [frontend internal] load metadata for docker.io/library/nginx:1.30.6-alpine
+#19 DONE 0.5s
+
+#21 [backend internal] load .dockerignore
+#21 transferring context: 87B done
+#21 DONE 0.0s
+
+#22 [firebase-emulator] resolving provenance for metadata file
+#22 DONE 0.0s
+
+#23 [postgres] resolving provenance for metadata file
+#23 DONE 0.0s
+
+#24 [frontend internal] load .dockerignore
+#24 transferring context: 118B done
+#24 DONE 0.0s
+
+#25 [backend internal] load build context
+#25 transferring context: 77B done
+#25 DONE 0.0s
+
+#26 [backend 1/4] FROM docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6
+#26 resolve docker.io/library/eclipse-temurin:21.0.13_9-jre@sha256:ca73b4d3961703d6d7830a4361f49ef0478f8f28b39defc07bb72f4cc7f834f6 0.0s done
+#26 DONE 0.0s
+
+#27 [backend 2/4] RUN groupadd --system app && useradd --system --gid app --no-create-home app
+#27 CACHED
+
+#28 [backend 3/4] WORKDIR /app
+#28 CACHED
+
+#29 [backend 4/4] COPY target/contacts-backend.jar /app/app.jar
+#29 CACHED
+
+#30 [backend] exporting to image
+#30 ...
+
+#31 [frontend internal] load build context
+#31 transferring context: 333B done
+#31 DONE 0.0s
+
+#32 [frontend 1/5] FROM docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a
+#32 resolve docker.io/library/nginx:1.30.6-alpine@sha256:901e593c95dc85f5a729f5765516321366ef4ac401821431d408897e95287d0a 0.0s done
+#32 DONE 0.1s
+
+#33 [frontend 3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#33 CACHED
+
+#34 [frontend 4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#34 CACHED
+
+#35 [frontend 2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#35 CACHED
+
+#36 [frontend 5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#36 CACHED
+
+#30 [backend] exporting to image
+#30 exporting layers done
+#30 exporting manifest sha256:4658d30733fc4355f1b7543d548088b1098cc54adcc32df3f62a65d6bb7b389b done
+#30 exporting config sha256:6bc2cfc34f078bd5d2a5e34bd1a3724042711b65d5b3c9304d63623142ce0d1a done
+#30 exporting attestation manifest sha256:e9270a1498248f8672acb39f90140c93ca9b6298185aaaa381ee4f2eedaa6dea
+#30 exporting attestation manifest sha256:e9270a1498248f8672acb39f90140c93ca9b6298185aaaa381ee4f2eedaa6dea 0.1s done
+#30 exporting manifest list sha256:4eac93bf3e8d38ec6d6251e243c5807915a36e169e18401f88e7c54bc4dfd58d 0.0s done
+#30 naming to docker.io/library/contacts-backend:local 0.0s done
+#30 unpacking to docker.io/library/contacts-backend:local 0.0s done
+#30 DONE 0.2s
+
+#37 [frontend] exporting to image
+#37 exporting layers done
+#37 exporting manifest sha256:f6773c14bf849ae5ed0004e7b0957d4567593010f4f04d5f72c30311924fbb88 done
+#37 exporting config sha256:d0230cd6ba9c69e2071f5c641f727c106d8ad3b8e043f06104903bdda4512f78 0.0s done
+#37 exporting attestation manifest sha256:461cae20aebf1a864dd120eb3414596ed5540cabe3f784deeef29225579c04e3 0.1s done
+#37 exporting manifest list sha256:3e471279b3932386dc3f0ee6cba364f4d4a3a919593259070a2dd3bf28fafdc6 0.0s done
+#37 naming to docker.io/library/contacts-frontend:local done
+#37 unpacking to docker.io/library/contacts-frontend:local 0.0s done
+#37 DONE 0.2s
+
+#38 [backend] resolving provenance for metadata file
+#38 DONE 0.0s
+
+#39 [frontend] resolving provenance for metadata file
+#39 DONE 0.0s
+ Image contacts-firebase-emulator:14.20.0 Built 
+ Image contacts-postgres:16.15 Built 
+ Image contacts-backend:local Built 
+ Image contacts-frontend:local Built 
+ Container kontakti-postgres-1 Recreate 
+ Container kontakti-firebase-emulator-1 Recreate 
+ Container kontakti-firebase-emulator-1 Recreated 
+ Container kontakti-postgres-1 Recreated 
+ Container kontakti-backend-1 Recreate 
+ Container kontakti-backend-1 Recreated 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-postgres-1 Starting 
+ Container kontakti-firebase-emulator-1 Starting 
+ Container kontakti-firebase-emulator-1 Started 
+ Container kontakti-postgres-1 Started 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-backend-1 Starting 
+ Container kontakti-backend-1 Started 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-frontend-1 Starting 
+ Container kontakti-frontend-1 Started 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-frontend-1 Waiting 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-firebase-emulator-1 Waiting 
+ Container kontakti-firebase-emulator-1 Healthy 
+ Container kontakti-frontend-1 Healthy 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-backend-1 Healthy 

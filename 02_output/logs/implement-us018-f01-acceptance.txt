@@ -1,0 +1,28 @@
+
+Running 6 tests using 1 worker
+
+[1A[2K[1/6] [chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found
+[1A[2K[chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found
+
+
+[1A[2K[2/6] [chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing
+[1A[2K[chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing
+
+
+[1A[2K[3/6] [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected
+[1A[2K[chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected
+
+
+[1A[2K[4/6] [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak
+[1A[2K[chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak
+
+
+[1A[2K[5/6] [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca.
+[1A[2K[chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca.
+
+
+[1A[2K[6/6] [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing
+[1A[2K[chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing
+
+
+[1A[2K  6 passed (9.9s)
