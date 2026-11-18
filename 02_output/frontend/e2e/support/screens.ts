@@ -107,10 +107,11 @@ async function ready(page: Page): Promise<void> {
 
 // The screens are shared out among the Members by Role, so that no one exceeds the rate limit of
 // 100 requests a minute (SR-03) during a run: Owner-only screens as Ana, changes as Marko (Editor),
-// reading as Petra (Viewer).
+// reading as Petra (Viewer), and the screens without Group data as the newcomer.
 const ana = (fx: Fixture) => fx.team.ana;
 const marko = (fx: Fixture) => fx.team.marko;
 const petra = (fx: Fixture) => fx.team.petra;
+const newcomer = (fx: Fixture) => fx.newcomer;
 const group = (fx: Fixture) => `/groups/${fx.team.groupId}`;
 const janez = (fx: Fixture) => `${group(fx)}/contacts/${fx.janez}`;
 
@@ -156,10 +157,7 @@ export const SCREENS: Screen[] = [
     id: "WF-05",
     name: "no-groups",
     signedIn: true,
-    open: as(
-      (fx) => fx.newcomer,
-      () => "/",
-    ),
+    open: as(newcomer, () => "/"),
   },
   {
     id: "WF-06",
@@ -214,10 +212,7 @@ export const SCREENS: Screen[] = [
     id: "WF-16",
     name: "invitation",
     signedIn: true,
-    open: as(
-      (fx) => fx.newcomer,
-      (fx) => `/invitations/${fx.invitationToken}`,
-    ),
+    open: as(newcomer, (fx) => `/invitations/${fx.invitationToken}`),
   },
   {
     id: "WF-17",
@@ -231,12 +226,12 @@ export const SCREENS: Screen[] = [
     signedIn: true,
     open: as(marko, (fx) => `${group(fx)}/merge?first=${fx.janez}&second=${fx.jNovak}`),
   },
-  { id: "WF-19", name: "account", signedIn: true, open: as(petra, () => "/account") },
+  { id: "WF-19", name: "account", signedIn: true, open: as(newcomer, () => "/account") },
   {
     id: "WF-20",
     name: "not-found",
     signedIn: true,
-    open: as(petra, () => "/no-such-page"),
+    open: as(newcomer, () => "/no-such-page"),
   },
 ];
 
