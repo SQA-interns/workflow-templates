@@ -101,14 +101,16 @@ public class ContactController {
    * @param current the signed-in User
    * @param groupId the Group
    * @param email the e-mail entered
+   * @param excludeContactId the Contact being edited, if any
    * @return the matching Contacts
    */
   @GetMapping("/email-matches")
   public List<ContactRefResponse> emailMatches(
       @AuthenticationPrincipal CurrentUser current,
       @PathVariable UUID groupId,
-      @RequestParam String email) {
-    return contacts.findByEmail(groupId, current.id(), email).stream()
+      @RequestParam String email,
+      @RequestParam(required = false) UUID excludeContactId) {
+    return contacts.findByEmail(groupId, current.id(), email, excludeContactId).stream()
         .map(match -> new ContactRefResponse(match.id(), match.name()))
         .toList();
   }

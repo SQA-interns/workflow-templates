@@ -89,11 +89,21 @@ class ContactControllerTest {
 
   @Test
   void r00606GetEmailMatchesListsTheMatchingContacts() {
-    when(contacts.findByEmail(GROUP_ID, MARKO_ID, "Janez.Novak@example.si"))
+    when(contacts.findByEmail(GROUP_ID, MARKO_ID, "Janez.Novak@example.si", null))
         .thenReturn(List.of(new ContactRefView(CONTACT_ID, "Janez Novak")));
 
-    assertThat(controller.emailMatches(MARKO, GROUP_ID, "Janez.Novak@example.si"))
+    assertThat(controller.emailMatches(MARKO, GROUP_ID, "Janez.Novak@example.si", null))
         .containsExactly(new ContactRefResponse(CONTACT_ID, "Janez Novak"));
+  }
+
+  @Test
+  void r00606GetEmailMatchesPassesTheContactBeingEdited() {
+    UUID edited = UUID.randomUUID();
+    when(contacts.findByEmail(GROUP_ID, MARKO_ID, "Janez.Novak@example.si", edited))
+        .thenReturn(List.of());
+
+    assertThat(controller.emailMatches(MARKO, GROUP_ID, "Janez.Novak@example.si", edited))
+        .isEmpty();
   }
 
   @Test

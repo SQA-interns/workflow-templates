@@ -204,7 +204,7 @@ class ContactServiceTest {
     when(contacts.findActiveByEmail(GROUP_ID, "Janez.Novak@example.si"))
         .thenReturn(List.of(janez, company, first));
 
-    assertThat(service.findByEmail(GROUP_ID, PETRA, " Janez.Novak@example.si "))
+    assertThat(service.findByEmail(GROUP_ID, PETRA, " Janez.Novak@example.si ", null))
         .containsExactly(
             new ContactRefView(janez.getId(), "Janez Novak"),
             new ContactRefView(company.getId(), "Podjetje d.o.o."),
@@ -212,10 +212,22 @@ class ContactServiceTest {
   }
 
   @Test
+  void r00606EmailMatchesLeaveOutTheContactBeingEdited() {
+    when(guard.require(GROUP_ID, MARKO, Permission.READ)).thenReturn(Role.EDITOR);
+    Contact janez = contact(Map.of("firstName", "Janez", "lastName", "Novak"));
+    Contact other = contact(Map.of("firstName", "J.", "lastName", "Novak"));
+    when(contacts.findActiveByEmail(GROUP_ID, "janez.novak@example.si"))
+        .thenReturn(List.of(janez, other));
+
+    assertThat(service.findByEmail(GROUP_ID, MARKO, "janez.novak@example.si", janez.getId()))
+        .containsExactly(new ContactRefView(other.getId(), "J. Novak"));
+  }
+
+  @Test
   void r00606BlankEmailMatchesNothing() {
     when(guard.require(GROUP_ID, PETRA, Permission.READ)).thenReturn(Role.VIEWER);
 
-    assertThat(service.findByEmail(GROUP_ID, PETRA, "  ")).isEmpty();
+    assertThat(service.findByEmail(GROUP_ID, PETRA, "  ", null)).isEmpty();
     verifyNoInteractions(contacts);
   }
 
@@ -224,7 +236,7 @@ class ContactServiceTest {
     UUID other = UUID.randomUUID();
     when(guard.require(other, PETRA, Permission.READ)).thenThrow(new NotFoundException());
 
-    assertThatThrownBy(() -> service.findByEmail(other, PETRA, "janez.novak@example.si"))
+    assertThatThrownBy(() -> service.findByEmail(other, PETRA, "janez.novak@example.si", null))
         .isInstanceOf(NotFoundException.class);
     verifyNoInteractions(contacts);
   }

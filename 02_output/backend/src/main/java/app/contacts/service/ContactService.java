@@ -130,17 +130,20 @@ public class ContactService {
    * @param groupId the Group
    * @param userId the signed-in User
    * @param email the e-mail, compared trimmed and case-insensitively (BR-11)
+   * @param excludeContactId the Contact being edited, left out of the matches; may be {@code null}
    * @return the matching Contacts, oldest first; none for a blank e-mail
    * @throws NotFoundException for a non-Member (BR-02)
    */
   @Transactional(readOnly = true)
-  public List<ContactRefView> findByEmail(UUID groupId, UUID userId, String email) {
+  public List<ContactRefView> findByEmail(
+      UUID groupId, UUID userId, String email, UUID excludeContactId) {
     guard.require(groupId, userId, Permission.READ);
     String trimmed = email == null ? "" : email.strip();
     if (trimmed.isEmpty()) {
       return List.of();
     }
     return contacts.findActiveByEmail(groupId, trimmed).stream()
+        .filter(contact -> !contact.getId().equals(excludeContactId))
         .map(contact -> new ContactRefView(contact.getId(), contact.getFields().name()))
         .toList();
   }
