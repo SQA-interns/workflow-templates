@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 class MemberControllerTest {
 
@@ -49,9 +48,10 @@ class MemberControllerTest {
 
   @Test
   void r00503RemoveAnswers204() {
-    ResponseEntity<Void> res = controller.remove(ANA, GROUP_ID, MARKO_ID);
+    controller.remove(ANA, GROUP_ID, MARKO_ID);
 
-    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    assertThat(ResponseStatuses.of(MemberController.class, "remove"))
+        .isEqualTo(HttpStatus.NO_CONTENT);
     verify(memberships).endMembership(GROUP_ID, ANA_ID, MARKO_ID);
   }
 }

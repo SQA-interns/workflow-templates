@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 class InvitationControllerTest {
 
@@ -44,11 +43,12 @@ class InvitationControllerTest {
     when(invitations.create(GROUP_ID, ANA_ID, MARKO, "EDITOR"))
         .thenReturn(new CreatedInvitation(OPEN, TOKEN));
 
-    ResponseEntity<InvitationCreatedResponse> res =
+    InvitationCreatedResponse res =
         controller.create(ANA, GROUP_ID, new InvitationRequest(MARKO, "EDITOR"));
 
-    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    assertThat(res.getBody())
+    assertThat(ResponseStatuses.of(InvitationController.class, "create"))
+        .isEqualTo(HttpStatus.CREATED);
+    assertThat(res)
         .isEqualTo(
             new InvitationCreatedResponse(
                 new InvitationResponse(INVITATION_ID, MARKO, "EDITOR", EXPIRES),
@@ -65,9 +65,10 @@ class InvitationControllerTest {
 
   @Test
   void r00409RevokeAnswers204() {
-    ResponseEntity<Void> res = controller.revoke(ANA, GROUP_ID, INVITATION_ID);
+    controller.revoke(ANA, GROUP_ID, INVITATION_ID);
 
-    assertThat(res.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    assertThat(ResponseStatuses.of(InvitationController.class, "revoke"))
+        .isEqualTo(HttpStatus.NO_CONTENT);
     verify(invitations).revoke(GROUP_ID, ANA_ID, INVITATION_ID);
   }
 

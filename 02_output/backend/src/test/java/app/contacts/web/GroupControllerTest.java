@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 class GroupControllerTest {
 
@@ -30,12 +29,10 @@ class GroupControllerTest {
     when(groups.create(ANA_ID, "Konferenca 2025"))
         .thenReturn(new GroupView(GROUP_ID, "Konferenca 2025", "OWNER"));
 
-    ResponseEntity<GroupResponse> created =
-        controller.create(ANA, new GroupNameRequest("Konferenca 2025"));
+    GroupResponse created = controller.create(ANA, new GroupNameRequest("Konferenca 2025"));
 
-    assertThat(created.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    assertThat(created.getBody())
-        .isEqualTo(new GroupResponse(GROUP_ID, "Konferenca 2025", "OWNER"));
+    assertThat(ResponseStatuses.of(GroupController.class, "create")).isEqualTo(HttpStatus.CREATED);
+    assertThat(created).isEqualTo(new GroupResponse(GROUP_ID, "Konferenca 2025", "OWNER"));
   }
 
   @Test
@@ -67,9 +64,10 @@ class GroupControllerTest {
 
   @Test
   void r00302MoveToRecycleBinAnswers204() {
-    ResponseEntity<Void> moved = controller.moveToRecycleBin(ANA, GROUP_ID);
+    controller.moveToRecycleBin(ANA, GROUP_ID);
 
-    assertThat(moved.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
+    assertThat(ResponseStatuses.of(GroupController.class, "moveToRecycleBin"))
+        .isEqualTo(HttpStatus.NO_CONTENT);
     verify(groups).moveToRecycleBin(GROUP_ID, ANA_ID);
   }
 }

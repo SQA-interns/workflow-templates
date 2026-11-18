@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 class MergeControllerTest {
 
@@ -40,12 +39,12 @@ class MergeControllerTest {
             new MergeCommand(JANEZ_ID, OTHER_ID, 3, 1, keepOtherPhone, Map.of())))
         .thenReturn(merge);
 
-    ResponseEntity<MergeView> response =
+    MergeView response =
         controller.merge(
             MARKO, GROUP_ID, new MergeRequest(JANEZ_ID, OTHER_ID, 3, 1, keepOtherPhone, Map.of()));
 
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    assertThat(response.getBody()).isEqualTo(merge);
+    assertThat(ResponseStatuses.of(MergeController.class, "merge")).isEqualTo(HttpStatus.CREATED);
+    assertThat(response).isEqualTo(merge);
   }
 
   @Test
@@ -55,10 +54,9 @@ class MergeControllerTest {
         new MergeView(mergeId, JANEZ_ID, OTHER_ID, Instant.parse("2026-03-05T09:00:00Z"), true);
     when(merges.undoMerge(GROUP_ID, MARKO_ID, mergeId, 4)).thenReturn(undone);
 
-    ResponseEntity<MergeView> response =
-        controller.undo(MARKO, GROUP_ID, mergeId, new VersionNumberRequest(4));
+    MergeView response = controller.undo(MARKO, GROUP_ID, mergeId, new VersionNumberRequest(4));
 
-    assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
-    assertThat(response.getBody()).isEqualTo(undone);
+    assertThat(ResponseStatuses.of(MergeController.class, "undo")).isEqualTo(HttpStatus.OK);
+    assertThat(response).isEqualTo(undone);
   }
 }

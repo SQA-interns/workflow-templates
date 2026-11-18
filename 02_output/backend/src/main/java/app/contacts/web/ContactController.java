@@ -8,7 +8,6 @@ import app.contacts.service.ContactService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /** Contacts of a Group ({@code /groups/{groupId}/contacts}, US-006, US-007, US-008, US-014). */
@@ -83,17 +83,16 @@ public class ContactController {
    * @param current the signed-in User
    * @param groupId the Group
    * @param body the Fields, Attributes and Tag names
-   * @return 201 with the new Contact
+   * @return the new Contact (201)
    */
   @PostMapping
-  public ResponseEntity<ContactResponse> create(
+  @ResponseStatus(HttpStatus.CREATED)
+  public ContactResponse create(
       @AuthenticationPrincipal CurrentUser current,
       @PathVariable UUID groupId,
       @RequestBody ContactWriteRequest body) {
-    ContactResponse created =
-        ContactResponse.of(
-            contacts.create(groupId, current.id(), body.fields(), body.attributes(), body.tags()));
-    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    return ContactResponse.of(
+        contacts.create(groupId, current.id(), body.fields(), body.attributes(), body.tags()));
   }
 
   /**

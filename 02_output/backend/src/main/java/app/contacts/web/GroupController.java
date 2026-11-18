@@ -5,7 +5,6 @@ import app.contacts.service.GroupService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /** Groups of the signed-in User ({@code /groups}, US-002, US-003). */
@@ -36,13 +36,13 @@ public class GroupController {
    *
    * @param current the signed-in User
    * @param body the name
-   * @return 201 with the new Group
+   * @return the new Group (201)
    */
   @PostMapping
-  public ResponseEntity<GroupResponse> create(
+  @ResponseStatus(HttpStatus.CREATED)
+  public GroupResponse create(
       @AuthenticationPrincipal CurrentUser current, @RequestBody GroupNameRequest body) {
-    GroupResponse created = GroupResponse.of(groups.create(current.id(), body.name()));
-    return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    return GroupResponse.of(groups.create(current.id(), body.name()));
   }
 
   /**
@@ -90,12 +90,11 @@ public class GroupController {
    *
    * @param current the signed-in User
    * @param groupId the Group
-   * @return 204
    */
   @PostMapping("/{groupId}/move-to-recycle-bin")
-  public ResponseEntity<Void> moveToRecycleBin(
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void moveToRecycleBin(
       @AuthenticationPrincipal CurrentUser current, @PathVariable UUID groupId) {
     groups.moveToRecycleBin(groupId, current.id());
-    return ResponseEntity.noContent().build();
   }
 }

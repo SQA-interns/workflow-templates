@@ -23,7 +23,6 @@ import java.util.SequencedMap;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
 class ContactControllerTest {
 
@@ -53,11 +52,11 @@ class ContactControllerTest {
         .thenReturn(
             new ContactView(CONTACT_ID, 1, "active", fields, List.of(), List.of(), NOW, NOW));
 
-    ResponseEntity<ContactResponse> created =
+    ContactResponse body =
         controller.create(MARKO, GROUP_ID, new ContactWriteRequest(sent, KOMPETENCA, VIP));
 
-    assertThat(created.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-    ContactResponse body = created.getBody();
+    assertThat(ResponseStatuses.of(ContactController.class, "create"))
+        .isEqualTo(HttpStatus.CREATED);
     assertThat(body.id()).isEqualTo(CONTACT_ID);
     assertThat(body.versionNumber()).isEqualTo(1);
     assertThat(body.state()).isEqualTo("active");

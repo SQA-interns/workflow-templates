@@ -7,7 +7,6 @@ import app.contacts.service.InvitationService;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 /** Invitations of a Group (Owner) and of their invitee (US-004). */
@@ -42,19 +42,18 @@ public class InvitationController {
    * @param current the signed-in User
    * @param groupId the Group
    * @param body e-mail and Role
-   * @return 201 with the Invitation and its link
+   * @return the Invitation and its link (201)
    */
   @PostMapping("/groups/{groupId}/invitations")
-  public ResponseEntity<InvitationCreatedResponse> create(
+  @ResponseStatus(HttpStatus.CREATED)
+  public InvitationCreatedResponse create(
       @AuthenticationPrincipal CurrentUser current,
       @PathVariable UUID groupId,
       @RequestBody InvitationRequest body) {
     CreatedInvitation created =
         invitations.create(groupId, current.id(), body.email(), body.role());
-    InvitationCreatedResponse response =
-        new InvitationCreatedResponse(
-            InvitationResponse.of(created.invitation()), linkBase + created.token());
-    return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    return new InvitationCreatedResponse(
+        InvitationResponse.of(created.invitation()), linkBase + created.token());
   }
 
   /**
@@ -78,15 +77,14 @@ public class InvitationController {
    * @param current the signed-in User
    * @param groupId the Group
    * @param invitationId the Invitation
-   * @return 204
    */
   @DeleteMapping("/groups/{groupId}/invitations/{invitationId}")
-  public ResponseEntity<Void> revoke(
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void revoke(
       @AuthenticationPrincipal CurrentUser current,
       @PathVariable UUID groupId,
       @PathVariable UUID invitationId) {
     invitations.revoke(groupId, current.id(), invitationId);
-    return ResponseEntity.noContent().build();
   }
 
   /**
