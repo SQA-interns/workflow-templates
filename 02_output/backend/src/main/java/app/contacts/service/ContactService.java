@@ -342,12 +342,29 @@ public class ContactService {
    * @param merged the merged content, checked
    */
   void saveMerged(Contact primary, UUID userId, ContactContent merged) {
-    List<TagView> stored = tagsOf(primary);
-    ContactContent before = contentOf(primary, stored);
-    List<Tag> wanted = tags.resolve(primary.getGroupId(), merged.tags());
-    change(primary, userId, before, merged);
-    tags.retag(primary, ids(stored), wanted);
-    versionWriter.record(primary, ContactVersion.MERGED, before, merged);
+    replaceContent(primary, userId, merged, ContactVersion.MERGED);
+  }
+
+  /**
+   * Gives the locked Primary contact the content it had before the Merge as a new Version {@code
+   * mergeUndone} (R-019-01). In the transaction of the caller, which checked the undo.
+   *
+   * @param primary the locked, active Primary contact
+   * @param userId the signed-in User
+   * @param beforeMerge the content of the Version before the Merge
+   */
+  void saveMergeUndone(Contact primary, UUID userId, ContactContent beforeMerge) {
+    replaceContent(primary, userId, beforeMerge, ContactVersion.MERGE_UNDONE);
+  }
+
+  /** Gives the locked Contact the content, its Tags included, as a new Version of the kind. */
+  private void replaceContent(Contact contact, UUID userId, ContactContent after, String kind) {
+    List<TagView> stored = tagsOf(contact);
+    ContactContent before = contentOf(contact, stored);
+    List<Tag> wanted = tags.resolve(contact.getGroupId(), after.tags());
+    change(contact, userId, before, after);
+    tags.retag(contact, ids(stored), wanted);
+    versionWriter.record(contact, kind, before, after);
   }
 
   /**
@@ -362,6 +379,19 @@ public class ContactService {
     ContactContent content = contentOf(other);
     other.mergeInto(primaryId, userId, clock.instant());
     versionWriter.record(other, ContactVersion.MERGED, content, content);
+  }
+
+  /**
+   * Makes the locked Other contact of an undone Merge active again as a new Version {@code
+   * mergeUndone} with its content unchanged (R-019-01). In the transaction of the caller.
+   *
+   * @param other the locked Other contact, merged
+   * @param userId the signed-in User
+   */
+  void unmarkMerged(Contact other, UUID userId) {
+    ContactContent content = contentOf(other);
+    other.undoMerge(userId, clock.instant());
+    versionWriter.record(other, ContactVersion.MERGE_UNDONE, content, content);
   }
 
   /**

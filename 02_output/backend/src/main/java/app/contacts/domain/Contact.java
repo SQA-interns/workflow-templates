@@ -149,6 +149,18 @@ public class Contact implements GroupOwned {
     nextVersion(userId, now);
   }
 
+  /**
+   * Makes the merged Contact active again as the next Version when its Merge is undone (R-019-01).
+   *
+   * @param userId the User who undoes the Merge
+   * @param now the time
+   */
+  public void undoMerge(UUID userId, Instant now) {
+    this.state = ACTIVE;
+    this.mergedInto = null;
+    nextVersion(userId, now);
+  }
+
   private void nextVersion(UUID userId, Instant now) {
     this.versionNumber++;
     this.updatedAt = now;

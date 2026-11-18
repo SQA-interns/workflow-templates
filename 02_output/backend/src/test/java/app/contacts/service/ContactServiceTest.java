@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -1046,6 +1047,40 @@ class ContactServiceTest {
     ArgumentCaptor<ContactContent> content = ArgumentCaptor.forClass(ContactContent.class);
     verify(versionWriter)
         .record(eq(other), eq(ContactVersion.MERGED), content.capture(), content.capture());
+    assertThat(content.getAllValues().get(1)).isEqualTo(content.getAllValues().get(0));
+  }
+
+  @Test
+  void r01901SaveMergeUndoneGivesThePrimaryItsContentBeforeTheMergeAsVersionMergeUndone() {
+    Contact janez = stored(Map.of("firstName", "Janez", "phone", "+386 41 123 456"));
+    Tag vip = hasTags(janez, "udelezenec2025", "vip");
+    ContactContent beforeMerge =
+        new ContactContent(
+            ContactFields.ofNames(Map.of("firstName", "Janez")),
+            List.of(),
+            List.of("udelezenec2025"));
+
+    service.saveMergeUndone(janez, MARKO, beforeMerge);
+
+    assertThat(janez.getVersionNumber()).isEqualTo(2);
+    assertThat(janez.getFields().phone()).isNull();
+    assertThat(recorded(ContactVersion.MERGE_UNDONE)).isEqualTo(beforeMerge);
+    verify(contactTags).discardOfContact(GROUP_ID, janez.getId(), Set.of(vip.getId()));
+  }
+
+  @Test
+  void r01901UnmarkMergedMakesTheOtherActiveAgainAsVersionMergeUndone() {
+    Contact other = stored(Map.of("firstName", "J.", "lastName", "Novak"));
+    other.mergeInto(UUID.randomUUID(), MARKO, NOW);
+
+    service.unmarkMerged(other, MARKO);
+
+    assertThat(other.getState()).isEqualTo(Contact.ACTIVE);
+    assertThat(other.getMergedInto()).isNull();
+    assertThat(other.getVersionNumber()).isEqualTo(3);
+    ArgumentCaptor<ContactContent> content = ArgumentCaptor.forClass(ContactContent.class);
+    verify(versionWriter)
+        .record(eq(other), eq(ContactVersion.MERGE_UNDONE), content.capture(), content.capture());
     assertThat(content.getAllValues().get(1)).isEqualTo(content.getAllValues().get(0));
   }
 

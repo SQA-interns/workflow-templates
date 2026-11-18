@@ -37,6 +37,9 @@ public class ContactVersion implements GroupOwned {
   /** Kind of the Version of both Contacts of a Merge (R-018-02, R-018-04). */
   public static final String MERGED = "merged";
 
+  /** Kind of the Version of both Contacts when a Merge is undone (R-019-01). */
+  public static final String MERGE_UNDONE = "mergeUndone";
+
   @Id
   @Column(name = "contact_id")
   private UUID contactId;
