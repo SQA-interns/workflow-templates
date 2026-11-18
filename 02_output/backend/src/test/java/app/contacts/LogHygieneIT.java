@@ -6,10 +6,16 @@ import app.contacts.acceptance.support.AcceptanceTest;
 import app.contacts.acceptance.support.Json;
 import app.contacts.acceptance.support.Res;
 import app.contacts.acceptance.support.TestUser;
+import ch.qos.logback.classic.Logger;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.PatternLayout;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.read.ListAppender;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import tools.jackson.databind.JsonNode;
@@ -45,13 +51,46 @@ class LogHygieneIT extends AcceptanceTest {
     secrets.add(invite(team.groupId(), team.ana(), "povabljen@example.si", "VIEWER"));
     secrets.add("povabljen@example.si");
 
-    serveTheStoriesFlows(team);
+    ListAppender<ILoggingEvent> events = attachToRootLogger();
+    try {
+      serveTheStoriesFlows(team);
+    } finally {
+      rootLogger().detachAppender(events);
+      events.stop();
+    }
 
-    String log = output.getAll();
+    // Standard output plus every logging event: the redirect of System.out alone sees nothing when
+    // other tests in the same JVM started the logging system first (mutation testing).
+    String log = output.getAll() + format(events);
     assertThat(log).as("captured log").isNotEmpty();
     for (String secret : secrets) {
       assertThat(log).as("log holds no personal data or token (SR-08)").doesNotContain(secret);
     }
+  }
+
+  private static Logger rootLogger() {
+    return (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
+  }
+
+  private static ListAppender<ILoggingEvent> attachToRootLogger() {
+    ListAppender<ILoggingEvent> appender = new ListAppender<>();
+    appender.setContext((LoggerContext) LoggerFactory.getILoggerFactory());
+    appender.start();
+    rootLogger().addAppender(appender);
+    return appender;
+  }
+
+  /** Each event as the log shows it: message, MDC and stack trace. */
+  private static String format(ListAppender<ILoggingEvent> appender) {
+    PatternLayout layout = new PatternLayout();
+    layout.setContext(appender.getContext());
+    layout.setPattern("%logger %msg %mdc %ex%n");
+    layout.start();
+    StringBuilder text = new StringBuilder();
+    for (ILoggingEvent event : appender.list) {
+      text.append(layout.doLayout(event));
+    }
+    return text.toString();
   }
 
   /** Accepted, refused and invalid requests across Contacts, History, Export and Merge. */
