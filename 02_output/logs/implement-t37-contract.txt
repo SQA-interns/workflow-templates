@@ -1,0 +1,172 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< app.contacts:contacts-backend >--------------------
+[INFO] Building contacts-backend 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (prepare-unit) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] argLine set to empty
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ contacts-backend ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ contacts-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ contacts-backend ---
+[INFO] skip non existing resourceDirectory /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ contacts-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ contacts-backend ---
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ contacts-backend ---
+[INFO] Building jar: /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ contacts-backend ---
+[INFO] Replacing main artifact /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent-integration (prepare-it) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ contacts-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running app.contacts.OpenApiContractIT
+13:46:39.377 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.OpenApiContractIT]: OpenApiContractIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:46:39.649 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.OpenApiContractIT
+13:46:39.780 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.OpenApiContractIT]: OpenApiContractIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:46:39.781 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:46:39.782 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:46:39.792 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.OpenApiContractIT
+13:46:39.880 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+13:46:39.884 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+13:46:39.931 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+13:46:41.105 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Docker accessed via Unix socket (/home/tjan-kazar/.docker/desktop/docker.sock)
+13:46:41.107 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+13:46:41.131 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.3.1
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 31283 MB
+  Labels: 
+    com.docker.desktop.address=unix:///home/tjan-kazar/.docker/desktop/docker-cli.sock
+13:46:42.131 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+13:46:42.348 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: cb750115980cab908494e7bf5d1fecb94ddd5a98930a7ce42c52b30335e6f055
+13:46:43.131 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.999582226S
+13:46:43.137 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+13:46:43.137 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+13:46:43.138 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+13:46:43.139 [main] INFO tc.postgres:16.15 -- Creating container for image: postgres:16.15
+13:46:43.284 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 is starting: 31d631f42b965af1fbbff0ac55cdede493485947cd68855638e7bfdd7d0ff1c4
+13:46:45.686 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 started in PT2.547238564S
+13:46:45.687 [main] INFO tc.postgres:16.15 -- Container is started (JDBC URL: jdbc:postgresql://localhost:42337/test?loggerLevel=OFF)
+13:46:45.731 [main] INFO org.testcontainers.images.builder.ImageFromDockerfile -- Transferred 0 bytes to Docker daemon
+13:46:45.994 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Creating container for image: contacts-auth-emulator-acceptance:latest
+13:46:46.170 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest is starting: 8bdae1d584c83b650c810dd76b4363af585c8b6e5cf90329ab3724592405e279
+13:47:01.363 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest started in PT15.369417837S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-18T13:47:01.813+01:00  INFO 1499152 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : Starting OpenApiContractIT using Java 21.0.13.0.3 with PID 1499152 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-18T13:47:01.814+01:00  INFO 1499152 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : No active profile set, falling back to 1 default profile: "default"
+2026-11-18T13:47:03.148+01:00  INFO 1499152 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18T13:47:03.260+01:00  INFO 1499152 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 100 ms. Found 11 JPA repository interfaces.
+2026-11-18T13:47:04.320+01:00  INFO 1499152 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-11-18T13:47:04.341+01:00  INFO 1499152 --- [contacts-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-18T13:47:04.342+01:00  INFO 1499152 --- [contacts-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-18T13:47:04.417+01:00  INFO 1499152 --- [contacts-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2582 ms
+2026-11-18T13:47:04.884+01:00  INFO 1499152 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-18T13:47:05.116+01:00  INFO 1499152 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@5ec25b61
+2026-11-18T13:47:05.118+01:00  INFO 1499152 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-18T13:47:05.148+01:00  INFO 1499152 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:42337/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-18T13:47:05.224+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-18T13:47:05.229+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.023s)
+2026-11-18T13:47:05.258+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-18T13:47:05.329+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-18T13:47:05.370+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-18T13:47:05.505+01:00  INFO 1499152 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.110s)
+2026-11-18T13:47:05.664+01:00  INFO 1499152 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18T13:47:05.731+01:00  INFO 1499152 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-18T13:47:06.208+01:00  INFO 1499152 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18T13:47:06.310+01:00  INFO 1499152 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:42337/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18T13:47:07.541+01:00  INFO 1499152 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18T13:47:07.606+01:00  INFO 1499152 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18T13:47:07.760+01:00  INFO 1499152 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18T13:47:09.881+01:00  INFO 1499152 --- [contacts-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noLocalUsers
+2026-11-18T13:47:10.982+01:00  INFO 1499152 --- [contacts-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-11-18T13:47:11.077+01:00  INFO 1499152 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 35067 (http) with context path '/'
+2026-11-18T13:47:11.101+01:00  INFO 1499152 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : Started OpenApiContractIT in 9.702 seconds (process running for 33.553)
+2026-11-18T13:47:11.248+01:00  WARN 1499152 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-11-18T13:47:12.153+01:00  INFO 1499152 --- [contacts-backend] [omcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-18T13:47:12.153+01:00  INFO 1499152 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-18T13:47:12.155+01:00  INFO 1499152 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-11-18T13:47:13.738+01:00  INFO 1499152 --- [contacts-backend] [omcat-handler-1] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 949 ms
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 35.90 s -- in app.contacts.OpenApiContractIT
+[INFO] Running app.contacts.acceptance.Us007EditContactAcceptanceIT
+2026-11-18T13:47:15.065+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us007EditContactAcceptanceIT]: Us007EditContactAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:15.088+01:00  INFO 1499152 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us007EditContactAcceptanceIT
+2026-11-18T13:47:15.091+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us007EditContactAcceptanceIT]: Us007EditContactAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:15.091+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:15.092+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:15.099+01:00  INFO 1499152 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us007EditContactAcceptanceIT
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.297 s -- in app.contacts.acceptance.Us007EditContactAcceptanceIT
+[INFO] Running app.contacts.acceptance.Us006AddContactAcceptanceIT
+2026-11-18T13:47:19.364+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us006AddContactAcceptanceIT]: Us006AddContactAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:19.370+01:00  INFO 1499152 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us006AddContactAcceptanceIT
+2026-11-18T13:47:19.372+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us006AddContactAcceptanceIT]: Us006AddContactAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:19.372+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:19.373+01:00  INFO 1499152 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T13:47:19.378+01:00  INFO 1499152 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us006AddContactAcceptanceIT
+[INFO] Tests run: 15, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.261 s -- in app.contacts.acceptance.Us006AddContactAcceptanceIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 27, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.13:merge (merge) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ contacts-backend ---
+[INFO] 
+[INFO] --- jacoco:0.8.13:report (report) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  52.064 s
+[INFO] Finished at: 2026-11-18T13:47:24+01:00
+[INFO] ------------------------------------------------------------------------

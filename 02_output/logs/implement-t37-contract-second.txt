@@ -1,0 +1,374 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< app.contacts:contacts-backend >--------------------
+[INFO] Building contacts-backend 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (prepare-unit) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] argLine set to empty
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ contacts-backend ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ contacts-backend ---
+[INFO] Nothing to compile - all classes are up to date.
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ contacts-backend ---
+[INFO] skip non existing resourceDirectory /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ contacts-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 90 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ contacts-backend ---
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ contacts-backend ---
+[INFO] 
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ contacts-backend ---
+[INFO] Replacing main artifact /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent-integration (prepare-it) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ contacts-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running app.contacts.OpenApiContractIT
+13:38:55.545 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.OpenApiContractIT]: OpenApiContractIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:38:55.691 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.OpenApiContractIT
+13:38:55.773 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.OpenApiContractIT]: OpenApiContractIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:38:55.773 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:38:55.774 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:38:55.780 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.OpenApiContractIT
+13:38:55.858 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+13:38:55.861 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+13:38:55.905 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+13:38:56.764 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Docker accessed via Unix socket (/home/tjan-kazar/.docker/desktop/docker.sock)
+13:38:56.765 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+13:38:56.782 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.3.1
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 31283 MB
+  Labels: 
+    com.docker.desktop.address=unix:///home/tjan-kazar/.docker/desktop/docker-cli.sock
+13:38:57.488 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+13:38:57.652 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: c66098fd3390d0fc7dffb6ae3876600b30e6a3ff1a9b0200a6b4c5872c4a5fb0
+13:38:58.224 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.73529806S
+13:38:58.229 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+13:38:58.229 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+13:38:58.230 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+13:38:58.230 [main] INFO tc.postgres:16.15 -- Creating container for image: postgres:16.15
+13:38:58.339 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 is starting: 054f0da2d65416af4b6d40d3c8e3d217897d311d8375ff6b6032cd118ab1a68e
+13:39:00.075 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 started in PT1.844298698S
+13:39:00.075 [main] INFO tc.postgres:16.15 -- Container is started (JDBC URL: jdbc:postgresql://localhost:34253/test?loggerLevel=OFF)
+13:39:00.120 [main] INFO org.testcontainers.images.builder.ImageFromDockerfile -- Transferred 0 bytes to Docker daemon
+13:39:00.310 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Creating container for image: contacts-auth-emulator-acceptance:latest
+13:39:00.517 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest is starting: 60b261b68b022a950e435eafd9a340a0790249db66f1a0d16a3d49004e4f23bc
+13:39:10.692 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest started in PT10.382403471S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-18T13:39:11.015+01:00  INFO 1491541 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : Starting OpenApiContractIT using Java 21.0.13.0.3 with PID 1491541 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-18T13:39:11.017+01:00  INFO 1491541 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : No active profile set, falling back to 1 default profile: "default"
+2026-11-18T13:39:12.257+01:00  INFO 1491541 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18T13:39:12.374+01:00  INFO 1491541 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 106 ms. Found 11 JPA repository interfaces.
+2026-11-18T13:39:13.209+01:00  INFO 1491541 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-11-18T13:39:13.225+01:00  INFO 1491541 --- [contacts-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-18T13:39:13.225+01:00  INFO 1491541 --- [contacts-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-18T13:39:13.274+01:00  INFO 1491541 --- [contacts-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2240 ms
+2026-11-18T13:39:13.677+01:00  INFO 1491541 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-18T13:39:13.900+01:00  INFO 1491541 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@698daff6
+2026-11-18T13:39:13.904+01:00  INFO 1491541 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-18T13:39:13.937+01:00  INFO 1491541 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:34253/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-18T13:39:14.049+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-18T13:39:14.055+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.024s)
+2026-11-18T13:39:14.115+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-18T13:39:14.258+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-18T13:39:14.303+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-18T13:39:14.442+01:00  INFO 1491541 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.127s)
+2026-11-18T13:39:14.552+01:00  INFO 1491541 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18T13:39:14.605+01:00  INFO 1491541 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-18T13:39:14.982+01:00  INFO 1491541 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18T13:39:15.066+01:00  INFO 1491541 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:34253/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18T13:39:16.076+01:00  INFO 1491541 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18T13:39:16.133+01:00  INFO 1491541 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18T13:39:16.232+01:00  INFO 1491541 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18T13:39:17.791+01:00  INFO 1491541 --- [contacts-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noLocalUsers
+2026-11-18T13:39:18.555+01:00  INFO 1491541 --- [contacts-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-11-18T13:39:18.638+01:00  INFO 1491541 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 35659 (http) with context path '/'
+2026-11-18T13:39:18.656+01:00  INFO 1491541 --- [contacts-backend] [           main] app.contacts.OpenApiContractIT           : Started OpenApiContractIT in 7.938 seconds (process running for 24.344)
+2026-11-18T13:39:18.733+01:00  WARN 1491541 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-11-18T13:39:19.382+01:00  INFO 1491541 --- [contacts-backend] [omcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-18T13:39:19.382+01:00  INFO 1491541 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-18T13:39:19.384+01:00  INFO 1491541 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2026-11-18T13:39:20.442+01:00  INFO 1491541 --- [contacts-backend] [omcat-handler-1] o.springdoc.api.AbstractOpenApiResource  : Init duration for springdoc-openapi is: 628 ms
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 26.02 s <<< FAILURE! -- in app.contacts.OpenApiContractIT
+[ERROR] app.contacts.OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas -- Time elapsed: 0.887 s <<< FAILURE!
+org.assertj.core.error.AssertJMultipleFailuresError: 
+
+Multiple Failures (20 failures)
+-- failure 1 --
+[DELETE /groups/{groupId}/invitations/{invitationId} success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 2 --
+[DELETE /groups/{groupId}/members/{userId} success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 3 --
+[GET /groups/{groupId}/contacts/email-matches parameters] 
+expected: ["path groupId", "query email", "query excludeContactId"]
+ but was: ["path groupId", "query email"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:71)
+-- failure 4 --
+[GET /groups/{groupId}/contacts/{contactId} response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 5 --
+[GET /groups/{groupId}/contacts/{contactId}/versions/{number} response 200] 
+expected: "object{changedAt,changedBy,changes:array[object{item,newValue,oldValue}],kind,number,restoredFrom,snapshot:object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value]}}"
+ but was: "object{changedAt,changedBy,changes:array[object{item,newValue,oldValue}],kind,number,restoredFrom,snapshot:object{attributes:array[object{key,value}],fields:map<value>,tags:array[value]}}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 6 --
+[POST /groups success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 7 --
+[POST /groups response 201] 
+expected: "object{id,name,role}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 8 --
+[POST /groups/{groupId}/contacts success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 9 --
+[POST /groups/{groupId}/contacts request body] 
+expected: "object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value]}"
+ but was: "object{attributes:array[object{key,value}],fields:map<value>,tags:array[value]}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:79)
+-- failure 10 --
+[POST /groups/{groupId}/contacts response 201] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 11 --
+[POST /groups/{groupId}/contacts/{contactId}/move-to-recycle-bin response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 12 --
+[POST /groups/{groupId}/contacts/{contactId}/versions/{number}/restore response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 13 --
+[POST /groups/{groupId}/invitations success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 14 --
+[POST /groups/{groupId}/invitations response 201] 
+expected: "object{invitation:object{email,expiresAt,id,role},link}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 15 --
+[POST /groups/{groupId}/merges success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 16 --
+[POST /groups/{groupId}/merges response 201] 
+expected: "object{id,mergedAt,otherId,primaryId,undone}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 17 --
+[POST /groups/{groupId}/move-to-recycle-bin success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 18 --
+[POST /groups/{groupId}/recycle-bin/{contactId}/restore response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 19 --
+[PUT /groups/{groupId}/contacts/{contactId} request body] 
+expected: "object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value],versionNumber}"
+ but was: "object{attributes:array[object{key,value}],fields:map<value>,tags:array[value],versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:79)
+-- failure 20 --
+[PUT /groups/{groupId}/contacts/{contactId} response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+	at app.contacts.OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:87)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Failures: 
+[ERROR]   OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas:87 
+Multiple Failures (20 failures)
+-- failure 1 --
+[DELETE /groups/{groupId}/invitations/{invitationId} success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 2 --
+[DELETE /groups/{groupId}/members/{userId} success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 3 --
+[GET /groups/{groupId}/contacts/email-matches parameters] 
+expected: ["path groupId", "query email", "query excludeContactId"]
+ but was: ["path groupId", "query email"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:71)
+-- failure 4 --
+[GET /groups/{groupId}/contacts/{contactId} response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 5 --
+[GET /groups/{groupId}/contacts/{contactId}/versions/{number} response 200] 
+expected: "object{changedAt,changedBy,changes:array[object{item,newValue,oldValue}],kind,number,restoredFrom,snapshot:object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value]}}"
+ but was: "object{changedAt,changedBy,changes:array[object{item,newValue,oldValue}],kind,number,restoredFrom,snapshot:object{attributes:array[object{key,value}],fields:map<value>,tags:array[value]}}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 6 --
+[POST /groups success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 7 --
+[POST /groups response 201] 
+expected: "object{id,name,role}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 8 --
+[POST /groups/{groupId}/contacts success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 9 --
+[POST /groups/{groupId}/contacts request body] 
+expected: "object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value]}"
+ but was: "object{attributes:array[object{key,value}],fields:map<value>,tags:array[value]}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:79)
+-- failure 10 --
+[POST /groups/{groupId}/contacts response 201] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 11 --
+[POST /groups/{groupId}/contacts/{contactId}/move-to-recycle-bin response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 12 --
+[POST /groups/{groupId}/contacts/{contactId}/versions/{number}/restore response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 13 --
+[POST /groups/{groupId}/invitations success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 14 --
+[POST /groups/{groupId}/invitations response 201] 
+expected: "object{invitation:object{email,expiresAt,id,role},link}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 15 --
+[POST /groups/{groupId}/merges success statuses] 
+expected: ["201"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 16 --
+[POST /groups/{groupId}/merges response 201] 
+expected: "object{id,mergedAt,otherId,primaryId,undone}"
+ but was: "none"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 17 --
+[POST /groups/{groupId}/move-to-recycle-bin success statuses] 
+expected: ["204"]
+ but was: ["200"]
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:75)
+-- failure 18 --
+[POST /groups/{groupId}/recycle-bin/{contactId}/restore response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+-- failure 19 --
+[PUT /groups/{groupId}/contacts/{contactId} request body] 
+expected: "object{attributes:array[object{key,value}],fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},tags:array[value],versionNumber}"
+ but was: "object{attributes:array[object{key,value}],fields:map<value>,tags:array[value],versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:79)
+-- failure 20 --
+[PUT /groups/{groupId}/contacts/{contactId} response 200] 
+expected: "object{attributes:array[object{key,value}],createdAt,fields:object{city,company,country,email,firstName,jobTitle,lastName,note,phone,postalCode,street},id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+ but was: "object{attributes:array[object{key,value}],createdAt,fields:map<value>,id,mergedFrom:array[object{contact:object{id,name},mergeId,undone}],mergedInto:object{id,name},state,tags:array[object{id,name}],updatedAt,versionNumber}"
+at OpenApiContractIT.ar02EveryOperationHasTheContractsParametersStatusesAndSchemas(OpenApiContractIT.java:84)
+[INFO] 
+[ERROR] Tests run: 2, Failures: 1, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.13:merge (merge) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ contacts-backend ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  36.528 s
+[INFO] Finished at: 2026-11-18T13:39:21+01:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:3.5.4:verify (default) on project contacts-backend: There are test failures.
+[ERROR] 
+[ERROR] See /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/failsafe-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
