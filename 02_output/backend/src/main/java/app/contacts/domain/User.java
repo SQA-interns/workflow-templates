@@ -70,6 +70,18 @@ public class User {
     this.language = language;
   }
 
+  /**
+   * Erases the e-mail and display name and marks the User deleted; id and Firebase uid stay, so
+   * Versions keep their User and the account's tokens stay refused (D-20, R-021-03).
+   *
+   * @param now the deletion time
+   */
+  public void anonymise(Instant now) {
+    this.email = null;
+    this.displayName = null;
+    this.deletedAt = now;
+  }
+
   public UUID getId() {
     return id;
   }

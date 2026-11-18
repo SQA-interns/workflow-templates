@@ -3,21 +3,27 @@ package app.contacts.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import app.contacts.domain.User;
+import app.contacts.repository.GroupRepository;
+import app.contacts.repository.MembershipRepository;
 import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -26,7 +32,12 @@ class UserServiceTest {
   private static final Instant NOW = Instant.parse("2026-03-05T10:00:00Z");
 
   private final UserRepository users = mock(UserRepository.class);
-  private final UserService service = new UserService(users, Clock.fixed(NOW, ZoneOffset.UTC));
+  private final GroupRepository groups = mock(GroupRepository.class);
+  private final MembershipRepository memberships = mock(MembershipRepository.class);
+  private final AccountDeleter accounts = mock(AccountDeleter.class);
+  private final UserService service =
+      new UserService(
+          users, groups, memberships, accounts, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void r00104FirstCallCreatesTheUserWithTokenEmailNameAndLanguageSl() {
@@ -133,5 +144,73 @@ class UserServiceTest {
   void ex02001MissingLanguageIsRejected() {
     assertThatThrownBy(() -> service.changeLanguage(UUID.randomUUID(), null))
         .isInstanceOf(ValidationException.class);
+  }
+
+  @Test
+  void r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccount() {
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
+    when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
+
+    service.deleteAccount(marko.getId(), "marko.kranjc@gmail.com");
+
+    assertThat(marko.getDeletedAt()).isEqualTo(NOW);
+    assertThat(marko.getEmail()).isNull();
+    assertThat(marko.getDisplayName()).isNull();
+    assertThat(marko.getFirebaseUid()).isEqualTo("uid-marko");
+    InOrder order = inOrder(memberships, users, accounts);
+    order.verify(memberships).deleteAllOfUser(marko.getId());
+    order.verify(users).saveAndFlush(marko);
+    order.verify(accounts).delete("uid-marko");
+  }
+
+  @Test
+  void r02101TypedEmailIsComparedIgnoringCaseAndOuterSpaces() {
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
+    when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
+
+    service.deleteAccount(marko.getId(), " Marko.Kranjc@Gmail.com ");
+
+    verify(accounts).delete("uid-marko");
+  }
+
+  @Test
+  void ex02101TypedEmailThatDoesNotMatchIsInvalidAndChangesNothing() {
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
+
+    for (String typed : new String[] {"marko@example.si", "", null}) {
+      assertThatThrownBy(() -> service.deleteAccount(marko.getId(), typed))
+          .isInstanceOfSatisfying(
+              InvalidRequestException.class,
+              invalid -> assertThat(invalid.getCode()).isEqualTo("validation"));
+    }
+    assertNothingDeleted(marko);
+  }
+
+  @Test
+  void r02102OwnerOfAnyGroupIsRejectedWithTheGroupNamesAndNothingChanges() {
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    when(users.findById(ana.getId())).thenReturn(Optional.of(ana));
+    when(groups.findNamesOwnedBy(ana.getId())).thenReturn(List.of("Arhiv", "Konferenca 2025"));
+
+    assertThatThrownBy(() -> service.deleteAccount(ana.getId(), "ana.kovac@example.si"))
+        .isInstanceOfSatisfying(
+            ConflictException.class,
+            conflict -> {
+              assertThat(conflict.getCode()).isEqualTo("account.ownsGroups");
+              assertThat(conflict.getParams())
+                  .containsExactly(Map.entry("names", "Arhiv, Konferenca 2025"));
+            });
+    assertNothingDeleted(ana);
+  }
+
+  private void assertNothingDeleted(User user) {
+    assertThat(user.getDeletedAt()).isNull();
+    assertThat(user.getEmail()).isNotNull();
+    verify(memberships, never()).deleteAllOfUser(any(UUID.class));
+    verify(users, never()).saveAndFlush(any(User.class));
+    verify(accounts, never()).delete(anyString());
   }
 }
