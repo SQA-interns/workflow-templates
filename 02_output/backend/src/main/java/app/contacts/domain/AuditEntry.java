@@ -33,6 +33,9 @@ public class AuditEntry implements GroupOwned {
   /** An Owner or Editor merged two Contacts (R-018-04, BR-10); the target is the Merge. */
   public static final String CONTACTS_MERGED = "contacts.merged";
 
+  /** An Owner or Editor undid a Merge (R-019-01, BR-10); the target is the Merge. */
+  public static final String CONTACTS_MERGE_UNDONE = "contacts.mergeUndone";
+
   /** The Owner moved the Group to the recycle bin (R-003-02, BR-10); the target is the Group. */
   public static final String GROUP_MOVED_TO_RECYCLE_BIN = "group.movedToRecycleBin";
 

@@ -327,10 +327,21 @@ public class ContactService {
    * @throws ConflictException {@code version.conflict} for a Version number that is not current
    */
   Contact lockedCurrent(UUID groupId, UUID contactId, int versionNumber) {
-    Contact contact =
-        contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
+    Contact contact = locked(groupId, contactId);
     requireCurrent(contact, versionNumber);
     return contact;
+  }
+
+  /**
+   * The Contact of the Group in any state, locked until the transaction ends (specification §4).
+   *
+   * @param groupId the Group
+   * @param contactId the Contact
+   * @return the locked Contact
+   * @throws NotFoundException for a Contact that is not the Group's (BR-02)
+   */
+  Contact locked(UUID groupId, UUID contactId) {
+    return contacts.findForUpdate(groupId, contactId).orElseThrow(NotFoundException::new);
   }
 
   /**
@@ -439,8 +450,14 @@ public class ContactService {
     return contact;
   }
 
-  /** Rejects a change sent with a Version number that is not the current one (BR-06). */
-  private void requireCurrent(Contact contact, int versionNumber) {
+  /**
+   * Rejects a change sent with a Version number that is not the current one (BR-06).
+   *
+   * @param contact the Contact
+   * @param versionNumber the Version number the client read
+   * @throws ConflictException {@code version.conflict} with the User who changed it last
+   */
+  void requireCurrent(Contact contact, int versionNumber) {
     if (contact.getVersionNumber() != versionNumber) {
       String changedBy =
           users.findById(contact.getUpdatedBy()).map(User::getDisplayName).orElseThrow();

@@ -2,25 +2,30 @@ package app.contacts.service;
 
 import app.contacts.domain.AuditEntry;
 import app.contacts.domain.Contact;
+import app.contacts.domain.ContactVersion;
 import app.contacts.domain.Merge;
+import app.contacts.repository.ContactVersionRepository;
 import app.contacts.repository.MergeRepository;
 import java.time.Clock;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
 import java.util.UUID;
+import java.util.function.Function;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Merges a pair of Possible duplicates into the Primary contact (US-018). */
+/**
+ * Merges a pair of Possible duplicates into the Primary contact (US-018) and undoes it (US-019).
+ */
 @Service
 public class MergeService {
 
   private final AccessGuard guard;
   private final ContactService contacts;
   private final MergeRepository merges;
+  private final ContactVersionRepository versions;
   private final AuditService audit;
   private final ContactValidator validator;
   private final Clock clock;
@@ -31,6 +36,7 @@ public class MergeService {
    * @param guard the access check
    * @param contacts locks, reads and changes both Contacts
    * @param merges stores the Merge
+   * @param versions reads the Primary contact's Versions for an undo
    * @param audit writes the Audit entry
    * @param validator checks the merged Fields
    * @param clock the clock
@@ -39,12 +45,14 @@ public class MergeService {
       AccessGuard guard,
       ContactService contacts,
       MergeRepository merges,
+      ContactVersionRepository versions,
       AuditService audit,
       ContactValidator validator,
       Clock clock) {
     this.guard = guard;
     this.contacts = contacts;
     this.merges = merges;
+    this.versions = versions;
     this.audit = audit;
     this.validator = validator;
     this.clock = clock;
@@ -96,6 +104,86 @@ public class MergeService {
     return MergeView.of(merge);
   }
 
+  /**
+   * Undoes a Merge: the Primary contact gets the content it had before the Merge, the Other contact
+   * becomes active, both get a Version {@code mergeUndone}, and the Merge is marked undone with an
+   * Audit entry (R-019-01, BR-10), in one transaction with the Merge and both Contacts locked. The
+   * checks run in the order of D-25 (c). The Owner and Editors may do it (BR-03).
+   *
+   * @param groupId the Group
+   * @param userId the signed-in User
+   * @param mergeId the Merge
+   * @param versionNumber the Primary contact's Version number the client read (BR-06)
+   * @return the undone Merge
+   * @throws NotFoundException for a non-Member or a Merge that is not the Group's (BR-02)
+   * @throws ForbiddenException for a Viewer (BR-03, AC-019-03)
+   * @throws ValidationException for a missing Version number
+   * @throws ConflictException {@code merge.alreadyUndone} (EX-019-01), {@code merge.restoreFirst}
+   *     for a Contact in the recycle bin (R-019-03), {@code contact.merged} for a Primary contact
+   *     merged into another, {@code version.conflict} (BR-06), {@code merge.changedAfter} when the
+   *     Primary contact has a Version after the Merge (R-019-02)
+   */
+  @Transactional
+  public MergeView undoMerge(UUID groupId, UUID userId, UUID mergeId, Integer versionNumber) {
+    guard.require(groupId, userId, Permission.CHANGE_CONTACT);
+    if (versionNumber == null) {
+      throw new ValidationException(List.of());
+    }
+    Merge merge = merges.findForUpdate(groupId, mergeId).orElseThrow(NotFoundException::new);
+    if (merge.isUndone()) {
+      throw new ConflictException("merge.alreadyUndone", Map.of());
+    }
+    Map<UUID, Contact> pair =
+        lockedInIdOrder(
+            List.of(merge.getPrimaryId(), merge.getMergedId()), id -> contacts.locked(groupId, id));
+    Contact primary = pair.get(merge.getPrimaryId());
+    Contact other = pair.get(merge.getMergedId());
+    requireUndoable(primary, other);
+    contacts.requireCurrent(primary, versionNumber);
+    ContactContent beforeMerge = contentBefore(merge, primary);
+    contacts.saveMergeUndone(primary, userId, beforeMerge);
+    contacts.unmarkMerged(other, userId);
+    merge.undo(userId, clock.instant());
+    audit.record(groupId, userId, AuditEntry.CONTACTS_MERGE_UNDONE, merge.getId());
+    return MergeView.of(merge);
+  }
+
+  /**
+   * Rejects an undo while a Contact is in the recycle bin (R-019-03) or the Primary contact was
+   * merged into another (D-25 (c)).
+   */
+  private static void requireUndoable(Contact primary, Contact other) {
+    if (Contact.IN_RECYCLE_BIN.equals(primary.getState())
+        || Contact.IN_RECYCLE_BIN.equals(other.getState())) {
+      throw new ConflictException("merge.restoreFirst", Map.of());
+    }
+    if (!Contact.ACTIVE.equals(primary.getState())) {
+      throw new ConflictException("contact.merged", Map.of());
+    }
+  }
+
+  /**
+   * The Primary contact's content before the Merge, if its latest Version is the Merge's {@code
+   * merged} Version: no later change (R-019-02) and no later Merge into it. Two Merges at the same
+   * time both count as later, so neither undo loses a change.
+   */
+  private ContactContent contentBefore(Merge merge, Contact primary) {
+    UUID groupId = primary.getGroupId();
+    int latest = primary.getVersionNumber();
+    ContactVersion version = versions.findVersion(groupId, primary.getId(), latest).orElseThrow();
+    boolean laterMerge =
+        merges.findByGroupIdAndPrimaryIdOrderByMergedAt(groupId, primary.getId()).stream()
+            .anyMatch(
+                into ->
+                    !into.getId().equals(merge.getId())
+                        && !into.getMergedAt().isBefore(merge.getMergedAt()));
+    if (!ContactVersion.MERGED.equals(version.getKind()) || laterMerge) {
+      throw new ConflictException("merge.changedAfter", Map.of());
+    }
+    return SnapshotView.of(versions.findVersion(groupId, primary.getId(), latest - 1).orElseThrow())
+        .content();
+  }
+
   private static void requireComplete(MergeCommand command) {
     if (command.primaryId() == null
         || command.otherId() == null
@@ -110,13 +198,22 @@ public class MergeService {
    * after the other, each current (BR-06) and active (R-018-07).
    */
   private Map<UUID, Contact> lockedPair(UUID groupId, MergeCommand command) {
-    SortedMap<UUID, Integer> read = new TreeMap<>();
-    read.put(command.primaryId(), command.primaryVersionNumber());
-    read.put(command.otherId(), command.otherVersionNumber());
+    Map<UUID, Integer> read =
+        Map.of(
+            command.primaryId(), command.primaryVersionNumber(),
+            command.otherId(), command.otherVersionNumber());
+    return lockedInIdOrder(
+        read.keySet(), id -> active(contacts.lockedCurrent(groupId, id, read.get(id))));
+  }
+
+  /**
+   * Each Contact locked in id order, so that two transactions on the same pair run one after the
+   * other instead of waiting for each other.
+   */
+  private static Map<UUID, Contact> lockedInIdOrder(
+      Collection<UUID> ids, Function<UUID, Contact> lock) {
     Map<UUID, Contact> locked = new HashMap<>();
-    read.forEach(
-        (id, versionNumber) ->
-            locked.put(id, active(contacts.lockedCurrent(groupId, id, versionNumber))));
+    ids.stream().sorted().forEach(id -> locked.put(id, lock.apply(id)));
     return locked;
   }
 
