@@ -1,6 +1,7 @@
 package app.contacts.auth;
 
 import app.contacts.config.AppProperties;
+import app.contacts.service.AccountDeleter;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
@@ -51,6 +52,17 @@ public class FirebaseSetup {
   @Bean
   public TokenVerifier tokenVerifier(FirebaseApp app) {
     return new FirebaseTokenVerifier(FirebaseAuth.getInstance(app)::verifyIdToken);
+  }
+
+  /**
+   * The deleter of Firebase accounts (US-021).
+   *
+   * @param app the Firebase app
+   * @return the deleter
+   */
+  @Bean
+  public AccountDeleter accountDeleter(FirebaseApp app) {
+    return new FirebaseAccountDeleter(FirebaseAuth.getInstance(app)::deleteUser);
   }
 
   /**
