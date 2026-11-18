@@ -99,6 +99,28 @@ class MergeRepositoryIT {
   }
 
   @Test
+  void r01901StoresTheUndoOfAMergeFoundInItsGroupOnly() {
+    Contact janez = added("Janez");
+    Contact other = added("J.");
+    entityManager.flush();
+    Merge stored = merges.add(groupId, Merge.create(janez, other, marko, NOW));
+    entityManager.flush();
+    entityManager.clear();
+
+    Merge merge = merges.findForUpdate(groupId, stored.getId()).orElseThrow();
+    merge.undo(marko, NOW.plusSeconds(60));
+    entityManager.flush();
+
+    assertThat(merges.findForUpdate(UUID.randomUUID(), stored.getId())).isEmpty();
+    Map<String, Object> row =
+        jdbc.queryForMap(
+            "SELECT undone_at, undone_by FROM contact_merge WHERE id = ?", stored.getId());
+    assertThat(row.get("undone_by")).isEqualTo(marko);
+    assertThat(row.get("undone_at")).isNotNull();
+    assertThat(merge.isUndone()).isTrue();
+  }
+
+  @Test
   void d21FindsTheContactsMergedIntoAContact() {
     Contact janez = added("Janez");
     Contact other = added("J.");

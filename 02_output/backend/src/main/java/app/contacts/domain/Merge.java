@@ -61,6 +61,17 @@ public class Merge implements GroupOwned {
     return merge;
   }
 
+  /**
+   * Marks the Merge undone (R-019-01).
+   *
+   * @param userId the User who undoes it
+   * @param now the time
+   */
+  public void undo(UUID userId, Instant now) {
+    this.undoneAt = now;
+    this.undoneBy = userId;
+  }
+
   public UUID getId() {
     return id;
   }
