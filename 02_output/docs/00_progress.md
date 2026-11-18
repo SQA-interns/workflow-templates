@@ -5,25 +5,26 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-021 D-80: 1 (fix-only, D-78 (a))
+- Session: S5 /implement US-002 (fix-only, D-78 (a))
 - Result: done
 - Gate: phase 4 (INC-2 DoD-I) passed
 - Notes for the next session:
-  - F-02 fixed in 58affcd (D-80 option 1). `DELETE /me` commits the database part first, then deletes the Firebase account. A Firebase failure keeps the deletion, and each later request with that account deletes the Firebase account again. The `TransactionOperations` bean is Spring Boot's `TransactionTemplate`. Backend 471 unit + 270 IT (Us021 5/5), static and secret scan clean; UI US-021 and US-001 9/9 (`out/logs/implement-us021-f02-*`).
-  - F-06 (US-021 part) fixed in 983123a, evidence in f6ae79a.
-  - D-78 (a) order continues: `/implement US-002` fixes F-05 and the header part of F-06. At 768 px the Group switcher is squeezed to its icon and the navigation wraps; wireframe WF-06 tablet has two rows. Then `/implement US-021 T-36..T-43 T-53`, then `/design`.
-  - `frontend/README.md` fails `prettier --check` (since 381c42f).
-  - Local stack: `APP_HOST_PORT=8090`; its images have both fixes. Only Chromium is installed for Playwright.
+  - F-05 fixed in a264259: a page of the Group selected last that is no longer available sends the User to `/` (first Group or WF-05); any other unknown Group stays not found (D-81 (a)). Frozen E2E-08 passes.
+  - F-06 (US-002 part) fixed in 089a5a8: from 768 to 1279 px navigation and user menu are the second header row (WF-06 tablet), one row from 1280 px (D-81 (b)). F-06 is now fully fixed.
+  - UI acceptance and E2E 97/97 in Chromium (`out/logs/implement-us002-ui-all.txt`), frontend 362/362, prettier/eslint/tsc and gitleaks clean on the changed code.
+  - Open for US-021 / `/design` (D-81 (c)): the user-menu trigger shows only its icon from 768 to 1023 px, though the second row now has room for the name.
+  - The frontend image is built from `frontend/dist/`: run `npm run build` before `docker compose --env-file ../.env up -d --build --no-deps frontend` (`APP_HOST_PORT=8090`). Gitleaks runs as the `zricethezav/gitleaks:v8.28.0` image (no binary on the host).
+  - `frontend/README.md` fails `prettier --check` (since 381c42f). Only Chromium is installed for Playwright.
 
 ## Next
-- Command: /implement US-002
+- Command: /implement US-021 T-36..T-43 T-53
 - Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
 |---|---|---|---|
 | US-001 | INC-1 | done | met |
-| US-002 | INC-1 | done | met (DoD-S-01 met after US-004: API 10/10, UI 5/5) |
+| US-002 | INC-1 | done | met (DoD-S-01 met after US-004: API 10/10, UI 5/5); F-05 fixed (a264259, E2E-08 passes), F-06 header fixed (089a5a8, D-81) |
 | US-003 | INC-1 | done | DoD-S-01 met after US-004 (API 10/10, UI 6/6); DoD-S-07 5ef6708 spotless, b07874a … 7b687c6 checkstyle/SpotBugs (fixed in dc2c564, 896ccb9), bdb4dec subject 75 characters; others met |
 | US-004 | INC-1 | done | met; DoD-S-07 see D-63 (j) |
 | US-005 | INC-1 | done | met (API 9/9, UI 2/2); DoD-S-07 577e900 subject 74 characters (D-66 (i)); others met |
@@ -42,4 +43,4 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c); F-01 fixed (8021943, D-79) |
 | US-019 | INC-2 | done | met (API 5/5, UI 3/3; WF-07 Undo merge at three widths, axe clean); DoD-S-07 see D-75 (i) |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
-| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a); F-02 fixed (58affcd, D-80) |
+| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a, header part 089a5a8); F-02 fixed (58affcd, D-80) |

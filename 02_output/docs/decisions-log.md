@@ -879,3 +879,14 @@
 - Human response: "/implement US-021 D-80: 1" — option 1, 2026-11-18.
 - Resolution: 1
 - Overrides: D-76 (b) for option 1 only
+
+## D-81: How the F-05 and F-06 fixes of US-002 behave where the inputs are silent
+- Timestamp: 2026-11-18T12:31+01:00
+- Session: S5 /implement US-002 (fix-only, D-78 (a))
+- Class: open
+- Type: non-blocking
+- Trigger: F-05: EX-002-06 says what opens when the Group selected last is in the recycle bin at sign-in, but not what a page of that Group shows after a reload, while BR-02 makes any other Group "not found". F-06: WF-06 has two header rows at 768 px and one at 1440 px; no input says where the layout changes.
+- Options: 1. [ASSUMPTION] (a) F-05: `/groups/<id>/…` of a Group the User is not (or no longer) a Member of sends the User to `/` (first Group of the switcher, else WF-05 "You have no Groups yet.") only when that Group is the Group selected last in this browser (R-002-05); any other such Group stays "This page cannot be found." (BR-02), so a guessed id reveals nothing (a264259); (b) F-06: from 768 to 1279 px the navigation and the user menu form the second header row (WF-06 tablet), from 1280 px one row (WF-06 desktop); 1024 px is too narrow for the English Owner's one row (horizontal overflow, measured with the throwaway check `out/logs/implement-us002-f06-check.spec.ts.txt`; the log of that attempt was overwritten by the final run); navigation items never wrap; mobile unchanged (089a5a8); (c) the user-menu trigger keeps showing only its icon from 768 to 1023 px (US-021, 983123a) although the second row now has room for the name; changing it is US-021 code, left to `/implement US-021 T-36..T-43 T-53` or `/design`; (d) checked in Chromium only (Firefox and WebKit are not installed). 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
