@@ -5,19 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-021 D-77: 1
+- Session: R /review INC-2
 - Result: done
-- Gate: phase 4 (US-021 DoD-S) passed
+- Gate: phase 4 (INC-2 DoD-I) passed
 - Notes for the next session:
-  - D-77 option 1 applied (one locator of `acceptance/us021-delete-account.spec.ts`, manifest regenerated); US-021 API 5/5, UI 3/3 (`out/logs/implement-us021-ui-acceptance.txt`).
-  - Backend unit 467/467, integration 270/270 (`out/logs/implement-us021-full-verify.txt`); frontend 355/355 without coverage (TagsField times out with coverage, D-67); static checks and gitleaks clean (`frontend/README.md` still fails prettier, older).
-  - Browser run (before the D-77 change) 95/97: AC-021-01 (now passes) and E2E-08 (D-75 (j), US-002/US-003 code, for `/review INC-2`); E2E-01 passes.
-  - D-76 (non-blocking, pending review): US-021 assumptions; `UserService.closeAccount` is the specification's `deleteAccount` (D-76 (h)); DoD-S-07 notes in D-76 (i).
-  - T-53 (SR-02 matrix and contract test for the INC-2 endpoints, incl. `DELETE /me`) is not done yet.
-  - Stack on 8090 is built from 81733ed (no code change since).
+  - `docs/04_review-INC-2.md`: Critical 0, High 0, Medium 6 (F-01 … F-06), Low 22; open Medium findings go to the stories' next session or the release notes.
+  - F-04: T-36 … T-43 (SR-02 access matrix, contract test, log hygiene, NFR checks) were never done, so T-53 has nothing to extend; no session in the plan picks them up.
+  - F-05: frozen E2E-08 fails in INC-1 code (`GroupRoute.tsx`); F-01 (D-21 confirmation), F-02 (Firebase delete before commit), F-03 (R-019-02/R-019-03 conflict, needs a decision), F-06 (user menu invisible at 768 px).
+  - Pending review answered: D-72, D-74 accepted with reservations; D-76 accepted except (b) (F-02) and (h) (F-23). Specification §4 row US-018 is out of date (F-24).
+  - The local stack holds review data (see the review's "Notes"); reset its volumes before a run that needs the seed state.
 
 ## Next
-- Command: /review INC-2
+- Command: /design
 - Waiting for: nothing
 
 ## Stories
