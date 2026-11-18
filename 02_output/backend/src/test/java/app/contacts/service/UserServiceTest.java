@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -17,15 +18,19 @@ import app.contacts.repository.UserRepository;
 import java.time.Clock;
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InOrder;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.transaction.TransactionSystemException;
+import org.springframework.transaction.support.SimpleTransactionStatus;
+import org.springframework.transaction.support.TransactionCallback;
+import org.springframework.transaction.support.TransactionOperations;
 
 class UserServiceTest {
 
@@ -35,8 +40,26 @@ class UserServiceTest {
   private final GroupRepository groups = mock(GroupRepository.class);
   private final MembershipRepository memberships = mock(MembershipRepository.class);
   private final AccountDeleter accounts = mock(AccountDeleter.class);
+  private final List<String> steps = new ArrayList<>();
+  private boolean commitFails;
+
+  /** Runs the work, then records the commit; fails the commit when asked to. */
+  private final TransactionOperations transactions =
+      new TransactionOperations() {
+        @Override
+        public <T> T execute(TransactionCallback<T> action) {
+          T result = action.doInTransaction(new SimpleTransactionStatus());
+          if (commitFails) {
+            throw new TransactionSystemException("commit failed");
+          }
+          steps.add("commit");
+          return result;
+        }
+      };
+
   private final UserService service =
-      new UserService(users, groups, memberships, accounts, Clock.fixed(NOW, ZoneOffset.UTC));
+      new UserService(
+          users, groups, memberships, accounts, transactions, Clock.fixed(NOW, ZoneOffset.UTC));
 
   @Test
   void r00104FirstCallCreatesTheUserWithTokenEmailNameAndLanguageSl() {
@@ -146,10 +169,9 @@ class UserServiceTest {
   }
 
   @Test
-  void r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccount() {
-    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
-    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
-    when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
+  void r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccountAfterTheCommit() {
+    User marko = markoWithoutGroups();
+    recordSteps();
 
     service.closeAccount(marko.getId(), "marko.kranjc@gmail.com");
 
@@ -157,17 +179,79 @@ class UserServiceTest {
     assertThat(marko.getEmail()).isNull();
     assertThat(marko.getDisplayName()).isNull();
     assertThat(marko.getFirebaseUid()).isEqualTo("uid-marko");
-    InOrder order = inOrder(memberships, users, accounts);
-    order.verify(memberships).dropAllOfUser(marko.getId());
-    order.verify(users).saveAndFlush(marko);
-    order.verify(accounts).purge("uid-marko");
+    assertThat(steps).containsExactly("dropMemberships", "saveUser", "commit", "purge");
+  }
+
+  @Test
+  void d80FirebaseFailureAfterTheCommitKeepsTheDeletion() {
+    User marko = markoWithoutGroups();
+    doThrow(new IllegalStateException("Firebase account not deleted"))
+        .when(accounts)
+        .purge("uid-marko");
+
+    service.closeAccount(marko.getId(), "marko.kranjc@gmail.com");
+
+    assertThat(marko.getDeletedAt()).isEqualTo(NOW);
+    assertThat(marko.getEmail()).isNull();
+    assertThat(steps).containsExactly("commit");
+  }
+
+  @Test
+  void d80FailedCommitLeavesTheFirebaseAccount() {
+    User marko = markoWithoutGroups();
+    commitFails = true;
+
+    assertThatThrownBy(() -> service.closeAccount(marko.getId(), "marko.kranjc@gmail.com"))
+        .isInstanceOf(TransactionSystemException.class);
+    verify(accounts, never()).purge(anyString());
+  }
+
+  @Test
+  void d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain() {
+    when(users.findByFirebaseUid("uid-ana")).thenReturn(Optional.of(deletedAna()));
+
+    assertThatThrownBy(() -> service.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
+        .isInstanceOf(UserDeletedException.class);
+    verify(accounts).purge("uid-ana");
+  }
+
+  @Test
+  void d80DeletedUserIsRefusedWhenFirebaseFailsAgain() {
+    when(users.findByFirebaseUid("uid-ana")).thenReturn(Optional.of(deletedAna()));
+    doThrow(new IllegalStateException("Firebase account not deleted"))
+        .when(accounts)
+        .purge("uid-ana");
+
+    assertThatThrownBy(() -> service.signIn("uid-ana", "ana.kovac@example.si", "Ana Kovač"))
+        .isInstanceOf(UserDeletedException.class);
+  }
+
+  private User markoWithoutGroups() {
+    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
+    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
+    when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
+    return marko;
+  }
+
+  private static User deletedAna() {
+    User ana = User.create("uid-ana", "ana.kovac@example.si", "Ana Kovač", NOW);
+    ReflectionTestUtils.setField(ana, "deletedAt", NOW);
+    return ana;
+  }
+
+  private void recordSteps() {
+    doAnswer(call -> steps.add("dropMemberships") ? 1 : 0)
+        .when(memberships)
+        .dropAllOfUser(any(UUID.class));
+    doAnswer(call -> steps.add("saveUser") ? call.getArgument(0) : null)
+        .when(users)
+        .saveAndFlush(any(User.class));
+    doAnswer(call -> steps.add("purge")).when(accounts).purge(anyString());
   }
 
   @Test
   void r02101TypedEmailIsComparedIgnoringCaseAndOuterSpaces() {
-    User marko = User.create("uid-marko", "marko.kranjc@gmail.com", "Marko Kranjc", NOW);
-    when(users.findById(marko.getId())).thenReturn(Optional.of(marko));
-    when(groups.findNamesOwnedBy(marko.getId())).thenReturn(List.of());
+    User marko = markoWithoutGroups();
 
     service.closeAccount(marko.getId(), " Marko.Kranjc@Gmail.com ");
 
