@@ -1,0 +1,69 @@
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[ERROR] Tests run: 17, Failures: 3, Errors: 1, Skipped: 0, Time elapsed: 1.859 s <<< FAILURE! -- in app.contacts.service.UserServiceTest
+[ERROR] app.contacts.service.UserServiceTest.r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccountAfterTheCommit -- Time elapsed: 0.125 s <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+
+Expecting actual:
+  ["dropMemberships", "saveUser", "purge"]
+to contain exactly (and in same order):
+  ["dropMemberships", "saveUser", "commit", "purge"]
+but could not find the following elements:
+  ["commit"]
+
+	at app.contacts.service.UserServiceTest.r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccountAfterTheCommit(UserServiceTest.java:182)
+
+[ERROR] app.contacts.service.UserServiceTest.d80FailedCommitLeavesTheFirebaseAccount -- Time elapsed: 0.006 s <<< FAILURE!
+java.lang.AssertionError: 
+
+Expecting code to raise a throwable.
+	at app.contacts.service.UserServiceTest.d80FailedCommitLeavesTheFirebaseAccount(UserServiceTest.java:204)
+
+[ERROR] app.contacts.service.UserServiceTest.d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain -- Time elapsed: 0.015 s <<< FAILURE!
+Wanted but not invoked:
+accountDeleter.purge("uid-ana");
+-> at app.contacts.service.UserServiceTest.d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain(UserServiceTest.java:215)
+Actually, there were zero interactions with this mock.
+
+	at app.contacts.service.UserServiceTest.d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain(UserServiceTest.java:215)
+
+[ERROR] app.contacts.service.UserServiceTest.d80FirebaseFailureAfterTheCommitKeepsTheDeletion -- Time elapsed: 0.003 s <<< ERROR!
+java.lang.IllegalStateException: Firebase account not deleted
+	at app.contacts.service.UserService.closeAccount(UserService.java:121)
+	at app.contacts.service.UserServiceTest.d80FirebaseFailureAfterTheCommitKeepsTheDeletion(UserServiceTest.java:192)
+
+[ERROR] Failures: 
+[ERROR]   UserServiceTest.d80FailedCommitLeavesTheFirebaseAccount:204 
+Expecting code to raise a throwable.
+[ERROR]   UserServiceTest.d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain:215 
+Wanted but not invoked:
+accountDeleter.purge("uid-ana");
+-> at app.contacts.service.UserServiceTest.d80RequestOfDeletedUserDeletesTheFirebaseAccountAgain(UserServiceTest.java:215)
+Actually, there were zero interactions with this mock.
+
+[ERROR]   UserServiceTest.r02101DeletesTheMembershipsAnonymisesTheUserAndDeletesTheFirebaseAccountAfterTheCommit:182 
+Expecting actual:
+  ["dropMemberships", "saveUser", "purge"]
+to contain exactly (and in same order):
+  ["dropMemberships", "saveUser", "commit", "purge"]
+but could not find the following elements:
+  ["commit"]
+
+[ERROR] Errors: 
+[ERROR]   UserServiceTest.d80FirebaseFailureAfterTheCommitKeepsTheDeletion:192 » IllegalState Firebase account not deleted
+[ERROR] Tests run: 17, Failures: 3, Errors: 1, Skipped: 0
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project contacts-backend: There are test failures.
+[ERROR] 
+[ERROR] See /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
