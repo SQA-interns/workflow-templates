@@ -1,0 +1,188 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+stderr | src/features/contacts/AttributesField.test.tsx > WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields
+TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/EditContactPage.tsx:34:30)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at updateFunctionComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:19617:20)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21640:16)
+    at HTMLUnknownElement.callCallback (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:114:17)
+Error handled by React Router default ErrorBoundary: TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/EditContactPage.tsx:34:30[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at updateFunctionComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:19617:20[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21640:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26124:20[90m)[39m
+    at flushSyncCallbacks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:12042:22[90m)[39m
+TypeError: Cannot read properties of undefined (reading 'map')
+    at EditContactPage [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/EditContactPage.tsx:34:30[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at updateFunctionComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:19617:20[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21640:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26124:20[90m)[39m
+    at flushSyncCallbacks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:12042:22[90m)[39m
+
+ ✓ src/features/contacts/EditContactPage.test.tsx (6 tests) 2709ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  786ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  747ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  442ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  369ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  349ms
+ ✓ src/features/recycle-bin/RecycleBinPage.test.tsx (15 tests) 3070ms
+   ✓ WF-11 Recycle bin (US-012) > R-021-03 a Contact deleted by a deleted User shows Deleted user  430ms
+   ✓ WF-11 Delete permanently (US-013) > AC-013-01 the Owner confirms and the recycle bin is read again  394ms
+   ✓ WF-11 Delete permanently (US-013) > EX-013-01 Cancel changes nothing  359ms
+ ✓ src/app/AppLayout.test.tsx (28 tests) 2606ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 5902ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  1626ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  398ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  390ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  364ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  844ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  494ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (23 tests) 6120ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  460ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  516ms
+   ✓ WF-06 filter panel and chips (US-015) > AC-015-01 has Tags is applied, shown as a chip and the panel closes  451ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 … R-015-04 every filter of the panel goes to the query  1140ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 a chosen Tag can be taken out of the panel again  341ms
+   ✓ WF-06 Export and Checked contacts (US-016) > D-24 (b) checks stay across Pages and are cleared when the search changes  733ms
+ ✓ src/features/contacts/AttributesField.test.tsx (10 tests) 6222ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  597ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  1310ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  685ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  831ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  453ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty  415ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row  333ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  734ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  674ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > EX-019-03 Cancel closes the confirmation and undoes nothing
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/members/InvitationsSection.test.tsx (9 tests) 2437ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 creates the Invitation and shows its link once with Copy link  828ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 Copy link copies the link and says so  439ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > R-004-01 Viewer can be chosen; Owner cannot  371ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-02 a refused undo shows its message in the confirmation
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (18 tests) 2571ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  518ms
+ ✓ src/features/members/MemberList.test.tsx (7 tests) 2377ms
+   ✓ WF-13 Members (US-005) > AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed  747ms
+   ✓ WF-13 Members (US-005) > R-005-03 Remove from Group asks first, then removes the Member  418ms
+   ✓ WF-13 Members (US-005) > EX-005-04 Cancel changes nothing  370ms
+   ✓ WF-13 Members (US-005) > R-005-05 a refused removal shows its message in the confirmation  314ms
+ ✓ src/features/account/AccountPage.test.tsx (5 tests) 1459ms
+   ✓ WF-19 Account (US-020, US-021) > EX-021-01 Delete stays disabled until the typed e-mail matches, ignoring case  718ms
+   ✓ WF-19 Account (US-020, US-021) > AC-021-01 Delete deletes the account with the typed e-mail and signs out  314ms
+   ✓ WF-19 Account (US-020, US-021) > AC-021-02 an Owner is told to delete the Groups first and stays signed in  308ms
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 1896ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  555ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  683ms
+ ✓ src/features/duplicates/MergePage.test.tsx (8 tests) 2081ms
+   ✓ WF-18 Merge (US-018) > AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's  737ms
+   ✓ WF-18 Merge (US-018) > R-018-01 choosing the other Primary contact preselects its values  328ms
+ ✓ src/features/groups/GroupSettingsPage.test.tsx (5 tests) 1175ms
+   ✓ WF-14 Group settings (US-003) > AC-003-01 saves the trimmed new name and reads the Groups again  582ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 1320ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  707ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  363ms
+ ✓ src/features/invitations/InvitationPage.test.tsx (11 tests) 1366ms
+   ✓ WF-16 Invitation (US-004) > AC-004-02 shows the Group, the Role and the expiry in Europe/Ljubljana  345ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 1643ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  1300ms
+ ✓ src/features/history/VersionPage.test.tsx (11 tests) 1543ms
+   ✓ WF-10 Version (R-010-02) > R-010-02 shows the Fields, Attributes and Tags as they were after the Version  315ms
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1066ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  327ms
+ ✓ src/features/contacts/ContactTable.test.tsx (8 tests) 1016ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  383ms
+ ✓ src/app/UserMenu.test.tsx (8 tests) 1489ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  349ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  309ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 1188ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  739ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  339ms
+ ✓ src/features/duplicates/DuplicatesPage.test.tsx (5 tests) 698ms
+   ✓ WF-17 Possible duplicates (US-017) > R-017-01 lists each pair with links to both Contacts and every reason  342ms
+ ✓ src/features/contacts/TagsField.test.tsx (14 tests) 16728ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 the form shows the Contact's Tags with the hint  640ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-01 an added Tag is shown and sent with the Fields  707ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-02 typing part of a Tag suggests the Group's Tag  2651ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 choosing a suggestion adds it  2388ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 the arrow keys choose a suggestion and Enter adds it  2351ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested  2453ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-03 a name in other case takes the spelling of the suggested Tag  2234ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-05 a name with a comma shows the message at once and adds nothing  361ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 an invalid name left in the box stops the save  1092ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a valid name left in the box is saved with the Tags  340ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 the API's tag.invalid stands in the Tags section  465ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a new Contact is added with its Tags  460ms
+ ✓ src/features/groups/DeletedGroupsPage.test.tsx (4 tests) 896ms
+   ✓ WF-15 Deleted Groups (US-003) > AC-003-03 lists the name and the removal date in Europe/Ljubljana  504ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 544ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  308ms
+ ✓ src/features/history/HistoryPage.test.tsx (8 tests) 694ms
+ ✓ src/features/groups/GroupRoute.test.tsx (3 tests) 344ms
+ ✓ src/features/export/ExportButtons.test.tsx (8 tests) 759ms
+   ✓ Export buttons of WF-06 (US-016) > AC-016-01 Export sends the list query and saves the file with its name  337ms
+ ✓ src/i18n/catalogs.test.ts (4 tests) 57ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 397ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 295ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 53ms
+ ✓ src/features/history/changes.test.ts (7 tests) 56ms
+ ✓ src/features/contacts/useSelection.test.ts (3 tests) 37ms
+ ✓ src/api/apiClient.test.ts (8 tests) 43ms
+ ✓ src/features/contacts/fieldMessages.test.ts (6 tests) 21ms
+ ✓ src/features/contacts/listQuery.test.ts (9 tests) 38ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 26ms
+ ✓ src/api/problem.test.ts (5 tests) 15ms
+ ✓ src/features/contacts/tags.test.ts (8 tests) 8ms
+ ✓ src/auth/firebase.test.ts (8 tests) 19ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 9ms
+ ✓ src/features/contacts/attributes.test.ts (7 tests) 7ms
+ ✓ src/api/retry.test.ts (2 tests) 4ms
+ ✓ src/i18n/format.test.ts (4 tests) 4ms
+
+ Test Files  45 passed (45)
+      Tests  362 passed (362)
+   Start at  19:35:18
+   Duration  24.79s (transform 2.59s, setup 12.65s, collect 21.01s, tests 73.01s, environment 41.73s, prepare 6.57s)
+

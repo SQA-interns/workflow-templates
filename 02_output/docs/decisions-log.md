@@ -912,3 +912,63 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-84: Design: overall impression, colour and dark mode
+- Timestamp: 2026-11-18T15:10+01:00
+- Session: D /design
+- Class: open
+- Type: non-blocking
+- Trigger: `/design` topics 1 and 2 (impression, colour); `ui-design.md` left the accent to the baseline and asked to confirm "light mode only" in the review (Q-40).
+- Options: 1. Calm neutral, indigo-600, light only (baseline + Q-40). 2. A bit warmer. 3. More structured (grey page, white header, cards and tables); accent A indigo-600, B blue-700 on slate, C teal-700 on stone; light only or dark mode following the system.
+- Human response: "More structured"; "C Teal-700"; "Add dark mode"; after the before/after screenshots (`out/logs/screens/design-1/`): "Yes, commit it".
+- Resolution: 3 with C and dark mode: `theme-final.css` active; light: page `#f5f5f4`, cards, header and tables `#ffffff`, border `#d6d3d1`, text `#1c1917` / `#57534e`, primary `#0f766e`; dark: page `#0c0a09`, cards `#1c1917`, surface `#292524`, text `#f5f5f4` / `#a8a29e`, primary `#2dd4bf` on `#042f2e`. New tokens `--input-border` (`#78716c`, controls at least 3:1, WCAG 1.4.11: the baseline `#e5e5e5` was 1.2:1), `--primary-subtle` (active nav item), `--overlay` (dialog backdrop, was `text/40`, which turns light in dark mode). Tables: raised panel with a tinted header row from 768 px. axe clean on every screen at the three widths in light and dark (`out/logs/design-axe-light.txt`, `design-axe-dark.txt`). The "Contacts" nav item is not tinted on the list because its link is `/` and the list is under `/groups/…`; changing it is behaviour, not design.
+- Overrides: UI-04 (accent teal-700 instead of indigo-600, stone neutrals); UI-05 (restores dark mode, replacing the `ui-design.md` override "light mode only")
+- Commit: 5ca3d41
+
+## D-85: Design: typography
+- Timestamp: 2026-11-18T15:16+01:00
+- Session: D /design
+- Class: open
+- Type: non-blocking
+- Trigger: `/design` topic 3; `theme-final.css` named Inter first, but Inter is not bundled, so the face depended on what each computer had installed.
+- Options: 1. System UI font stack; UI-06 sizes and weights unchanged. 2. Bundle Inter (new dependency `@fontsource-variable/inter`, a stack change that needs approval).
+- Human response: "System UI font (Recommended)".
+- Resolution: 1: Inter removed from `--font-family`; sizes 12 / 14 / 16 / 20 / 24 / 32 px, body 16 px / 1.5, weights 400 and 600 as UI-06. No visible change on this host (Inter was not installed; Noto Sans before and after).
+- Overrides: UI-06 (the "or Inter" choice is settled as the system UI stack)
+- Commit: a135f33
+
+## D-86: Design: density, spacing, radius, borders and shadows
+- Timestamp: 2026-11-18T15:16+01:00
+- Session: D /design
+- Class: open
+- Type: non-blocking
+- Trigger: `/design` topic 4.
+- Options: 1. Keep the baseline (4 px grid, 44 px controls, radius 8 / 12 px, 1 px borders, one soft shadow). 2. Compact table rows on desktop. 3. Sharper corners (4 / 6 px).
+- Human response: "Keep as is (Recommended)".
+- Resolution: 1; nothing to change.
+- Overrides: none
+- Commit: none
+
+## D-87: Design: mobile, tablet and desktop layouts
+- Timestamp: 2026-11-18T15:40+01:00
+- Session: D /design
+- Class: open
+- Type: non-blocking
+- Trigger: `/design` topics 5 to 7; at 768 px the tables broke e-mails mid-word (`break-all`); the user-menu trigger showed only its icon from 768 to 1023 px (D-81 (c)).
+- Options: tablet: T1 stacked cards up to 1024 px; T2 keep the table, e-mails wrap only between words, phone on one line. Mobile and desktop: keep the baseline (menu button, one field per row, stacked cards, sticky Export bar; one 1200 px column, all columns, nothing hover-only) or change.
+- Human response: "T2 Table, no mid-word break (Recommended)"; "Keep both (Recommended)"; after the screenshots (`out/logs/screens/design-1/after-responsive/`): "Yes, commit it".
+- Resolution: T2 in the Contact, Member and Invitation tables (`break-all` stays below 768 px, where cards are narrow); the User's name is shown at every width from 768 px. Mobile and desktop unchanged. axe clean in light and dark; unit tests 362/362.
+- Overrides: UI-16 (from 768 px long e-mails wrap instead of truncating; the full value stays visible)
+- Commit: 1a4c346
+
+## D-88: Design: components, icons and logo, motion, tone of the copy
+- Timestamp: 2026-11-18T16:05+01:00
+- Session: D /design
+- Class: open
+- Type: non-blocking
+- Trigger: `/design` topics 8 to 11.
+- Options: components: teal links; red destructive actions; tinted empty and error states. Icons: keep Lucide with labels and the text logo, or add a logo mark. Motion: 150 ms dialog fade, or none. Copy: keep the wording, or review it.
+- Human response: "Teal links (Recommended), Red destructive actions (Recommended)"; "Keep, no illustrations (Recommended)"; "Add a short dialog fade (Recommended)"; "Keep the wording (Recommended)"; after the screenshots (`out/logs/screens/design-1/after-components/`): "Yes, commit it".
+- Resolution: in-page links (`main a`) in `--primary`; button variants `danger` (filled, new token `--danger-foreground`: `#ffffff` light, `#450a0a` dark, 5.8:1) and `danger-ghost`; the triggers of "Move to recycle bin" (Contact, Group), "Delete permanently", "Remove from Group" and "Revoke" use `danger-ghost`, their confirm buttons and the account "Delete" use `danger`; the Attribute "Remove" in the form stays ghost (it changes only the unsaved form). Dialog overlay and content fade (content also zooms from 95 %) over 150 ms, off with reduced motion (UI-21). Empty and error states, icons, logo and wording unchanged. axe clean in light and dark; unit tests 362/362.
+- Overrides: UI-12 (adds a danger level to the three button levels for destructive actions)
+- Commit: c968973

@@ -5,19 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-021 T-36..T-43 T-53 (task group, D-78 (b))
+- Session: D /design
 - Result: done
-- Gate: phase 4 (INC-2 DoD-I) passed; tasks T-36 … T-43, T-53 done, all checks clean
+- Gate: phase 4 (final design) passed; every /design topic decided (D-84 … D-88), full suite passes
 - Notes for the next session:
-  - New tests: `AccessMatrixIT` (SR-02, INC-1 and INC-2 endpoints), SR-04 rules in `ArchitectureTest`, `OpenApiContractIT` (AR-02 against `/api/v1/openapi.json`, behind sign-in), `LogHygieneIT` (SR-08); `perf/` k6 checks with `perf/README.md`; `scripts/check-recovery.sh`; `frontend/e2e/accessibility.spec.ts`, `languages.spec.ts` (screens list in `e2e/support/screens.ts`).
-  - Results: NFR-01 p(95) 135 ms, NFR-02 1.1 s / 10,000 rows, NFR-03 153 ms (after 4b86f6d, D-82), NFR-04 14 s, NFR-07 axe clean on 19 screens at three widths, keyboard walk of E2E-01 recorded, NFR-08 105 screenshots. Chromium only (D-38): NFR-06 not run in Firefox or WebKit.
-  - Production changes the contract test needed: 201/204 via `@ResponseStatus` (c43b767), `ContactFieldsSchema` (1b80820), `excludeContactId` of email-matches (35b7d66, frontend does not send it). Tag filter rewritten for NFR-03 (4b86f6d, D-82).
-  - For `/design` (D-83 (h), D-81 (c)): after "Add an Attribute" the focus stays on the button (new Key field 24 Tabs away); the user-menu trigger is icon-only from 768 to 1023 px.
-  - Suites: backend verify 476 + 276, browser 152/152 (Chromium), frontend unit 362/362; checks and gitleaks clean. `perf/load-seed.sh` empties the local stack (port 8090). `frontend/README.md` still fails `prettier --check`.
-  - DoD-S-07: 4e41200 has 416 lines (D-83 (j)).
+  - Final theme active (`tokens.css` → `theme-final.css`): teal-700 on stone greys, "more structured", light and dark mode following the system (D-84 restores dark mode; the `ui-design.md` light-only override is replaced). System UI font (D-85); density kept (D-86).
+  - Tablet tables keep e-mails on one line; the user menu shows the name from 768 px (D-87, closes D-81 (c)). Danger button variants on destructive actions, teal in-page links, 150 ms dialog fade (D-88).
+  - Commits 5ca3d41, a135f33, 1a4c346, c968973 (all `refactor:`, style only). Screens: `out/logs/screens/design-1/` (before, after-colour, after-responsive, after-components; light and dark, 19 screens × 3 widths).
+  - Suites: backend verify 476 + 276, browser 152/152 (Chromium, stack on port 8090), frontend unit 362/362, axe clean on 19 screens at three widths in light and dark (`out/logs/design-*.txt`). gitleaks is not on the PATH in this session and was not run. `frontend/README.md` still fails `prettier --check` (unchanged).
+  - Open for /review: the "Contacts" nav item is never tinted on the list (link `/`, list under `/groups/…`; behaviour, not design). D-83 (h) (focus after "Add an Attribute") was not handled: it is focus order, not presentation.
 
 ## Next
-- Command: /design
+- Command: /quality-gate
 - Waiting for: nothing
 
 ## Stories

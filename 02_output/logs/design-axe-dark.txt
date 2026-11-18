@@ -1,0 +1,30 @@
+
+Running 20 tests using 1 worker
+
+[1A[2K[1/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+[1A[2K[chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+
+
+[1A[2K[2/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-02 sign-up: no Critical or Serious violation at the three widths
+[1A[2K[3/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-03 confirm-email: no Critical or Serious violation at the three widths
+[1A[2K[4/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-04 create-group: no Critical or Serious violation at the three widths
+[1A[2K[5/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-05 no-groups: no Critical or Serious violation at the three widths
+[1A[2K[6/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-06 contact-list: no Critical or Serious violation at the three widths
+[1A[2K[7/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-07 contact-details: no Critical or Serious violation at the three widths
+[1A[2K[8/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-08 contact-form: no Critical or Serious violation at the three widths
+[1A[2K[9/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-09 history: no Critical or Serious violation at the three widths
+[1A[2K[10/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-10 version: no Critical or Serious violation at the three widths
+[1A[2K[11/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-11 recycle-bin: no Critical or Serious violation at the three widths
+[1A[2K[12/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-13 members: no Critical or Serious violation at the three widths
+[1A[2K[13/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-14 group-settings: no Critical or Serious violation at the three widths
+[1A[2K[14/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-15 deleted-groups: no Critical or Serious violation at the three widths
+[1A[2K[15/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-16 invitation: no Critical or Serious violation at the three widths
+[1A[2K[16/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-17 possible-duplicates: no Critical or Serious violation at the three widths
+[1A[2K[17/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-18 merge: no Critical or Serious violation at the three widths
+[1A[2K[18/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-19 account: no Critical or Serious violation at the three widths
+[1A[2K[19/20] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-20 not-found: no Critical or Serious violation at the three widths
+[1A[2K[20/20] [chromium] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+[1A[2K[chromium] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+
+
+[1A[2K  20 passed (1.3m)
