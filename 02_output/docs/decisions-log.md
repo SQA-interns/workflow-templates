@@ -890,3 +890,25 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-82: NFR-03 fails on the Tag filter; fixed in the cross-cutting task group
+- Timestamp: 2026-11-18T14:36+01:00
+- Session: S5 /implement US-021 T-36..T-43 T-53
+- Class: open
+- Type: non-blocking
+- Trigger: the NFR-03 run of T-39 (`perf/contact-list.js` after `perf/load-seed.sh capacity`: 50 Groups, 200 Users, 10,000 Contacts in one Group) failed with list p(95) 3.71 s (pass value 500 ms; `out/logs/implement-t39-nfr03-capacity-before-fix.txt`). Cause: once pgjdbc server-prepares the list query, PostgreSQL may pick a generic plan; with 50 Groups it estimated 2 Contacts for the Group and joined the 3,000 Tag rows with all 10,003 Contacts pair by pair (4.3 s, `out/logs/implement-t39-nfr03-explain.txt`). The query is US-015 code; `skills/implement` keeps a session to its own tasks, but D-78 (b) makes T-36 … T-43 the tasks of all stories, and NFR-03 is T-39's pass value.
+- Options: 1. [ASSUMPTION] Fix it here (4b86f6d): the Tag filter (R-015-01) counts the Tags of each Contact through the primary key of `contact_tag` instead of `id IN (… GROUP BY … HAVING count(*) = n)`; same result set (ContactQueryRepositoryIT, US-015 and US-016 acceptance 43/43), 75 ms under the same generic plan; NFR-01 p(95) 135 ms, NFR-03 153 ms. A repository test that forces a generic plan could not reproduce the bad plan (it depends on the stack's statistics), so the k6 check is the guard and the `Red:` line names it. 2. Leave the code, record NFR-03 as failed, and let `/review` or `/verify` raise it.
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-83: Details the cross-cutting tasks T-36 … T-43, T-53 leave open
+- Timestamp: 2026-11-18T14:36+01:00
+- Session: S5 /implement US-021 T-36..T-43 T-53
+- Class: open
+- Type: non-blocking
+- Trigger: the tasks name files and checks (specification §6, §8), not the test data, the comparison depth of the contract test or how the checks run on this host.
+- Options: 1. [ASSUMPTION] (a) People the inputs do not name, all fictitious on `example.si`: the non-Member `eva.outsider@` (AccessMatrixIT), the invitees `povabljen@`, `nova.clanica@` (also WF-05, WF-16, WF-19, WF-20 in the browser specs), unverified `nepotrjen.<time>@` (WF-03), the k6 Viewers `obremenitev01@` … `obremenitev20@`, the capacity Users `clan1@` … `clan197@`; (b) seed values of `perf/seed-10k.sql` and `perf/seed-capacity.sql` (first names, `Priimek00001` …, 50 companies, 5 cities, Attribute keys `kompetenca`, `jezik`, `regija`, `velikost`, `vir`, Tags `perf00` … `perf09`, 100 Contacts and four Members per extra Group) are synthetic; (c) T-37 compares operations, parameters, success statuses and the shape of request and success schemas (property names, nesting); it does not compare value types or error responses, because springdoc does not see the statuses of `ProblemHandler` (F-15 of INC-2 stays a known item, D-78 (e)); the runtime document is served behind sign-in at `/api/v1/openapi.json` (F-04 looked at `/v3/api-docs`); (d) the gaps T-37 found were fixed: 201/204 declared with `@ResponseStatus` (c43b767, wire unchanged), the Fields documented as `ContactFields` (1b80820), and `excludeContactId` of `findContactsByEmail` implemented (35b7d66; the frontend does not send it yet); (e) k6 runs as the image `grafana/k6:1.3.0` named in specification §8 (pulled on this host; `tech-stack.md` lists the binary), against the local stack at port 8090; each virtual User is its own Viewer so that SR-03 holds; the Export row count is read with `perf/export-rows.sh` because k6 cannot unzip; (f) viewport heights 812, 1024 and 900 px for the widths of UI-22; the browser specs share the screens among the Members (rate limit of SR-03); (g) only Chromium is installed (D-38): NFR-06 and the three-browser part of T-42 are configured but not run here; (h) the keyboard walk-through of E2E-01 passes, but after "Add an Attribute" the new Key field is 24 Tab presses away (the focus stays on the button and the new row is earlier in the order), an observation for `/design` or `/review`; (i) D-81 (c) (user-menu trigger shows only its icon from 768 to 1023 px) is not part of these tasks and stays for `/design`; (j) DoD-S-07: 4e41200 has 416 changed lines (over 400), and 1b80820 names logs that are committed with the session's logs. 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none

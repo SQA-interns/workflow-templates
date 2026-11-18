@@ -5,19 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-002 (fix-only, D-78 (a))
+- Session: S5 /implement US-021 T-36..T-43 T-53 (task group, D-78 (b))
 - Result: done
-- Gate: phase 4 (INC-2 DoD-I) passed
+- Gate: phase 4 (INC-2 DoD-I) passed; tasks T-36 … T-43, T-53 done, all checks clean
 - Notes for the next session:
-  - F-05 fixed in a264259: a page of the Group selected last that is no longer available sends the User to `/` (first Group or WF-05); any other unknown Group stays not found (D-81 (a)). Frozen E2E-08 passes.
-  - F-06 (US-002 part) fixed in 089a5a8: from 768 to 1279 px navigation and user menu are the second header row (WF-06 tablet), one row from 1280 px (D-81 (b)). F-06 is now fully fixed.
-  - UI acceptance and E2E 97/97 in Chromium (`out/logs/implement-us002-ui-all.txt`), frontend 362/362, prettier/eslint/tsc and gitleaks clean on the changed code.
-  - Open for US-021 / `/design` (D-81 (c)): the user-menu trigger shows only its icon from 768 to 1023 px, though the second row now has room for the name.
-  - The frontend image is built from `frontend/dist/`: run `npm run build` before `docker compose --env-file ../.env up -d --build --no-deps frontend` (`APP_HOST_PORT=8090`). Gitleaks runs as the `zricethezav/gitleaks:v8.28.0` image (no binary on the host).
-  - `frontend/README.md` fails `prettier --check` (since 381c42f). Only Chromium is installed for Playwright.
+  - New tests: `AccessMatrixIT` (SR-02, INC-1 and INC-2 endpoints), SR-04 rules in `ArchitectureTest`, `OpenApiContractIT` (AR-02 against `/api/v1/openapi.json`, behind sign-in), `LogHygieneIT` (SR-08); `perf/` k6 checks with `perf/README.md`; `scripts/check-recovery.sh`; `frontend/e2e/accessibility.spec.ts`, `languages.spec.ts` (screens list in `e2e/support/screens.ts`).
+  - Results: NFR-01 p(95) 135 ms, NFR-02 1.1 s / 10,000 rows, NFR-03 153 ms (after 4b86f6d, D-82), NFR-04 14 s, NFR-07 axe clean on 19 screens at three widths, keyboard walk of E2E-01 recorded, NFR-08 105 screenshots. Chromium only (D-38): NFR-06 not run in Firefox or WebKit.
+  - Production changes the contract test needed: 201/204 via `@ResponseStatus` (c43b767), `ContactFieldsSchema` (1b80820), `excludeContactId` of email-matches (35b7d66, frontend does not send it). Tag filter rewritten for NFR-03 (4b86f6d, D-82).
+  - For `/design` (D-83 (h), D-81 (c)): after "Add an Attribute" the focus stays on the button (new Key field 24 Tabs away); the user-menu trigger is icon-only from 768 to 1023 px.
+  - Suites: backend verify 476 + 276, browser 152/152 (Chromium), frontend unit 362/362; checks and gitleaks clean. `perf/load-seed.sh` empties the local stack (port 8090). `frontend/README.md` still fails `prettier --check`.
+  - DoD-S-07: 4e41200 has 416 lines (D-83 (j)).
 
 ## Next
-- Command: /implement US-021 T-36..T-43 T-53
+- Command: /design
 - Waiting for: nothing
 
 ## Stories
@@ -43,4 +43,4 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c); F-01 fixed (8021943, D-79) |
 | US-019 | INC-2 | done | met (API 5/5, UI 3/3; WF-07 Undo merge at three widths, axe clean); DoD-S-07 see D-75 (i) |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
-| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a, header part 089a5a8); F-02 fixed (58affcd, D-80) |
+| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a, header part 089a5a8); F-02 fixed (58affcd, D-80); cross-cutting T-36 … T-43, T-53 done (D-82, D-83) |
