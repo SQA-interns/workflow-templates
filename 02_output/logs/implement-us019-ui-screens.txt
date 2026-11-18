@@ -1,0 +1,9 @@
+
+Running 1 test using 1 worker
+
+axe WF-07_contact-details undo-merge: none
+axe WF-07_contact-details undo-merge-confirm: none
+axe WF-07_contact-details undo-merge-refused: none
+  ✓  1 [chromium] › acceptance/zz-us019-screens.spec.ts:27:1 › US-019 screens (8.6s)
+
+  1 passed (10.5s)

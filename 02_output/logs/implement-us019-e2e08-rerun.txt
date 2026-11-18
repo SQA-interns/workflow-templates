@@ -1,0 +1,50 @@
+
+Running 1 test using 1 worker
+
+
+  ✘  1 [chromium] › e2e/e2e-08-group-lifecycle.spec.ts:15:1 › E2E-08 Group lifecycle (12.2s)
+
+
+  1) [chromium] › e2e/e2e-08-group-lifecycle.spec.ts:15:1 › E2E-08 Group lifecycle ─────────────────
+
+    Error: [2mexpect([22m[31mlocator[39m[2m).[22mtoBeVisible[2m([22m[2m)[22m failed
+
+    Locator: getByText('You have no Groups yet.')
+    Expected: visible
+    Timeout: 10000ms
+    Error: element(s) not found
+
+    Call log:
+    [2m  - Expect "toBeVisible" with timeout 10000ms[22m
+    [2m  - waiting for getByText('You have no Groups yet.')[22m
+
+
+      33 |   await expect(page.getByText("You have no Groups yet.")).toBeVisible();
+      34 |   await markoPage.reload();
+    > 35 |   await expect(markoPage.getByText("You have no Groups yet.")).toBeVisible();
+         |                                                                ^
+      36 |
+      37 |   // Ana restores it from "Deleted Groups": Marko sees "Konferenca 2026" with its Contacts.
+      38 |   await page.goto("/deleted-groups");
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/e2e/e2e-08-group-lifecycle.spec.ts:35:64
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/e2e-e2e-08-group-lifecycle-E2E-08-Group-lifecycle-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/e2e-e2e-08-group-lifecycle-E2E-08-Group-lifecycle-chromium/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/e2e-e2e-08-group-lifecycle-E2E-08-Group-lifecycle-chromium/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/e2e-e2e-08-group-lifecycle-E2E-08-Group-lifecycle-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/e2e-e2e-08-group-lifecycle-E2E-08-Group-lifecycle-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › e2e/e2e-08-group-lifecycle.spec.ts:15:1 › E2E-08 Group lifecycle ──────────────────
