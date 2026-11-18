@@ -857,3 +857,14 @@
 - Human response: "for all decision and findings found, confirm review and accept the default decisions" (`/review INC-2`) — option 1, 2026-11-18.
 - Resolution: 1
 - Overrides: none
+
+## D-79: How the F-01 fix names the merged Contacts (US-018)
+- Timestamp: 2026-11-18T12:30+01:00
+- Session: S5 /implement US-018 (fix-only, D-78 (a))
+- Class: open
+- Type: non-blocking
+- Trigger: F-01: the WF-11 confirmation must name the Contacts merged into a Primary contact that a permanent delete also deletes (D-21). `RecycleBinEntry` has no field for them; specification, contract and wireframe do not say how the client gets the names or what the confirmation does while it reads them.
+- Options: 1. [ASSUMPTION] (a) no contract change: when the confirmation opens, the client reads the Contact with `GET /contacts/{id}` (it answers a Contact in the recycle bin too) and follows each `mergedFrom` that is not undone, also into the Contacts merged into those, which is the set the server deletes (D-72 (g)); names in that order, joined by ", "; (b) the line is "Also deleted: the Contacts merged into it: <names>." / "Izbrisani bodo tudi kontakti, združeni vanj: <names>." (wireframe text; Slovenian added) and is shown only when there is at least one; (c) "Delete permanently" in the confirmation stays off until the names are read; a failed read shows "Something went wrong." in the confirmation and the Owner closes and opens it again (no delete without the names); (d) checked on the local stack at port 8090 in Chromium only (Firefox and WebKit are not installed on the host): the line at three widths, no overflow, axe clean, and the Primary contact with its three merged Contacts (one of them two levels deep) deleted (`out/logs/implement-us018-f01-ui-screens.txt`, screens in `out/logs/screens/WF-11_recycle-bin/permanent-delete/`); frozen UI tests of US-013 and US-018 6/6 (`out/logs/implement-us018-f01-acceptance.txt`); frontend 359/359. 2. Other (state it).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
