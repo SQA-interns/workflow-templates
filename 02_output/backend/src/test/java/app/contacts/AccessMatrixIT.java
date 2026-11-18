@@ -15,7 +15,8 @@ import tools.jackson.databind.JsonNode;
 
 /**
  * SR-02 (specification §6.1, ADR-04): every Group endpoint of {@code openapi.yaml} answers 404 to a
- * non-Member and 403 to a Role without the permission, and changes nothing.
+ * non-Member and 403 to a Role without the permission, and changes nothing; INC-1 (T-36) and the
+ * INC-2 endpoints of Possible duplicates, Merge and Undo merge (T-53).
  */
 class AccessMatrixIT extends AcceptanceTest {
 
@@ -26,7 +27,10 @@ class AccessMatrixIT extends AcceptanceTest {
   private record Fixture(
       Team team,
       String contactId,
+      String duplicateId,
       String binnedContactId,
+      String mergeId,
+      String mergePrimaryId,
       String invitationId,
       List<String> watchedPaths) {}
 
@@ -84,6 +88,7 @@ class AccessMatrixIT extends AcceptanceTest {
         get("getHistory", contact + "/versions"),
         get("getVersion", contact + "/versions/1"),
         get("suggestTags", group + "/tags?q=vip"),
+        get("listPossibleDuplicates", group + "/duplicates"),
         new Call("exportContacts", "POST", group + "/exports", Json::obj));
   }
 
@@ -118,6 +123,8 @@ class AccessMatrixIT extends AcceptanceTest {
     TestUser owner = fixture.team().ana();
     JsonNode current = getContact(owner, fixture.team().groupId(), fixture.contactId());
     JsonNode binned = getContact(owner, fixture.team().groupId(), fixture.binnedContactId());
+    JsonNode duplicate = getContact(owner, fixture.team().groupId(), fixture.duplicateId());
+    JsonNode primary = getContact(owner, fixture.team().groupId(), fixture.mergePrimaryId());
     return List.of(
         new Call(
             "createContact",
@@ -139,7 +146,23 @@ class AccessMatrixIT extends AcceptanceTest {
             "restoreContactFromRecycleBin",
             "POST",
             group + "/recycle-bin/" + fixture.binnedContactId() + "/restore",
-            () -> Json.obj("versionNumber", binned.path("versionNumber").asInt())));
+            () -> Json.obj("versionNumber", binned.path("versionNumber").asInt())),
+        new Call(
+            "merge",
+            "POST",
+            group + "/merges",
+            () ->
+                Json.obj(
+                    "primaryId", fixture.contactId(),
+                    "otherId", fixture.duplicateId(),
+                    "primaryVersionNumber", current.path("versionNumber").asInt(),
+                    "otherVersionNumber", duplicate.path("versionNumber").asInt(),
+                    "fieldChoices", Json.obj("firstName", "primary"))),
+        new Call(
+            "undoMerge",
+            "POST",
+            group + "/merges/" + fixture.mergeId() + "/undo",
+            () -> Json.obj("versionNumber", primary.path("versionNumber").asInt())));
   }
 
   /** VIEW_RECYCLE_BIN: Owner and Editor (ADR-04). */
@@ -167,13 +190,27 @@ class AccessMatrixIT extends AcceptanceTest {
 
   /**
    * "Konferenca 2025" (Ana Owner, Marko Editor, Petra Viewer) with "Janez Novak" (an edit, so two
-   * Versions), "Maja Zupan" in the recycle bin and an open Invitation.
+   * Versions) and its possible duplicate "J. Novak" (E2E-04), "Maja Zupan" in the recycle bin,
+   * "Podjetje Beta" merged into "Podjetje Alfa", and an open Invitation.
    */
   private Fixture fixture() {
     Team team = team();
     String groupId = team.groupId();
     String janez = contact(team.ana(), groupId, "firstName", "Janez", "lastName", "Novak");
     edited(team.ana(), groupId, janez, field("email", JANEZ_EMAIL));
+    String jNovak =
+        contact(team.ana(), groupId, "firstName", "J.", "lastName", "Novak", "email", JANEZ_EMAIL);
+    String alfa = contact(team.ana(), groupId, "company", "Podjetje Alfa");
+    String beta = contact(team.ana(), groupId, "company", "Podjetje Beta");
+    Res merged =
+        merge(
+            team.ana(),
+            groupId,
+            alfa,
+            beta,
+            Json.obj("fieldChoices", Json.obj("company", "primary")));
+    assertThat(merged.status()).as("merge: %s", merged).isEqualTo(201);
+    String mergeId = Json.text(merged.json().path("id"));
     String maja = contact(team.ana(), groupId, "firstName", "Maja", "lastName", "Zupan");
     moveToRecycleBin(team.ana(), groupId, maja);
     invite(groupId, team.ana(), "povabljen@example.si", "VIEWER");
@@ -186,9 +223,12 @@ class AccessMatrixIT extends AcceptanceTest {
             team.path() + "/invitations",
             team.path() + "/contacts",
             team.path() + "/recycle-bin",
+            team.path() + "/duplicates",
             contactPath(groupId, janez),
-            contactPath(groupId, janez) + "/versions");
-    return new Fixture(team, janez, maja, invitationId, watched);
+            contactPath(groupId, janez) + "/versions",
+            contactPath(groupId, jNovak),
+            contactPath(groupId, alfa));
+    return new Fixture(team, janez, jNovak, maja, mergeId, alfa, invitationId, watched);
   }
 
   // ----------------------------------------------------------- Assertions
