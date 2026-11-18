@@ -1,0 +1,53 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { ANA, MARKO, api, resetStack, signIn, team } from "./support/stack";
+
+// Throwaway check of WF-19 (Account) for US-021 (build-ui steps 4 and 5); not committed.
+test.beforeEach(resetStack);
+
+async function shot(page: Page, screen: string, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    if (overflow) {
+      await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}_overflow.png`, fullPage: true });
+      console.log("wide:", await page.evaluate(() => [...document.querySelectorAll("body *")].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 1).slice(0, 8).map((e) => `${e.tagName}.${(e as HTMLElement).className} w=${Math.round(e.getBoundingClientRect().width)}`)));
+    }
+    expect(overflow, `${screen} ${name} ${label} horizontal overflow`).toBe(false);
+    await page.screenshot({ path: `../logs/screens/${screen}/${name}_${label}.png`, fullPage: true });
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${screen} ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+  await page.setViewportSize({ width: 1280, height: 720 });
+}
+
+test("US-021 screens", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.marko);
+  await page.goto("/account");
+  await expect(page.getByRole("heading", { level: 1, name: "Account" })).toBeVisible();
+  await shot(page, "WF-19_account", "default");
+
+  await page.getByLabel("Type your e-mail address to confirm").fill(MARKO);
+  await expect(page.getByRole("button", { name: "Delete", exact: true })).toBeEnabled();
+  await shot(page, "WF-19_account", "typed");
+
+  await page.getByRole("button", { name: "Account" }).first().isVisible();
+  const ana = await page.context().browser()!.newContext({ baseURL: new URL(page.url()).origin });
+  const anaPage = await ana.newPage();
+  await signIn(anaPage, t.ana);
+  await anaPage.goto("/account");
+  await anaPage.getByLabel("Type your e-mail address to confirm").fill(ANA);
+  await anaPage.getByRole("button", { name: "Delete", exact: true }).click();
+  await expect(anaPage.getByText("Delete your Groups first: Konferenca 2025.")).toBeVisible();
+  await shot(anaPage, "WF-19_account", "refused");
+
+  await api(t.ana, "PATCH", "/me", { language: "sl" });
+  await anaPage.reload();
+  await expect(anaPage.getByRole("heading", { level: 1, name: "Račun" })).toBeVisible();
+  await shot(anaPage, "WF-19_account", "sl");
+  await ana.close();
+});

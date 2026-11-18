@@ -824,3 +824,25 @@
 - Human response: "chose default decision for d-75" — option 1, 2026-11-18.
 - Resolution: 1
 - Overrides: none
+
+## D-76: US-021 details the story leaves open
+- Timestamp: 2026-11-18T11:30+01:00
+- Session: S5 /implement US-021
+- Class: open
+- Type: non-blocking
+- Trigger: Implementing R-021-01 … R-021-03, D-20 and WF-19 needs values that US-021, the specification (§4, §5), the contract (`deleteMyAccount`, `AccountDeletion`) and D-20 do not give.
+- Options: 1. [ASSUMPTION] (a) a typed e-mail that does not match the User's, or a missing one, is 400 `validation` without field errors (§5 has no own code; the UI never sends it, EX-021-01); the e-mails are compared ignoring case (BR-11) and outer spaces of the typed one; (b) order of `DELETE /me`: typed e-mail (400) → Owner of any Group in any state (409 `account.ownsGroups`, `names` = the Group names A–Z in Slovenian order joined by ", ", R-021-02, EX-021-02) → delete every Membership → anonymise the User (D-20: e-mail and display name erased, `deleted_at` set) → delete the Firebase account last in the same transaction; a Firebase failure is 500 `internal` and rolls back everything; an account Firebase no longer has counts as deleted; (c) no Audit entry (BR-10 does not list account deletion); Audit entries, Versions, Merges and Invitations keep the User id only; open Invitations to the e-mail stay (they are the Group's data); (d) the API sends the code `user.deleted` as the name of a deleted User everywhere it names a User (History, Version, recycle bin "Deleted by", `version.conflict` `changedBy`); the UI shows "Deleted user" / "Izbrisan uporabnik"; (e) WF-19: the language is a select labelled "Language" with the hint "Slovenščina · English" (as the wireframe), besides the user menu (D-48 (a)); "Delete" is enabled once the typed e-mail matches and asks nothing more (the typed e-mail is the confirmation, as WF-19 draws none); after a deletion the app signs out, forgets the cached answers and opens the sign-in screen; a refusal stands below "Delete"; the user menu links to "Account" (`/account`) above Deleted Groups; (f) Slovenian texts: "Račun", "Izbriši moj račun", "Vaš račun in vaša članstva bodo izbrisani. Pri različicah, ki ste jih naredili, bo pisalo »Izbrisan uporabnik«.", "Za potrditev vpišite svoj e-poštni naslov", "Izbriši", "Najprej izbrišite svoje skupine: {{names}}.", "Izbrisan uporabnik"; (g) E2E-01 now passes (it waited for the language choice of WF-19, D-75 (j)); (h) names avoid the SpotBugs mutator prefixes (D-59 (f), D-75 (i)): `UserService.closeAccount` (specification §4 says `deleteAccount`), `MembershipRepository.dropAllOfUser`, `AccountDeleter.purge`; (i) DoD-S-07: every commit is within 15 files and 400 lines; the subjects of 0d7614b (76), 2d18a2b (74), 3218c01 (77) and b69f444 (76) are over 72 characters; 0d7614b … 8ffbf9d failed spotless, checkstyle (three test names) and SpotBugs (EI_EXPOSE_REP2 from the `delete…` names, IMPROPER_UNICODE), fixed by b69f444; 0d7614b had no `AccountDeleter` bean until 4dc2446 (application context); 298a93e failed the type check of its tests (fixed by 0d84326) and lint and format (fixed by 16758a1); history not rewritten (proposed default). 2. Other (state it).
+- Human response: none
+- Resolution: pending review
+- Overrides: none
+
+## D-77: Frozen UI test AC-021-01 finds the e-mail field as the only textbox (as D-40)
+- Timestamp: 2026-11-18T11:30+01:00
+- Session: S5 /implement US-021
+- Class: open
+- Type: approval
+- Trigger: `frontend/acceptance/us021-delete-account.spec.ts:33` (AC-021-01) fills the e-mail on the sign-in screen with `page.getByRole("textbox")`; Playwright gives the password field the role `textbox` too, so the locator fails in strict mode ("resolved to 2 elements"), the cause of D-40. D-43 approved the change of five such locators only; this sixth one was not among them. The behaviour works: a copy of the test with only this locator changed to `page.locator('input[type="email"]')` passed on the local stack (`out/logs/implement-us021-ac02101-d76-check.txt`, copy deleted). AC-021-02 and EX-021-01 (UI) and all five API tests pass.
+- Options: 1. Change this one locator to `page.locator('input[type="email"]')` (as D-40), nothing else, and regenerate `docs/03_acceptance-manifest.sha256`, in one `test:` commit of the `/implement US-021` session that receives the answer (default). 2. Keep the test as it is; AC-021-01 (UI) stays failing and DoD-S-01 of US-021 is not met. 3. Other (state it).
+- Human response: none
+- Resolution: pending (approval needed)
+- Overrides: none

@@ -1,0 +1,15 @@
+
+Running 1 test using 1 worker
+
+axe WF-19_account default: none
+axe WF-19_account typed: none
+axe WF-19_account refused: none
+axe WF-19_account sl: none
+  ✓  1 [chromium] › acceptance/tmp-us021-screens.spec.ts:27:1 › US-021 screens (8.8s)
+
+  1 passed (10.3s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
