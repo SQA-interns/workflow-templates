@@ -1,0 +1,41 @@
+      2 |     3 |                  10003
+(1 row)
+
+
+
+  █ THRESHOLDS 
+
+    checks{scenario:contact_list}
+    ✓ 'rate==1' rate=100.00%
+
+    http_req_duration{scenario:contact_list}
+    ✓ 'p(95)<500' p(95)=135.24ms
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 2266    18.396921/s
+    checks_succeeded...: 100.00% 2266 out of 2266
+    checks_failed......: 0.00%   0 out of 2266
+
+    ✓ list answers 200
+
+    HTTP
+    http_req_duration..............: avg=59.49ms min=1.35ms med=52.67ms max=276.62ms p(90)=124.84ms p(95)=134.38ms
+      { expected_response:true }...: avg=59.96ms min=1.35ms med=53.23ms max=276.62ms p(90)=124.93ms p(95)=134.55ms
+      { scenario:contact_list }....: avg=62.29ms min=6ms    med=55.97ms max=276.62ms p(90)=126ms    p(95)=135.24ms
+    http_req_failed................: 0.83%  20 out of 2409
+    http_reqs......................: 2409   19.557892/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.06s   min=1s     med=1.05s   max=1.28s    p(90)=1.12s    p(95)=1.13s   
+    iterations.....................: 2266   18.396921/s
+    vus............................: 6      min=0          max=20
+    vus_max........................: 20     min=20         max=20
+
+    NETWORK
+    data_received..................: 41 MB  332 kB/s
+    data_sent......................: 1.8 MB 15 kB/s
+
+
+

@@ -1,0 +1,204 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ✓ src/features/recycle-bin/RecycleBinPage.test.tsx (15 tests) 4832ms
+   ✓ WF-11 Recycle bin (US-012) > R-021-03 a Contact deleted by a deleted User shows Deleted user  854ms
+   ✓ WF-11 Recycle bin (US-012) > AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana  338ms
+   ✓ WF-11 Recycle bin (US-012) > UI-14 an error shows Something went wrong. and Try again asks again  304ms
+   ✓ WF-11 Delete permanently (US-013) > AC-013-01 the Owner confirms and the recycle bin is read again  429ms
+   ✓ WF-11 Delete permanently (US-013) > EX-013-01 Cancel changes nothing  357ms
+   ✓ WF-11 Delete permanently (US-013) > D-21 without merged Contacts the confirmation names none  330ms
+   ✓ WF-11 Delete permanently (US-013) > D-21 Delete permanently waits until the merged Contacts are read  416ms
+   ✓ WF-11 Delete permanently (US-013) > D-21 a failed read of the merged Contacts shows the error and keeps Delete off  415ms
+   ✓ WF-11 Delete permanently (US-013) > R-013-03 a refused delete shows its message in the confirmation  445ms
+ ✓ src/features/contacts/EditContactPage.test.tsx (6 tests) 4520ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  1313ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  1469ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  793ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  366ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  557ms
+ ✓ src/app/AppLayout.test.tsx (28 tests) 5110ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default  491ms
+   ✓ base layout (UI-10, R-020-01) > UI-23 the menu button toggles the navigation  377ms
+   ✓ routes and header of US-012 > R-012-02 a Viewer gets no Recycle bin in the navigation  403ms
+   ✓ routes and header of US-003 > R-003-04 the user menu opens WF-15 Deleted Groups  453ms
+ ✓ src/features/contacts/AttributesField.test.tsx (10 tests) 9319ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  980ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  1879ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  1474ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  1204ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-04 Remove takes the Attribute out of the save  308ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  701ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty  429ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row  660ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  834ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  840ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (23 tests) 11735ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  609ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  524ms
+   ✓ WF-06 Contact list (US-014) > R-014-03 Sort by and Order ask for the whole list in that order  326ms
+   ✓ WF-06 filter panel and chips (US-015) > AC-015-01 has Tags is applied, shown as a chip and the panel closes  958ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 … R-015-04 every filter of the panel goes to the query  1733ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 a chosen Tag can be taken out of the panel again  901ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 removing a chip removes only that filter  446ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 Clear filters removes every filter and keeps the search and sort  543ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 Clear filters in the panel removes every filter  658ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-07 applying keeps the sort and starts at Page 1  626ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 the panel opens with the Active filters  511ms
+   ✓ WF-06 Export and Checked contacts (US-016) > AC-016-02 a checked row is counted and Export checked sends it  412ms
+   ✓ WF-06 Export and Checked contacts (US-016) > D-24 (b) checks stay across Pages and are cleared when the search changes  1520ms
+   ✓ WF-06 Export and Checked contacts (US-016) > EX-016-02 an empty filtered list: Export disabled, Nothing to export.  584ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (13 tests) 12851ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  3424ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  537ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  807ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  1173ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  1032ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  1022ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  521ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  621ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  1411ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  577ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 an e-mail without a match shows no warning  1012ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-06 a blank or invalid e-mail is not looked up  458ms
+ ✓ src/features/members/MemberList.test.tsx (7 tests) 3645ms
+   ✓ WF-13 Members (US-005) > AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed  1031ms
+   ✓ WF-13 Members (US-005) > R-005-03 Remove from Group asks first, then removes the Member  662ms
+   ✓ WF-13 Members (US-005) > EX-005-04 Cancel changes nothing  631ms
+   ✓ WF-13 Members (US-005) > R-005-05 a refused removal shows its message in the confirmation  677ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > EX-019-03 Cancel closes the confirmation and undoes nothing
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/members/InvitationsSection.test.tsx (9 tests) 4338ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 creates the Invitation and shows its link once with Copy link  1010ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > AC-004-01 Copy link copies the link and says so  1205ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > R-004-01 Viewer can be chosen; Owner cannot  736ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > EX-004-06 an invalid e-mail: Enter a valid e-mail address., nothing sent  365ms
+   ✓ WF-13 Invite a Member and Open Invitations (US-004) > EX-004-04 a Member's e-mail: This person is already a Member.  554ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-02 a refused undo shows its message in the confirmation
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (18 tests) 4234ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  904ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 links to the History with the current Version and its time  328ms
+   ✓ WF-07 Contact details (R-014-06) > AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list  468ms
+   ✓ WF-07 Contact details (R-014-06) > EX-012-03 Cancel closes the confirmation and moves nothing  329ms
+   ✓ WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-02 a refused undo shows its message in the confirmation  379ms
+ ✓ src/features/duplicates/MergePage.test.tsx (8 tests) 2848ms
+   ✓ WF-18 Merge (US-018) > AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's  879ms
+   ✓ WF-18 Merge (US-018) > R-018-01 the Contact created first is Primary, whichever the list shows first (D-74)  350ms
+   ✓ WF-18 Merge (US-018) > R-018-01 choosing the other Primary contact preselects its values  529ms
+   ✓ WF-18 Merge (US-018) > R-018-02 Merge sends the Primary contact, the Version numbers and every choice  455ms
+   ✓ WF-18 Merge (US-018) > R-018-02 shows the Tags and the Attributes of both  395ms
+ ✓ src/features/history/VersionPage.test.tsx (11 tests) 2384ms
+   ✓ WF-10 Version (R-010-02) > R-010-02 shows the Fields, Attributes and Tags as they were after the Version  337ms
+   ✓ WF-10 Restore this Version (US-011) > EX-011-03 Cancel closes the confirmation and restores nothing  454ms
+   ✓ WF-10 Restore this Version (US-011) > AC-011-04 a refused restore shows its message in the confirmation  321ms
+   ✓ WF-10 Restore this Version (US-011) > EX-011-04 a refused restore shows its message in the confirmation  437ms
+ ✓ src/app/UserMenu.test.tsx (8 tests) 2263ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-04 the menu button shows the display name of GET /me  550ms
+   ✓ user menu (R-001-04, R-001-06) > R-001-06 Sign out signs out of Firebase and forgets the User's data  399ms
+   ✓ user menu (R-001-04, R-001-06) > US-021 the menu links to WF-19 Account  357ms
+   ✓ language (R-020-01, R-020-02) > R-020-02 choosing Slovenščina saves it and switches every text at once  369ms
+ ✓ src/features/groups/CreateGroupPage.test.tsx (6 tests) 3405ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-01 the new Group opens as the current Group  1208ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > AC-002-04 a blank name: Enter a name of 1 to 100 characters. and nothing is sent  330ms
+   ✓ WF-04 Create a Group (R-002-01, R-002-02) > EX-002-02 a name of 101 characters is rejected before sending  1298ms
+ ✓ src/features/groups/GroupSettingsPage.test.tsx (5 tests) 1915ms
+   ✓ WF-14 Group settings (US-003) > AC-003-01 saves the trimmed new name and reads the Groups again  931ms
+   ✓ WF-14 Group settings (US-003) > EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent  327ms
+   ✓ WF-14 Group settings (US-003) > EX-003-04 Cancel in the confirmation changes nothing  353ms
+ ✓ src/features/account/SignInPage.test.tsx (6 tests) 1842ms
+   ✓ WF-01 Sign in (US-001) > R-001-01 signs in with e-mail and password  1014ms
+   ✓ WF-01 Sign in (US-001) > EX-001-01 wrong password: Wrong e-mail or password.  435ms
+ ✓ src/features/account/AccountPage.test.tsx (5 tests) 1973ms
+   ✓ WF-19 Account (US-020, US-021) > EX-021-01 Delete stays disabled until the typed e-mail matches, ignoring case  1145ms
+   ✓ WF-19 Account (US-020, US-021) > AC-021-01 Delete deletes the account with the typed e-mail and signs out  350ms
+   ✓ WF-19 Account (US-020, US-021) > AC-021-02 an Owner is told to delete the Groups first and stays signed in  341ms
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (6 tests) 2369ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  1906ms
+ ✓ src/features/invitations/InvitationPage.test.tsx (11 tests) 1997ms
+   ✓ WF-16 Invitation (US-004) > AC-004-02 shows the Group, the Role and the expiry in Europe/Ljubljana  370ms
+   ✓ WF-16 Invitation (US-004) > AC-004-02 Accept makes the User a Member and opens the Group's Contact list  403ms
+   ✓ WF-16 Invitation (US-004) > R-004-06 a refused Accept shows its message  307ms
+   ✓ WF-16 Invitation (US-004) > UI-14 the Invitation cannot be read: Something went wrong. with Try again  368ms
+ ✓ src/features/account/SignUpPage.test.tsx (3 tests) 2176ms
+   ✓ WF-02 Create an account (US-001) > R-001-01 creates an account with e-mail and password  1312ms
+   ✓ WF-02 Create an account (US-001) > EX-001-05 an e-mail that already has an account  707ms
+ ✓ src/features/groups/GroupSwitcher.test.tsx (7 tests) 1591ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-01 shows the current Group  480ms
+   ✓ Group switcher (R-002-03, R-002-04) > R-002-03 lists the User's Groups in the order of the API, the current one marked  378ms
+   ✓ Group switcher (R-002-03, R-002-04) > AC-002-02 selecting a Group opens its Contact list and closes the switcher  302ms
+ ✓ src/features/contacts/TagsField.test.tsx (14 tests) 24461ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 the form shows the Contact's Tags with the hint  1127ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-01 an added Tag is shown and sent with the Fields  1167ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-04 removing a Tag takes it out of the save  555ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-02 typing part of a Tag suggests the Group's Tag  4067ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 choosing a suggestion adds it  4263ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 the arrow keys choose a suggestion and Enter adds it  2699ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested  3206ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-03 a name in other case takes the spelling of the suggested Tag  2929ms
+   ✓ WF-08 Tags of a Contact (US-009) > EX-009-03 a Tag the Contact has is not added twice  592ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-05 a name with a comma shows the message at once and adds nothing  599ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 an invalid name left in the box stops the save  1477ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a valid name left in the box is saved with the Tags  613ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 the API's tag.invalid stands in the Tags section  378ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a new Contact is added with its Tags  784ms
+ ✓ src/features/contacts/ContactTable.test.tsx (8 tests) 1345ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  409ms
+ ✓ src/features/history/HistoryPage.test.tsx (8 tests) 871ms
+ ✓ src/features/groups/DeletedGroupsPage.test.tsx (4 tests) 1163ms
+   ✓ WF-15 Deleted Groups (US-003) > AC-003-03 lists the name and the removal date in Europe/Ljubljana  635ms
+ ✓ src/features/duplicates/DuplicatesPage.test.tsx (5 tests) 1248ms
+   ✓ WF-17 Possible duplicates (US-017) > R-017-01 lists each pair with links to both Contacts and every reason  636ms
+ ✓ src/features/account/VerifyEmailPage.test.tsx (5 tests) 886ms
+   ✓ WF-03 Confirm your e-mail (R-001-05) > AC-001-05 shows the notice and where the link was sent  511ms
+ ✓ src/features/groups/NoGroupsPage.test.tsx (1 test) 526ms
+   ✓ WF-05 No Groups yet (R-001-07) > AC-001-01 You have no Groups yet. with Create a Group  518ms
+ ✓ src/features/groups/GroupRoute.test.tsx (3 tests) 406ms
+   ✓ Group routes (R-002-05, BR-02) > EX-002-06 the Group selected last is gone and no Group is left: You have no Groups yet.  337ms
+ ✓ src/features/export/ExportButtons.test.tsx (8 tests) 1340ms
+   ✓ Export buttons of WF-06 (US-016) > AC-016-01 Export sends the list query and saves the file with its name  860ms
+ ✓ src/auth/AuthProvider.test.tsx (6 tests) 488ms
+ ✓ src/features/contacts/contactFields.test.ts (15 tests) 65ms
+ ✓ src/features/contacts/useSelection.test.ts (3 tests) 41ms
+ ✓ src/features/history/changes.test.ts (7 tests) 66ms
+ ✓ src/i18n/catalogs.test.ts (4 tests) 207ms
+ ✓ src/features/contacts/fieldMessages.test.ts (6 tests) 19ms
+ ✓ src/api/apiClient.test.ts (8 tests) 52ms
+ ✓ src/auth/runtimeConfig.test.ts (4 tests) 31ms
+ ✓ src/features/contacts/listQuery.test.ts (9 tests) 39ms
+ ✓ src/features/groups/currentGroup.test.ts (5 tests) 27ms
+ ✓ src/features/contacts/attributes.test.ts (7 tests) 42ms
+ ✓ src/api/problem.test.ts (5 tests) 39ms
+ ✓ src/features/contacts/tags.test.ts (8 tests) 14ms
+ ✓ src/auth/firebase.test.ts (8 tests) 19ms
+ ✓ src/i18n/format.test.ts (4 tests) 6ms
+ ✓ src/api/retry.test.ts (2 tests) 6ms
+
+ Test Files  45 passed (45)
+      Tests  362 passed (362)
+   Start at  14:34:39
+   Duration  39.74s (transform 4.19s, setup 17.59s, collect 32.58s, tests 118.75s, environment 68.80s, prepare 11.43s)
+

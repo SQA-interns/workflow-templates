@@ -1,0 +1,65 @@
+                                                                                QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=526.90..526.92 rows=9 width=1144) (actual time=19.311..19.325 rows=50 loops=1)
+   Buffers: shared hit=9295
+   ->  Sort  (cost=526.90..526.92 rows=9 width=1144) (actual time=19.309..19.315 rows=50 loops=1)
+         Sort Key: ((contact.sort_name)::character varying(200)) COLLATE "sl-x-icu", contact.first_name COLLATE "sl-x-icu", contact.company COLLATE "sl-x-icu", contact.id
+         Sort Method: top-N heapsort  Memory: 46kB
+         Buffers: shared hit=9295
+         ->  Nested Loop  (cost=380.82..526.75 rows=9 width=1144) (actual time=3.469..15.656 rows=3000 loops=1)
+               Buffers: shared hit=9285
+               ->  HashAggregate  (cost=380.54..414.41 rows=14 width=16) (actual time=3.415..4.498 rows=3000 loops=1)
+                     Group Key: contact_tag.contact_id
+                     Filter: (count(*) = 1)
+                     Batches: 1  Memory Usage: 369kB
+                     Buffers: shared hit=285
+                     ->  Bitmap Heap Scan on contact_tag  (cost=39.54..365.54 rows=3000 width=16) (actual time=0.238..1.734 rows=3000 loops=1)
+                           Recheck Cond: (tag_id = '84e0ea5c-336a-b07e-9474-d4e093749ed3'::uuid)
+                           Filter: (group_id = '00000000-0000-4000-8000-0000000b0001'::uuid)
+                           Heap Blocks: exact=281
+                           Buffers: shared hit=285
+                           ->  Bitmap Index Scan on contact_tag_tag  (cost=0.00..38.79 rows=3000 width=0) (actual time=0.174..0.174 rows=3000 loops=1)
+                                 Index Cond: (tag_id = '84e0ea5c-336a-b07e-9474-d4e093749ed3'::uuid)
+                                 Buffers: shared hit=4
+               ->  Index Scan using contact_pkey on contact  (cost=0.29..8.02 rows=1 width=102) (actual time=0.003..0.003 rows=1 loops=3000)
+                     Index Cond: (id = contact_tag.contact_id)
+                     Filter: ((search_text ~~ '%'::text) AND (group_id = '00000000-0000-4000-8000-0000000b0001'::uuid) AND ((state)::text = 'active'::text))
+                     Buffers: shared hit=9000
+ Planning:
+   Buffers: shared hit=277
+ Planning Time: 1.750 ms
+ Execution Time: 19.507 ms
+(29 rows)
+
+                                                                                QUERY PLAN                                                                                 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ Limit  (cost=420.12..420.13 rows=1 width=1144) (actual time=4331.837..4331.853 rows=50 loops=1)
+   ->  Sort  (cost=420.12..420.13 rows=1 width=1144) (actual time=4331.836..4331.845 rows=50 loops=1)
+         Sort Key: ((contact.sort_name)::character varying(200)) COLLATE "sl-x-icu", contact.first_name COLLATE "sl-x-icu", contact.company COLLATE "sl-x-icu", contact.id
+         Sort Method: top-N heapsort  Memory: 46kB
+         ->  Nested Loop  (cost=383.40..420.11 rows=1 width=1144) (actual time=29.212..4324.946 rows=3000 loops=1)
+               Join Filter: (contact_tag.contact_id = contact.id)
+               Rows Removed by Join Filter: 15010000
+               ->  HashAggregate  (cost=362.66..391.39 rows=11 width=16) (actual time=3.939..6.346 rows=3000 loops=1)
+                     Group Key: contact_tag.contact_id
+                     Filter: (count(*) = $4)
+                     Batches: 1  Memory Usage: 369kB
+                     ->  Bitmap Heap Scan on contact_tag  (cost=31.66..350.16 rows=2500 width=16) (actual time=0.302..2.084 rows=3000 loops=1)
+                           Recheck Cond: (tag_id = $3)
+                           Filter: (group_id = $1)
+                           Heap Blocks: exact=281
+                           ->  Bitmap Index Scan on contact_tag_tag  (cost=0.00..31.04 rows=2500 width=0) (actual time=0.217..0.218 rows=3000 loops=1)
+                                 Index Cond: (tag_id = $3)
+               ->  Materialize  (cost=20.74..28.40 rows=2 width=102) (actual time=0.004..0.474 rows=5004 loops=3000)
+                     ->  Bitmap Heap Scan on contact  (cost=20.74..28.39 rows=2 width=102) (actual time=12.957..23.805 rows=10003 loops=1)
+                           Recheck Cond: ((group_id = $1) AND ((state)::text = 'active'::text) AND (search_text ~~ like_escape($2, '\'::text)))
+                           Heap Blocks: exact=323
+                           ->  BitmapAnd  (cost=20.74..20.74 rows=2 width=0) (actual time=12.872..12.873 rows=0 loops=1)
+                                 ->  Bitmap Index Scan on contact_group_state  (cost=0.00..7.30 rows=302 width=0) (actual time=0.471..0.472 rows=10003 loops=1)
+                                       Index Cond: ((group_id = $1) AND ((state)::text = 'active'::text))
+                                 ->  Bitmap Index Scan on contact_search  (cost=0.00..13.18 rows=74 width=0) (actual time=12.388..12.388 rows=14803 loops=1)
+                                       Index Cond: (search_text ~~ like_escape($2, '\'::text))
+ Planning Time: 1.689 ms
+ Execution Time: 4333.048 ms
+(28 rows)
+

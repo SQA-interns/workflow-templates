@@ -1,0 +1,533 @@
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] -------------------< app.contacts:contacts-backend >--------------------
+[INFO] Building contacts-backend 0.1.0
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent (prepare-unit) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] argLine set to empty
+[INFO] 
+[INFO] --- resources:3.5.0:resources (default-resources) @ contacts-backend ---
+[INFO] Copying 2 resources from src/main/resources to target/classes
+[INFO] Copying 1 resource from src/main/resources to target/classes
+[INFO] 
+[INFO] --- compiler:3.15.0:compile (default-compile) @ contacts-backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 152 source files with javac [debug parameters release 21] to target/classes
+[INFO] 
+[INFO] --- resources:3.5.0:testResources (default-testResources) @ contacts-backend ---
+[INFO] skip non existing resourceDirectory /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.15.0:testCompile (default-testCompile) @ contacts-backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 92 source files with javac [debug parameters release 21] to target/test-classes
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ contacts-backend ---
+[INFO] 
+[INFO] --- jar:3.5.1:jar (default-jar) @ contacts-backend ---
+[INFO] Building jar: /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar
+[INFO] 
+[INFO] --- spring-boot:4.1.2:repackage (repackage) @ contacts-backend ---
+[INFO] Replacing main artifact /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/contacts-backend.jar.original
+[INFO] 
+[INFO] --- jacoco:0.8.13:prepare-agent-integration (prepare-it) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:integration-test (default) @ contacts-backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+[INFO] Running app.contacts.acceptance.Us015FiltersAcceptanceIT
+14:12:11.808 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.Us015FiltersAcceptanceIT]: Us015FiltersAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:12:12.010 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us015FiltersAcceptanceIT
+14:12:12.115 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.Us015FiltersAcceptanceIT]: Us015FiltersAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:12:12.115 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:12:12.116 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:12:12.123 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us015FiltersAcceptanceIT
+14:12:12.199 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+14:12:12.202 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+14:12:12.245 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 2.0.5
+14:12:13.026 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with Docker accessed via Unix socket (/home/tjan-kazar/.docker/desktop/docker.sock)
+14:12:13.027 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+14:12:13.050 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.3.1
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 31283 MB
+  Labels: 
+    com.docker.desktop.address=unix:///home/tjan-kazar/.docker/desktop/docker-cli.sock
+14:12:13.712 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Creating container for image: testcontainers/ryuk:0.14.0
+14:12:13.888 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 is starting: 726786808f4daa75cd49ccb349f7dbb82be426a6f604d6b70336baeaa2b764ff
+14:12:14.434 [main] INFO tc.testcontainers/ryuk:0.14.0 -- Container testcontainers/ryuk:0.14.0 started in PT0.722037994S
+14:12:14.439 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+14:12:14.440 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+14:12:14.440 [main] INFO org.testcontainers.DockerClientFactory -- ✔︎ Docker server version should be at least 1.6.0
+14:12:14.441 [main] INFO tc.postgres:16.15 -- Creating container for image: postgres:16.15
+14:12:14.548 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 is starting: d2611e849079f194f655295f1bdc36ed7ed9e525ce86b7cb6954869cd20b16ce
+14:12:16.100 [main] INFO tc.postgres:16.15 -- Container postgres:16.15 started in PT1.658772828S
+14:12:16.101 [main] INFO tc.postgres:16.15 -- Container is started (JDBC URL: jdbc:postgresql://localhost:39777/test?loggerLevel=OFF)
+14:12:16.131 [main] INFO org.testcontainers.images.builder.ImageFromDockerfile -- Transferred 0 bytes to Docker daemon
+14:12:16.291 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Creating container for image: contacts-auth-emulator-acceptance:latest
+14:12:16.414 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest is starting: de5d654afc43e07b5903b46d2aeb6303bb46c007ca8879335b161e476b5be528
+14:12:27.240 [main] INFO tc.contacts-auth-emulator-acceptance:latest -- Container contacts-auth-emulator-acceptance:latest started in PT10.949413755S
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-18T14:12:27.580+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.acceptance.Us015FiltersAcceptanceIT  : Starting Us015FiltersAcceptanceIT using Java 21.0.13.0.3 with PID 1518766 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-18T14:12:27.581+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.acceptance.Us015FiltersAcceptanceIT  : No active profile set, falling back to 1 default profile: "default"
+2026-11-18T14:12:28.589+01:00  INFO 1518766 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18T14:12:28.662+01:00  INFO 1518766 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 64 ms. Found 11 JPA repository interfaces.
+2026-11-18T14:12:29.665+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 0 (http)
+2026-11-18T14:12:29.687+01:00  INFO 1518766 --- [contacts-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-11-18T14:12:29.688+01:00  INFO 1518766 --- [contacts-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+2026-11-18T14:12:29.764+01:00  INFO 1518766 --- [contacts-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 2169 ms
+2026-11-18T14:12:30.458+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-11-18T14:12:30.779+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1bd6bfb0
+2026-11-18T14:12:30.780+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-11-18T14:12:30.826+01:00  INFO 1518766 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:39777/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-18T14:12:30.952+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-18T14:12:30.958+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.035s)
+2026-11-18T14:12:30.984+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-18T14:12:31.049+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-18T14:12:31.084+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-18T14:12:31.218+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.108s)
+2026-11-18T14:12:31.391+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18T14:12:31.458+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+2026-11-18T14:12:31.817+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18T14:12:31.893+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:39777/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18T14:12:32.855+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18T14:12:32.910+01:00  INFO 1518766 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18T14:12:33.030+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-11-18T14:12:34.552+01:00  INFO 1518766 --- [contacts-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noLocalUsers
+2026-11-18T14:12:35.267+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-11-18T14:12:35.330+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 41251 (http) with context path '/'
+2026-11-18T14:12:35.348+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.acceptance.Us015FiltersAcceptanceIT  : Started Us015FiltersAcceptanceIT in 8.08 seconds (process running for 24.889)
+2026-11-18T14:12:35.428+01:00  WARN 1518766 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+2026-11-18T14:12:36.140+01:00  INFO 1518766 --- [contacts-backend] [omcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-18T14:12:36.140+01:00  INFO 1518766 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-11-18T14:12:36.142+01:00  INFO 1518766 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+[INFO] Tests run: 10, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 29.10 s -- in app.contacts.acceptance.Us015FiltersAcceptanceIT
+[INFO] Running app.contacts.acceptance.Us016ExportAcceptanceIT
+2026-11-18T14:12:40.737+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us016ExportAcceptanceIT]: Us016ExportAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:40.743+01:00  INFO 1518766 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us016ExportAcceptanceIT
+2026-11-18T14:12:40.745+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.Us016ExportAcceptanceIT]: Us016ExportAcceptanceIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:40.745+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.AcceptanceTest]: AcceptanceTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:40.746+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.acceptance.support.StackTest]: StackTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:40.751+01:00  INFO 1518766 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.acceptance.Us016ExportAcceptanceIT
+[INFO] Tests run: 11, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 6.926 s -- in app.contacts.acceptance.Us016ExportAcceptanceIT
+[INFO] Running app.contacts.repository.ContactQueryRepositoryIT
+2026-11-18T14:12:47.668+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.repository.ContactQueryRepositoryIT]: ContactQueryRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:47.695+01:00  INFO 1518766 --- [contacts-backend] [           main] tc.postgres:16.15                        : Creating container for image: postgres:16.15
+2026-11-18T14:12:47.896+01:00  INFO 1518766 --- [contacts-backend] [           main] tc.postgres:16.15                        : Container postgres:16.15 is starting: 783d4b1d69d069335a7618ae37632ba2eadefe0d292039016def5627ceeb845d
+2026-11-18T14:12:49.671+01:00  INFO 1518766 --- [contacts-backend] [           main] tc.postgres:16.15                        : Container postgres:16.15 started in PT1.976264399S
+2026-11-18T14:12:49.671+01:00  INFO 1518766 --- [contacts-backend] [           main] tc.postgres:16.15                        : Container is started (JDBC URL: jdbc:postgresql://localhost:38143/test?loggerLevel=OFF)
+2026-11-18T14:12:49.695+01:00  INFO 1518766 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.repository.ContactQueryRepositoryIT
+2026-11-18T14:12:49.696+01:00  INFO 1518766 --- [contacts-backend] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [app.contacts.repository.ContactQueryRepositoryIT]: ContactQueryRepositoryIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-18T14:12:49.738+01:00  INFO 1518766 --- [contacts-backend] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration app.contacts.ContactsApplication for test class app.contacts.repository.ContactQueryRepositoryIT
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v4.1.2)
+
+2026-11-18T14:12:49.773+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.repository.ContactQueryRepositoryIT  : Starting ContactQueryRepositoryIT using Java 21.0.13.0.3 with PID 1518766 (started by tjan-kazar in /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend)
+2026-11-18T14:12:49.773+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.repository.ContactQueryRepositoryIT  : No active profile set, falling back to 1 default profile: "default"
+2026-11-18T14:12:49.859+01:00  INFO 1518766 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-18T14:12:49.883+01:00  INFO 1518766 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 11 JPA repository interfaces.
+2026-11-18T14:12:50.022+01:00  INFO 1518766 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:38143/test?loggerLevel=OFF (PostgreSQL 16.15)
+2026-11-18T14:12:50.040+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-11-18T14:12:50.041+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.004s)
+2026-11-18T14:12:50.055+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-11-18T14:12:50.084+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-11-18T14:12:50.096+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - schema"
+2026-11-18T14:12:50.152+01:00  INFO 1518766 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "public", now at version v1 (execution time 00:00.050s)
+2026-11-18T14:12:50.170+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+2026-11-18T14:12:50.192+01:00  INFO 1518766 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-18T14:12:50.192+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-11-18T14:12:50.208+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@388e631
+2026-11-18T14:12:50.209+01:00  INFO 1518766 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-11-18T14:12:50.217+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:postgresql://localhost:38143/test?loggerLevel=OFF]
+	Database driver: PostgreSQL JDBC Driver
+	Database dialect: PostgreSQLDialect
+	Database version: 16.15
+	Default catalog/schema: test/public
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	JDBC fetch size: none
+	Pool: DataSourceConnectionProvider
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-18T14:12:50.327+01:00  INFO 1518766 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-18T14:12:50.349+01:00  INFO 1518766 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-18T14:12:50.521+01:00  INFO 1518766 --- [contacts-backend] [           main] a.c.repository.ContactQueryRepositoryIT  : Started ContactQueryRepositoryIT in 0.778 seconds (process running for 40.062)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: SELECT contact_id, key, value FROM attribute
+WHERE group_id = ? AND contact_id IN (?,?)
+ORDER BY key COLLATE "sl-x-icu", id
+
+Hibernate: SELECT contact_id, key, value FROM attribute
+WHERE group_id = ? AND contact_id IN (?)
+ORDER BY key COLLATE "sl-x-icu", id
+
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND EXISTS (SELECT 1 FROM attribute a WHERE a.group_id = ? AND a.contact_id = contact.id AND lower(a.key) = lower(?)) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND lower(company) = lower(?) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND country = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?,?)) = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: SELECT count(*) FROM tag WHERE group_id = ? AND id IN (?,?)
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, email, phone, company, job_title, street, postal_code, city, country, note FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND NOT EXISTS (SELECT 1 FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? AND NOT EXISTS (SELECT 1 FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? AND NOT EXISTS (SELECT 1 FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: SELECT key, value FROM attribute
+WHERE group_id = ? AND contact_id = ?
+ORDER BY key COLLATE "sl-x-icu", id
+
+Hibernate: SELECT key, value FROM attribute
+WHERE group_id = ? AND contact_id = ?
+ORDER BY key COLLATE "sl-x-icu", id
+
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND EXISTS (SELECT 1 FROM attribute a WHERE a.group_id = ? AND a.contact_id = contact.id AND lower(a.key) = lower(?) AND lower(a.value) = lower(?)) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY company COLLATE "sl-x-icu" NULLS LAST, sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY lower(email) NULLS LAST, sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY updated_at DESC, sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, email, phone, company, job_title, street, postal_code, city, country, note FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND id IN (?,?,?) AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id
+Hibernate: SELECT id, first_name, last_name, email, phone, company, job_title, street, postal_code, city, country, note FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND id IN (?) ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND id IN (?,?,?) AND (SELECT count(*) FROM contact_tag ct WHERE ct.contact_id = contact.id AND ct.tag_id IN (?)) = ? 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT ct.contact_id, t.id, t.name
+FROM contact_tag ct JOIN tag t ON t.id = ct.tag_id
+WHERE ct.group_id = ? AND ct.contact_id IN (?)
+ORDER BY t.name COLLATE "sl-x-icu", t.id
+
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu" DESC, first_name COLLATE "sl-x-icu" DESC NULLS LAST, company COLLATE "sl-x-icu" DESC NULLS LAST, id DESC LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND country = ? ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+Hibernate: SELECT count(*) FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' AND country = ? 
+Hibernate: select u1_0.id,u1_0.created_at,u1_0.deleted_at,u1_0.display_name,u1_0.email,u1_0.firebase_uid,u1_0.language from app_user u1_0 where u1_0.id=?
+Hibernate: select g1_0.id,g1_0.created_at,g1_0.created_by,g1_0.deleted_at,g1_0.name,g1_0.state from contact_group g1_0 where g1_0.id=?
+Hibernate: insert into app_user (created_at,deleted_at,display_name,email,firebase_uid,language,id) values (?,?,?,?,?,?,?)
+Hibernate: insert into contact_group (created_at,created_by,deleted_at,name,state,id) values (?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: insert into contact (created_at,created_by,deleted_at,first_name,last_name,email,phone,company,job_title,street,postal_code,city,country,note,group_id,merged_into,search_text,sort_name,state,updated_at,updated_by,version_number,id) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+Hibernate: SELECT id, first_name, last_name, company, email, phone, updated_at FROM contact WHERE group_id = ? AND state = 'active' AND search_text LIKE ? ESCAPE '\' ORDER BY sort_name COLLATE "sl-x-icu", first_name COLLATE "sl-x-icu" NULLS LAST, company COLLATE "sl-x-icu" NULLS LAST, id LIMIT ? OFFSET ?
+[INFO] Tests run: 22, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 3.433 s -- in app.contacts.repository.ContactQueryRepositoryIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 43, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jacoco:0.8.13:merge (merge) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] 
+[INFO] --- failsafe:3.5.4:verify (default) @ contacts-backend ---
+[INFO] 
+[INFO] --- jacoco:0.8.13:report (report) @ contacts-backend ---
+[INFO] Skipping JaCoCo execution because property jacoco.skip is set.
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  51.534 s
+[INFO] Finished at: 2026-11-18T14:12:51+01:00
+[INFO] ------------------------------------------------------------------------

@@ -1,0 +1,258 @@
+
+Running 152 tests using 1 worker
+
+
+  ✓    1 [chromium] › acceptance/us001-sign-in.spec.ts:30:1 › AC-001-01 sign up, confirm the e-mail, sign in: You have no Groups yet. (1.7s)
+
+  ✓    2 [chromium] › acceptance/us001-sign-in.spec.ts:53:1 › AC-001-02 Sign in with Google: signed in, GET /me has the Google e-mail (3.1s)
+
+  ✓    3 [chromium] › acceptance/us001-sign-in.spec.ts:80:1 › AC-001-05 unverified e-mail: confirm screen, link sent, API 403 (2.0s)
+
+  ✓    4 [chromium] › acceptance/us001-sign-in.spec.ts:92:1 › AC-001-06 Sign out shows the sign-in screen and keeps no token (3.0s)
+
+  ✓    5 [chromium] › acceptance/us001-sign-in.spec.ts:105:1 › EX-001-01 wrong password: same message as for an unknown e-mail, not signed in (2.4s)
+
+  ✓    6 [chromium] › acceptance/us001-sign-in.spec.ts:130:1 › EX-001-05 an account with this e-mail already exists: message, no second account (2.5s)
+
+  ✓    7 [chromium] › acceptance/us002-groups.spec.ts:18:1 › AC-002-01 the new Group is current, Ana is Owner, No Contacts yet. (3.3s)
+
+  ✓    8 [chromium] › acceptance/us002-groups.spec.ts:34:1 › AC-002-02 selecting a Group in the switcher shows its Contacts only (4.1s)
+
+  ✓    9 [chromium] › acceptance/us002-groups.spec.ts:49:1 › AC-002-04 a blank Group name: Enter a name of 1 to 100 characters. (3.2s)
+
+  ✓   10 [chromium] › acceptance/us002-groups.spec.ts:61:1 › AC-002-05 after signing in again the Group selected last is current (3.8s)
+
+  ✓   11 [chromium] › acceptance/us002-groups.spec.ts:76:1 › EX-002-06 the Group selected last is in the recycle bin: first Group, else no Groups (5.7s)
+
+  ✓   12 [chromium] › acceptance/us003-group-lifecycle.spec.ts:17:1 › AC-003-01 the Owner renames the Group; the switcher shows the new name (4.0s)
+
+  ✓   13 [chromium] › acceptance/us003-group-lifecycle.spec.ts:28:1 › AC-003-03 Move Group to recycle bin: gone from the switcher (3.7s)
+
+  ✓   14 [chromium] › acceptance/us003-group-lifecycle.spec.ts:40:1 › AC-003-03 Deleted Groups shows the removal date 04.04.2026 12:00 (DST in between) (2.2s)
+
+  ✓   15 [chromium] › acceptance/us003-group-lifecycle.spec.ts:60:1 › AC-003-04 the Owner restores the Group from Deleted Groups (2.4s)
+
+  ✓   16 [chromium] › acceptance/us003-group-lifecycle.spec.ts:77:1 › EX-003-04 cancelling Move Group to recycle bin changes nothing (2.0s)
+
+  ✓   17 [chromium] › acceptance/us003-group-lifecycle.spec.ts:89:1 › EX-003-05 an Invitation of a Group in the recycle bin: This Invitation is no longer valid. (2.1s)
+
+  ✓   18 [chromium] › acceptance/us004-invitations.spec.ts:27:1 › AC-004-01 the Owner invites an Editor: link with Copy link, open Invitation listed (1.8s)
+
+  ✓   19 [chromium] › acceptance/us004-invitations.spec.ts:46:1 › AC-004-01 the expiry is shown in Europe/Ljubljana: 12.03.2026 10:00 (1.5s)
+
+  ✓   20 [chromium] › acceptance/us004-invitations.spec.ts:65:1 › AC-004-02 the invitee accepts and sees the Group in the switcher (1.8s)
+
+  ✓   21 [chromium] › acceptance/us004-invitations.spec.ts:81:1 › AC-004-03 another e-mail: This Invitation is for another e-mail address. (1.7s)
+
+  ✓   22 [chromium] › acceptance/us004-invitations.spec.ts:95:1 › AC-004-04 an accepted link opened again: This Invitation is no longer valid. (1.3s)
+
+  ✓   23 [chromium] › acceptance/us004-invitations.spec.ts:109:1 › AC-004-06 the Owner revokes; the link is no longer valid (3.3s)
+
+  ✓   24 [chromium] › acceptance/us004-invitations.spec.ts:131:1 › EX-004-04 inviting a Member: This person is already a Member. (2.3s)
+
+  ✓   25 [chromium] › acceptance/us004-invitations.spec.ts:144:1 › EX-004-06 an invalid e-mail: Enter a valid e-mail address. (1.6s)
+
+  ✓   26 [chromium] › acceptance/us005-members.spec.ts:17:1 › AC-005-01 the Members screen lists every Member with e-mail and Role (1.7s)
+
+  ✓   27 [chromium] › acceptance/us005-members.spec.ts:34:1 › EX-005-04 cancelling Remove from Group changes nothing (1.8s)
+
+  ✓   28 [chromium] › acceptance/us006-add-contact.spec.ts:11:1 › AC-006-01 an Editor adds a Contact; it is listed; History shows created by him (2.9s)
+
+  ✓   29 [chromium] › acceptance/us006-add-contact.spec.ts:42:1 › AC-006-03 only an e-mail: Enter a first name, last name or company. (2.1s)
+
+  ✓   30 [chromium] › acceptance/us006-add-contact.spec.ts:54:1 › AC-006-04 an invalid e-mail: Enter a valid e-mail address. (1.9s)
+
+  ✓   31 [chromium] › acceptance/us006-add-contact.spec.ts:67:1 › AC-006-05 an e-mail that exists is reported and saving still works (1.6s)
+
+  ✓   32 [chromium] › acceptance/us006-add-contact.spec.ts:87:1 › EX-006-08 a name with diacritics is shown as entered (1.2s)
+
+  ✓   33 [chromium] › acceptance/us007-edit-contact.spec.ts:21:1 › AC-007-01 the changed e-mail is shown; History lists E-mail: old → new (2.5s)
+
+  ✓   34 [chromium] › acceptance/us007-edit-contact.spec.ts:38:1 › AC-007-02 a save on a stale Version: Contact was changed by Marko Kranjc, reload (2.1s)
+
+  ✓   35 [chromium] › acceptance/us007-edit-contact.spec.ts:58:1 › AC-007-03 clearing every name part: Enter a first name, last name or company. (1.3s)
+
+  ✓   36 [chromium] › acceptance/us007-edit-contact.spec.ts:75:1 › AC-007-04 saving without changes: No changes to save. (1.3s)
+
+  ✓   37 [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value (1.8s)
+
+  ✓   38 [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new (1.1s)
+
+  ✓   39 [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. (1.2s)
+
+  ✓   40 [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) (1.5s)
+
+  ✓   41 [chromium] › acceptance/us009-tags.spec.ts:27:1 › AC-009-01 an added Tag is shown; Version 2 lists tag:udelezenec2025 added (1.8s)
+
+  ✓   42 [chromium] › acceptance/us009-tags.spec.ts:45:1 › AC-009-02 typing udel suggests udelezenec2025 (2.0s)
+
+  ✓   43 [chromium] › acceptance/us009-tags.spec.ts:62:1 › AC-009-03 a Tag in other case takes the existing spelling (1.7s)
+
+  ✓   44 [chromium] › acceptance/us009-tags.spec.ts:79:1 › AC-009-04 a removed Tag: tag:neObvescaj removed (1.6s)
+
+  ✓   45 [chromium] › acceptance/us009-tags.spec.ts:93:1 › AC-009-05 a Tag with a comma: A Tag must have 1 to 50 characters and no comma. (1.4s)
+
+  ✓   46 [chromium] › acceptance/us010-history.spec.ts:31:1 › AC-010-01 the History lists Versions newest first with name and local time (1.7s)
+
+  ✓   47 [chromium] › acceptance/us010-history.spec.ts:57:1 › AC-010-02 one Version shows the content as created, without edit controls (1.5s)
+
+  ✓   48 [chromium] › acceptance/us010-history.spec.ts:76:1 › EX-010-01 a Version made at 31.12.2026 23:30 UTC is shown as 01.01.2027 00:30 (1.3s)
+
+  ✓   49 [chromium] › acceptance/us011-restore-version.spec.ts:32:1 › AC-011-01 Restore this Version: e-mail back, Version 3 restored from Version 1 (1.9s)
+
+  ✓   50 [chromium] › acceptance/us011-restore-version.spec.ts:50:1 › AC-011-04 restoring a Version equal to the current one: This Version is the same as the current one. (1.7s)
+
+  ✓   51 [chromium] › acceptance/us011-restore-version.spec.ts:73:1 › EX-011-03 cancelling Restore this Version changes nothing (1.4s)
+
+  ✓   52 [chromium] › acceptance/us012-recycle-bin.spec.ts:29:1 › AC-012-01 Move to recycle bin: the Contact is no longer in the list (1.7s)
+
+  ✓   53 [chromium] › acceptance/us012-recycle-bin.spec.ts:46:1 › AC-012-01 the recycle bin shows deleted by, deleted at and removal date (1.3s)
+
+  ✓   54 [chromium] › acceptance/us012-recycle-bin.spec.ts:70:1 › AC-012-02 Restore from the recycle bin: back in the list with Tags (1.7s)
+
+  ✓   55 [chromium] › acceptance/us012-recycle-bin.spec.ts:89:1 › EX-012-03 cancelling Move to recycle bin changes nothing (1.4s)
+
+  ✓   56 [chromium] › acceptance/us013-permanent-delete.spec.ts:26:1 › AC-013-01 Delete permanently: gone from the recycle bin, its address is not found (1.6s)
+
+  ✓   57 [chromium] › acceptance/us013-permanent-delete.spec.ts:46:1 › EX-013-01 cancelling Delete permanently changes nothing (1.4s)
+
+  ✓   58 [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown (1.4s)
+
+  ✓   59 [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search (1.7s)
+
+  ✓   60 [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk (1.8s)
+
+  ✓   61 [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact (1.2s)
+
+  ✓   62 [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History (1.4s)
+
+  ✓   63 [chromium] › acceptance/us015-filters.spec.ts:35:1 › AC-015-01 has Tags: udelezenec2025 shows 2 Contacts (1.5s)
+
+  ✓   64 [chromium] › acceptance/us015-filters.spec.ts:49:1 › AC-015-02 adding without Tags: neObvescaj shows 1 Contact (1.7s)
+
+  ✓   65 [chromium] › acceptance/us015-filters.spec.ts:63:1 › AC-015-03 an Attribute filter matches case-insensitively (1.5s)
+
+  ✓   66 [chromium] › acceptance/us015-filters.spec.ts:77:1 › AC-015-04 Clear filters shows all 3 Contacts again (1.8s)
+
+  ✓   67 [chromium] › acceptance/us015-filters.spec.ts:96:1 › AC-015-05 country Slovenia and search maja: No Contacts match. (2.0s)
+
+  ✓   68 [chromium] › acceptance/us016-export.spec.ts:37:1 › AC-016-01 Export of the filtered list downloads kontakti-<Group>-<date>.xlsx (1.6s)
+
+  ✓   69 [chromium] › acceptance/us016-export.spec.ts:55:1 › AC-016-02 Export checked with one checked Contact (1.3s)
+
+  ✓   70 [chromium] › acceptance/us016-export.spec.ts:74:1 › AC-016-03 more than 10,000 Contacts: Narrow the list to at most 10,000 Contacts to export. (2.5s)
+
+  ✓   71 [chromium] › acceptance/us016-export.spec.ts:96:1 › EX-016-02 an empty Export scope: Export disabled, Nothing to export. (1.7s)
+
+  ✓   72 [chromium] › acceptance/us017-duplicates.spec.ts:13:1 › AC-017-01 a pair with the same e-mail is listed with Same e-mail (1.2s)
+
+  ✓   73 [chromium] › acceptance/us017-duplicates.spec.ts:32:1 › AC-017-02 a pair with the same phone is listed with Same phone (1.3s)
+
+  ✓   74 [chromium] › acceptance/us017-duplicates.spec.ts:47:1 › AC-017-03 similar names with the same company: Similar name, same company (1.2s)
+
+  ✓   75 [chromium] › acceptance/us017-duplicates.spec.ts:64:1 › EX-017-07 no pairs: No possible duplicates found. (1.2s)
+
+  ✓   76 [chromium] › acceptance/us018-merge.spec.ts:44:1 › AC-018-05 the Merge screen: Primary contact Janez Novak, phone of J. Novak preselected (1.4s)
+
+  ✓   77 [chromium] › acceptance/us018-merge.spec.ts:59:1 › AC-018-02 after the Merge the Primary contact shows Merged from J. Novak (1.9s)
+
+  ✓   78 [chromium] › acceptance/us018-merge.spec.ts:77:1 › AC-018-03 two values of kompetenca: Choose a value for kompetenca. (1.5s)
+
+  ✓   79 [chromium] › acceptance/us018-merge.spec.ts:98:1 › EX-018-06 Cancel on the Merge screen changes nothing (1.4s)
+
+  ✓   80 [chromium] › acceptance/us019-undo-merge.spec.ts:46:1 › AC-019-01 Undo merge: J. Novak is in the list again (1.6s)
+
+  ✓   81 [chromium] › acceptance/us019-undo-merge.spec.ts:63:1 › AC-019-02 after a later change: The Contact changed after the Merge. Restore the Versions you need instead. (2.4s)
+
+  ✓   82 [chromium] › acceptance/us019-undo-merge.spec.ts:82:1 › EX-019-03 cancelling Undo merge changes nothing (1.3s)
+
+  ✓   83 [chromium] › acceptance/us020-language.spec.ts:19:1 › AC-020-01 a new User sees the Contact list titled Kontakti (1.0s)
+
+  ✓   84 [chromium] › acceptance/us020-language.spec.ts:29:1 › AC-020-02 choosing English switches at once and is kept after signing in again (1.8s)
+
+  ✓   85 [chromium] › acceptance/us020-language.spec.ts:57:1 › AC-020-03 in English the time of a Version reads 05.03.2026 10:00 (1.1s)
+
+  ✓   86 [chromium] › acceptance/us020-language.spec.ts:80:1 › EX-020-02 the count 10000 reads 10.000 in Slovenian and 10,000 in English (1.3s)
+
+  ✓   87 [chromium] › acceptance/us021-delete-account.spec.ts:17:1 › AC-021-01 Delete my account: signed out, cannot sign in, Versions show Deleted user (2.1s)
+
+  ✓   88 [chromium] › acceptance/us021-delete-account.spec.ts:49:1 › AC-021-02 an Owner: Delete your Groups first: Konferenca 2025. (1.4s)
+
+  ✓   89 [chromium] › acceptance/us021-delete-account.spec.ts:61:1 › EX-021-01 a typed e-mail that does not match keeps Delete disabled (1.2s)
+
+  ✓   90 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths (3.8s)
+  ✓   91 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-02 sign-up: no Critical or Serious violation at the three widths (3.6s)
+  ✓   92 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-03 confirm-email: no Critical or Serious violation at the three widths (3.4s)
+  ✓   93 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-04 create-group: no Critical or Serious violation at the three widths (4.1s)
+  ✓   94 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-05 no-groups: no Critical or Serious violation at the three widths (3.9s)
+  ✓   95 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-06 contact-list: no Critical or Serious violation at the three widths (4.6s)
+  ✓   96 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-07 contact-details: no Critical or Serious violation at the three widths (4.4s)
+  ✓   97 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-08 contact-form: no Critical or Serious violation at the three widths (5.7s)
+  ✓   98 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-09 history: no Critical or Serious violation at the three widths (3.9s)
+  ✓   99 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-10 version: no Critical or Serious violation at the three widths (6.7s)
+  ✓  100 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-11 recycle-bin: no Critical or Serious violation at the three widths (5.8s)
+  ✓  101 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-13 members: no Critical or Serious violation at the three widths (4.5s)
+  ✓  102 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-14 group-settings: no Critical or Serious violation at the three widths (4.7s)
+  ✓  103 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-15 deleted-groups: no Critical or Serious violation at the three widths (4.9s)
+  ✓  104 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-16 invitation: no Critical or Serious violation at the three widths (4.7s)
+  ✓  105 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-17 possible-duplicates: no Critical or Serious violation at the three widths (4.4s)
+  ✓  106 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-18 merge: no Critical or Serious violation at the three widths (5.6s)
+  ✓  107 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-19 account: no Critical or Serious violation at the three widths (4.8s)
+  ✓  108 [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-20 not-found: no Critical or Serious violation at the three widths (3.7s)
+
+  ✓  109 [chromium] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only (4.5s)
+
+  ✓  110 [chromium] › e2e/e2e-01-sign-up-to-excel.spec.ts:17:1 › E2E-01 from sign-up to an Excel file (5.8s)
+
+  ✓  111 [chromium] › e2e/e2e-02-shared-editing-history.spec.ts:19:1 › E2E-02 shared editing with History and restore (4.1s)
+
+  ✓  112 [chromium] › e2e/e2e-03-isolation.spec.ts:17:1 › E2E-03 isolation between Groups (2.0s)
+
+  ✓  113 [chromium] › e2e/e2e-04-duplicates-merge-undo.spec.ts:16:1 › E2E-04 duplicates: find, merge, undo (2.4s)
+
+  ✓  114 [chromium] › e2e/e2e-05-recycle-bin-round-trip.spec.ts:16:1 › E2E-05 recycle bin round trip (2.7s)
+
+  ✓  115 [chromium] › e2e/e2e-06-owner-manages-members.spec.ts:17:1 › E2E-06 Owner manages Members (2.7s)
+
+  ✓  116 [chromium] › e2e/e2e-07-permanent-delete.spec.ts:15:1 › E2E-07 permanent delete (2.0s)
+
+  ✓  117 [chromium] › e2e/e2e-08-group-lifecycle.spec.ts:15:1 › E2E-08 Group lifecycle (2.5s)
+
+  ✓  118 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl (1.8s)
+  ✓  119 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-02 sign-up in sl (2.1s)
+  ✓  120 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-03 confirm-email in sl (2.2s)
+  ✓  121 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-04 create-group in sl (2.3s)
+  ✓  122 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-05 no-groups in sl (2.3s)
+  ✓  123 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-06 contact-list in sl (2.6s)
+  ✓  124 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-07 contact-details in sl (2.5s)
+  ✓  125 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-08 contact-form in sl (2.7s)
+  ✓  126 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-09 history in sl (2.3s)
+  ✓  127 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-10 version in sl (2.2s)
+  ✓  128 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-11 recycle-bin in sl (2.1s)
+  ✓  129 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-13 members in sl (2.2s)
+  ✓  130 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-14 group-settings in sl (2.2s)
+  ✓  131 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-15 deleted-groups in sl (2.1s)
+  ✓  132 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-16 invitation in sl (2.7s)
+  ✓  133 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-17 possible-duplicates in sl (2.1s)
+  ✓  134 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-18 merge in sl (2.3s)
+  ✓  135 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-19 account in sl (2.2s)
+  ✓  136 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-20 not-found in sl (2.0s)
+  ✓  137 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-04 create-group in en (2.0s)
+  ✓  138 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-05 no-groups in en (2.0s)
+  ✓  139 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-06 contact-list in en (2.3s)
+  ✓  140 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-07 contact-details in en (2.1s)
+  ✓  141 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-08 contact-form in en (2.3s)
+  ✓  142 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-09 history in en (2.1s)
+  ✓  143 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-10 version in en (2.1s)
+  ✓  144 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-11 recycle-bin in en (2.1s)
+  ✓  145 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-13 members in en (2.2s)
+  ✓  146 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-14 group-settings in en (2.1s)
+  ✓  147 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-15 deleted-groups in en (2.0s)
+  ✓  148 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-16 invitation in en (2.0s)
+  ✓  149 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-17 possible-duplicates in en (2.0s)
+  ✓  150 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-18 merge in en (2.2s)
+  ✓  151 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-19 account in en (2.1s)
+  ✓  152 [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-20 not-found in en (2.0s)
+
+  152 passed (6.1m)
+exit 0

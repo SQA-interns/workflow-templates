@@ -1,0 +1,23 @@
+sign-up e-mail: focused after 1 Tab
+sign-up password: focused after 1 Tab
+create the account: Enter
+sign-in e-mail: focused after 1 Tab
+sign-in password: focused after 1 Tab
+sign in: Enter
+select English: focused after 3 Tab
+English: chosen after 2 ArrowDown
+Create a Group: focused after 3 Tab
+Group name: focused after 1 Tab
+create the Group: Enter
+Add a Contact: focused after 1 Tab
+First name: focused after 2 Tab
+Last name: focused after 1 Tab
+E-mail: focused after 1 Tab
+Add an Attribute: focused after 9 Tab
+Attribute key: focused after 24 Tab
+Attribute value: focused after 1 Tab
+Tag: focused after 3 Tab
+add the Tag: Enter
+Save: focused after 1 Tab
+Search: focused after 2 Tab
+Export: focused after 4 Tab

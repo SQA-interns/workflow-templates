@@ -1,0 +1,84 @@
+--------+-------+------------------------
+     50 |   200 |                  10003
+(1 row)
+
+
+
+  █ THRESHOLDS 
+
+    checks{scenario:contact_list}
+    ✓ 'rate==1' rate=100.00%
+
+    http_req_duration{scenario:contact_list}
+    ✗ 'p(95)<500' p(95)=3.71s
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 1679    13.221036/s
+    checks_succeeded...: 100.00% 1679 out of 1679
+    checks_failed......: 0.00%   0 out of 1679
+
+    ✓ list answers 200
+
+    HTTP
+    http_req_duration..............: avg=408.67ms min=940.62µs med=74.44ms max=5.89s p(90)=1.21s p(95)=3.64s
+      { expected_response:true }...: avg=413.18ms min=940.62µs med=75.45ms max=5.89s p(90)=1.22s p(95)=3.66s
+      { scenario:contact_list }....: avg=442.84ms min=7.63ms   med=81.19ms max=5.89s p(90)=1.34s p(95)=3.71s
+    http_req_failed................: 1.09%  20 out of 1822
+    http_reqs......................: 1822   14.347068/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.44s    min=1s       med=1.08s   max=6.89s p(90)=2.34s p(95)=4.71s
+    iterations.....................: 1679   13.221036/s
+    vus............................: 1      min=0          max=20
+    vus_max........................: 20     min=20         max=20
+
+    NETWORK
+    data_received..................: 31 MB  244 kB/s
+    data_sent......................: 1.4 MB 11 kB/s
+
+
+
+time="2026-11-18T13:06:04Z" level=error msg="thresholds on metrics 'http_req_duration{scenario:contact_list}' have been crossed"
+time="2026-11-18T13:06:07Z" level=info msg="export: 200, 693077 bytes, 1364.972912 ms" source=console
+
+
+  █ THRESHOLDS 
+
+    checks{scenario:export}
+    ✓ 'rate==1' rate=100.00%
+
+    http_req_duration{scenario:export}
+    ✓ 'max<10000' max=1.36s
+
+
+  █ TOTAL RESULTS 
+
+    checks_total.......: 2       1.39795/s
+    checks_succeeded...: 100.00% 2 out of 2
+    checks_failed......: 0.00%   0 out of 2
+
+    ✓ export answers 200
+    ✓ export is an .xlsx
+
+    HTTP
+    http_req_duration..............: avg=356.33ms min=2.81ms med=28.77ms max=1.36s p(90)=968.91ms p(95)=1.16s
+      { expected_response:true }...: avg=356.33ms min=2.81ms med=28.77ms max=1.36s p(90)=968.91ms p(95)=1.16s
+      { scenario:export }..........: avg=1.36s    min=1.36s  med=1.36s   max=1.36s p(90)=1.36s    p(95)=1.36s
+    http_req_failed................: 0.00%  0 out of 4
+    http_reqs......................: 4      2.795899/s
+
+    EXECUTION
+    iteration_duration.............: avg=1.36s    min=1.36s  med=1.36s   max=1.36s p(90)=1.36s    p(95)=1.36s
+    iterations.....................: 1      0.698975/s
+    vus............................: 1      min=1      max=1
+    vus_max........................: 1      min=1      max=1
+
+    NETWORK
+    data_received..................: 717 kB 501 kB/s
+    data_sent......................: 2.5 kB 1.7 kB/s
+
+
+
+data rows: 10000
