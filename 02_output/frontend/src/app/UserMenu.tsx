@@ -48,9 +48,7 @@ export function UserMenu() {
         onClick={() => setOpen((value) => !value)}
       >
         <UserRound aria-hidden="true" />
-        <span className="truncate md:max-lg:sr-only">
-          {me.data?.displayName ?? t("app.userMenu")}
-        </span>
+        <span className="truncate">{me.data?.displayName ?? t("app.userMenu")}</span>
         <ChevronDown aria-hidden="true" />
       </Button>
       {open && (

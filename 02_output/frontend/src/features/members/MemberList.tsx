@@ -89,7 +89,11 @@ function MemberTable({
             className="border-b border-border max-md:block max-md:rounded-lg max-md:border max-md:p-3"
           >
             <td className={`${cell} font-semibold`}>{member.displayName}</td>
-            <td className={`${cell} break-all max-md:text-text-muted`}>{member.email}</td>
+            <td
+              className={`${cell} break-all max-md:text-text-muted md:break-normal md:wrap-break-word`}
+            >
+              {member.email}
+            </td>
             <td className={`${cell} max-md:inline-block max-md:pt-2 max-md:align-middle`}>
               {member.role === "OWNER" ? (
                 t("roles.OWNER")

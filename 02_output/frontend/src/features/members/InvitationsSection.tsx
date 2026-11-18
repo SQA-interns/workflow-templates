@@ -206,7 +206,9 @@ function InvitationTable({
             key={invitation.id}
             className="border-b border-border max-md:block max-md:rounded-lg max-md:border max-md:p-3"
           >
-            <td className={`${cell} font-semibold break-all`}>{invitation.email}</td>
+            <td className={`${cell} font-semibold break-all md:break-normal md:wrap-break-word`}>
+              {invitation.email}
+            </td>
             <td className={`${cell} max-md:inline max-md:text-text-muted`}>
               {t(`roles.${invitation.role}`)}
             </td>

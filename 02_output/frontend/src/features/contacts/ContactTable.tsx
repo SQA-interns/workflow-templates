@@ -63,8 +63,12 @@ export function ContactTable({ groupId, items, selection }: ContactTableProps) {
               </Link>
             </td>
             <td className="px-3 py-2 max-md:block max-md:p-0">{contact.company}</td>
-            <td className="px-3 py-2 break-all max-md:block max-md:p-0">{contact.email}</td>
-            <td className="px-3 py-2 max-md:block max-md:p-0">{contact.phone}</td>
+            <td className="px-3 py-2 break-all max-md:block max-md:p-0 md:break-normal md:wrap-break-word">
+              {contact.email}
+            </td>
+            <td className="px-3 py-2 max-md:block max-md:p-0 md:whitespace-nowrap">
+              {contact.phone}
+            </td>
             <td className="px-3 py-2 max-md:block max-md:p-0 max-md:pt-1">
               <span className="flex flex-wrap gap-1">
                 {contact.tags.map((tag) => (
