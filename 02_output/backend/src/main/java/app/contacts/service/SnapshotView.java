@@ -1,8 +1,11 @@
 package app.contacts.service;
 
+import app.contacts.domain.ContactFields;
+import app.contacts.domain.ContactVersion;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.SequencedMap;
+import tools.jackson.databind.json.JsonMapper;
 
 /**
  * The full content of a Contact after a Version (contract {@code Version.snapshot}, R-010-02).
@@ -14,6 +17,9 @@ import java.util.SequencedMap;
  */
 public record SnapshotView(
     SequencedMap<String, String> fields, List<AttributeView> attributes, List<String> tags) {
+
+  /** Reads the plain records of a Version; immutable and thread-safe. */
+  private static final JsonMapper JSON = JsonMapper.builder().build();
 
   /**
    * A snapshot with its own copies of the Fields, Attributes and Tags.
@@ -36,5 +42,24 @@ public record SnapshotView(
   @Override
   public SequencedMap<String, String> fields() {
     return new LinkedHashMap<>(fields);
+  }
+
+  /**
+   * The snapshot a Version recorded (ADR-07).
+   *
+   * @param version the Version
+   * @return its snapshot
+   */
+  static SnapshotView of(ContactVersion version) {
+    return JSON.readValue(version.getSnapshot(), SnapshotView.class);
+  }
+
+  /**
+   * The snapshot as the content of a Contact, to make it current again (R-011-01, R-019-01).
+   *
+   * @return the content
+   */
+  ContactContent content() {
+    return new ContactContent(ContactFields.ofNames(fields), attributes, tags);
   }
 }

@@ -1,6 +1,5 @@
 package app.contacts.service;
 
-import app.contacts.domain.ContactFields;
 import app.contacts.domain.ContactVersion;
 import app.contacts.repository.ContactVersionRepository;
 import app.contacts.repository.UserRepository;
@@ -101,7 +100,7 @@ public class HistoryService {
         version.getChangedAt(),
         version.getRestoredFrom(),
         changesOf(version),
-        snapshotOf(version));
+        SnapshotView.of(version));
   }
 
   /**
@@ -129,10 +128,7 @@ public class HistoryService {
     }
     ContactVersion version =
         versions.findVersion(groupId, contactId, number).orElseThrow(NotFoundException::new);
-    SnapshotView snapshot = snapshotOf(version);
-    ContactContent content =
-        new ContactContent(
-            ContactFields.ofNames(snapshot.fields()), snapshot.attributes(), snapshot.tags());
+    ContactContent content = SnapshotView.of(version).content();
     return contacts.restore(groupId, userId, contactId, versionNumber, number, content);
   }
 
@@ -143,10 +139,6 @@ public class HistoryService {
         .findAllById(found.stream().map(ContactVersion::getChangedBy).distinct().toList())
         .forEach(user -> names.put(user.getId(), user.getDisplayName()));
     return names;
-  }
-
-  private static SnapshotView snapshotOf(ContactVersion version) {
-    return JSON.readValue(version.getSnapshot(), SnapshotView.class);
   }
 
   private static List<ChangeView> changesOf(ContactVersion version) {
