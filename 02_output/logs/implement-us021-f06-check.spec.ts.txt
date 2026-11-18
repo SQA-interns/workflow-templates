@@ -1,0 +1,51 @@
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test, type Page } from "@playwright/test";
+import { api, resetStack, selectGroup, signIn, team } from "./support/stack";
+
+// Throwaway check of F-06 (US-021 part): the user menu stays visible at every width; not committed.
+test.beforeEach(resetStack);
+
+async function check(page: Page, name: string) {
+  for (const [w, h, label] of [[390, 844, "mobile"], [768, 1024, "768"], [820, 1180, "tablet"], [1440, 900, "desktop"]] as const) {
+    await page.setViewportSize({ width: w, height: h });
+    await page.waitForTimeout(300);
+    const trigger = page.getByRole("button", { name: "Ana Kovač" });
+    const box = await trigger.boundingBox();
+    console.log(`${name} ${label}: trigger`, box && { x: Math.round(box.x), w: Math.round(box.width), h: Math.round(box.height) });
+    await page.screenshot({ path: `../logs/screens/WF-19_account/f06_${name}_${label}.png` });
+    expect(box!.width, `${label} trigger width`).toBeGreaterThanOrEqual(44);
+    const parts = await trigger.evaluate((b) => [...b.children].map((c) => Math.round(c.getBoundingClientRect().width)));
+    console.log(`${name} ${label}: icon, name, chevron widths`, parts);
+    const drawn = w >= 768 && w < 1024 ? [parts[0], parts[2]] : parts;
+    expect(Math.min(...drawn), `${label} every part of the trigger is drawn`).toBeGreaterThanOrEqual(16);
+    expect(box!.x + box!.width, `${label} trigger inside`).toBeLessThanOrEqual(w);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+    expect(overflow, `${label} overflow`).toBe(false);
+    if (label !== "mobile") {
+      await trigger.click();
+      await expect(page.getByRole("link", { name: /^(Account|Račun)$/ })).toBeVisible();
+      await page.screenshot({ path: `../logs/screens/WF-19_account/f06_${name}_${label}_open.png` });
+      await trigger.click();
+    }
+  }
+  const axe = await new AxeBuilder({ page }).analyze();
+  const bad = axe.violations.filter((v) => v.impact === "critical" || v.impact === "serious");
+  console.log(`axe ${name}:`, bad.map((v) => `${v.impact} ${v.id}`).join(", ") || "none");
+  expect(bad).toEqual([]);
+}
+
+test("F-06 user menu visible for the Owner", async ({ page }) => {
+  const t = await team();
+  await signIn(page, t.ana);
+  await selectGroup(page, "Konferenca 2025");
+  await page.goto(page.url().replace(/\/groups\/([^/]+).*/, "/groups/$1/duplicates"));
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await check(page, "owner-duplicates");
+  await api(t.ana, "PATCH", "/me", { language: "sl" });
+  await page.reload();
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await check(page, "owner-duplicates-sl");
+  await page.goto("/account");
+  await expect(page.getByRole("heading", { level: 1, name: "Račun" })).toBeVisible();
+  await check(page, "account-sl");
+});

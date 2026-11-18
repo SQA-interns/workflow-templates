@@ -1,0 +1,50 @@
+
+Running 1 test using 1 worker
+
+owner-duplicates mobile: trigger { x: [33m16[39m, w: [33m154[39m, h: [33m44[39m }
+owner-duplicates mobile: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+owner-duplicates 768: trigger { x: [33m697[39m, w: [33m47[39m, h: [33m44[39m }
+owner-duplicates 768: icon, name, chevron widths [ [33m0[39m, [33m0[39m, [33m0[39m ]
+  ✘  1 [chromium] › acceptance/zz-f06-check.spec.ts:36:1 › F-06 user menu visible for the Owner (2.2s)
+
+
+  1) [chromium] › acceptance/zz-f06-check.spec.ts:36:1 › F-06 user menu visible for the Owner ──────
+
+    Error: 768 every part of the trigger is drawn
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBeGreaterThanOrEqual[2m([22m[32mexpected[39m[2m)[22m
+
+    Expected: >= [32m16[39m
+    Received:    [31m0[39m
+
+      17 |     const parts = await trigger.evaluate((b) => [...b.children].map((c) => Math.round(c.getBoundingClientRect().width)));
+      18 |     console.log(`${name} ${label}: icon, name, chevron widths`, parts);
+    > 19 |     expect(Math.min(...parts), `${label} every part of the trigger is drawn`).toBeGreaterThanOrEqual(16);
+         |                                                                               ^
+      20 |     expect(box!.x + box!.width, `${label} trigger inside`).toBeLessThanOrEqual(w);
+      21 |     const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
+      22 |     expect(overflow, `${label} overflow`).toBe(false);
+        at check (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-check.spec.ts:19:79)
+        at /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/acceptance/zz-f06-check.spec.ts:42:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f06-check-F-06-user-menu-visible-for-the-Owner-chromium/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/acceptance-zz-f06-check-F-06-user-menu-visible-for-the-Owner-chromium/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-zz-f06-check-F-06-user-menu-visible-for-the-Owner-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-zz-f06-check-F-06-user-menu-visible-for-the-Owner-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium] › acceptance/zz-f06-check.spec.ts:36:1 › F-06 user menu visible for the Owner ───────
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m

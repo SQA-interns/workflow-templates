@@ -1,0 +1,38 @@
+
+Running 1 test using 1 worker
+
+owner-duplicates mobile: trigger { x: [33m16[39m, w: [33m154[39m, h: [33m44[39m }
+owner-duplicates mobile: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+owner-duplicates 768: trigger { x: [33m654[39m, w: [33m90[39m, h: [33m44[39m }
+owner-duplicates 768: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+owner-duplicates tablet: trigger { x: [33m706[39m, w: [33m90[39m, h: [33m44[39m }
+owner-duplicates tablet: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+owner-duplicates desktop: trigger { x: [33m1126[39m, w: [33m170[39m, h: [33m44[39m }
+owner-duplicates desktop: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+axe owner-duplicates: none
+owner-duplicates-sl mobile: trigger { x: [33m16[39m, w: [33m154[39m, h: [33m44[39m }
+owner-duplicates-sl mobile: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+owner-duplicates-sl 768: trigger { x: [33m654[39m, w: [33m90[39m, h: [33m44[39m }
+owner-duplicates-sl 768: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+owner-duplicates-sl tablet: trigger { x: [33m706[39m, w: [33m90[39m, h: [33m44[39m }
+owner-duplicates-sl tablet: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+owner-duplicates-sl desktop: trigger { x: [33m1126[39m, w: [33m170[39m, h: [33m44[39m }
+owner-duplicates-sl desktop: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+axe owner-duplicates-sl: none
+account-sl mobile: trigger { x: [33m16[39m, w: [33m154[39m, h: [33m44[39m }
+account-sl mobile: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+account-sl 768: trigger { x: [33m654[39m, w: [33m90[39m, h: [33m44[39m }
+account-sl 768: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+account-sl tablet: trigger { x: [33m706[39m, w: [33m90[39m, h: [33m44[39m }
+account-sl tablet: icon, name, chevron widths [ [33m24[39m, [33m1[39m, [33m24[39m ]
+account-sl desktop: trigger { x: [33m1126[39m, w: [33m170[39m, h: [33m44[39m }
+account-sl desktop: icon, name, chevron widths [ [33m24[39m, [33m72[39m, [33m24[39m ]
+axe account-sl: none
+  ✓  1 [chromium] › acceptance/zz-f06-check.spec.ts:37:1 › F-06 user menu visible for the Owner (9.1s)
+
+  1 passed (10.6s)
+
+To open last HTML report run:
+[36m[39m
+[36m  npx playwright show-report[39m
+[36m[39m
