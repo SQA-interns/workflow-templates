@@ -1,0 +1,2285 @@
+[32m23:25:41 (1961681) INFO ProjectReader[39m Found 80 of 325 file(s) to be mutated.
+[32m23:25:42 (1961681) INFO Instrumenter[39m Instrumented 80 source file(s) with 3200 mutant(s)
+[32m23:25:44 (1961681) INFO ConcurrencyTokenProvider[39m Creating 6 test runner process(es).
+[32m23:25:45 (1961681) INFO DryRunExecutor[39m Starting initial test run (vitest test runner with "perTest" coverage analysis). This may take a while.
+[32m23:27:44 (1961681) INFO DryRunExecutor[39m Initial test run succeeded. Ran 618 tests in 1 minute 59 seconds (net 54776.48686600005 ms, overhead 64392.51313399995 ms).
+[33m23:27:44 (1961681) WARN MutantTestPlanner[39m Detected 191 static mutants (6% of total) that are estimated to take 47% of the time running the tests!
+  You might want to enable "ignoreStatic" to ignore these static mutants for your next run. 
+  For more information about static mutants visit: https://stryker-mutator.io/docs/mutation-testing-elements/static-mutants
+  (disable "warnings.slow" to ignore this warning)
+
+All tests
+  api
+    apiClient.test.ts
+      ✓ apiClient (ADR-06, R-001-02) R-001-02 sends the ID token as a Bearer token to /api/v1 (killed 13)
+      ✓ apiClient (ADR-06, R-001-02) R-001-06 sends no Authorization header without a token (killed 1)
+      ✓ apiClient (ADR-06, R-001-02) sends a JSON body (killed 6)
+      ✓ apiClient (ADR-06, R-001-02) asks for JSON and sends no body and no Content-Type without a body (killed 3)
+      ✓ apiClient (ADR-06, R-001-02) returns undefined for 204 (killed 1)
+      ✓ apiClient (ADR-06, R-001-02) R-001-05 turns a problem into an ApiError with status and code (killed 4)
+      ✓ apiClient (ADR-06, R-001-02) SB-07 an answer without a problem body becomes code internal (killed 1)
+      ✓ apiDownload (US-016, ADR-09) R-016-06 posts the body and answers the file with its UTF-8 file name (killed 9)
+      ~ apiDownload (US-016, ADR-09) R-016-05 a problem answer throws its ApiError (covered 34)
+      ✓ apiDownload (US-016, ADR-09) ADR-09 accepts any file type (killed 3)
+      ✓ apiDownload (US-016, ADR-09) ADR-09 without a UTF-8 file name the quoted file name is used (killed 4)
+      ✓ apiDownload (US-016, ADR-09) ADR-09 an answer without a file name has an empty file name (killed 1)
+    contacts.test.tsx
+      ✓ Contact reads and saves (US-006, US-007, US-014) R-007-01 a saved Contact replaces the one read and the lists are read again (killed 9)
+      ✓ Contact reads and saves (US-006, US-007, US-014) R-006-06 asks for the Contacts with the e-mail under the e-mail's key (killed 11)
+      ✓ Contact reads and saves (US-006, US-007, US-014) R-006-06 asks nothing while there is no e-mail (killed 1)
+      ✓ Contact reads and saves (US-006, US-007, US-014) R-014-01 reads a Page of the list for the query under the list key (killed 8)
+      ✓ Contact reads and saves (US-006, US-007, US-014) R-014-06 reads one Contact under its key (killed 8)
+    duplicates.test.tsx
+      ✓ Possible duplicates and Merges (US-017, US-018, US-019) R-017-01 reads the Possible duplicates under their key (killed 4)
+      ✓ Possible duplicates and Merges (US-017, US-018, US-019) R-018-02 a Merge reads the lists, both Contacts and the Possible duplicates again (killed 19)
+      ✓ Possible duplicates and Merges (US-017, US-018, US-019) R-019-01 undoing a Merge reads the lists, both Contacts and the Possible duplicates again (killed 21)
+      ✓ Possible duplicates and Merges (US-017, US-018, US-019) R-019-03 after a refused undo only the Primary contact is read again (killed 4)
+    exports.test.tsx
+      ✓ Export download (US-016) R-016-01 releases the file's address after the download has started (killed 1)
+    groups.test.tsx
+      ~ Groups of the User and the User's Role (US-002, BR-01, BR-03, BR-04) R-002-03 reads the Group list under the key groups (covered 5)
+      ✓ Groups of the User and the User's Role (US-002, BR-01, BR-03, BR-04) BR-03 the Role of the Group asked decides whether Contacts can change (killed 1)
+      ✓ Groups of the User and the User's Role (US-002, BR-01, BR-03, BR-04) BR-01 the User is a Member only of a Group in the list (killed 5)
+      ✓ Groups of the User and the User's Role (US-002, BR-01, BR-03, BR-04) BR-01 the User is no Member while the Group list is not read yet (killed 1)
+      ✓ Groups of the User and the User's Role (US-002, BR-01, BR-03, BR-04) BR-04 the User is the Owner only of a Group with the Role Owner (killed 6)
+      ✓ Group changes read the Group list again (US-002, US-003) R-002-01 creating a Group posts its name and reads the Group list again (killed 5)
+      ✓ Group changes read the Group list again (US-002, US-003) R-003-01 renaming a Group reads the Group list again (killed 5)
+      ✓ Group changes read the Group list again (US-002, US-003) R-003-02 moving a Group to the recycle bin reads the Group list again (killed 5)
+      ✓ Group changes read the Group list again (US-002, US-003) R-003-04 reads the deleted Groups under their own key (killed 3)
+      ✓ Group changes read the Group list again (US-002, US-003) R-003-05 restoring a Group reads both Group lists again (killed 7)
+    history.test.tsx
+      ✓ History and restoring a Version (US-010, US-011) R-010-01 reads the History under the Contact's versions key (killed 5)
+      ✓ History and restoring a Version (US-010, US-011) R-010-02 reads one Version under its number (killed 8)
+      ✓ History and restoring a Version (US-010, US-011) R-011-01 the restored Contact replaces the one read; History and lists are read again (killed 17)
+      ✓ History and restoring a Version (US-010, US-011) BR-06 after a refused restore only the Contact itself is read again (killed 3)
+    invitations.test.tsx
+      ✓ Invitations (US-004) R-004-08 reads the open Invitations under the Group's invitations key (killed 1)
+      ✓ Invitations (US-004) R-004-03 creating an Invitation reads the open Invitations again (killed 1)
+      ✓ Invitations (US-004) R-004-09 revoking an Invitation reads the open Invitations again (killed 1)
+      ✓ Invitations (US-004) R-004-04 reads the Invitation of a link under its token (killed 5)
+      ✓ Invitations (US-004) R-004-04 accepting an Invitation reads the Group list again (killed 4)
+    members.test.tsx
+      ✓ Members (US-005) R-005-01 reads the Members under the Group's members key (killed 1)
+      ✓ Members (US-005) R-005-02 the changed Member replaces only that Member in the list read (killed 2)
+      ✓ Members (US-005) R-005-02 a role change succeeds while no Member list has been read (killed 1)
+      ✓ Members (US-005) R-005-03 removing a Member reads the Members again (killed 5)
+    problem.test.ts
+      ~ problem codes → catalog (ADR-06, UI-30) R-001-05 the code auth.emailNotVerified has the story's text (covered 11)
+      ~ problem codes → catalog (ADR-06, UI-30) BR-02 notFound and SR-03 rateLimited have their §5 texts (covered 2)
+      ✓ problem codes → catalog (ADR-06, UI-30) an unknown code falls back to the generic error text (killed 1)
+      ~ problem codes → catalog (ADR-06, UI-30) keeps params and field errors of the problem (covered 8)
+      ✓ problem codes → catalog (ADR-06, UI-30) R-021-03 a problem naming a deleted User names Deleted user (killed 3)
+      ✓ problem codes → catalog (ADR-06, UI-30) is an Error named ApiError with the code as its message (killed 3)
+      ✓ problem codes → catalog (ADR-06, UI-30) SB-07 an answer that is not JSON is not read as a problem (killed 1)
+    recycleBin.test.tsx
+      ✓ Recycle bin (US-012, US-013) D-21 reads the merged names under the Contact's merged-into key (killed 4)
+      ✓ Recycle bin (US-012, US-013) R-012-03 a restore reads the recycle bin, the Contact and the lists again (killed 12)
+      ~ Recycle bin (US-012, US-013) R-012-04 a refused restore reads the same again (covered 21)
+      ✓ Recycle bin (US-012, US-013) R-012-01 the moved Contact replaces the one read; lists and recycle bin are read again (killed 19)
+      ✓ Recycle bin (US-012, US-013) BR-06 after a refused move only the Contact itself is read again (killed 3)
+      ✓ Recycle bin (US-012, US-013) R-013-01 a permanent delete forgets the Contact and reads bin, lists and Tags again (killed 20)
+    retry.test.ts
+      ✓ asking again after a failure (UI-14) BR-02 a 404 or another client error is final: not asked again (killed 6)
+      ✓ asking again after a failure (UI-14) UI-14 a server or network failure is asked again up to three times (killed 8)
+      ✓ asking again after a failure (UI-14) UI-14 only an ApiError of 400 … 499 is final (killed 3)
+    tags.test.tsx
+      ✓ Tag suggestions and Tag filters (US-009, US-015) R-009-02 asks for the Tags containing the text under the text's key (killed 3)
+      ✓ Tag suggestions and Tag filters (US-009, US-015) R-009-02 a text of exactly 50 characters is asked (killed 1)
+      ✓ Tag suggestions and Tag filters (US-009, US-015) R-009-02 nothing is asked for an empty or a longer than 50 characters text (killed 2)
+      ✓ Tag suggestions and Tag filters (US-009, US-015) R-015-01 reads every Tag of the Group under the empty text's key (killed 6)
+  app
+    AppLayout.test.tsx
+      ✓ base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default (killed 10)
+      ✓ base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation (killed 8)
+      ✓ base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page (killed 3)
+      ✓ routes of US-001 R-001-07 a signed-in User without Groups sees WF-05 (killed 6)
+      ✓ routes of US-001 R-001-03 a signed-out visitor sees the sign-in screen (killed 10)
+      ✓ routes of US-001 R-001-01 /sign-up shows Create an account (killed 2)
+      ✓ routes of US-001 R-001-05 /verify-email shows Confirm your e-mail (killed 2)
+      ✓ routes of US-001 R-001-04 the user menu is named by the display name (killed 2)
+      ✓ routes of US-002 R-002-01 /groups/new shows WF-04 Create a Group (killed 2)
+      ✓ routes of US-002 AC-002-05 signing in opens the Group selected last (killed 5)
+      ~ routes of US-002 EX-002-06 a Group no longer available: the first Group of the switcher opens (covered 264)
+      ✓ routes of US-002 R-002-04 the Contact list of a Group is remembered as the Group selected last (killed 12)
+      ✓ routes of US-002 BR-02 a Group the User is no Member of shows the not found page (killed 3)
+      ✓ routes of US-002 UI-14 the Groups cannot be read: error with Try again (killed 3)
+      ✓ header of US-002 R-002-04 the header carries the Group switcher with the current Group (killed 4)
+      ✓ routes and header of US-012 R-012-02 an Owner or Editor gets Recycle bin in the navigation of the Group (killed 8)
+      ✓ routes and header of US-012 R-012-02 a Viewer gets no Recycle bin in the navigation (killed 2)
+      ✓ routes and header of US-012 R-012-02 /groups/:groupId/recycle-bin shows WF-11 (killed 4)
+      ✓ routes and header of US-003 BR-04 only the Owner gets Settings in the navigation of the Group (killed 6)
+      ✓ routes and header of US-003 BR-04 an Editor gets no Settings in the navigation (killed 1)
+      ✓ routes and header of US-003 R-003-01 /groups/:groupId/settings shows WF-14 (killed 4)
+      ✓ routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups (killed 6)
+      ✓ routes and header of US-004 BR-04 only the Owner gets Members in the navigation of the Group (killed 2)
+      ~ routes and header of US-004 BR-04 an Editor gets no Members in the navigation (covered 356)
+      ✓ routes and header of US-004 R-004-08 /groups/:groupId/members shows WF-13 with the Invitations for the Owner (killed 7)
+      ✓ routes and header of US-004 BR-04 an Editor at /groups/:groupId/members sees Tega ne smete storiti. (killed 1)
+      ✓ routes and header of US-017 R-017-01 every Member, also a Viewer, gets Possible duplicates in the navigation (killed 6)
+      ✓ routes and header of US-017 R-017-01 /groups/:groupId/duplicates shows WF-17 (killed 11)
+      ✓ header and not found page (UI-10, BR-02) UI-10 the header shows the product name and the navigation links to the Contacts (killed 2)
+      ✓ header and not found page (UI-10, BR-02) R-017-01 outside a Group there is no Possible duplicates link (killed 2)
+      ✓ header and not found page (UI-10, BR-02) BR-02 the not found page leads back to the Contacts (killed 1)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) US-021 /account shows WF-19 Account (killed 7)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-008-01 /groups/:groupId/contacts/new shows Add a Contact (killed 2)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-009-01 /groups/:groupId/contacts/:contactId shows the Contact details (killed 2)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-010-01 /groups/:groupId/contacts/:contactId/edit shows Edit Contact (killed 2)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-015-01 /groups/:groupId/contacts/:contactId/history shows the History (killed 6)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-015-02 /groups/:groupId/contacts/:contactId/history/:number shows the Version (killed 4)
+      ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) R-018-01 /groups/:groupId/merge shows Merge (killed 3)
+    UserMenu.test.tsx
+      ✓ user menu (R-001-04, R-001-06) R-001-04 the menu button shows the display name of GET /me (killed 7)
+      ✓ user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data (killed 10)
+      ✓ user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account (killed 1)
+      ✓ user menu (R-001-04, R-001-06) UI-23 the menu opens and closes with its button and Escape (killed 5)
+      ✓ language (R-020-01, R-020-02) R-020-01 the texts follow the language of GET /me, Slovenian for a new User (killed 5)
+      ✓ language (R-020-01, R-020-02) R-020-02 choosing Slovenščina saves it and switches every text at once (killed 19)
+      ~ language (R-020-01, R-020-02) D-48 choosing a language closes the menu once it is saved (covered 53)
+      ✓ language (R-020-01, R-020-02) R-020-02 when saving fails the language stays and the menu says so (killed 4)
+      ✓ user menu items (UI-10, UI-23) UI-10 until GET /me answers, the button is named User menu (killed 1)
+      ✓ user menu items (UI-10, UI-23) R-020-02 the languages form a group named Language (killed 1)
+      ✓ user menu items (UI-10, UI-23) R-001-06 the menu closes when the User signs out (killed 1)
+      ✓ user menu items (UI-10, UI-23) UI-23 only Escape closes the menu, other keys keep it open (killed 1)
+      ✓ user menu items (UI-10, UI-23) US-021 opening Account closes the menu (killed 2)
+      ✓ user menu items (UI-10, UI-23) R-003-04 opening Deleted Groups closes the menu (killed 3)
+  auth
+    AuthProvider.test.tsx
+      ✓ route guard (R-001-03, R-001-05, R-001-06) UI-14 shows the loading state until Firebase knows the account (killed 12)
+      ✓ route guard (R-001-03, R-001-05, R-001-06) R-001-06 a signed-out visitor is sent to the sign-in screen (killed 14)
+      ✓ route guard (R-001-03, R-001-05, R-001-06) R-001-05 an unverified e-mail account is sent to the confirm screen (killed 4)
+      ~ route guard (R-001-03, R-001-05, R-001-06) R-001-01 a signed-in User sees the page (covered 43)
+      ✓ route guard (R-001-03, R-001-05, R-001-06) R-001-01 a signed-in User who opens the sign-in screen goes to the product (killed 5)
+      ✓ route guard (R-001-03, R-001-05, R-001-06) R-001-05 an unverified account on the sign-in screen goes to the confirm screen (killed 1)
+      ✓ account state (R-001-05, R-001-06) R-001-06 stops listening to Firebase when the page is left (killed 1)
+      ✓ account state (R-001-05, R-001-06) left before Firebase started: never listens to Firebase (killed 3)
+      ✓ account state (R-001-05, R-001-06) R-001-05 refresh reads the account again, e.g. after the e-mail was confirmed (killed 1)
+      ~ account state (R-001-05, R-001-06) R-001-06 refresh without an account signs out (covered 28)
+      ✓ account state (R-001-05, R-001-06) useAuth outside AuthProvider is a programming error (killed 2)
+    firebase.test.ts
+      ✓ Firebase errors → catalog keys (EX-001-01, EX-001-05) EX-001-01 wrong password and unknown e-mail give the same message (killed 15)
+      ~ Firebase errors → catalog keys (EX-001-01, EX-001-05) EX-001-05 an e-mail that already has an account (covered 19)
+      ✓ Firebase errors → catalog keys (EX-001-01, EX-001-05) R-001-01 an invalid e-mail and a password below the Firebase minimum (killed 2)
+      ✓ Firebase errors → catalog keys (EX-001-01, EX-001-05) SR-03 Firebase's own limit shows the rate limit text (killed 1)
+      ~ Firebase errors → catalog keys (EX-001-01, EX-001-05) a closed Google window is no error (covered 19)
+      ✓ Firebase errors → catalog keys (EX-001-01, EX-001-05) anything else shows the generic error text (killed 2)
+      ✓ Firebase errors → catalog keys (EX-001-01, EX-001-05) an error that is no object, or has no text code, shows the generic error text (killed 6)
+      ✓ account of the Firebase user (R-001-05) R-001-05 an e-mail/password account must verify its e-mail (killed 8)
+      ✓ account of the Firebase user (R-001-05) R-001-05 a verified account and a Google account need no verification (killed 3)
+      ✓ account of the Firebase user (R-001-05) R-001-05 a Google account that also has a password must verify its e-mail (killed 1)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) ADR-05 starts Firebase with the settings of this environment (killed 3)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) ADR-05 connects to the Auth emulator when /config.json names one (killed 4)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) ADR-06 requests carry the ID token of the signed-in account, none when signed out (killed 6)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) every call before the start fails with a clear message (killed 4)
+      ~ Firebase Authentication start (ADR-03, ADR-05) R-001-01 signs in with e-mail and password (covered 19)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) R-001-05 signing up creates the account and sends the confirmation link (killed 1)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) R-001-01 signs in with Google in a popup (killed 1)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) R-001-06 signs out of Firebase (killed 1)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) R-001-01 calls back with the account after sign-in and with null after sign-out (killed 1)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) R-001-05 refreshing reloads the account with a fresh ID token (killed 4)
+      ✓ Firebase Authentication start (ADR-03, ADR-05) refreshing without a signed-in account gives no account (killed 1)
+    RequireAuth.test.tsx
+      ✓ Firebase cannot start (UI-14, ADR-05) UI-14 a protected page shows the error state instead of loading for ever (killed 12)
+      ~ Firebase cannot start (UI-14, ADR-05) UI-14 the sign-in screen shows the error state too (covered 41)
+    returnTo.test.ts
+      ✓ return to the Invitation after signing in (R-004-07) R-004-07 the opened Invitation is kept for this browser tab (killed 3)
+      ✓ return to the Invitation after signing in (R-004-07) R-004-07 a path that is no Invitation link is never kept (killed 3)
+      ~ return to the Invitation after signing in (R-004-07) R-004-07 a stored value that is no Invitation link leads to the start screen (covered 8)
+      ~ return to the Invitation after signing in (R-004-07) without a remembered Invitation the User starts at the start screen (covered 8)
+      ✓ return to the Invitation after signing in (R-004-07) blocked storage leads to the start screen (killed 2)
+      ~ return to the Invitation after signing in (R-004-07) blocked storage does not stop remembering or forgetting (covered 7)
+      ✓ return to the Invitation after signing in (R-004-07) R-004-07 the Invitation is forgotten once it is shown (killed 2)
+    runtimeConfig.test.ts
+      ✓ runtime configuration /config.json (ADR-05, runtime-config.schema.json) reads the Firebase settings and the emulator URL (killed 11)
+      ~ runtime configuration /config.json (ADR-05, runtime-config.schema.json) the emulator URL is optional (staging, production) (covered 7)
+      ~ runtime configuration /config.json (ADR-05, runtime-config.schema.json) rejects a configuration without a required setting (covered 7)
+      ~ runtime configuration /config.json (ADR-05, runtime-config.schema.json) rejects when /config.json cannot be read (covered 8)
+      ✓ runtime configuration /config.json (ADR-05, runtime-config.schema.json) rejects an emulator URL that does not start with http:// or https:// (killed 1)
+      ✓ runtime configuration /config.json (ADR-05, runtime-config.schema.json) rejects a valid configuration that /config.json answers with an error status (killed 2)
+  features
+    account
+      AccountPage.test.tsx
+        ✓ WF-19 Account (US-020, US-021) EX-021-01 Delete stays disabled until the typed e-mail matches, ignoring case (killed 17)
+        ✓ WF-19 Account (US-020, US-021) AC-021-01 Delete deletes the account with the typed e-mail and signs out (killed 12)
+        ✓ WF-19 Account (US-020, US-021) AC-021-02 an Owner is told to delete the Groups first and stays signed in (killed 6)
+        ✓ WF-19 Account (US-020, US-021) R-020-02 the language is chosen in the Language section (killed 7)
+        ~ WF-19 Account (US-020, US-021) UI-14 shows the error state with Try again when the User cannot be read (covered 32)
+        ✓ WF-19 Account (US-020, US-021) WF-19 names the page and its sections and describes the language choice (killed 6)
+        ✓ WF-19 Account (US-020, US-021) UI-14 a language change that fails shows Something went wrong. (killed 3)
+        ✓ WF-19 Account (US-020, US-021) AC-021-01 the sign-in screen replaces the Account page (killed 2)
+        ✓ WF-19 Account (US-020, US-021) UI-14 a deletion that fails without a problem shows Something went wrong. (killed 1)
+      SignInPage.test.tsx
+        ✓ WF-01 Sign in (US-001) R-001-01 signs in with e-mail and password (killed 22)
+        ✓ WF-01 Sign in (US-001) EX-001-01 wrong password: Wrong e-mail or password. (killed 4)
+        ✓ WF-01 Sign in (US-001) R-001-01 Sign in with Google (killed 2)
+        ~ WF-01 Sign in (US-001) R-001-01 closing the Google window shows no error (covered 52)
+        ✓ WF-01 Sign in (US-001) R-001-01 links to Create an account (killed 1)
+        ~ WF-01 Sign in (US-001) D-37 the page has a single textbox, the e-mail (covered 27)
+        ✓ WF-01 Sign in (US-001) WF-01 names the e-mail form and asks who has no account yet (killed 3)
+        ✓ WF-01 Sign in (US-001) UI-12 both sign-in buttons wait while signing in, then are available again (killed 2)
+      SignUpPage.test.tsx
+        ✓ WF-02 Create an account (US-001) R-001-01 creates an account with e-mail and password (killed 3)
+        ✓ WF-02 Create an account (US-001) EX-001-05 an e-mail that already has an account (killed 1)
+        ✓ WF-02 Create an account (US-001) R-001-01 links back to Sign in (killed 1)
+        ✓ WF-02 Create an account (US-001) WF-02 asks who already has an account and links to Sign in (killed 2)
+      VerifyEmailPage.test.tsx
+        ✓ WF-03 Confirm your e-mail (R-001-05) AC-001-05 shows the notice and where the link was sent (killed 11)
+        ✓ WF-03 Confirm your e-mail (R-001-05) R-001-05 I confirmed my e-mail reads the account again (killed 4)
+        ✓ WF-03 Confirm your e-mail (R-001-05) R-001-06 Sign out (killed 2)
+        ✓ WF-03 Confirm your e-mail (R-001-05) R-001-05 a confirmed account goes on to the product (killed 2)
+        ✓ WF-03 Confirm your e-mail (R-001-05) R-001-06 without an account it shows the sign-in screen (killed 2)
+        ✓ WF-03 Confirm your e-mail (R-001-05) UI-14 while the account is read it shows Loading … (killed 3)
+        ✓ WF-03 Confirm your e-mail (R-001-05) UI-12 I confirmed my e-mail waits while the account is read, then is available again (killed 3)
+    contacts
+      attributes.test.ts
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) R-008-01 keys and values are trimmed and keep their spelling (killed 1)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-01 a key of 50 characters is accepted, of 51 rejected (killed 13)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-02 a key of only spaces is rejected (killed 1)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-03 a value of 500 characters is accepted, of 501 rejected (killed 6)
+        ~ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-04 an empty value is accepted (covered 33)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) AC-008-03 the same key ignoring case and spaces names the second key (killed 7)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-05 50 Attributes are accepted, 51 rejected (killed 6)
+        ✓ Attributes of a Contact (specification §3, R-008-02 … R-008-05) EX-008-01 a key of one character is accepted (killed 1)
+      AttributesField.test.tsx
+        ✓ WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read (killed 16)
+        ✓ WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields (killed 20)
+        ~ WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent (covered 408)
+        ✓ WF-08 Attributes of a Contact (US-008) AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent (killed 10)
+        ✓ WF-08 Attributes of a Contact (US-008) AC-008-04 Remove takes the Attribute out of the save (killed 5)
+        ✓ WF-08 Attributes of a Contact (US-008) EX-008-02 a key of only spaces: A key must have 1 to 50 characters. (killed 2)
+        ✓ WF-08 Attributes of a Contact (US-008) EX-008-04 an empty value is sent as empty (killed 1)
+        ✓ WF-08 Attributes of a Contact (US-008) R-008-03 an Attribute problem of the API stands at its row (killed 6)
+        ✓ WF-08 Attributes of a Contact (US-008) R-008-05 the API's limit of 50 Attributes stands in the Attributes section (killed 3)
+        ✓ WF-08 Attributes of a Contact (US-008) R-008-01 a new Contact is sent with its Attributes (killed 2)
+        ✓ WF-08 Attributes section on its own (US-008, UI-13) UI-13 a control's id names its Attribute and part (killed 2)
+        ✓ WF-08 Attributes section on its own (US-008, UI-13) AC-008-02 typing changes only the value of its row (killed 1)
+        ✓ WF-08 Attributes section on its own (US-008, UI-13) AC-008-04 Remove takes out only its row (killed 2)
+        ~ WF-08 Attributes section on its own (US-008, UI-13) R-008-01 Add an Attribute appends an empty row (covered 45)
+        ✓ WF-08 Attributes section on its own (US-008, UI-13) UI-13 an Attribute's error marks its box and describes it (killed 3)
+        ✓ WF-08 Attributes section on its own (US-008, UI-13) R-008-05 the error of all Attributes describes Add an Attribute (killed 2)
+      ContactDetailsPage.test.tsx
+        ✓ WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels (killed 16)
+        ✓ WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags (killed 6)
+        ✓ WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time (killed 5)
+        ✓ WF-07 Contact details (R-014-06) R-014-06 without Attributes or Tags it says so (killed 4)
+        ✓ WF-07 Contact details (R-014-06) US-007 an Owner or Editor gets Edit, which opens the Contact form (killed 6)
+        ~ WF-07 Contact details (R-014-06) BR-03 a Viewer gets no Edit (covered 110)
+        ✓ WF-07 Contact details (R-014-06) AC-012-01 Move to recycle bin, confirmed, moves the Version read and opens the list (killed 14)
+        ✓ WF-07 Contact details (R-014-06) EX-012-03 Cancel closes the confirmation and moves nothing (killed 1)
+        ✓ WF-07 Contact details (R-014-06) BR-06 a refused move shows its message in the confirmation (killed 3)
+        ✓ WF-07 Contact details (R-014-06) AC-012-04 a Viewer gets no Move to recycle bin (killed 2)
+        ✓ WF-07 Contact details (R-014-06) EX-012-06 a Contact in the recycle bin offers no Move to recycle bin (killed 1)
+        ✓ WF-07 Contact details (R-014-06) BR-02 an unknown Contact: This page cannot be found. (killed 2)
+        ✓ WF-07 Contact details (R-014-06) UI-14 an error shows Something went wrong. and Try again asks again (killed 2)
+        ✓ WF-07 Contact details (R-014-06) R-018-05 the Primary contact shows Merged from with a link to the Other contact's History (killed 7)
+        ✓ WF-07 Contact details (R-014-06) US-019 Undo merge R-019-01 Undo merge, confirmed, undoes the Merge with the Version read (killed 13)
+        ✓ WF-07 Contact details (R-014-06) US-019 Undo merge EX-019-03 Cancel closes the confirmation and undoes nothing (killed 1)
+        ✓ WF-07 Contact details (R-014-06) US-019 Undo merge R-019-02 a refused undo shows its message in the confirmation (killed 3)
+        ~ WF-07 Contact details (R-014-06) US-019 Undo merge BR-03 a Viewer gets no Undo merge (covered 117)
+        ✓ WF-07 Contact details (R-014-06) US-019 Undo merge UI-14 an undo that fails without a reason shows Something went wrong. (killed 4)
+        ✓ WF-07 Contact details (R-014-06) R-014-06 Back leads to the Contact list (killed 1)
+        ✓ WF-07 Contact details (R-014-06) R-014-06 both History links name the History (killed 2)
+        ✓ WF-07 Contact details (R-014-06) R-018-05 Merged from and the Other contact's name read as one sentence (killed 1)
+        ✓ WF-07 Contact details (R-014-06) UI-14 another refusal than 404 shows the error state, not the not found page (killed 1)
+        ✓ WF-07 Contact details (R-014-06) UI-14 a move that fails without a reason shows Something went wrong. (killed 4)
+        ✓ WF-07 Contact details (R-014-06) BR-06 the message of a refused move is gone when the confirmation opens again (killed 1)
+      ContactFieldInput.test.tsx
+        ✓ one Field of WF-08 (UI-13, UI-19) UI-13 the label names the box; hint and error describe it (killed 19)
+        ~ one Field of WF-08 (UI-13, UI-19) UI-13 without an error the box is not invalid (covered 54)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-01 typing reports the value (killed 3)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-04 the e-mail box is for e-mail addresses, the phone box for numbers (killed 11)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-03 the note is a text area (killed 3)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-05 the country is chosen by name and reported as its ISO code (killed 7)
+        ~ one Field of WF-08 (UI-13, UI-19) UI-13 the hint is shown under the box with the id that describes it (covered 56)
+        ~ one Field of WF-08 (UI-13, UI-19) UI-13 without a hint, notice or error nothing is shown under the box (covered 54)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-06 a notice is announced politely and describes the box (killed 4)
+        ~ one Field of WF-08 (UI-13, UI-19) R-006-06 an empty notice keeps the polite region but shows nothing (covered 53)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-01 the other Fields are plain text boxes (killed 2)
+        ✓ one Field of WF-08 (UI-13, UI-19) R-006-05 the country names follow a change of language (killed 1)
+      contactFields.test.ts
+        ✘ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) D-23 the Fields are those of the Contact form, in its order (covered 0)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-02 only a company is enough (killed 4)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-02 EX-006-05 no name part after trimming is rejected (killed 14)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-07 every Field is trimmed and blank ones become empty (covered 36)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 EX-006-01 EX-006-02 a first name of 100 characters passes, of 101 does not (killed 6)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 EX-006-03 the note may have 2000 characters, counted as characters (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 janez@ is not a valid e-mail address (killed 4)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 janez is not a valid e-mail address (covered 38)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 @example.si is not a valid e-mail address (covered 38)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 janez@example is not a valid e-mail address (covered 38)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 ja nez@example.si is not a valid e-mail address (killed 1)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 AC-006-04 a@b@c.si is not a valid e-mail address (covered 38)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 a valid e-mail address passes (covered 37)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) D-23 a phone with other characters than digits, spaces and + - ( ) / is rejected (killed 8)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-05 the country list offers the ISO 3166-1 alpha-2 codes by name in the language (killed 3)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 lastName may have 100 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 email may have 254 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 phone may have 30 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 company may have 200 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 jobTitle may have 100 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 street may have 200 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 postalCode may have 20 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-03 city may have 100 characters, not one more (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 janez@example.si x with a trailing part is not a valid e-mail address (killed 1)
+        ~ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-04 janez@example.si@x with a trailing part is not a valid e-mail address (covered 4)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-006-05 the countries are sorted by name, not by code (killed 2)
+        ✓ Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07) R-014-01 a Contact without a name part or company has an empty name (killed 1)
+      ContactForm.test.tsx
+        ✓ WF-08 Contact form (UI-13) WF-08 the form shows the way back, its sections and the hints of the limits (killed 29)
+        ✓ WF-08 Contact form (UI-13) UI-14 a form without a failed save shows no error (killed 4)
+        ✓ WF-08 Contact form (UI-13) R-006-03 a Field problem of the last save stands at its Field (killed 7)
+        ✓ WF-08 Contact form (UI-13) R-006-02 the form's own problem replaces the problems of the last save and is focused (killed 20)
+        ✓ WF-08 Contact form (UI-13) R-006-04 the first Field with a problem is focused (killed 1)
+        ✓ WF-08 Contact form (UI-13) R-008-02 an Attribute problem of the form replaces the problems of the last save (killed 7)
+        ✓ WF-08 Contact form (UI-13) R-009-05 a Tag problem of the form is shown after a failed save (killed 9)
+        ✓ WF-08 Contact form (UI-13) R-009-01 spaces left in the Tag box are not a Tag and do not stop the save (killed 10)
+        ✓ WF-08 Contact form (UI-13) R-007-03 No changes to save. stands beside Save, not as an alert (killed 7)
+        ✓ WF-08 Contact form (UI-13) BR-06 a conflict offers Reload, which reads the current Version (killed 6)
+        ✓ WF-08 Contact form (UI-13) BR-06 there is no Reload without a way to read again (killed 3)
+        ~ WF-08 Contact form (UI-13) BR-03 another refusal offers no Reload (covered 281)
+      ContactListPage.test.tsx
+        ✓ WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name (killed 100)
+        ✓ WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural (killed 3)
+        ✓ WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1 (killed 21)
+        ✓ WF-06 Contact list (US-014) AC-014-04 no match: No Contacts match. and Clear search shows the whole list (killed 17)
+        ✓ WF-06 Contact list (US-014) EX-014-02 an empty Group: No Contacts yet. and Add a Contact opens the form (killed 18)
+        ✓ WF-06 Contact list (US-014) ADR-04 a Viewer gets no Add a Contact (killed 2)
+        ✓ WF-06 Contact list (US-014) AC-014-05 Next and Previous move between the Pages of the total (killed 22)
+        ✓ WF-06 Contact list (US-014) EX-014-01 50 Contacts are one Page without paging (killed 2)
+        ~ WF-06 Contact list (US-014) R-014-04 only the search box is labelled Search (covered 321)
+        ✓ WF-06 Contact list (US-014) R-014-03 Sort by and Order ask for the whole list in that order (killed 23)
+        ✓ WF-06 Contact list (US-014) UI-14 an error shows Something went wrong. and Try again asks again (killed 5)
+        ✓ WF-06 filter panel and chips (US-015) AC-015-01 has Tags is applied, shown as a chip and the panel closes (killed 56)
+        ✓ WF-06 filter panel and chips (US-015) R-015-01 … R-015-04 every filter of the panel goes to the query (killed 59)
+        ✓ WF-06 filter panel and chips (US-015) R-015-01 a chosen Tag can be taken out of the panel again (killed 17)
+        ✓ WF-06 filter panel and chips (US-015) R-015-06 removing a chip removes only that filter (killed 7)
+        ✓ WF-06 filter panel and chips (US-015) R-015-06 Clear filters removes every filter and keeps the search and sort (killed 7)
+        ✓ WF-06 filter panel and chips (US-015) R-015-06 Clear filters in the panel removes every filter (killed 2)
+        ~ WF-06 filter panel and chips (US-015) R-015-07 applying keeps the sort and starts at Page 1 (covered 412)
+        ~ WF-06 filter panel and chips (US-015) R-015-06 the panel opens with the Active filters (covered 400)
+        ✓ WF-06 filter panel and chips (US-015) EX-015-02 an empty filtered list shows No Contacts match. (killed 2)
+        ✓ WF-06 Export and Checked contacts (US-016) AC-016-02 a checked row is counted and Export checked sends it (killed 17)
+        ✓ WF-06 Export and Checked contacts (US-016) D-24 (b) checks stay across Pages and are cleared when the search changes (killed 4)
+        ~ WF-06 Export and Checked contacts (US-016) EX-016-02 an empty filtered list: Export disabled, Nothing to export. (covered 300)
+        ✓ WF-06 Contact list states and paging (US-014) UI-14 the loading state is named Loading … (killed 1)
+        ✓ WF-06 Contact list states and paging (US-014) R-014-04 the search box hints what it searches and Order offers Ascending (killed 2)
+        ✓ WF-06 Contact list states and paging (US-014) UI-17 an Owner gets Add a Contact in the header and in the mobile action bar (killed 4)
+        ✓ WF-06 Contact list states and paging (US-014) AC-014-05 the Pages are a navigation named Pages; Previous goes back one Page (killed 4)
+        ✓ WF-06 Contact list states and paging (US-014) AC-014-05 Next is disabled on the last Page (killed 2)
+        ✓ WF-06 Contact list states and paging (US-014) AC-014-02 an unchanged search box never resets the Page (killed 1)
+        ✓ WF-06 Contact list states and paging (US-014) AC-014-02 typing asks only for the whole search, not for every letter (killed 1)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-03 a value without a key is no filter (killed 3)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-01 the panel is a region named Filters; each Tag picker says what it filters (killed 7)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-01 nothing chosen: the Tag pickers show no chips (killed 2)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-01 a chosen Tag is no longer offered, and taking one out keeps the others (killed 3)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-05 a Tag of the URL that the Group does not have reads … (killed 3)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-01 until the Tags are read, the Tag pickers offer no Tag (killed 1)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-06 an Attribute key alone is shown as its key, and its chip removes key and value (killed 5)
+        ~ WF-06 filter panel and chips, details (US-015) R-015-06 removing the Attribute chip removes its value too (covered 353)
+        ✓ WF-06 filter panel and chips, details (US-015) R-015-06 the without Tags, Company and Country chips each remove only their filter (killed 5)
+      ContactTable.test.tsx
+        ✓ Contact table of WF-06 (R-014-01) R-014-01 has the columns Name, Company, E-mail, Phone and Tags (killed 2)
+        ✓ Contact table of WF-06 (R-014-01) R-014-06 the name opens the Contact's details (killed 4)
+        ✓ Contact table of WF-06 (R-014-01) R-014-01 a row shows the company, e-mail, phone and Tags (killed 1)
+        ✓ Contact table of WF-06 (R-014-01) EX-014-04 a Contact with only a company shows it in the name position (killed 2)
+        ~ Contact table of WF-06 (R-014-01) R-014-01 rows keep the order of the API (covered 31)
+        ✓ Contact table of WF-06 (R-014-01) R-016-02 each row has a checkbox named after the Contact that checks it (killed 5)
+        ✓ Contact table of WF-06 (R-014-01) R-016-02 the header checkbox checks every Contact of the Page (killed 6)
+        ✓ Contact table of WF-06 (R-014-01) R-016-02 the header checkbox is checked when the whole Page is (killed 2)
+        ✓ Contact table of WF-06 (R-014-01) R-016-02 the header checkbox of an empty Page is not checked (killed 2)
+      EditContactPage.test.tsx
+        ✓ WF-08 Edit Contact (US-007) AC-007-01 the form shows the Contact; saving sends the Fields with the Version read (killed 7)
+        ✓ WF-08 Edit Contact (US-007) AC-007-02 a stale Version shows who changed it; Reload shows the current Version (killed 3)
+        ~ WF-08 Edit Contact (US-007) AC-007-03 clearing every name part shows the error and sends nothing (covered 422)
+        ✓ WF-08 Edit Contact (US-007) AC-007-04 saving without changes: No changes to save. (killed 1)
+        ~ WF-08 Edit Contact (US-007) EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin. (covered 435)
+        ✓ WF-08 Edit Contact (US-007) EX-007-05 a Contact that is not the Group's shows the not-found page (killed 2)
+        ✓ WF-08 Edit Contact (US-007) UI-14 another failure to read the Contact shows the error, not the not-found page (killed 1)
+        ✓ WF-08 Edit Contact (US-007) UI-12 Cancel returns to the Contact's details without saving (killed 1)
+      fieldMessages.test.ts
+        ✓ texts of Field problems (specification §5) R-006-03 field.tooLong names the Field and its maximum in the language (UI-18) (killed 5)
+        ~ texts of Field problems (specification §5) R-006-02 R-006-04 D-23 the other codes show their catalog text (covered 10)
+        ✓ texts of Field problems (specification §5) SB-01 the Field, Attribute and Tag problems of a 400 answer go to their places (killed 30)
+        ✓ texts of Field problems (specification §5) BR-03 a problem without Fields is one general text (killed 2)
+        ✓ texts of Field problems (specification §5) BR-06 a conflict keeps the values its text names (killed 1)
+        ✓ texts of Field problems (specification §5) UI-14 a failure without a problem shows the generic error text (killed 7)
+        ✓ texts of Field problems (specification §5) R-006-03 field.tooLong without a maximum shows the catalog text (killed 1)
+        ✓ texts of Field problems (specification §5) D-23 another code with a maximum still shows its own text (killed 1)
+        ✓ texts of Field problems (specification §5) SB-01 a name problem and a Tag problem of a 400 answer go to their places (killed 5)
+        ✓ texts of Field problems (specification §5) R-008-04 an Attribute problem keeps the key its text names, and only a text key (killed 5)
+        ~ texts of Field problems (specification §5) R-006-03 a Field problem keeps only a numeric maximum (covered 46)
+      listQuery.test.ts
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-014-02 no parameters: name A–Z, Page 1, no search (covered 34)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-014-03 sort, order, Page and search are read from the URL (covered 35)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-014-03 unknown values fall back to the defaults (covered 34)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-014-01 the URL keeps only what differs from the defaults (covered 37)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-014-01 the API path asks for exactly that Page (covered 23)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-015-05 the filters are read from the URL with the search (covered 30)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-015-06 the URL keeps the set filters only (covered 37)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-015-05 the API path asks with every set filter (covered 27)
+        ~ Contact list query in the URL (R-014-01 … R-014-04, specification §4 US-015) R-015-06 a query has filters while any one is set (covered 26)
+      NewContactPage.test.tsx
+        ✓ WF-08 Add a Contact (US-006) AC-006-01 saving sends every Field trimmed and opens the Contact list (killed 31)
+        ✓ WF-08 Add a Contact (US-006) AC-006-02 only a company is saved, the other Fields empty (killed 2)
+        ✓ WF-08 Add a Contact (US-006) AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent (killed 11)
+        ✓ WF-08 Add a Contact (US-006) AC-006-04 an invalid e-mail is shown next to the field and nothing is sent (killed 12)
+        ✓ WF-08 Add a Contact (US-006) EX-006-02 a first name of 101 characters: First name may have at most 100 characters. (killed 13)
+        ~ WF-08 Add a Contact (US-006) D-23 a phone with a dot: Enter a valid phone number. (covered 362)
+        ✓ WF-08 Add a Contact (US-006) AC-006-06 the API's refusal is shown and the values are kept (killed 6)
+        ✓ WF-08 Add a Contact (US-006) R-006-03 a Field problem of the API is shown next to its field (killed 1)
+        ✓ WF-08 Add a Contact (US-006) UI-12 Cancel returns to the Contact list without saving (killed 2)
+        ~ WF-08 Add a Contact (US-006) R-006-05 the country is chosen from a list; empty by default (covered 280)
+        ✓ WF-08 Add a Contact (US-006) AC-006-05 leaving an existing e-mail warns with its Contact and saving still works (killed 27)
+        ✓ WF-08 Add a Contact (US-006) R-006-06 an e-mail without a match shows no warning (killed 4)
+        ~ WF-08 Add a Contact (US-006) R-006-06 a blank or invalid e-mail is not looked up (covered 289)
+        ✓ WF-08 Add a Contact (US-006) AC-006-05 every Contact with the e-mail is named (killed 1)
+        ✓ WF-08 Add a Contact (US-006) R-006-06 no warning is shown while the e-mail is still looked up (killed 3)
+      tags.test.ts
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) R-009-05 a name is trimmed and keeps its spelling (killed 1)
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) EX-009-01 a name of 50 characters is accepted, of 51 rejected (killed 3)
+        ~ Tags of a Contact (specification §3, R-009-03 … R-009-06) EX-009-01 characters are counted, not UTF-16 units (covered 16)
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) EX-009-02 a name of only spaces is rejected (killed 1)
+        ~ Tags of a Contact (specification §3, R-009-03 … R-009-06) AC-009-05 a name with a comma is rejected (covered 18)
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) R-009-03 a name equal to a suggested Tag case-insensitively takes its spelling (killed 9)
+        ~ Tags of a Contact (specification §3, R-009-03 … R-009-06) R-009-04 a new name is added as entered (covered 14)
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) EX-009-03 a name the Contact already has is not added again (killed 2)
+        ✓ Tags of a Contact (specification §3, R-009-03 … R-009-06) EX-009-01 a name of one character is accepted (killed 1)
+      TagsField.test.tsx
+        ✓ WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint (killed 21)
+        ✓ WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields (killed 41)
+        ✓ WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save (killed 7)
+        ✓ WF-08 Tags of a Contact (US-009) AC-009-02 typing part of a Tag suggests the Group's Tag (killed 18)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-02 choosing a suggestion adds it (killed 6)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-02 the arrow keys choose a suggestion and Enter adds it (killed 15)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-02 a Tag the Contact has is not suggested (killed 4)
+        ✓ WF-08 Tags of a Contact (US-009) AC-009-03 a name in other case takes the spelling of the suggested Tag (killed 2)
+        ~ WF-08 Tags of a Contact (US-009) EX-009-03 a Tag the Contact has is not added twice (covered 350)
+        ✓ WF-08 Tags of a Contact (US-009) AC-009-05 a name with a comma shows the message at once and adds nothing (killed 5)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-05 an invalid name left in the box stops the save (killed 8)
+        ~ WF-08 Tags of a Contact (US-009) R-009-01 a valid name left in the box is saved with the Tags (covered 417)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-05 the API's tag.invalid stands in the Tags section (killed 2)
+        ✓ WF-08 Tags of a Contact (US-009) R-009-01 a new Contact is added with its Tags (killed 10)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 before suggestions the box is collapsed, controls the list and shows the hint (killed 7)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-05 the Tags' problem marks the box and describes it before the hint (killed 3)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) D-52 suggestions are asked once for the trimmed text after typing stops (killed 2)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 ArrowUp walks the suggestions from the last and wraps; Escape leaves them (killed 27)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 Enter adds the first suggestion when it is chosen (killed 1)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-04 Enter without a chosen suggestion adds the typed text and chooses none (killed 2)
+        ~ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 typing again leaves the chosen suggestion (covered 104)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 an emptied or blank box shows no suggestions at once (killed 3)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 clicking a suggestion adds it and keeps the focus in the box (killed 1)
+        ✓ WF-08 Tag box on its own (US-009, ARIA combobox) R-009-02 a chosen suggestion that is no longer offered is not added (killed 1)
+      useSelection.test.ts
+        ✓ useSelection (R-016-02, D-24 (b)) R-016-02 checks and unchecks Contacts one by one (killed 4)
+        ~ useSelection (R-016-02, D-24 (b)) R-016-02 checks or unchecks every Contact of the Page, keeping other Pages (covered 18)
+        ✓ useSelection (R-016-02, D-24 (b)) R-016-02 checking a Page again does not count a checked Contact twice (killed 1)
+        ~ useSelection (R-016-02, D-24 (b)) D-24 (b) kept while the scope stays (Pages, sort) and cleared when it changes (covered 17)
+    duplicates
+      DuplicatesPage.test.tsx
+        ✓ WF-17 Possible duplicates (US-017) R-017-01 lists each pair with links to both Contacts and every reason (killed 7)
+        ✓ WF-17 Possible duplicates (US-017) EX-017-07 without pairs: No possible duplicates found. (killed 1)
+        ✓ WF-17 Possible duplicates (US-017) R-017-05 explains that the list changes nothing until a merge (killed 1)
+        ✓ WF-17 Possible duplicates (US-017) UI-14 shows loading, then an error with Try again (killed 3)
+        ✓ WF-17 Possible duplicates (US-017) R-018-01 an Editor opens Merge for a pair with its first and second Contact (killed 6)
+        ~ WF-17 Possible duplicates (US-017) BR-03 a Viewer sees no Merge (covered 52)
+      mergeChoices.test.ts
+        ✓ mergeChoices (US-018) D-74 on the same creation time the pair keeps the order given (killed 1)
+        ✓ mergeChoices (US-018) R-018-03 keeps an Attribute only the Other contact has (killed 2)
+        ~ mergeChoices (US-018) EX-018-01 the same value under a key in another case is kept once without a choice (covered 12)
+        ✓ mergeChoices (US-018) R-018-03 keys of the Other contact are compared ignoring case among themselves (killed 1)
+        ✓ mergeChoices (US-018) EX-018-07 a Tag of both in another case is kept once, the Primary contact's spelling (killed 6)
+      MergePage.test.tsx
+        ✓ WF-18 Merge (US-018) AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's (killed 49)
+        ✓ WF-18 Merge (US-018) R-018-01 the Contact created first is Primary, whichever the list shows first (D-74) (killed 4)
+        ✓ WF-18 Merge (US-018) R-018-01 choosing the other Primary contact preselects its values (killed 4)
+        ✓ WF-18 Merge (US-018) R-018-02 Merge sends the Primary contact, the Version numbers and every choice (killed 32)
+        ✓ WF-18 Merge (US-018) R-018-02 shows the Tags and the Attributes of both (killed 3)
+        ✓ WF-18 Merge (US-018) AC-018-03 a refused Merge shows Choose a value for kompetenca. (killed 12)
+        ✓ WF-18 Merge (US-018) EX-018-06 Cancel goes back to Possible duplicates without a change (killed 3)
+        ✓ WF-18 Merge (US-018) UI-14 shows loading, then an error with Try again (killed 2)
+        ✓ WF-18 Merge (US-018) UI-14 a failed first Contact shows the error even when the second one loaded (killed 1)
+        ✓ WF-18 Merge (US-018) UI-14 a failed second Contact shows the error even when the first one loaded (killed 1)
+        ✓ WF-18 Merge (US-018) WF-18 shows the intro and links back to Possible duplicates (killed 3)
+        ✓ WF-18 Merge (US-018) WF-18 names the sections and the columns, one radio group per Field (killed 9)
+        ✓ WF-18 Merge (US-018) WF-18 the two values of one Field or Attribute form one radio group (killed 2)
+        ✓ WF-18 Merge (US-018) R-018-01 a value missing in one Contact is offered as (empty) (killed 1)
+        ✓ WF-18 Merge (US-018) R-018-01 choosing the second Contact as Primary preselects the first's value where it is blank (killed 2)
+        ✓ WF-18 Merge (US-018) R-018-01 choosing the first Contact again preselects its values against the second (killed 1)
+        ✓ WF-18 Merge (US-018) R-018-02 choosing a value per Field and Attribute keeps the other choices (killed 4)
+        ✓ WF-18 Merge (US-018) EX-018-01 an Attribute with the same value in both is shown once, without a choice (killed 2)
+        ~ WF-18 Merge (US-018) R-018-02 no error is shown before Merge (covered 154)
+        ✓ WF-18 Merge (US-018) R-018-02 another refusal is shown once, below the Tags (killed 3)
+        ✓ WF-18 Merge (US-018) R-018-02 a failure without a problem shows the general error (killed 2)
+    export/ExportButtons.test.tsx
+      ✓ Export buttons of WF-06 (US-016) AC-016-01 Export sends the list query and saves the file with its name (killed 9)
+      ✓ Export buttons of WF-06 (US-016) AC-016-02 Export checked sends only the Checked contacts (killed 14)
+      ✓ Export buttons of WF-06 (US-016) R-016-02 Export checked is disabled while no Contact is checked (killed 7)
+      ✓ Export buttons of WF-06 (US-016) R-016-07 EX-016-02 an empty scope disables Export: Nothing to export. (killed 10)
+      ✓ Export buttons of WF-06 (US-016) R-016-05 AC-016-03 more than 10,000 Contacts: Export disabled with the message (killed 5)
+      ✓ Export buttons of WF-06 (US-016) EX-016-01 exactly 10,000 Contacts can be exported (killed 2)
+      ✓ Export buttons of WF-06 (US-016) R-016-05 a refused Export shows the message of the problem and saves nothing (killed 3)
+      ~ Export buttons of WF-06 (US-016) UI-12 both buttons are disabled while the file is made (covered 60)
+    groups
+      CreateGroupPage.test.tsx
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) AC-002-01 the new Group opens as the current Group (killed 22)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) AC-002-04 a blank name: Enter a name of 1 to 100 characters. and nothing is sent (killed 12)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) EX-002-02 a name of 101 characters is rejected before sending (killed 1)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) R-002-02 the server's group.nameLength shows the same text (killed 6)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) UI-14 any other failure shows the error state and keeps the form (killed 3)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) UI-12 Cancel goes back without creating a Group (killed 3)
+        ✓ WF-04 Create a Group (R-002-01, R-002-02) R-002-02 the name field is described by its rule and valid until a check fails (killed 4)
+      currentGroup.test.ts
+        ~ current Group (R-002-05, D-22) R-002-05 the Group selected last is kept per User (covered 6)
+        ✓ current Group (R-002-05, D-22) AC-002-05 signing in opens the Group selected last (killed 2)
+        ~ current Group (R-002-05, D-22) EX-002-06 a Group no longer available opens the first Group of the switcher (covered 8)
+        ✓ current Group (R-002-05, D-22) EX-002-06 without Groups there is no Group to open (killed 1)
+        ✓ current Group (R-002-05, D-22) R-002-05 blocked browser storage forgets the choice instead of failing (killed 1)
+      DeletedGroupsPage.test.tsx
+        ✓ WF-15 Deleted Groups (US-003) AC-003-03 lists the name and the removal date in Europe/Ljubljana (killed 10)
+        ✓ WF-15 Deleted Groups (US-003) AC-003-04 Restore restores the Group and opens its Contact list (killed 9)
+        ✓ WF-15 Deleted Groups (US-003) R-003-06 a refused restore: This Group can no longer be restored. (killed 3)
+        ✓ WF-15 Deleted Groups (US-003) UI-14 no deleted Groups: No deleted Groups. (killed 2)
+        ✓ WF-15 Deleted Groups (US-003) R-003-05 explains the page and names the columns (killed 5)
+        ✓ WF-15 Deleted Groups (US-003) UI-14 a restore that fails without a problem: Something went wrong. (killed 1)
+        ✓ WF-15 Deleted Groups (US-003) R-003-05 while one Group is restored every Restore waits, the restored one is busy (killed 4)
+      groupName.test.ts
+        ✓ Group name rule (R-002-02) R-002-02 accepts 1 to 100 characters, counted as characters (killed 1)
+        ~ Group name rule (R-002-02) R-002-02 the server's name rule maps to the name text (covered 18)
+        ✓ Group name rule (R-002-02) UI-13 another field problem shows the problem's own text (killed 1)
+        ~ Group name rule (R-002-02) UI-13 a failure without a problem is the general error (covered 5)
+      GroupRoute.test.tsx
+        ✓ Group routes (R-002-05, BR-02) EX-002-06 the Group selected last is gone and no Group is left: You have no Groups yet. (killed 16)
+        ✓ Group routes (R-002-05, BR-02) EX-002-06 the Group selected last is gone: the first Group of the switcher opens (killed 5)
+        ~ Group routes (R-002-05, BR-02) BR-02 a Group the User never selected and is not a Member of is not found (covered 53)
+        ✓ Group routes (R-002-05, BR-02) UI-14 while the Groups load the Group is neither refused nor remembered (killed 6)
+        ✓ Group routes (R-002-05, BR-02) UI-14 another Group waits for the User before it is refused (killed 1)
+        ✓ Group routes (R-002-05, BR-02) UI-14 the start waits for the User before it opens a Group (killed 1)
+      GroupSettingsPage.test.tsx
+        ✓ WF-14 Group settings (US-003) AC-003-01 saves the trimmed new name and reads the Groups again (killed 28)
+        ✓ WF-14 Group settings (US-003) EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent (killed 8)
+        ✓ WF-14 Group settings (US-003) AC-003-03 Move Group to recycle bin asks first, then moves and opens the start (killed 10)
+        ✓ WF-14 Group settings (US-003) EX-003-04 Cancel in the confirmation changes nothing (killed 1)
+        ✓ WF-14 Group settings (US-003) AC-003-02 an Editor sees You are not allowed to do this. and no form (killed 2)
+        ✓ WF-14 Group settings (US-003) BR-04 an Editor of this Group is refused, whatever Role they have elsewhere (killed 1)
+        ✓ WF-14 Group settings (US-003) BR-04 a User who is not a Member of the Group is refused (killed 1)
+        ✓ WF-14 Group settings (US-003) UI-14 while the Groups load nothing is refused yet (killed 1)
+        ✓ WF-14 Group settings (US-003) WF-14 names both cards and describes the name rule (killed 7)
+        ✓ WF-14 Group settings (US-003) R-003-01 a name refused by the server shows the name rule (killed 3)
+        ✓ WF-14 Group settings (US-003) UI-14 a rename that fails without a problem: Something went wrong. (killed 1)
+        ✓ WF-14 Group settings (US-003) R-003-02 the confirmation explains the move and shows no error before it (killed 4)
+        ✓ WF-14 Group settings (US-003) R-003-02 a refused move shows its message in the confirmation (killed 2)
+        ✓ WF-14 Group settings (US-003) UI-14 a move that fails without a problem shows Something went wrong., forgotten on reopening (killed 3)
+      GroupsPending.test.tsx
+        ~ GroupsPending (UI-14) UI-14 shows Loading … while the query is pending (covered 5)
+        ~ GroupsPending (UI-14) UI-14 shows the error with Try again, which asks again (covered 11)
+        ✓ GroupsPending (UI-14) UI-14 shows nothing once the data is there (killed 1)
+      GroupSwitcher.test.tsx
+        ✓ Group switcher (R-002-03, R-002-04) AC-002-01 shows the current Group (killed 4)
+        ✓ Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked (killed 12)
+        ✓ Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher (killed 5)
+        ~ Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04 (covered 60)
+        ✓ Group switcher (R-002-03, R-002-04) R-002-05 outside a Group it shows the Group selected last (killed 3)
+        ~ Group switcher (R-002-03, R-002-04) R-001-07 a User without Groups has no switcher (WF-05) (covered 29)
+        ✓ Group switcher (R-002-03, R-002-04) UI-23 Escape closes the switcher (killed 5)
+        ✓ Group switcher (R-002-03, R-002-04) UI-23 the switcher is named by the current Group (killed 1)
+        ✓ Group switcher (R-002-03, R-002-04) UI-23 another key keeps the switcher open (killed 1)
+        ✓ Group switcher (R-002-03, R-002-04) R-002-01 Create a Group closes the switcher (killed 2)
+      NoGroupsPage.test.tsx
+        ✓ WF-05 No Groups yet (R-001-07) AC-001-01 You have no Groups yet. with Create a Group (killed 5)
+    history
+      changes.test.ts
+        ✓ A changed item of a Version (R-010-01) AC-010-01 a Field shows its label with the old and the new value (killed 8)
+        ✓ A changed item of a Version (R-010-01) R-010-01 an empty Field value is shown as (empty) (killed 1)
+        ✓ A changed item of a Version (R-010-01) R-010-01 a country is shown by its name (UI-18) (killed 2)
+        ✓ A changed item of a Version (R-010-01) AC-008-01 an added Attribute: key: (empty) → value (killed 5)
+        ✓ A changed item of a Version (R-010-01) AC-008-04 a removed Attribute: key: value → (removed) (killed 4)
+        ✓ A changed item of a Version (R-010-01) AC-009-01 an added Tag: tag:<name> added (killed 5)
+        ✓ A changed item of a Version (R-010-01) AC-009-04 a removed Tag: tag:<name> removed (killed 1)
+      HistoryPage.test.tsx
+        ✓ WF-09 History (R-010-01) R-021-03 a Version of a deleted User shows Deleted user (killed 12)
+        ✓ WF-09 History (R-010-01) AC-011-01 a restored Version names the Version it restored (killed 6)
+        ✓ WF-09 History (R-010-01) R-010-01 lists the Versions newest first with kind, who, when and what (killed 7)
+        ✓ WF-09 History (R-010-01) R-010-02 each Version links to its content (killed 4)
+        ~ WF-09 History (R-010-01) EX-010-01 a time after midnight in Ljubljana shows the next day (covered 88)
+        ~ WF-09 History (R-010-01) EX-010-04 a Contact with one Version shows one entry (covered 88)
+        ✓ WF-09 History (R-010-01) AC-010-03 a History the User may not see shows Not found (killed 6)
+        ✓ WF-09 History (R-010-01) UI-14 shows the error state with Try again (killed 2)
+        ✓ WF-09 History (R-010-01) UI-14 a Contact that cannot be read shows the error state although the History was read (killed 1)
+        ✓ WF-09 History (R-010-01) R-010-01 says the order and the time zone (killed 1)
+      VersionPage.test.tsx
+        ✓ WF-10 Version (R-010-02) R-021-03 a Version of a deleted User shows Deleted user (killed 17)
+        ✓ WF-10 Version (R-010-02) R-010-02 shows the Fields, Attributes and Tags as they were after the Version (killed 15)
+        ~ WF-10 Version (R-010-02) AC-010-02 the Version is read-only: no inputs, no Edit, no Save (covered 136)
+        ✓ WF-10 Version (R-010-02) R-010-02 links back to the History (killed 2)
+        ✓ WF-10 Version (R-010-02) EX-010-05 a Version number that does not exist shows Not found (killed 5)
+        ✓ WF-10 Version (R-010-02) UI-14 shows the error state with Try again (killed 1)
+        ✓ WF-10 Restore this Version (US-011) AC-011-01 restores Version 1 with the current Version number read and opens the History (killed 19)
+        ✓ WF-10 Restore this Version (US-011) EX-011-03 Cancel closes the confirmation and restores nothing (killed 1)
+        ✓ WF-10 Restore this Version (US-011) AC-011-04 a refused restore shows its message in the confirmation (killed 5)
+        ~ WF-10 Restore this Version (US-011) EX-011-04 a refused restore shows its message in the confirmation (covered 157)
+        ~ WF-10 Restore this Version (US-011) AC-011-03 a Viewer is not offered Restore this Version (covered 100)
+        ✓ WF-10 Restore this Version (US-011) UI-15 the confirmation shows no error before a restore (killed 2)
+        ✓ WF-10 Restore this Version (US-011) UI-14 a restore that fails without a problem shows Something went wrong., forgotten on reopening (killed 3)
+        ✓ WF-10 Restore this Version (US-011) BR-06 Restore waits until the current Version number is read (killed 2)
+    invitations/InvitationPage.test.tsx
+      ✓ WF-16 Invitation (US-004) AC-004-02 shows the Group, the Role and the expiry in Europe/Ljubljana (killed 25)
+      ✓ WF-16 Invitation (US-004) AC-004-02 Accept makes the User a Member and opens the Group's Contact list (killed 8)
+      ✓ WF-16 Invitation (US-004) AC-004-03 another e-mail: This Invitation is for another e-mail address. (killed 4)
+      ~ WF-16 Invitation (US-004) AC-004-04 R-004-06 an Invitation no longer valid: This Invitation is no longer valid. (covered 162)
+      ✓ WF-16 Invitation (US-004) R-004-06 a refused Accept shows its message (killed 3)
+      ✓ WF-16 Invitation (US-004) UI-14 the Invitation cannot be read: Something went wrong. with Try again (killed 7)
+      ✓ WF-16 Invitation (US-004) R-004-07 not signed in: asks to sign in or create an account (killed 9)
+      ✓ WF-16 Invitation (US-004) R-004-07 after signing in the User comes back to the Invitation (killed 10)
+      ✓ WF-16 Invitation (US-004) R-004-07 after confirming the e-mail the User comes back to the Invitation (killed 3)
+      ✓ WF-16 Invitation (US-004) R-004-07 an unconfirmed e-mail is sent to confirm it first (killed 1)
+      ~ WF-16 Invitation (US-004) R-004-07 without a remembered Invitation, sign-in leads to the start (covered 131)
+      ✓ WF-16 Invitation (US-004) UI-14 shows Loading … while the Invitation is read (killed 1)
+      ✓ WF-16 Invitation (US-004) R-004-05 a refused Invitation offers no Try again (killed 2)
+      ✓ WF-16 Invitation (US-004) UI-14 a server error offers Try again, which reads the Invitation again (killed 4)
+      ✓ WF-16 Invitation (US-004) R-004-07 opening another Invitation while signed out remembers that one (killed 1)
+    members
+      InvitationsSection.test.tsx
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 creates the Invitation and shows its link once with Copy link (killed 35)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 Copy link copies the link and says so (killed 10)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-01 Viewer can be chosen; Owner cannot (killed 2)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) EX-004-06 an invalid e-mail: Enter a valid e-mail address., nothing sent (killed 9)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) EX-004-04 a Member's e-mail: This person is already a Member. (killed 7)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana (killed 7)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again (killed 10)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) UI-14 no open Invitations (killed 2)
+        ~ WF-13 Invite a Member and Open Invitations (US-004) UI-14 the list cannot be read: Something went wrong. with Try again (covered 56)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-01 Editor is the preselected Role (killed 1)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 after the Invitation is created the e-mail field is empty and the link is titled (killed 4)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 a link that cannot be copied says so (killed 4)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) UI-14 an Invitation that fails without a problem: Something went wrong. (killed 2)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error (killed 6)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-09 while one Invitation is revoked every Revoke waits, the revoked one is busy (killed 4)
+        ✓ WF-13 Invite a Member and Open Invitations (US-004) R-004-09 a refused Revoke shows why (killed 2)
+      MemberList.test.tsx
+        ✓ WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed (killed 20)
+        ✓ WF-13 Members (US-005) R-005-02 choosing another Role changes it at once (killed 15)
+        ✓ WF-13 Members (US-005) R-005-05 a refused Role change shows its message (killed 5)
+        ✓ WF-13 Members (US-005) R-005-03 Remove from Group asks first, then removes the Member (killed 10)
+        ✓ WF-13 Members (US-005) EX-005-04 Cancel changes nothing (killed 1)
+        ✓ WF-13 Members (US-005) R-005-05 a refused removal shows its message in the confirmation (killed 3)
+        ~ WF-13 Members (US-005) UI-14 the Members cannot be read: error with Try again (covered 26)
+        ✓ WF-13 Members (US-005) R-005-01 names the columns and offers Editor and Viewer (killed 5)
+        ✓ WF-13 Members (US-005) R-005-02 while a Role changes every Role waits, the changed one is busy (killed 4)
+        ✓ WF-13 Members (US-005) UI-14 a Role change that fails without a problem: Something went wrong. (killed 1)
+        ✓ WF-13 Members (US-005) R-005-03 the confirmation says what the removal means (killed 2)
+        ✓ WF-13 Members (US-005) R-005-05 a refused removal is forgotten when the confirmation opens again (killed 1)
+      MembersPage.test.tsx
+        ✓ WF-13 Members and Invitations page (US-004, US-005) R-005-01 the Owner sees Members, Invite a Member and Open Invitations (killed 8)
+        ✓ WF-13 Members and Invitations page (US-004, US-005) BR-04 an Editor of this Group is refused, whatever Role they have elsewhere (killed 2)
+        ✓ WF-13 Members and Invitations page (US-004, US-005) BR-04 a User who is not a Member of the Group is refused (killed 1)
+        ✓ WF-13 Members and Invitations page (US-004, US-005) UI-14 while the Groups load nothing is refused yet (killed 1)
+    recycle-bin/RecycleBinPage.test.tsx
+      ✓ WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user (killed 13)
+      ✓ WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana (killed 3)
+      ✓ WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again (killed 18)
+      ✓ WF-11 Recycle bin (US-012) R-012-04 a refused restore shows This Contact can no longer be restored. (killed 3)
+      ~ WF-11 Recycle bin (US-012) UI-14 an empty recycle bin says so (covered 46)
+      ✓ WF-11 Recycle bin (US-012) AC-012-05 a Viewer is told this is not allowed (killed 3)
+      ✓ WF-11 Recycle bin (US-012) UI-14 an error shows Something went wrong. and Try again asks again (killed 1)
+      ✓ WF-11 Recycle bin (US-012) R-012-02 explains how long Contacts stay and names the columns (killed 7)
+      ✓ WF-11 Recycle bin (US-012) UI-14 a refusal other than forbidden shows the error with Try again (killed 1)
+      ✓ WF-11 Recycle bin (US-012) UI-14 a restore that fails without a problem: Something went wrong. (killed 1)
+      ✓ WF-11 Recycle bin (US-012) R-012-03 while one Contact is restored every action waits, the restored one is busy (killed 20)
+      ~ WF-11 Delete permanently (US-013) BR-04 only the Owner sees Delete permanently (covered 83)
+      ✓ WF-11 Delete permanently (US-013) AC-013-01 the Owner confirms and the recycle bin is read again (killed 16)
+      ✓ WF-11 Delete permanently (US-013) EX-013-01 Cancel changes nothing (killed 1)
+      ✓ WF-11 Delete permanently (US-013) D-21 the confirmation names the Contacts merged into it, also those merged into them (killed 13)
+      ✓ WF-11 Delete permanently (US-013) D-21 without merged Contacts the confirmation names none (killed 2)
+      ✓ WF-11 Delete permanently (US-013) D-21 Delete permanently waits until the merged Contacts are read (killed 2)
+      ✓ WF-11 Delete permanently (US-013) D-21 a failed read of the merged Contacts shows the error and keeps Delete off (killed 8)
+      ~ WF-11 Delete permanently (US-013) R-013-03 a refused delete shows its message in the confirmation (covered 151)
+  i18n/format.test.ts
+    ~ formats of the project-wide facts (R-020-03) AC-020-03 a time reads dd.mm.yyyy HH:mm in Europe/Ljubljana in both languages (covered 7)
+    ~ formats of the project-wide facts (R-020-03) R-020-03 summer time and 24-hour clock in Europe/Ljubljana (covered 7)
+    ~ formats of the project-wide facts (R-020-03) R-020-03 a date alone reads dd.mm.yyyy (covered 5)
+    ~ formats of the project-wide facts (R-020-03) EX-020-02 10000 reads 10.000 in Slovenian and 10,000 in English (covered 5)
+
+[Survived] ConditionalExpression
+src/api/apiClient.ts:29:11
+-       body: body === undefined ? undefined : JSON.stringify(body),
++       body: false ? undefined : JSON.stringify(body),
+Tests ran:
+    apiClient (ADR-06, R-001-02) R-001-02 sends the ID token as a Bearer token to /api/v1
+    apiClient (ADR-06, R-001-02) R-001-06 sends no Authorization header without a token
+    apiClient (ADR-06, R-001-02) sends a JSON body
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/api/apiClient.ts:60:73
+-       fileName: fileNameOf(response.headers.get("Content-Disposition") ?? ""),
++       fileName: fileNameOf(response.headers.get("Content-Disposition") ?? "Stryker was here!"),
+Tests ran:
+    apiDownload (US-016, ADR-09) ADR-09 accepts any file type
+
+
+[Survived] ArrowFunction
+src/api/apiClient.ts:7:32
+-   let tokenSource: TokenSource = async () => null;
++   let tokenSource: TokenSource = () => undefined;
+Ran all tests for this mutant.
+
+[NoCoverage] StringLiteral
+src/api/contacts.ts:97:88
+-           `/groups/${groupId}/contacts/email-matches?email=${encodeURIComponent(email ?? "")}`,
++           `/groups/${groupId}/contacts/email-matches?email=${encodeURIComponent(email ?? "Stryker was here!")}`,
+
+[NoCoverage] StringLiteral
+src/api/problem.ts:46:56
+-     const type = response.headers.get("Content-Type") ?? "";
++     const type = response.headers.get("Content-Type") ?? "Stryker was here!";
+
+[Survived] ConditionalExpression
+src/api/problem.ts:39:7
+-         typeof value === "string" ? userName(value) : value,
++         true ? userName(value) : value,
+Tests ran:
+    WF-08 Contact form (UI-13) BR-06 a conflict offers Reload, which reads the current Version
+    WF-08 Contact form (UI-13) BR-06 there is no Reload without a way to read again
+    WF-18 Merge (US-018) AC-018-03 a refused Merge shows Choose a value for kompetenca.
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/app/AppLayout.tsx:27:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+Tests ran:
+    base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+    base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page
+  and 23 more tests!
+
+
+[Survived] StringLiteral
+src/app/AppLayout.tsx:54:40
+-                 className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
++                 className={`${menuOpen ? "" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
+Tests ran:
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+
+
+[Survived] StringLiteral
+src/app/AppLayout.tsx:54:26
+-                 className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
++                 className={``}
+Tests ran:
+    base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+    base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page
+  and 44 more tests!
+
+
+[Survived] StringLiteral
+src/app/AppLayout.tsx:54:49
+-                 className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
++                 className={`${menuOpen ? "flex" : ""} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
+Tests ran:
+    base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+    base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page
+  and 44 more tests!
+
+
+[Survived] StringLiteral
+src/app/AppLayout.tsx:22:3
+-     "rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap hover:bg-surface aria-[current=page]:bg-primary-subtle aria-[current=page]:text-primary-subtle-foreground";
++     "";
+Ran all tests for this mutant.
+
+[Survived] ConditionalExpression
+src/app/UserMenu.tsx:24:9
+-       if (language) void i18n.changeLanguage(language);
++       if (true) void i18n.changeLanguage(language);
+Tests ran:
+    base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+    base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page
+  and 58 more tests!
+
+
+[Survived] ConditionalExpression
+src/app/UserMenu.tsx:71:56
+-                     <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
++                     <Check aria-hidden="true" className={true ? "" : "invisible"} />
+Tests ran:
+    routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups
+    user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data
+    user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account
+  and 9 more tests!
+
+
+[Survived] ConditionalExpression
+src/app/UserMenu.tsx:71:56
+-                     <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
++                     <Check aria-hidden="true" className={false ? "" : "invisible"} />
+Tests ran:
+    routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups
+    user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data
+    user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account
+  and 9 more tests!
+
+
+[Survived] EqualityOperator
+src/app/UserMenu.tsx:71:56
+-                     <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
++                     <Check aria-hidden="true" className={language !== code ? "" : "invisible"} />
+Tests ran:
+    routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups
+    user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data
+    user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/app/UserMenu.tsx:71:76
+-                     <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
++                     <Check aria-hidden="true" className={language === code ? "Stryker was here!" : "invisible"} />
+Tests ran:
+    routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups
+    user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data
+    user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/app/UserMenu.tsx:71:81
+-                     <Check aria-hidden="true" className={language === code ? "" : "invisible"} />
++                     <Check aria-hidden="true" className={language === code ? "" : ""} />
+Tests ran:
+    routes and header of US-003 R-003-04 the user menu opens WF-15 Deleted Groups
+    user menu (R-001-04, R-001-06) R-001-06 Sign out signs out of Firebase and forgets the User's data
+    user menu (R-001-04, R-001-06) US-021 the menu links to WF-19 Account
+  and 9 more tests!
+
+
+[Survived] ArrayDeclaration
+src/auth/AuthProvider.tsx:49:6
+-     }, []);
++     }, ["Stryker was here"]);
+Tests ran:
+    route guard (R-001-03, R-001-05, R-001-06) UI-14 shows the loading state until Firebase knows the account
+    route guard (R-001-03, R-001-05, R-001-06) R-001-06 a signed-out visitor is sent to the sign-in screen
+    route guard (R-001-03, R-001-05, R-001-06) R-001-05 an unverified e-mail account is sent to the confirm screen
+  and 9 more tests!
+
+
+[Survived] ArrayDeclaration
+src/auth/AuthProvider.tsx:51:86
+-     const refresh = useCallback(async () => setState(stateOf(await refreshAccount())), []);
++     const refresh = useCallback(async () => setState(stateOf(await refreshAccount())), ["Stryker was here"]);
+Tests ran:
+    route guard (R-001-03, R-001-05, R-001-06) UI-14 shows the loading state until Firebase knows the account
+    route guard (R-001-03, R-001-05, R-001-06) R-001-06 a signed-out visitor is sent to the sign-in screen
+    route guard (R-001-03, R-001-05, R-001-06) R-001-05 an unverified e-mail account is sent to the confirm screen
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/auth/firebase.ts:106:94
+-     const code = typeof error === "object" && error !== null && "code" in error ? error.code : "";
++     const code = typeof error === "object" && error !== null && "code" in error ? error.code : "Stryker was here!";
+Tests ran:
+    Firebase errors → catalog keys (EX-001-01, EX-001-05) anything else shows the generic error text
+    Firebase errors → catalog keys (EX-001-01, EX-001-05) an error that is no object, or has no text code, shows the generic error text
+
+
+[Survived] ConditionalExpression
+src/auth/firebase.ts:107:15
+-     const key = typeof code === "string" ? errorKeys.get(code) : undefined;
++     const key = true ? errorKeys.get(code) : undefined;
+Tests ran:
+    WF-01 Sign in (US-001) EX-001-01 wrong password: Wrong e-mail or password.
+    WF-01 Sign in (US-001) R-001-01 closing the Google window shows no error
+    WF-02 Create an account (US-001) EX-001-05 an e-mail that already has an account
+  and 7 more tests!
+
+
+[Survived] ConditionalExpression
+src/auth/RequireAuth.tsx:11:7
+-     if (state.status === "failed") return <p role="alert">{t("state.error")}</p>;
++     if (true) return <p role="alert">{t("state.error")}</p>;
+Tests ran:
+    Firebase cannot start (UI-14, ADR-05) UI-14 a protected page shows the error state instead of loading for ever
+    Firebase cannot start (UI-14, ADR-05) UI-14 the sign-in screen shows the error state too
+
+
+[Survived] MethodExpression
+src/features/account/AccountPage.tsx:70:10
+-     return typed.trim().toLowerCase() === email.toLowerCase();
++     return typed.toLowerCase() === email.toLowerCase();
+Tests ran:
+    routes of the Contact screens (US-001, US-021, US-008 … US-018) US-021 /account shows WF-19 Account
+    WF-19 Account (US-020, US-021) EX-021-01 Delete stays disabled until the typed e-mail matches, ignoring case
+    WF-19 Account (US-020, US-021) AC-021-01 Delete deletes the account with the typed e-mail and signs out
+  and 6 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/account/AccountPage.tsx:89:9
+-       if (!matches) return;
++       if (false) return;
+Tests ran:
+    WF-19 Account (US-020, US-021) AC-021-01 Delete deletes the account with the typed e-mail and signs out
+    WF-19 Account (US-020, US-021) AC-021-02 an Owner is told to delete the Groups first and stays signed in
+    WF-19 Account (US-020, US-021) AC-021-01 the sign-in screen replaces the Account page
+  and 1 more test!
+
+
+[Survived] MethodExpression
+src/features/account/AccountPage.tsx:90:21
+-       deletion.mutate(typed.trim(), {
++       deletion.mutate(typed, {
+Tests ran:
+    WF-19 Account (US-020, US-021) AC-021-01 Delete deletes the account with the typed e-mail and signs out
+    WF-19 Account (US-020, US-021) AC-021-02 an Owner is told to delete the Groups first and stays signed in
+    WF-19 Account (US-020, US-021) AC-021-01 the sign-in screen replaces the Account page
+  and 1 more test!
+
+
+[Survived] MethodExpression
+src/features/account/CredentialsForm.tsx:50:29
+-       void run(() => onSubmit(email.trim(), password));
++       void run(() => onSubmit(email, password));
+Tests ran:
+    WF-01 Sign in (US-001) R-001-01 signs in with e-mail and password
+    WF-01 Sign in (US-001) EX-001-01 wrong password: Wrong e-mail or password.
+    WF-01 Sign in (US-001) UI-12 both sign-in buttons wait while signing in, then are available again
+  and 2 more tests!
+
+
+[Survived] AssignmentOperator
+src/features/contacts/AttributesField.tsx:17:3
+-     nextId += 1;
++     nextId -= 1;
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 15 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/contacts/AttributesField.tsx:47:13
+-         wide: part === "value",
++         wide: true,
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/contacts/AttributesField.tsx:47:13
+-         wide: part === "value",
++         wide: false,
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[Survived] EqualityOperator
+src/features/contacts/AttributesField.tsx:47:13
+-         wide: part === "value",
++         wide: part !== "value",
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/AttributesField.tsx:47:22
+-         wide: part === "value",
++         wide: part === "",
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[Survived] Regex
+src/features/contacts/AttributesField.tsx:23:37
+-     return `${prefix}-${field.replace(/\]?\.|\[/g, "-")}`;
++     return `${prefix}-${field.replace(/\]\.|\[/g, "-")}`;
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 62 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/AttributesField.tsx:107:13
+-             ? "flex min-w-0 grow-2 basis-48 flex-col gap-1"
++             ? ""
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/AttributesField.tsx:108:13
+-             : "flex min-w-0 grow basis-36 flex-col gap-1"
++             : ""
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) R-008-06 the form shows the saved Attributes in the order read
+    WF-08 Attributes of a Contact (US-008) AC-008-01 an added Attribute is sent trimmed with the Fields
+    WF-08 Attributes of a Contact (US-008) AC-008-02 a changed value is sent
+  and 20 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/contacts/ContactDetailsPage.tsx:24:21
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "Stryker was here!", contactId = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/contacts/ContactDetailsPage.tsx:24:37
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "", contactId = "Stryker was here!" } = useParams();
+
+[Survived] ObjectLiteral
+src/features/contacts/ContactDetailsPage.tsx:46:56
+-             <Link to={history} className={buttonVariants({ variant: "secondary" })}>
++             <Link to={history} className={buttonVariants({})}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 21 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/ContactDetailsPage.tsx:46:67
+-             <Link to={history} className={buttonVariants({ variant: "secondary" })}>
++             <Link to={history} className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 21 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/ContactFieldInput.tsx:64:39
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={name === "note" ? "" : "flex flex-col gap-1"}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 57 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/contacts/ContactFieldInput.tsx:64:21
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={true ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 68 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/contacts/ContactFieldInput.tsx:64:21
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={false ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 68 more tests!
+
+
+[Survived] EqualityOperator
+src/features/contacts/ContactFieldInput.tsx:64:21
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={name !== "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 68 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/ContactFieldInput.tsx:64:30
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={name === "" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 68 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/ContactFieldInput.tsx:64:77
+-       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : "flex flex-col gap-1"}>
++       <div className={name === "note" ? "flex flex-col gap-1 md:col-span-2" : ""}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 67 more tests!
+
+
+[NoCoverage] BooleanLiteral
+src/features/contacts/contactFields.ts:65:55
+-     return FORMATS.get("email")?.pattern.test(value) ?? false;
++     return FORMATS.get("email")?.pattern.test(value) ?? true;
+
+[NoCoverage] StringLiteral
+src/features/contacts/contactFields.ts:97:25
+-       (typed.get(name) ?? "").trim() || null,
++       (typed.get(name) ?? "Stryker was here!").trim() || null,
+
+[Survived] OptionalChaining
+src/features/contacts/contactFields.ts:65:10
+-     return FORMATS.get("email")?.pattern.test(value) ?? false;
++     return FORMATS.get("email").pattern.test(value) ?? false;
+Tests ran:
+    WF-08 Add a Contact (US-006) AC-006-01 saving sends every Field trimmed and opens the Contact list
+    WF-08 Add a Contact (US-006) AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent
+    WF-08 Add a Contact (US-006) AC-006-04 an invalid e-mail is shown next to the field and nothing is sent
+  and 7 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/contacts/contactFields.ts:82:7
+-     if (max !== undefined && [...value].length > max) {
++     if (true && [...value].length > max) {
+Tests ran:
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+    WF-08 Tags of a Contact (US-009) R-009-02 choosing a suggestion adds it
+  and 51 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/contacts/ContactForm.tsx:155:34
+-         value: values.get(name) ?? "",
++         value: values.get(name) ?? "Stryker was here!",
+
+[NoCoverage] StringLiteral
+src/features/contacts/ContactForm.tsx:161:61
+-             onBlur: () => onEmailLeave(values.get("email") ?? ""),
++             onBlur: () => onEmailLeave(values.get("email") ?? "Stryker was here!"),
+
+[Survived] ArrayDeclaration
+src/features/contacts/ContactForm.tsx:120:69
+-       return "problem" in checked ? null : addTag(tags, checked.name, []);
++       return "problem" in checked ? null : addTag(tags, checked.name, ["Stryker was here"]);
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 a valid name left in the box is saved with the Tags
+
+
+[Survived] OptionalChaining
+src/features/contacts/ContactForm.tsx:136:7
+-         document.getElementById(attributeControlId(id, firstOfAttributes.field))?.focus();
++         document.getElementById(attributeControlId(id, firstOfAttributes.field)).focus();
+Tests ran:
+    WF-08 Attributes of a Contact (US-008) AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent
+    WF-08 Attributes of a Contact (US-008) EX-008-02 a key of only spaces: A key must have 1 to 50 characters.
+    WF-08 Contact form (UI-13) R-008-02 an Attribute problem of the form replaces the problems of the last save
+
+
+[Survived] OptionalChaining
+src/features/contacts/ContactForm.tsx:134:7
+-         document.getElementById(`${id}-${focus}`)?.focus();
++         document.getElementById(`${id}-${focus}`).focus();
+Tests ran:
+    WF-08 Add a Contact (US-006) AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent
+    WF-08 Add a Contact (US-006) AC-006-04 an invalid e-mail is shown next to the field and nothing is sent
+    WF-08 Add a Contact (US-006) EX-006-02 a first name of 101 characters: First name may have at most 100 characters.
+  and 4 more tests!
+
+
+[Survived] OptionalChaining
+src/features/contacts/ContactForm.tsx:138:7
+-         document.getElementById(tagInputId)?.focus();
++         document.getElementById(tagInputId).focus();
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-05 an invalid name left in the box stops the save
+
+
+[NoCoverage] StringLiteral
+src/features/contacts/ContactListPage.tsx:35:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] LogicalOperator
+src/features/contacts/ContactListPage.tsx:77:12
+-             {add && <span className="max-md:hidden">{add}</span>}
++             {add || <span className="max-md:hidden">{add}</span>}
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 47 more tests!
+
+
+[Survived] LogicalOperator
+src/features/contacts/ContactListPage.tsx:101:8
+-         {add && (
+-           <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background p-4 md:hidden [&_button]:w-full">
+-             {add}
+-           </div>
+-         )}
++         {add || <div className="fixed inset-x-0 bottom-0 border-t border-border bg-background p-4 md:hidden [&_button]:w-full">
++             {add}
++           </div>}
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 47 more tests!
+
+
+[Survived] ArrayDeclaration
+src/features/contacts/ContactListPage.tsx:126:10
+-           {[0, 1, 2].map((bar) => (
++           {[].map((bar) => (
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 45 more tests!
+
+
+[Survived] ArrowFunction
+src/features/contacts/ContactListPage.tsx:126:24
+-           {[0, 1, 2].map((bar) => (
+-             <span key={bar} className="h-4 w-2/3 rounded bg-surface-raised" />
+-           ))}
++           {[0, 1, 2].map(() => undefined)}
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 45 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/contacts/EditContactPage.tsx:12:21
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "Stryker was here!", contactId = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/contacts/EditContactPage.tsx:12:37
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "", contactId = "Stryker was here!" } = useParams();
+
+[Survived] StringLiteral
+src/features/contacts/FilterPanel.tsx:55:15
+-           {text("key", t("contacts.filters.attributeKey"), draft.attributeKey, (attributeKey) =>
++           {text("", t("contacts.filters.attributeKey"), draft.attributeKey, (attributeKey) =>
+Tests ran:
+    WF-06 filter panel and chips (US-015) AC-015-01 has Tags is applied, shown as a chip and the panel closes
+    WF-06 filter panel and chips (US-015) R-015-01 … R-015-04 every filter of the panel goes to the query
+    WF-06 filter panel and chips (US-015) R-015-01 a chosen Tag can be taken out of the panel again
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/FilterPanel.tsx:59:11
+-             "value",
++             "",
+Tests ran:
+    WF-06 filter panel and chips (US-015) AC-015-01 has Tags is applied, shown as a chip and the panel closes
+    WF-06 filter panel and chips (US-015) R-015-01 … R-015-04 every filter of the panel goes to the query
+    WF-06 filter panel and chips (US-015) R-015-01 a chosen Tag can be taken out of the panel again
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/FilterPanel.tsx:65:13
+-         {text("company", t("contacts.filters.company"), draft.company, (company) => set({ company }))}
++         {text("", t("contacts.filters.company"), draft.company, (company) => set({ company }))}
+Tests ran:
+    WF-06 filter panel and chips (US-015) AC-015-01 has Tags is applied, shown as a chip and the panel closes
+    WF-06 filter panel and chips (US-015) R-015-01 … R-015-04 every filter of the panel goes to the query
+    WF-06 filter panel and chips (US-015) R-015-01 a chosen Tag can be taken out of the panel again
+  and 9 more tests!
+
+
+[Survived] EqualityOperator
+src/features/contacts/listQuery.ts:86:37
+-       page: Number.isInteger(page) && page >= 1 ? page : DEFAULTS.page,
++       page: Number.isInteger(page) && page > 1 ? page : DEFAULTS.page,
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 51 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/contacts/MoveToRecycleBin.tsx:30:53
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({})}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 17 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/MoveToRecycleBin.tsx:30:64
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 17 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/contacts/MoveToRecycleBin.tsx:49:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 17 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/MoveToRecycleBin.tsx:49:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-014-06 shows the Contact's name and its Fields with their labels
+    WF-07 Contact details (R-014-06) R-014-06 shows the Attributes and the Tags
+    WF-07 Contact details (R-014-06) R-014-06 links to the History with the current Version and its time
+  and 17 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/contacts/NewContactPage.tsx:13:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] MethodExpression
+src/features/contacts/NewContactPage.tsx:22:21
+-       const trimmed = email.trim();
++       const trimmed = email;
+Tests ran:
+    WF-08 Add a Contact (US-006) AC-006-01 saving sends every Field trimmed and opens the Contact list
+    WF-08 Add a Contact (US-006) AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent
+    WF-08 Add a Contact (US-006) AC-006-04 an invalid e-mail is shown next to the field and nothing is sent
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/TagsField.tsx:49:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+Tests ran:
+    WF-08 Contact form (UI-13) WF-08 the form shows the way back, its sections and the hints of the limits
+    WF-08 Contact form (UI-13) UI-14 a form without a failed save shows no error
+    WF-08 Contact form (UI-13) R-006-03 a Field problem of the last save stands at its Field
+  and 9 more tests!
+
+
+[Survived] UnaryOperator
+src/features/contacts/TagsField.tsx:56:40
+-     const [active, setActive] = useState(-1);
++     const [active, setActive] = useState(+1);
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 66 more tests!
+
+
+[Survived] MethodExpression
+src/features/contacts/TagsField.tsx:88:22
+-               <li key={tag.toLowerCase()}>
++               <li key={tag.toUpperCase()}>
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 15 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/contacts/UndoMerge.tsx:44:53
+-         <AlertDialogTrigger className={buttonVariants({ variant: "secondary" })}>
++         <AlertDialogTrigger className={buttonVariants({})}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-018-05 the Primary contact shows Merged from with a link to the Other contact's History
+    WF-07 Contact details (R-014-06) US-019 Undo merge R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+    WF-07 Contact details (R-014-06) US-019 Undo merge EX-019-03 Cancel closes the confirmation and undoes nothing
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/UndoMerge.tsx:44:64
+-         <AlertDialogTrigger className={buttonVariants({ variant: "secondary" })}>
++         <AlertDialogTrigger className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-018-05 the Primary contact shows Merged from with a link to the Other contact's History
+    WF-07 Contact details (R-014-06) US-019 Undo merge R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+    WF-07 Contact details (R-014-06) US-019 Undo merge EX-019-03 Cancel closes the confirmation and undoes nothing
+  and 3 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/contacts/UndoMerge.tsx:66:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-018-05 the Primary contact shows Merged from with a link to the Other contact's History
+    WF-07 Contact details (R-014-06) US-019 Undo merge R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+    WF-07 Contact details (R-014-06) US-019 Undo merge EX-019-03 Cancel closes the confirmation and undoes nothing
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/contacts/UndoMerge.tsx:66:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-07 Contact details (R-014-06) R-018-05 the Primary contact shows Merged from with a link to the Other contact's History
+    WF-07 Contact details (R-014-06) US-019 Undo merge R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+    WF-07 Contact details (R-014-06) US-019 Undo merge EX-019-03 Cancel closes the confirmation and undoes nothing
+  and 3 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/duplicates/DuplicatesPage.tsx:14:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] StringLiteral
+src/features/duplicates/DuplicatesPage.tsx:30:20
+-                 key={`${pair.first.id}-${pair.second.id}`}
++                 key={``}
+Tests ran:
+    WF-17 Possible duplicates (US-017) R-017-01 lists each pair with links to both Contacts and every reason
+    WF-17 Possible duplicates (US-017) R-018-01 an Editor opens Merge for a pair with its first and second Contact
+    WF-17 Possible duplicates (US-017) BR-03 a Viewer sees no Merge
+
+
+[Survived] StringLiteral
+src/features/duplicates/DuplicatesPage.tsx:52:16
+-     const link = "inline-flex min-h-11 items-center font-semibold underline";
++     const link = "";
+Tests ran:
+    WF-17 Possible duplicates (US-017) R-017-01 lists each pair with links to both Contacts and every reason
+    WF-17 Possible duplicates (US-017) R-018-01 an Editor opens Merge for a pair with its first and second Contact
+    WF-17 Possible duplicates (US-017) BR-03 a Viewer sees no Merge
+
+
+[NoCoverage] StringLiteral
+src/features/duplicates/MergePage.tsx:28:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/duplicates/MergePage.tsx:30:60
+-     const first = useContact(groupId, search.get("first") ?? "");
++     const first = useContact(groupId, search.get("first") ?? "Stryker was here!");
+
+[NoCoverage] StringLiteral
+src/features/duplicates/MergePage.tsx:31:62
+-     const second = useContact(groupId, search.get("second") ?? "");
++     const second = useContact(groupId, search.get("second") ?? "Stryker was here!");
+
+[NoCoverage] StringLiteral
+src/features/duplicates/MergePage.tsx:220:86
+-                   label={(choice === "primary" ? attribute.value : attribute.other) ?? ""}
++                   label={(choice === "primary" ? attribute.value : attribute.other) ?? "Stryker was here!"}
+
+[Survived] StringLiteral
+src/features/duplicates/MergePage.tsx:159:19
+-     const columns = "md:grid md:grid-cols-3 md:gap-2";
++     const columns = "";
+Tests ran:
+    WF-18 Merge (US-018) AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's
+    WF-18 Merge (US-018) R-018-01 the Contact created first is Primary, whichever the list shows first (D-74)
+    WF-18 Merge (US-018) R-018-01 choosing the other Primary contact preselects its values
+  and 15 more tests!
+
+
+[Survived] StringLiteral
+src/features/duplicates/MergePage.tsx:164:20
+-           className={`hidden border-b border-border p-2 font-semibold ${columns}`}
++           className={``}
+Tests ran:
+    WF-18 Merge (US-018) AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's
+    WF-18 Merge (US-018) R-018-01 the Contact created first is Primary, whichever the list shows first (D-74)
+    WF-18 Merge (US-018) R-018-01 choosing the other Primary contact preselects its values
+  and 15 more tests!
+
+
+[Survived] StringLiteral
+src/features/duplicates/MergePage.tsx:175:22
+-             className={`mb-2 rounded-md border border-border p-2 md:mb-0 md:items-center md:rounded-none md:border-0 md:border-b ${columns}`}
++             className={``}
+Tests ran:
+    WF-18 Merge (US-018) AC-018-05 the first Contact is Primary; a blank Primary value preselects the Other's
+    WF-18 Merge (US-018) R-018-01 the Contact created first is Primary, whichever the list shows first (D-74)
+    WF-18 Merge (US-018) R-018-01 choosing the other Primary contact preselects its values
+  and 15 more tests!
+
+
+[Survived] StringLiteral
+src/features/export/ExportButtons.tsx:26:78
+-     const error = exporting.error instanceof ApiError ? exporting.error.code : "internal";
++     const error = exporting.error instanceof ApiError ? exporting.error.code : "";
+Tests ran:
+    WF-06 Contact list (US-014) AC-014-01 shows the count and the rows of the first Page by name
+    WF-06 Contact list (US-014) UI-18 the count is a number of the language, with its plural
+    WF-06 Contact list (US-014) AC-014-02 typing a search asks for the matching Contacts from Page 1
+  and 43 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/DeletedGroupsPage.tsx:62:16
+-     const cell = "px-3 py-2 max-md:block max-md:p-0";
++     const cell = "";
+Tests ran:
+    WF-15 Deleted Groups (US-003) AC-003-03 lists the name and the removal date in Europe/Ljubljana
+    WF-15 Deleted Groups (US-003) AC-003-04 Restore restores the Group and opens its Contact list
+    WF-15 Deleted Groups (US-003) R-003-06 a refused restore: This Group can no longer be restored.
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/DeletedGroupsPage.tsx:84:28
+-               <td className={`${cell} font-semibold`}>{group.name}</td>
++               <td className={``}>{group.name}</td>
+Tests ran:
+    WF-15 Deleted Groups (US-003) AC-003-03 lists the name and the removal date in Europe/Ljubljana
+    WF-15 Deleted Groups (US-003) AC-003-04 Restore restores the Group and opens its Contact list
+    WF-15 Deleted Groups (US-003) R-003-06 a refused restore: This Group can no longer be restored.
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/DeletedGroupsPage.tsx:85:28
+-               <td className={`${cell} max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-15 Deleted Groups (US-003) AC-003-03 lists the name and the removal date in Europe/Ljubljana
+    WF-15 Deleted Groups (US-003) AC-003-04 Restore restores the Group and opens its Contact list
+    WF-15 Deleted Groups (US-003) R-003-06 a refused restore: This Group can no longer be restored.
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/DeletedGroupsPage.tsx:89:28
+-               <td className={`${cell} max-md:pt-2 md:text-right`}>
++               <td className={``}>
+Tests ran:
+    WF-15 Deleted Groups (US-003) AC-003-03 lists the name and the removal date in Europe/Ljubljana
+    WF-15 Deleted Groups (US-003) AC-003-04 Restore restores the Group and opens its Contact list
+    WF-15 Deleted Groups (US-003) R-003-06 a refused restore: This Group can no longer be restored.
+  and 3 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/groups/GroupSettingsPage.tsx:19:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] ArrayDeclaration
+src/features/groups/GroupSwitcher.tsx:18:38
+-     const groups = useGroups().data ?? [];
++     const groups = useGroups().data ?? ["Stryker was here"];
+Tests ran:
+    base layout (UI-10, R-020-01) R-020-01 shows the Slovenian product name by default
+    base layout (UI-10, R-020-01) UI-23 the menu button toggles the navigation
+    base layout (UI-10, R-020-01) BR-02 an unknown route shows the not found page
+  and 54 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/GroupSwitcher.tsx:61:30
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={``}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/groups/GroupSwitcher.tsx:61:49
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={`size-4 shrink-0 ${true ? "" : "invisible"}`}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] EqualityOperator
+src/features/groups/GroupSwitcher.tsx:61:49
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={`size-4 shrink-0 ${group.id !== current.id ? "" : "invisible"}`}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] ConditionalExpression
+src/features/groups/GroupSwitcher.tsx:61:49
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={`size-4 shrink-0 ${false ? "" : "invisible"}`}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/GroupSwitcher.tsx:61:75
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={`size-4 shrink-0 ${group.id === current.id ? "Stryker was here!" : "invisible"}`}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/GroupSwitcher.tsx:61:80
+-                     className={`size-4 shrink-0 ${group.id === current.id ? "" : "invisible"}`}
++                     className={`size-4 shrink-0 ${group.id === current.id ? "" : ""}`}
+Tests ran:
+    Group switcher (R-002-03, R-002-04) R-002-03 lists the User's Groups in the order of the API, the current one marked
+    Group switcher (R-002-03, R-002-04) AC-002-02 selecting a Group opens its Contact list and closes the switcher
+    Group switcher (R-002-03, R-002-04) R-002-01 Create a Group opens WF-04
+  and 3 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/groups/MoveGroupToRecycleBin.tsx:29:53
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({})}>
+Tests ran:
+    routes and header of US-003 R-003-01 /groups/:groupId/settings shows WF-14
+    WF-14 Group settings (US-003) AC-003-01 saves the trimmed new name and reads the Groups again
+    WF-14 Group settings (US-003) EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/MoveGroupToRecycleBin.tsx:29:64
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({ variant: "" })}>
+Tests ran:
+    routes and header of US-003 R-003-01 /groups/:groupId/settings shows WF-14
+    WF-14 Group settings (US-003) AC-003-01 saves the trimmed new name and reads the Groups again
+    WF-14 Group settings (US-003) EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent
+  and 8 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/groups/MoveGroupToRecycleBin.tsx:46:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    routes and header of US-003 R-003-01 /groups/:groupId/settings shows WF-14
+    WF-14 Group settings (US-003) AC-003-01 saves the trimmed new name and reads the Groups again
+    WF-14 Group settings (US-003) EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/groups/MoveGroupToRecycleBin.tsx:46:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    routes and header of US-003 R-003-01 /groups/:groupId/settings shows WF-14
+    WF-14 Group settings (US-003) AC-003-01 saves the trimmed new name and reads the Groups again
+    WF-14 Group settings (US-003) EX-003-06 a 101-character name: Enter a name of 1 to 100 characters. and nothing is sent
+  and 8 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/history/HistoryPage.tsx:19:21
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "Stryker was here!", contactId = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/HistoryPage.tsx:19:37
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "", contactId = "Stryker was here!" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/VersionPage.tsx:30:21
+-     const { groupId = "", contactId = "", number = "" } = useParams();
++     const { groupId = "Stryker was here!", contactId = "", number = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/VersionPage.tsx:30:37
+-     const { groupId = "", contactId = "", number = "" } = useParams();
++     const { groupId = "", contactId = "Stryker was here!", number = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/VersionPage.tsx:30:50
+-     const { groupId = "", contactId = "", number = "" } = useParams();
++     const { groupId = "", contactId = "", number = "Stryker was here!" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/VersionPage.tsx:80:21
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "Stryker was here!", contactId = "" } = useParams();
+
+[NoCoverage] StringLiteral
+src/features/history/VersionPage.tsx:80:37
+-     const { groupId = "", contactId = "" } = useParams();
++     const { groupId = "", contactId = "Stryker was here!" } = useParams();
+
+[Survived] ObjectLiteral
+src/features/history/VersionPage.tsx:111:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    routes of the Contact screens (US-001, US-021, US-008 … US-018) R-015-02 /groups/:groupId/contacts/:contactId/history/:number shows the Version
+    WF-10 Version (R-010-02) R-021-03 a Version of a deleted User shows Deleted user
+    WF-10 Version (R-010-02) R-010-02 shows the Fields, Attributes and Tags as they were after the Version
+  and 9 more tests!
+
+
+[Survived] StringLiteral
+src/features/history/VersionPage.tsx:111:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    routes of the Contact screens (US-001, US-021, US-008 … US-018) R-015-02 /groups/:groupId/contacts/:contactId/history/:number shows the Version
+    WF-10 Version (R-010-02) R-021-03 a Version of a deleted User shows Deleted user
+    WF-10 Version (R-010-02) R-010-02 shows the Fields, Attributes and Tags as they were after the Version
+  and 9 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/invitations/InvitationPage.tsx:47:19
+-     const { token = "" } = useParams();
++     const { token = "Stryker was here!" } = useParams();
+
+[Survived] ArrayDeclaration
+src/features/invitations/InvitationPage.tsx:51:29
+-     useEffect(forgetReturnTo, []);
++     useEffect(forgetReturnTo, ["Stryker was here"]);
+Tests ran:
+    WF-16 Invitation (US-004) AC-004-02 shows the Group, the Role and the expiry in Europe/Ljubljana
+    WF-16 Invitation (US-004) AC-004-02 Accept makes the User a Member and opens the Group's Contact list
+    WF-16 Invitation (US-004) AC-004-03 another e-mail: This Invitation is for another e-mail address.
+  and 8 more tests!
+
+
+[Survived] MethodExpression
+src/features/members/InvitationsSection.tsx:44:21
+-       const trimmed = email.trim();
++       const trimmed = email;
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 creates the Invitation and shows its link once with Copy link
+    WF-13 Invite a Member and Open Invitations (US-004) AC-004-01 Copy link copies the link and says so
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-01 Viewer can be chosen; Owner cannot
+  and 6 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:183:16
+-     const cell = "px-3 py-2 max-md:block max-md:p-0";
++     const cell = "";
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:184:16
+-     const head = "px-3 py-2 text-sm font-semibold";
++     const head = "";
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:209:28
+-               <td className={`${cell} font-semibold break-all md:break-normal md:wrap-break-word`}>
++               <td className={``}>
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:212:28
+-               <td className={`${cell} max-md:inline max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:215:28
+-               <td className={`${cell} max-md:inline max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/InvitationsSection.tsx:219:28
+-               <td className={`${cell} max-md:pt-2 md:text-right`}>
++               <td className={``}>
+Tests ran:
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 lists the open Invitations with e-mail, Role and expiry in Europe/Ljubljana
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-09 Revoke revokes the Invitation and reads the list again
+    WF-13 Invite a Member and Open Invitations (US-004) R-004-08 the open Invitations have a title and named columns, and no error
+  and 2 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:65:16
+-     const cell = "px-3 py-2 max-md:block max-md:p-0";
++     const cell = "";
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 10 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:66:16
+-     const head = "px-3 py-2 text-sm font-semibold";
++     const head = "";
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 10 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:91:28
+-               <td className={`${cell} font-semibold`}>{member.displayName}</td>
++               <td className={``}>{member.displayName}</td>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:93:26
+-                 className={`${cell} break-all max-md:text-text-muted md:break-normal md:wrap-break-word`}
++                 className={``}
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:97:28
+-               <td className={`${cell} max-md:inline-block max-md:pt-2 max-md:align-middle`}>
++               <td className={``}>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:115:26
+-                 className={`${cell} max-md:ml-2 max-md:inline-block max-md:pt-2 max-md:align-middle md:text-right`}
++                 className={``}
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:137:64
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/members/MemberList.tsx:137:53
+-         <AlertDialogTrigger className={buttonVariants({ variant: "danger-ghost" })}>
++         <AlertDialogTrigger className={buttonVariants({})}>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/members/MemberList.tsx:156:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[Survived] StringLiteral
+src/features/members/MemberList.tsx:156:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-13 Members (US-005) AC-005-01 lists every Member with e-mail and Role; the Owner's Role cannot be changed
+    WF-13 Members (US-005) R-005-02 choosing another Role changes it at once
+    WF-13 Members (US-005) R-005-05 a refused Role change shows its message
+  and 8 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/members/MembersPage.tsx:14:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] ObjectLiteral
+src/features/recycle-bin/DeletePermanently.tsx:52:35
+-           className={buttonVariants({ variant: "danger-ghost" })}
++           className={buttonVariants({})}
+Tests ran:
+    WF-11 Recycle bin (US-012) R-012-03 while one Contact is restored every action waits, the restored one is busy
+    WF-11 Delete permanently (US-013) AC-013-01 the Owner confirms and the recycle bin is read again
+    WF-11 Delete permanently (US-013) EX-013-01 Cancel changes nothing
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/DeletePermanently.tsx:52:46
+-           className={buttonVariants({ variant: "danger-ghost" })}
++           className={buttonVariants({ variant: "" })}
+Tests ran:
+    WF-11 Recycle bin (US-012) R-012-03 while one Contact is restored every action waits, the restored one is busy
+    WF-11 Delete permanently (US-013) AC-013-01 the Owner confirms and the recycle bin is read again
+    WF-11 Delete permanently (US-013) EX-013-01 Cancel changes nothing
+  and 5 more tests!
+
+
+[Survived] ObjectLiteral
+src/features/recycle-bin/DeletePermanently.tsx:78:56
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({})}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-012-03 while one Contact is restored every action waits, the restored one is busy
+    WF-11 Delete permanently (US-013) AC-013-01 the Owner confirms and the recycle bin is read again
+    WF-11 Delete permanently (US-013) EX-013-01 Cancel changes nothing
+  and 5 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/DeletePermanently.tsx:78:67
+-             <AlertDialogCancel className={buttonVariants({ variant: "ghost" })}>
++             <AlertDialogCancel className={buttonVariants({ variant: "" })}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-012-03 while one Contact is restored every action waits, the restored one is busy
+    WF-11 Delete permanently (US-013) AC-013-01 the Owner confirms and the recycle bin is read again
+    WF-11 Delete permanently (US-013) EX-013-01 Cancel changes nothing
+  and 5 more tests!
+
+
+[NoCoverage] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:25:21
+-     const { groupId = "" } = useParams();
++     const { groupId = "Stryker was here!" } = useParams();
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:75:16
+-     const cell = "px-3 py-2 max-md:block max-md:p-0";
++     const cell = "";
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:96:28
+-               <td className={`${cell} font-semibold`}>{entry.contact.name}</td>
++               <td className={``}>{entry.contact.name}</td>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:97:28
+-               <td className={`${cell} max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:101:28
+-               <td className={`${cell} max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:105:28
+-               <td className={`${cell} max-md:text-text-muted`}>
++               <td className={``}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/features/recycle-bin/RecycleBinPage.tsx:109:28
+-               <td className={`${cell} max-md:pt-2`}>
++               <td className={``}>
+Tests ran:
+    WF-11 Recycle bin (US-012) R-021-03 a Contact deleted by a deleted User shows Deleted user
+    WF-11 Recycle bin (US-012) AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana
+    WF-11 Recycle bin (US-012) AC-012-02 Restore sends the Version read and reads the recycle bin again
+  and 13 more tests!
+
+
+[Survived] StringLiteral
+src/i18n/format.ts:4:19
+-   const TIME_ZONE = "Europe/Ljubljana";
++   const TIME_ZONE = "";
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:7:48
+-   const slovenianNumbers = new Intl.NumberFormat("sl-SI");
++   const slovenianNumbers = new Intl.NumberFormat("");
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:8:46
+-   const englishNumbers = new Intl.NumberFormat("en-GB");
++   const englishNumbers = new Intl.NumberFormat("");
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:10:43
+-   const dateParts = new Intl.DateTimeFormat("en-GB", {
++   const dateParts = new Intl.DateTimeFormat("", {
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:12:8
+-     day: "2-digit",
++     day: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:13:10
+-     month: "2-digit",
++     month: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:14:9
+-     year: "numeric",
++     year: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:15:9
+-     hour: "2-digit",
++     hour: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:16:11
+-     minute: "2-digit",
++     minute: "",
+Ran all tests for this mutant.
+
+[Survived] StringLiteral
+src/i18n/format.ts:17:14
+-     hourCycle: "h23",
++     hourCycle: "",
+Ran all tests for this mutant.
+
+[Survived] BlockStatement
+src/lib/utils.ts:5:53
+-   export function cn(...inputs: ClassValue[]): string {
+-     return twMerge(clsx(inputs));
+-   }
++   export function cn(...inputs: ClassValue[]): string {}
+Tests ran:
+    WF-08 Tags of a Contact (US-009) R-009-01 the form shows the Contact's Tags with the hint
+    WF-08 Tags of a Contact (US-009) AC-009-01 an added Tag is shown and sent with the Fields
+    WF-08 Tags of a Contact (US-009) AC-009-04 removing a Tag takes it out of the save
+  and 379 more tests!
+
+
+Ran 7.55 tests per mutant on average.
+-----------------------------|------------------|----------|-----------|------------|----------|----------|
+                             | % Mutation score |          |           |            |          |          |
+File                         |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+-----------------------------|--------|---------|----------|-----------|------------|----------|----------|
+All files                    |  95.13 |   95.96 |     3035 |         9 |        128 |       28 |        0 |
+ api                         |  98.84 |   99.22 |      512 |         0 |          4 |        2 |        0 |
+  apiClient.ts               |  93.33 |   93.33 |       42 |         0 |          3 |        0 |        0 |
+  contacts.ts                |  98.11 |  100.00 |       52 |         0 |          0 |        1 |        0 |
+  duplicates.ts              | 100.00 |  100.00 |       53 |         0 |          0 |        0 |        0 |
+  exports.ts                 | 100.00 |  100.00 |       12 |         0 |          0 |        0 |        0 |
+  groups.ts                  | 100.00 |  100.00 |       78 |         0 |          0 |        0 |        0 |
+  history.ts                 | 100.00 |  100.00 |       39 |         0 |          0 |        0 |        0 |
+  invitations.ts             | 100.00 |  100.00 |       35 |         0 |          0 |        0 |        0 |
+  me.ts                      | 100.00 |  100.00 |       18 |         0 |          0 |        0 |        0 |
+  members.ts                 | 100.00 |  100.00 |       26 |         0 |          0 |        0 |        0 |
+  problem.ts                 |  91.67 |   95.65 |       22 |         0 |          1 |        1 |        0 |
+  recycleBin.ts              | 100.00 |  100.00 |       91 |         0 |          0 |        0 |        0 |
+  retry.ts                   | 100.00 |  100.00 |       17 |         0 |          0 |        0 |        0 |
+  tags.ts                    | 100.00 |  100.00 |       27 |         0 |          0 |        0 |        0 |
+ app                         |  92.14 |   92.14 |      129 |         0 |         11 |        0 |        0 |
+  AppLayout.tsx              |  83.87 |   83.87 |       26 |         0 |          5 |        0 |        0 |
+  Footer.tsx                 | 100.00 |  100.00 |        2 |         0 |          0 |        0 |        0 |
+  pages.tsx                  | 100.00 |  100.00 |        4 |         0 |          0 |        0 |        0 |
+  PublicLayout.tsx           | 100.00 |  100.00 |        2 |         0 |          0 |        0 |        0 |
+  routes.tsx                 | 100.00 |  100.00 |       51 |         0 |          0 |        0 |        0 |
+  UserMenu.tsx               |  88.00 |   88.00 |       44 |         0 |          6 |        0 |        0 |
+ auth                        |  97.02 |   97.02 |      160 |         3 |          5 |        0 |        0 |
+  AuthProvider.tsx           |  93.55 |   93.55 |       29 |         0 |          2 |        0 |        0 |
+  firebase.ts                |  97.06 |   97.06 |       66 |         0 |          2 |        0 |        0 |
+  RequireAuth.tsx            |  96.97 |   96.97 |       29 |         3 |          1 |        0 |        0 |
+  returnTo.ts                | 100.00 |  100.00 |       22 |         0 |          0 |        0 |        0 |
+  runtimeConfig.ts           | 100.00 |  100.00 |       14 |         0 |          0 |        0 |        0 |
+ features                    |  94.71 |   95.78 |     2203 |         1 |         97 |       26 |        0 |
+  account                    |  96.77 |   96.77 |      119 |         1 |          4 |        0 |        0 |
+   AccountCard.tsx           | 100.00 |  100.00 |        1 |         0 |          0 |        0 |        0 |
+   AccountPage.tsx           |  94.34 |   94.34 |       50 |         0 |          3 |        0 |        0 |
+   CredentialsForm.tsx       |  96.15 |   96.15 |       25 |         0 |          1 |        0 |        0 |
+   SignInPage.tsx            | 100.00 |  100.00 |        7 |         0 |          0 |        0 |        0 |
+   SignUpPage.tsx            | 100.00 |  100.00 |        6 |         0 |          0 |        0 |        0 |
+   VerifyEmailPage.tsx       | 100.00 |  100.00 |       30 |         1 |          0 |        0 |        0 |
+  contacts                   |  95.92 |   96.68 |     1223 |         0 |         42 |       10 |        0 |
+   attributes.ts             | 100.00 |  100.00 |       50 |         0 |          0 |        0 |        0 |
+   AttributesField.tsx       |  85.19 |   85.19 |       46 |         0 |          8 |        0 |        0 |
+   ContactContent.tsx        | 100.00 |  100.00 |       30 |         0 |          0 |        0 |        0 |
+   ContactDetailsPage.tsx    |  90.91 |   95.24 |       40 |         0 |          2 |        2 |        0 |
+   ContactFieldInput.tsx     |  92.00 |   92.00 |       69 |         0 |          6 |        0 |        0 |
+   contactFields.ts          |  96.69 |   98.32 |      117 |         0 |          2 |        2 |        0 |
+   ContactForm.tsx           |  96.30 |   97.50 |      156 |         0 |          4 |        2 |        0 |
+   ContactListControls.tsx   | 100.00 |  100.00 |       18 |         0 |          0 |        0 |        0 |
+   ContactListPage.tsx       |  95.93 |   96.72 |      118 |         0 |          4 |        1 |        0 |
+   ContactTable.tsx          | 100.00 |  100.00 |       21 |         0 |          0 |        0 |        0 |
+   EditContactPage.tsx       |  90.00 |  100.00 |       18 |         0 |          0 |        2 |        0 |
+   fieldMessages.ts          | 100.00 |  100.00 |       70 |         0 |          0 |        0 |        0 |
+   FilterChips.tsx           | 100.00 |  100.00 |       85 |         0 |          0 |        0 |        0 |
+   FilterPanel.tsx           |  95.89 |   95.89 |       70 |         0 |          3 |        0 |        0 |
+   listQuery.ts              |  98.95 |   98.95 |       94 |         0 |          1 |        0 |        0 |
+   MoveToRecycleBin.tsx      |  81.82 |   81.82 |       18 |         0 |          4 |        0 |        0 |
+   NewContactPage.tsx        |  91.67 |   95.65 |       22 |         0 |          1 |        1 |        0 |
+   tags.ts                   | 100.00 |  100.00 |       33 |         0 |          0 |        0 |        0 |
+   TagsField.tsx             |  97.32 |   97.32 |      109 |         0 |          3 |        0 |        0 |
+   UndoMerge.tsx             |  82.61 |   82.61 |       19 |         0 |          4 |        0 |        0 |
+   useSelection.ts           | 100.00 |  100.00 |       20 |         0 |          0 |        0 |        0 |
+  duplicates                 |  94.35 |   97.09 |      167 |         0 |          5 |        5 |        0 |
+   DuplicatesPage.tsx        |  86.96 |   90.91 |       20 |         0 |          2 |        1 |        0 |
+   mergeChoices.ts           | 100.00 |  100.00 |       43 |         0 |          0 |        0 |        0 |
+   MergePage.tsx             |  93.69 |   97.20 |      104 |         0 |          3 |        4 |        0 |
+  export                     |  97.92 |   97.92 |       47 |         0 |          1 |        0 |        0 |
+   ExportButtons.tsx         |  97.92 |   97.92 |       47 |         0 |          1 |        0 |        0 |
+  groups                     |  94.10 |   94.44 |      255 |         0 |         15 |        1 |        0 |
+   CreateGroupPage.tsx       | 100.00 |  100.00 |       30 |         0 |          0 |        0 |        0 |
+   currentGroup.ts           | 100.00 |  100.00 |       15 |         0 |          0 |        0 |        0 |
+   DeletedGroupsPage.tsx     |  88.24 |   88.24 |       30 |         0 |          4 |        0 |        0 |
+   groupName.ts              | 100.00 |  100.00 |       24 |         0 |          0 |        0 |        0 |
+   GroupRoute.tsx            | 100.00 |  100.00 |       28 |         0 |          0 |        0 |        0 |
+   GroupSettingsPage.tsx     |  97.87 |  100.00 |       46 |         0 |          0 |        1 |        0 |
+   GroupsPending.tsx         | 100.00 |  100.00 |       10 |         0 |          0 |        0 |        0 |
+   GroupStart.tsx            | 100.00 |  100.00 |       11 |         0 |          0 |        0 |        0 |
+   GroupSwitcher.tsx         |  83.72 |   83.72 |       36 |         0 |          7 |        0 |        0 |
+   MoveGroupToRecycleBin.tsx |  82.61 |   82.61 |       19 |         0 |          4 |        0 |        0 |
+   NoGroupsPage.tsx          | 100.00 |  100.00 |        6 |         0 |          0 |        0 |        0 |
+  history                    |  92.50 |   98.23 |      111 |         0 |          2 |        7 |        0 |
+   changes.ts                | 100.00 |  100.00 |       29 |         0 |          0 |        0 |        0 |
+   HistoryPage.tsx           |  94.74 |  100.00 |       36 |         0 |          0 |        2 |        0 |
+   VersionPage.tsx           |  86.79 |   95.83 |       46 |         0 |          2 |        5 |        0 |
+  invitations                |  96.36 |   98.15 |       53 |         0 |          1 |        1 |        0 |
+   InvitationLayout.tsx      | 100.00 |  100.00 |        5 |         0 |          0 |        0 |        0 |
+   InvitationPage.tsx        |  96.00 |   97.96 |       48 |         0 |          1 |        1 |        0 |
+  members                    |  89.53 |   90.06 |      154 |         0 |         17 |        1 |        0 |
+   InvitationsSection.tsx    |  92.63 |   92.63 |       88 |         0 |          7 |        0 |        0 |
+   MemberList.tsx            |  83.33 |   83.33 |       50 |         0 |         10 |        0 |        0 |
+   MembersPage.tsx           |  94.12 |  100.00 |       16 |         0 |          0 |        1 |        0 |
+  recycle-bin                |  87.06 |   88.10 |       74 |         0 |         10 |        1 |        0 |
+   DeletePermanently.tsx     |  89.19 |   89.19 |       33 |         0 |          4 |        0 |        0 |
+   RecycleBinPage.tsx        |  85.42 |   87.23 |       41 |         0 |          6 |        1 |        0 |
+ i18n                        |  78.26 |   78.26 |       31 |         5 |         10 |        0 |        0 |
+  format.ts                  |  56.52 |   56.52 |       13 |         0 |         10 |        0 |        0 |
+  index.ts                   | 100.00 |  100.00 |       13 |         5 |          0 |        0 |        0 |
+  userName.ts                | 100.00 |  100.00 |        5 |         0 |          0 |        0 |        0 |
+ lib                         |   0.00 |    0.00 |        0 |         0 |          1 |        0 |        0 |
+  utils.ts                   |   0.00 |    0.00 |        0 |         0 |          1 |        0 |        0 |
+-----------------------------|--------|---------|----------|-----------|------------|----------|----------|
+[32m00:21:56 (1961681) INFO JsonReporter[39m Your report can be found at: file:///home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/reports/mutation/mutation.json
+[32m00:21:56 (1961681) INFO HtmlReporter[39m Your report can be found at: file:///home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/reports/mutation/index.html
+[32m00:21:56 (1961681) INFO MutationTestExecutor[39m Done in 56 minutes 14 seconds.
+exit 0

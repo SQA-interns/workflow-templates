@@ -122,13 +122,24 @@ Run 2026-11-16 on the skeleton (no behaviour built): API tests with `./mvnw veri
 
 | Component | Level | Tests passed / failed | Line coverage | Branch coverage | Mutation score (raw / adjusted, scope) | Tools |
 |---|---|---|---|---|---|---|
+| backend | unit (unit 466, architecture 10; surefire) | 476 / 0 | 92.54 % (1,762/1,904) | 86.73 % (438/505) | | JUnit 6, JaCoCo 0.8.13 (`target/site/jacoco-unit`) |
+| backend | non-unit (integration 77, API acceptance 199; failsafe, Testcontainers) | 276 / 0 | 95.75 % (1,823/1,904) | 79.01 % (399/505) | | JUnit 6, JaCoCo 0.8.13 (`target/site/jacoco-nonunit`) |
+| backend | all levels (merged) | 752 / 0 | **99.53 %** (1,895/1,904) | 95.25 % (481/505) | **95.29 % / 95.29 %**: 708 killed (0 timed out) of 743; 33 survived, 2 no coverage; covered 741, `scoreCovered` 95.55 %; equivalent 0. Scope `app.contacts` minus `ContactsApplication`; tests: the whole JUnit suite (236 test classes: unit, architecture, integration, API acceptance) | PIT 1.20.3 + pitest-junit5-plugin 1.2.3, 4 threads (`out/logs/quality-gate-pit-full-1.txt`, `…-summary.txt`) |
+| frontend | unit (Vitest component and unit tests) | 622 / 0 | 99.95 % | 98.82 % | | Vitest 3.2.7, @vitest/coverage-v8 (`out/logs/quality-gate-frontend-unit-r1.txt`) |
+| frontend | non-unit (UI acceptance 89, end-to-end 8, cross-cutting browser specs; Playwright, Chromium) | not re-run in S6; last run 152 / 0 (/design, 820480b; no production code changed since) | not measured (D-89) | not measured (D-89) | | Playwright 1.56.1 |
+| frontend | all levels | 622 / 0 under coverage | **99.95 %** (= unit, D-89) | 98.82 % | **95.13 % / 95.13 %**: 3,035 killed + 9 timed out of 3,200; 128 survived, 28 no coverage; covered 3,172, `scoreCovered` 95.96 %; equivalent 0. Scope `src/**/*.{ts,tsx}` minus tests, `components/ui/**`, `styles/**`, `test/**`, `main.tsx`; tests: the Vitest suite (D-89) | Stryker 9.2.0, vitest runner, `perTest` coverage, 6 runners (`out/logs/quality-gate-stryker-r1.txt`, `.json`) |
+
+Figures at d061901 (frontend) and 7d9582b (backend; JaCoCo measured at 08b3a05, the later commits change only `LogHygieneIT`). First frontend mutation run (before the survivor round, 362 tests): 74.13 % (2,368 killed + 4 timed out of 3,200; 723 survived, 105 no coverage), `out/logs/quality-gate-stryker-full-1.txt`. Stryker counts 618 of the 622 Vitest tests in its dry run (358 of 362 in the first run).
 
 ## Quality gate (phase 5)
 
 | Component | Line threshold met | Mutation threshold met | Shortfall (points) | Survivor rounds | Tests at first mutation run | Decision |
 |---|---|---|---|---|---|---|
+| backend | yes (99.53 % ≥ 95 %) | yes (95.29 % ≥ 90 %) | none | 0 (gate met on the first full run) | 752 (476 surefire + 276 failsafe) | D-89 |
+| frontend | yes (99.95 % ≥ 95 %) | yes (95.13 % ≥ 90 %) | none | 1 (all areas: API hooks and cache, auth, validation, business-rule screens; confirmed by a full run over the whole scope) | 362 | D-89 |
 
 ## Equivalent mutants (phase 5)
 
 | Component | Class and method | Mutation | Why it cannot change behaviour |
 |---|---|---|---|
+| backend, frontend | none claimed | | Both components meet the gate on the raw score; `scoreAdjusted` = `score`. |

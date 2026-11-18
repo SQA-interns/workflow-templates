@@ -1,0 +1,46 @@
+[32m20:29:17 (1690543) INFO ProjectReader[39m Found 1 of 309 file(s) to be mutated.
+[32m20:29:17 (1690543) INFO Instrumenter[39m Instrumented 1 source file(s) with 17 mutant(s)
+[32m20:29:18 (1690543) INFO ConcurrencyTokenProvider[39m Creating 4 test runner process(es).
+[32m20:29:19 (1690543) INFO DryRunExecutor[39m Starting initial test run (vitest test runner with "perTest" coverage analysis). This may take a while.
+[32m20:29:21 (1690543) INFO DryRunExecutor[39m Initial test run succeeded. Ran 2 tests in 1 second (net 2.474579000000176 ms, overhead 1956.5254209999998 ms).
+
+All tests/retry.test.ts
+  ✓ asking again after a failure (UI-14) BR-02 a 404 or another client error is final: not asked again (killed 6)
+  ✓ asking again after a failure (UI-14) UI-14 a server or network failure is asked again up to three times (killed 8)
+
+[Survived] ConditionalExpression
+src/api/retry.ts:11:7
+-     if (error instanceof ApiError && error.status >= 400 && error.status < 500) return false;
++     if (true && error.status < 500) return false;
+Tests ran:
+    asking again after a failure (UI-14) BR-02 a 404 or another client error is final: not asked again
+    asking again after a failure (UI-14) UI-14 a server or network failure is asked again up to three times
+
+
+[Survived] LogicalOperator
+src/api/retry.ts:11:7
+-     if (error instanceof ApiError && error.status >= 400 && error.status < 500) return false;
++     if (error instanceof ApiError || error.status >= 400 && error.status < 500) return false;
+Tests ran:
+    asking again after a failure (UI-14) BR-02 a 404 or another client error is final: not asked again
+    asking again after a failure (UI-14) UI-14 a server or network failure is asked again up to three times
+
+
+[Survived] ConditionalExpression
+src/api/retry.ts:11:36
+-     if (error instanceof ApiError && error.status >= 400 && error.status < 500) return false;
++     if (error instanceof ApiError && true && error.status < 500) return false;
+Tests ran:
+    asking again after a failure (UI-14) BR-02 a 404 or another client error is final: not asked again
+    asking again after a failure (UI-14) UI-14 a server or network failure is asked again up to three times
+
+
+Ran 1.41 tests per mutant on average.
+----------|------------------|----------|-----------|------------|----------|----------|
+          | % Mutation score |          |           |            |          |          |
+File      |  total | covered | # killed | # timeout | # survived | # no cov | # errors |
+----------|--------|---------|----------|-----------|------------|----------|----------|
+All files |  82.35 |   82.35 |       14 |         0 |          3 |        0 |        0 |
+ retry.ts |  82.35 |   82.35 |       14 |         0 |          3 |        0 |        0 |
+----------|--------|---------|----------|-----------|------------|----------|----------|
+[32m20:29:28 (1690543) INFO MutationTestExecutor[39m Done in 11 seconds.

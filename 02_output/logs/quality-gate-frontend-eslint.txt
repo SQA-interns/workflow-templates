@@ -1,0 +1,63 @@
+
+Oops! Something went wrong! :(
+
+ESLint: 9.38.0
+
+No files matching the pattern "02_output/frontend/src/api/apiClient.test.ts
+02_output/frontend/src/api/problem.test.ts
+02_output/frontend/src/api/retry.test.ts
+02_output/frontend/src/app/AppLayout.test.tsx
+02_output/frontend/src/app/UserMenu.test.tsx
+02_output/frontend/src/auth/AuthProvider.test.tsx
+02_output/frontend/src/auth/firebase.test.ts
+02_output/frontend/src/auth/runtimeConfig.test.ts
+02_output/frontend/src/features/account/AccountPage.test.tsx
+02_output/frontend/src/features/account/SignInPage.test.tsx
+02_output/frontend/src/features/account/SignUpPage.test.tsx
+02_output/frontend/src/features/account/VerifyEmailPage.test.tsx
+02_output/frontend/src/features/contacts/AttributesField.test.tsx
+02_output/frontend/src/features/contacts/ContactDetailsPage.test.tsx
+02_output/frontend/src/features/contacts/ContactFieldInput.test.tsx
+02_output/frontend/src/features/contacts/ContactListPage.test.tsx
+02_output/frontend/src/features/contacts/ContactTable.test.tsx
+02_output/frontend/src/features/contacts/EditContactPage.test.tsx
+02_output/frontend/src/features/contacts/NewContactPage.test.tsx
+02_output/frontend/src/features/contacts/TagsField.test.tsx
+02_output/frontend/src/features/contacts/attributes.test.ts
+02_output/frontend/src/features/contacts/contactFields.test.ts
+02_output/frontend/src/features/contacts/fieldMessages.test.ts
+02_output/frontend/src/features/contacts/tags.test.ts
+02_output/frontend/src/features/contacts/useSelection.test.ts
+02_output/frontend/src/features/duplicates/DuplicatesPage.test.tsx
+02_output/frontend/src/features/duplicates/MergePage.test.tsx
+02_output/frontend/src/features/export/ExportButtons.test.tsx
+02_output/frontend/src/features/groups/CreateGroupPage.test.tsx
+02_output/frontend/src/features/groups/DeletedGroupsPage.test.tsx
+02_output/frontend/src/features/groups/GroupRoute.test.tsx
+02_output/frontend/src/features/groups/GroupSettingsPage.test.tsx
+02_output/frontend/src/features/groups/GroupSwitcher.test.tsx
+02_output/frontend/src/features/groups/NoGroupsPage.test.tsx
+02_output/frontend/src/features/history/HistoryPage.test.tsx
+02_output/frontend/src/features/history/VersionPage.test.tsx
+02_output/frontend/src/features/invitations/InvitationPage.test.tsx
+02_output/frontend/src/features/members/InvitationsSection.test.tsx
+02_output/frontend/src/features/members/MemberList.test.tsx
+02_output/frontend/src/features/recycle-bin/RecycleBinPage.test.tsx
+02_output/frontend/src/api/contacts.test.tsx
+02_output/frontend/src/api/duplicates.test.tsx
+02_output/frontend/src/api/exports.test.tsx
+02_output/frontend/src/api/groups.test.tsx
+02_output/frontend/src/api/history.test.tsx
+02_output/frontend/src/api/invitations.test.tsx
+02_output/frontend/src/api/members.test.tsx
+02_output/frontend/src/api/recycleBin.test.tsx
+02_output/frontend/src/api/tags.test.tsx
+02_output/frontend/src/auth/RequireAuth.test.tsx
+02_output/frontend/src/auth/returnTo.test.ts
+02_output/frontend/src/features/contacts/ContactForm.test.tsx
+02_output/frontend/src/features/duplicates/mergeChoices.test.ts
+02_output/frontend/src/features/groups/GroupsPending.test.tsx
+02_output/frontend/src/features/groups/groupName.test.ts
+02_output/frontend/src/features/members/MembersPage.test.tsx" were found.
+Please check for typing mistakes in the pattern.
+

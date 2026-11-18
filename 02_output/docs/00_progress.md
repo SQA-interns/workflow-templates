@@ -5,18 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: D /design
+- Session: S6 /quality-gate
 - Result: done
-- Gate: phase 4 (final design) passed; every /design topic decided (D-84 … D-88), full suite passes
+- Gate: phase 5 (quality gate) passed for both components (D-89)
 - Notes for the next session:
-  - Final theme active (`tokens.css` → `theme-final.css`): teal-700 on stone greys, "more structured", light and dark mode following the system (D-84 restores dark mode; the `ui-design.md` light-only override is replaced). System UI font (D-85); density kept (D-86).
-  - Tablet tables keep e-mails on one line; the user menu shows the name from 768 px (D-87, closes D-81 (c)). Danger button variants on destructive actions, teal in-page links, 150 ms dialog fade (D-88).
-  - Commits 5ca3d41, a135f33, 1a4c346, c968973 (all `refactor:`, style only). Screens: `out/logs/screens/design-1/` (before, after-colour, after-responsive, after-components; light and dark, 19 screens × 3 widths).
-  - Suites: backend verify 476 + 276, browser 152/152 (Chromium, stack on port 8090), frontend unit 362/362, axe clean on 19 screens at three widths in light and dark (`out/logs/design-*.txt`). gitleaks is not on the PATH in this session and was not run. `frontend/README.md` still fails `prettier --check` (unchanged).
-  - Open for /review: the "Contacts" nav item is never tinted on the list (link `/`, list under `/groups/…`; behaviour, not design). D-83 (h) (focus after "Add an Attribute") was not handled: it is focus order, not presentation.
+  - backend: line (all) 99.53 %, branch 95.25 %; PIT 95.29 % raw = adjusted (708/743), first full run, no survivor round. frontend: line 99.95 % (unit = all, D-89), branch 98.82 %; Stryker 95.13 % raw = adjusted (3,044/3,200) after one survivor round (first run 74.13 %). No equivalent mutants claimed. Figures and scope: `docs/03_test-strategy.md` (phase 5).
+  - D-89: frontend `nonUnit` coverage not measured and browser suites not under PIT/Stryker (not instrumented, per-mutant image rebuild infeasible); `LogHygieneIT` now asserts a canary and reads logging events (2ebc541, 7d9582b); Vitest `testTimeout` 15 s and Testing Library `asyncUtilTimeout` 4 s fix the TagsField timeouts (D-74 (d)).
+  - Tool config 08b3a05 (JaCoCo unit/nonunit/merged reports, PIT and Stryker excludes); round 1 tests d061901 (362 → 622 Vitest tests, no production code changed).
+  - Browser suites were not re-run in S6 (last 152/152 at 820480b); backend verify 476 + 276 green. gitleaks still not on the PATH.
+  - Still open for /review or /verify (from /design): the "Contacts" nav item is never tinted on the list; D-83 (h) focus after "Add an Attribute".
 
 ## Next
-- Command: /quality-gate
+- Command: /verify
 - Waiting for: nothing
 
 ## Stories

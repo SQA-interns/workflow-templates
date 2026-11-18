@@ -1,0 +1,69 @@
+8:29:03 PM PIT >> INFO : Verbose logging is disabled. If you encounter a problem, please enable it before reporting an issue.
+8:29:03 PM PIT >> INFO : Created 1 mutation test units in pre scan
+8:29:03 PM PIT >> INFO : Sending 1 test classes to minion
+8:29:03 PM PIT >> INFO : Sent tests to minion
+/-\|8:29:04 PM PIT >> INFO : Calculated coverage in 1 seconds.
+8:29:04 PM PIT >> INFO : 0 tests took longer than 2000 ms
+8:29:04 PM PIT >> INFO : Slowest test ([engine:junit-jupiter]/[class:app.contacts.service.NameSimilarityTest]/[method:ac01703JanezNovakAndJanezNovackScoreTheDiceOfTheirTrigrams()]) took 106 ms
+8:29:04 PM PIT >> INFO : Largest test ([engine:junit-jupiter]/[class:app.contacts.service.NameSimilarityTest]/[method:r01704NamesWithoutSharedTrigramsScoreZero()]) covered 19 blocks
+8:29:04 PM PIT >> INFO : Created 1 mutation test units
+/8:29:06 PM PIT >> INFO : Completed in 3 seconds
+================================================================================
+- Mutators
+================================================================================
+> org.pitest.mutationtest.engine.gregor.mutators.returns.PrimitiveReturnsMutator
+>> Generated 2 Killed 2 (100%)
+> KILLED 2 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
+> NO_COVERAGE 0 
+--------------------------------------------------------------------------------
+> org.pitest.mutationtest.engine.gregor.mutators.ConditionalsBoundaryMutator
+>> Generated 1 Killed 1 (100%)
+> KILLED 1 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
+> NO_COVERAGE 0 
+--------------------------------------------------------------------------------
+> org.pitest.mutationtest.engine.gregor.mutators.MathMutator
+>> Generated 5 Killed 5 (100%)
+> KILLED 5 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
+> NO_COVERAGE 0 
+--------------------------------------------------------------------------------
+> org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator
+>> Generated 1 Killed 1 (100%)
+> KILLED 1 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
+> NO_COVERAGE 0 
+--------------------------------------------------------------------------------
+> org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator
+>> Generated 3 Killed 3 (100%)
+> KILLED 3 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
+> NO_COVERAGE 0 
+--------------------------------------------------------------------------------
+================================================================================
+- Timings
+================================================================================
+> pre-scan for mutations : < 1 second
+> scan classpath : < 1 second
+> coverage and dependency analysis : 1 seconds
+> build mutation tests : < 1 second
+> run mutation analysis : 1 seconds
+--------------------------------------------------------------------------------
+> Total  : 3 seconds
+--------------------------------------------------------------------------------
+> 0 tests took longer than 2000 ms
+> Slowest test ([engine:junit-jupiter]/[class:app.contacts.service.NameSimilarityTest]/[method:ac01703JanezNovakAndJanezNovackScoreTheDiceOfTheirTrigrams()]) took 106 ms
+> Largest test ([engine:junit-jupiter]/[class:app.contacts.service.NameSimilarityTest]/[method:r01704NamesWithoutSharedTrigramsScoreZero()]) covered 19 blocks
+================================================================================
+- Statistics
+================================================================================
+>> Line Coverage (for mutated classes only): 14/15 (93%)
+>> 1 tests examined
+>> Generated 12 mutations Killed 12 (100%)
+>> Mutations with no coverage 0. Test strength 100%
+>> Ran 23 tests (1.92 tests per mutation)
+Enhanced functionality available at https://www.arcmutate.com/
+
+Build messages:- 
+* Project uses Spring, but the Arcmutate Spring plugin is not present. (https://docs.arcmutate.com/docs/spring.html)
