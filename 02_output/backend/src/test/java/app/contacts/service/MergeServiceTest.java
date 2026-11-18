@@ -302,7 +302,7 @@ class MergeServiceTest {
   }
 
   @Test
-  void d25StaleVersionNumberIsAVersionConflict() {
+  void d25StaleVersionNumberIsRejectedAsVersionConflict() {
     Merge merge = mergedPair();
     doThrow(new ConflictException("version.conflict", Map.of()))
         .when(contacts)
@@ -322,7 +322,7 @@ class MergeServiceTest {
   }
 
   @Test
-  void r01902LaterMergeIntoThePrimaryIsAChangeAfterTheMerge() {
+  void r01902LaterMergeIntoThePrimaryCountsAsChangeAfterTheMerge() {
     Merge merge = mergedPair();
     Contact third = Contact.create(GROUP_ID, ContactFields.EMPTY, "", "", MARKO, Instant.EPOCH);
     Merge later = Merge.create(janez, third, MARKO, NOW);

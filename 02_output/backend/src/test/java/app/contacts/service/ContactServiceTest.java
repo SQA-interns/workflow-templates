@@ -1053,7 +1053,7 @@ class ContactServiceTest {
   @Test
   void r01901SaveMergeUndoneGivesThePrimaryItsContentBeforeTheMergeAsVersionMergeUndone() {
     Contact janez = stored(Map.of("firstName", "Janez", "phone", "+386 41 123 456"));
-    Tag vip = hasTags(janez, "udelezenec2025", "vip");
+    final Tag vip = hasTags(janez, "udelezenec2025", "vip");
     ContactContent beforeMerge =
         new ContactContent(
             ContactFields.ofNames(Map.of("firstName", "Janez")),
