@@ -868,3 +868,14 @@
 - Human response: none
 - Resolution: 1 — pending review
 - Overrides: none
+
+## D-80: What deleting an account does when Firebase or the commit fails (F-02, US-021)
+- Timestamp: 2026-11-18T12:34+01:00
+- Session: S5 /implement US-021 (fix-only, D-78 (a))
+- Class: block
+- Type: blocking
+- Trigger: F-02 (`docs/04_review-INC-2.md`): `UserService.closeAccount` deletes the Firebase account inside the transaction, before the commit. If the commit fails after that, or Firebase deletes the account but the call times out, the database rolls back while the Firebase account is gone. The User row keeps its e-mail and display name (against D-20), and a new sign-up with that e-mail gets 500 on every request (`app_user_email_uq`). D-78 (a) orders the fix, but no input says what a deletion does when one of the two steps fails. This is about personal data and an irreversible deletion, a `Block` topic (`general/rules/decisions.md`), so the session does not choose. F-06 is fixed (983123a); F-02 waits for this answer.
+- Options: 1. Database first, Firebase after the commit (default, proposed): `DELETE /me` commits the Membership deletion and the anonymised User (D-20), then deletes the Firebase account. If Firebase fails or times out, the database deletion stays; the answer is still 204 and the app signs out (D-76 (e)). Each later request with a token of that Firebase uid deletes the Firebase account again (an account Firebase no longer has counts as deleted) and still gets 401 (EX-021-03). The failure is logged with the User id only (SR-08). A new sign-up with the same e-mail never conflicts, because the e-mail is already erased. This replaces D-76 (b) "a Firebase failure rolls back everything": a Firebase refusal no longer keeps the account, and the deletion cannot be cancelled once it has started. 2. Keep D-76 (b) and repair the two partial cases: on a Firebase error, ask Firebase whether the account still exists and commit if it is gone (covers the timeout); when a new Firebase uid signs in with the e-mail of a User whose Firebase account no longer exists, finish that User's deletion first (covers a failed commit). This needs one more Firebase call on that sign-in path, and until that person signs in again the leftover personal data stays in the database. 3. No code change: F-02 goes into the release notes as a known item (D-78 (e)). 4. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: D-76 (b) for option 1 only
