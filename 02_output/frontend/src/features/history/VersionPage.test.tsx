@@ -85,7 +85,6 @@ afterEach(async () => {
 });
 
 describe("WF-10 Version (R-010-02)", () => {
-
   it("R-021-03 a Version of a deleted User shows Deleted user", async () => {
     answer({ ...VERSION_1, changedBy: "user.deleted" });
     renderPage();

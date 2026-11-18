@@ -32,6 +32,6 @@ export function useChangeLanguage() {
  */
 export function useDeleteAccount() {
   return useMutation({
-    mutationFn: (confirmEmail: string) => apiRequest<void>("DELETE", "/me", { confirmEmail }),
+    mutationFn: (confirmEmail: string) => apiRequest<unknown>("DELETE", "/me", { confirmEmail }),
   });
 }
