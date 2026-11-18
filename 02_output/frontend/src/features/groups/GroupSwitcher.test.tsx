@@ -128,4 +128,36 @@ describe("Group switcher (R-002-03, R-002-04)", () => {
     expect(switcher.getAttribute("aria-expanded")).toBe("false");
     expect(screen.queryByRole("link", { name: "Podjetje Alfa" })).toBeNull();
   });
+  it("UI-23 the switcher is named by the current Group", async () => {
+    renderAt("/groups/g1/contacts");
+
+    expect(
+      await screen.findByRole("button", { name: "Group switcher: Konferenca 2025" }),
+    ).toBeTruthy();
+  });
+
+  it("UI-23 another key keeps the switcher open", async () => {
+    renderAt("/groups/g1/contacts");
+    const switcher = await screen.findByRole("button", { name: /Group switcher/ });
+    await userEvent.click(switcher);
+
+    await userEvent.keyboard("{ArrowDown}");
+
+    expect(switcher.getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("link", { name: "Podjetje Alfa" })).toBeTruthy();
+  });
+
+  it("R-002-01 Create a Group closes the switcher", async () => {
+    renderAt("/groups/g1/contacts");
+    const switcher = await screen.findByRole("button", { name: /Group switcher/ });
+    await userEvent.click(switcher);
+
+    await userEvent.click(screen.getByRole("link", { name: "Create a Group" }));
+
+    expect(await screen.findByText("create")).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: /Group switcher/ }).getAttribute("aria-expanded"),
+    ).toBe("false");
+    expect(screen.queryByRole("link", { name: "Podjetje Alfa" })).toBeNull();
+  });
 });

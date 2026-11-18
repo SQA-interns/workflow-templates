@@ -44,6 +44,7 @@ beforeEach(async () => {
   await i18n.changeLanguage("en");
 });
 afterEach(async () => {
+  vi.restoreAllMocks();
   await i18n.changeLanguage("sl");
 });
 
@@ -150,5 +151,110 @@ describe("WF-13 Invite a Member and Open Invitations (US-004)", () => {
     const alert = await screen.findByRole("alert");
     expect(alert.textContent).toContain("Something went wrong.");
     expect(within(alert).getByRole("button", { name: "Try again" })).toBeTruthy();
+  });
+  it("R-004-01 Editor is the preselected Role", async () => {
+    renderSection();
+
+    expect(screen.getByRole<HTMLSelectElement>("combobox", { name: "Role" }).value).toBe("EDITOR");
+    await userEvent.type(screen.getByRole("textbox", { name: "E-mail" }), MARKO);
+    await userEvent.click(screen.getByRole("button", { name: "Create Invitation" }));
+
+    expect(apiRequest).toHaveBeenCalledWith("POST", "/groups/g1/invitations", {
+      email: MARKO,
+      role: "EDITOR",
+    });
+  });
+
+  it("AC-004-01 after the Invitation is created the e-mail field is empty and the link is titled", async () => {
+    renderSection();
+
+    await invite(MARKO);
+
+    expect(await screen.findByText("Invitation link")).toBeTruthy();
+    expect(screen.getByRole<HTMLInputElement>("textbox", { name: "E-mail" }).value).toBe("");
+    expect(screen.getByRole("textbox", { name: "E-mail" }).getAttribute("aria-invalid")).toBe(
+      "false",
+    );
+  });
+
+  it("AC-004-01 a link that cannot be copied says so", async () => {
+    const user = userEvent.setup();
+    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValue(new Error("denied"));
+    renderSection();
+    await invite(MARKO);
+
+    await user.click(await screen.findByRole("button", { name: "Copy link" }));
+
+    expect((await screen.findByRole("status")).textContent).toBe(
+      "The link could not be copied. Select it and copy it.",
+    );
+  });
+
+  it("UI-14 an Invitation that fails without a problem: Something went wrong.", async () => {
+    vi.mocked(apiRequest).mockImplementation((method: string) =>
+      method === "GET" ? Promise.resolve([]) : Promise.reject(new Error("offline")),
+    );
+    renderSection();
+
+    await invite(MARKO);
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+    expect(screen.getByRole("textbox", { name: "E-mail" }).getAttribute("aria-invalid")).toBe(
+      "false",
+    );
+  });
+
+  it("R-004-08 the open Invitations have a title and named columns, and no error", async () => {
+    answer([OPEN]);
+    renderSection();
+
+    const row = await screen.findByRole("row", { name: /marko/ });
+    expect(screen.getByRole("heading", { name: "Open Invitations" })).toBeTruthy();
+    expect(screen.getAllByRole("columnheader").map((header) => header.textContent)).toEqual([
+      "E-mail",
+      "Role",
+      "Expires",
+      "Actions",
+    ]);
+    expect(row.textContent).toContain("expires");
+    expect(screen.queryByRole("alert")).toBeNull();
+  });
+
+  it("R-004-09 while one Invitation is revoked every Revoke waits, the revoked one is busy", async () => {
+    const other = { ...OPEN, id: "i2", email: "ana.kovac@example.si" };
+    vi.mocked(apiRequest).mockImplementation((method: string) =>
+      method === "GET" ? Promise.resolve([OPEN, other]) : new Promise(() => undefined),
+    );
+    renderSection();
+
+    const row = await screen.findByRole("row", { name: /marko/ });
+    const otherRow = screen.getByRole("row", { name: /ana\.kovac/ });
+    expect(within(row).getByRole("button", { name: "Revoke" }).getAttribute("aria-busy")).toBe(
+      "false",
+    );
+    await userEvent.click(within(row).getByRole("button", { name: "Revoke" }));
+
+    const busy = within(row).getByRole<HTMLButtonElement>("button", { name: "Revoke" });
+    const waiting = within(otherRow).getByRole<HTMLButtonElement>("button", { name: "Revoke" });
+    expect(busy.disabled).toBe(true);
+    expect(busy.getAttribute("aria-busy")).toBe("true");
+    expect(waiting.disabled).toBe(true);
+    expect(waiting.getAttribute("aria-busy")).toBe("false");
+  });
+
+  it("R-004-09 a refused Revoke shows why", async () => {
+    vi.mocked(apiRequest).mockImplementation((method: string) =>
+      method === "GET"
+        ? Promise.resolve([OPEN])
+        : Promise.reject(new ApiError(410, { code: "invitation.noLongerValid" })),
+    );
+    renderSection();
+
+    const row = await screen.findByRole("row", { name: /marko/ });
+    await userEvent.click(within(row).getByRole("button", { name: "Revoke" }));
+
+    expect((await screen.findByRole("alert")).textContent).toBe(
+      "This Invitation is no longer valid.",
+    );
   });
 });

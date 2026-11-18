@@ -267,5 +267,81 @@ describe("WF-07 Contact details (R-014-06)", () => {
       await screen.findByRole("link", { name: "J. Novak" });
       expect(screen.queryByRole("button", { name: "Undo merge" })).toBeNull();
     });
+
+    it("UI-14 an undo that fails without a reason shows Something went wrong.", async () => {
+      answer(MERGED);
+      renderPage();
+      await userEvent.click(await screen.findByRole("button", { name: "Undo merge" }));
+      const dialog = screen.getByRole("alertdialog");
+      expect(within(dialog).queryByRole("alert")).toBeNull();
+      vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+      await userEvent.click(within(dialog).getByRole("button", { name: "Undo merge" }));
+
+      expect((await within(dialog).findByRole("alert")).textContent).toBe("Something went wrong.");
+    });
+  });
+
+  it("R-014-06 Back leads to the Contact list", async () => {
+    renderPage();
+
+    const back = await screen.findByRole("link", { name: "Contacts" });
+    expect(back.getAttribute("href")).toBe("/groups/g1/contacts");
+  });
+
+  it("R-014-06 both History links name the History", async () => {
+    renderPage();
+
+    const links = await screen.findAllByRole("link", { name: "History" });
+    expect(links.map((link) => link.getAttribute("href"))).toEqual([
+      "/groups/g1/contacts/c1/history",
+      "/groups/g1/contacts/c1/history",
+    ]);
+  });
+
+  it("R-018-05 Merged from and the Other contact's name read as one sentence", async () => {
+    answer({
+      ...JANEZ,
+      mergedFrom: [{ mergeId: "m1", contact: { id: "c2", name: "J. Novak" }, undone: false }],
+    });
+    renderPage();
+
+    const link = await screen.findByRole("link", { name: "J. Novak" });
+    expect(link.parentElement?.textContent).toBe("Merged from J. Novak");
+  });
+
+  it("UI-14 another refusal than 404 shows the error state, not the not found page", async () => {
+    vi.mocked(apiRequest).mockRejectedValue(new ApiError(500, { code: "internal" }));
+    renderPage();
+
+    expect(await screen.findByText("Something went wrong.")).toBeTruthy();
+    expect(screen.queryByText("This page cannot be found.")).toBeNull();
+  });
+
+  it("UI-14 a move that fails without a reason shows Something went wrong.", async () => {
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: "Move to recycle bin" }));
+    const dialog = screen.getByRole("alertdialog");
+    expect(within(dialog).queryByRole("alert")).toBeNull();
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+    await userEvent.click(within(dialog).getByRole("button", { name: "Move to recycle bin" }));
+
+    expect((await within(dialog).findByRole("alert")).textContent).toBe("Something went wrong.");
+  });
+
+  it("BR-06 the message of a refused move is gone when the confirmation opens again", async () => {
+    renderPage();
+    await userEvent.click(await screen.findByRole("button", { name: "Move to recycle bin" }));
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+    await userEvent.click(
+      within(screen.getByRole("alertdialog")).getByRole("button", { name: "Move to recycle bin" }),
+    );
+    await within(screen.getByRole("alertdialog")).findByRole("alert");
+
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await userEvent.click(screen.getByRole("button", { name: "Move to recycle bin" }));
+
+    expect(within(screen.getByRole("alertdialog")).queryByRole("alert")).toBeNull();
   });
 });

@@ -94,4 +94,48 @@ describe("WF-15 Deleted Groups (US-003)", () => {
 
     expect(await screen.findByText("No deleted Groups.")).toBeTruthy();
   });
+  it("R-003-05 explains the page and names the columns", async () => {
+    renderPage();
+
+    const row = await screen.findByRole("row", { name: /Konferenca 2025/ });
+    expect(
+      screen.getByText("Your Groups in the recycle bin. Restore one before its removal date."),
+    ).toBeTruthy();
+    expect(screen.getAllByRole("columnheader").map((header) => header.textContent)).toEqual([
+      "Name",
+      "Removal date",
+      "Actions",
+    ]);
+    expect(row.textContent).toContain("removal 04.04.2026 12:00");
+  });
+
+  it("UI-14 a restore that fails without a problem: Something went wrong.", async () => {
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Konferenca 2025/ });
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+    await userEvent.click(within(row).getByRole("button", { name: "Restore" }));
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+  });
+
+  it("R-003-05 while one Group is restored every Restore waits, the restored one is busy", async () => {
+    answer([KONFERENCA, { ...KONFERENCA, id: "g2", name: "Sejem 2024" }]);
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Konferenca 2025/ });
+    const other = screen.getByRole("row", { name: /Sejem 2024/ });
+    expect(within(row).getByRole("button", { name: "Restore" }).getAttribute("aria-busy")).toBe(
+      "false",
+    );
+    vi.mocked(apiRequest).mockImplementation(() => new Promise(() => undefined));
+
+    await userEvent.click(within(row).getByRole("button", { name: "Restore" }));
+
+    const busy = within(row).getByRole<HTMLButtonElement>("button", { name: "Restore" });
+    const waiting = within(other).getByRole<HTMLButtonElement>("button", { name: "Restore" });
+    expect(busy.disabled).toBe(true);
+    expect(busy.getAttribute("aria-busy")).toBe("true");
+    expect(waiting.disabled).toBe(true);
+    expect(waiting.getAttribute("aria-busy")).toBe("false");
+  });
 });

@@ -138,4 +138,11 @@ describe("Contact table of WF-06 (R-014-01)", () => {
     await userEvent.click(all);
     expect(selection.checkAll).toHaveBeenCalledWith(["c1", "c2"], false);
   });
+
+  it("R-016-02 the header checkbox of an empty Page is not checked", () => {
+    renderTable([], selectionOf(["c1"]));
+
+    const all = screen.getByRole("checkbox", { name: "Check all on this Page" });
+    expect((all as HTMLInputElement).checked).toBe(false);
+  });
 });

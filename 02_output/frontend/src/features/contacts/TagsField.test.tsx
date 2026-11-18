@@ -1,7 +1,8 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { createMemoryRouter, RouterProvider } from "react-router";
+import { useState } from "react";
+import { createMemoryRouter, MemoryRouter, Route, Routes, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../../api/apiClient";
 import { ApiError } from "../../api/problem";
@@ -9,6 +10,7 @@ import i18n from "../../i18n";
 import { emptyFields } from "./contactFields";
 import { EditContactPage } from "./EditContactPage";
 import { NewContactPage } from "./NewContactPage";
+import { TagsField } from "./TagsField";
 
 vi.mock("../../api/apiClient", () => ({ apiRequest: vi.fn() }));
 
@@ -264,5 +266,194 @@ describe("WF-08 Tags of a Contact (US-009)", () => {
     await save();
 
     await waitFor(() => expect(sentTags("POST")).toEqual([["udelezenec2025"]]));
+  });
+});
+
+describe("WF-08 Tag box on its own (US-009, ARIA combobox)", () => {
+  const NAMES = ["alpha", "beta", "gamma"];
+
+  function Harness(props: {
+    tags: string[];
+    onAdd: (name: string, suggested: string[]) => void;
+    error?: string;
+  }) {
+    const [text, setText] = useState("");
+    return (
+      <TagsField
+        inputId="t"
+        tags={props.tags}
+        text={text}
+        onTextChange={setText}
+        onAdd={props.onAdd}
+        onRemove={() => undefined}
+        error={props.error}
+      />
+    );
+  }
+
+  function renderBox(error?: string) {
+    const onAdd = vi.fn();
+    const client = new QueryClient();
+    const tree = (tags: string[]) => (
+      <QueryClientProvider client={client}>
+        <MemoryRouter initialEntries={["/groups/g1"]}>
+          <Routes>
+            <Route
+              path="/groups/:groupId"
+              element={<Harness tags={tags} onAdd={onAdd} error={error} />}
+            />
+          </Routes>
+        </MemoryRouter>
+      </QueryClientProvider>
+    );
+    const { rerender } = render(tree([]));
+    return { onAdd, setTags: (tags: string[]) => rerender(tree(tags)) };
+  }
+
+  function box() {
+    return screen.getByRole("combobox", { name: "Add a Tag" });
+  }
+
+  /** Types "a" and waits for the three suggestions. */
+  async function suggest() {
+    await userEvent.type(box(), "a");
+    await screen.findAllByRole("option", {}, { timeout: 3000 });
+  }
+
+  function activeOption() {
+    const id = box().getAttribute("aria-activedescendant");
+    return id === null ? null : document.getElementById(id);
+  }
+
+  function selected() {
+    return screen
+      .queryAllByRole("option")
+      .filter((option) => option.getAttribute("aria-selected") === "true")
+      .map((option) => option.textContent);
+  }
+
+  beforeEach(() => {
+    answer(null, NAMES);
+  });
+
+  it("R-009-02 before suggestions the box is collapsed, controls the list and shows the hint", () => {
+    renderBox();
+
+    expect(box().getAttribute("aria-expanded")).toBe("false");
+    const list = document.getElementById(box().getAttribute("aria-controls") ?? "");
+    expect(list?.getAttribute("role")).toBe("listbox");
+    expect(document.getElementById(box().getAttribute("aria-describedby") ?? "")?.textContent).toBe(
+      "Press Enter to add. 1 to 50 characters, no comma.",
+    );
+    expect(screen.queryByRole("list")).toBeNull();
+  });
+
+  it("R-009-05 the Tags' problem marks the box and describes it before the hint", () => {
+    renderBox(MESSAGE);
+
+    expect(box().getAttribute("aria-invalid")).toBe("true");
+    const [errorId, hintId] = (box().getAttribute("aria-describedby") ?? "").split(" ");
+    expect(errorId).toBe(box().getAttribute("aria-errormessage"));
+    expect(document.getElementById(errorId ?? "")?.textContent).toBe(MESSAGE);
+    expect(document.getElementById(hintId ?? "")?.textContent).toBe(
+      "Press Enter to add. 1 to 50 characters, no comma.",
+    );
+  });
+
+  it("D-52 suggestions are asked once for the trimmed text after typing stops", async () => {
+    renderBox();
+
+    await userEvent.type(box(), " al");
+
+    await waitFor(() =>
+      expect(vi.mocked(apiRequest)).toHaveBeenCalledWith("GET", "/groups/g1/tags?q=al"),
+    );
+    expect(vi.mocked(apiRequest).mock.calls).toEqual([["GET", "/groups/g1/tags?q=al"]]);
+  });
+
+  it("R-009-02 ArrowUp walks the suggestions from the last and wraps; Escape leaves them", async () => {
+    renderBox();
+    await suggest();
+
+    expect(box().getAttribute("aria-expanded")).toBe("true");
+    expect(screen.getByRole("listbox", { name: "Suggested Tags" }).id).toBe(
+      box().getAttribute("aria-controls"),
+    );
+    expect(box().getAttribute("aria-activedescendant")).toBeNull();
+    expect(selected()).toEqual([]);
+    const walk: (string | null | undefined)[] = [];
+    for (let i = 0; i < 4; i += 1) {
+      await userEvent.keyboard("{ArrowUp}");
+      expect(selected()).toEqual([activeOption()?.textContent]);
+      walk.push(activeOption()?.textContent);
+    }
+    expect(walk).toEqual(["gamma", "beta", "alpha", "gamma"]);
+
+    await userEvent.keyboard("{Escape}");
+    expect(box().getAttribute("aria-activedescendant")).toBeNull();
+    expect(selected()).toEqual([]);
+  });
+
+  it("R-009-02 Enter adds the first suggestion when it is chosen", async () => {
+    const { onAdd } = renderBox();
+    await suggest();
+
+    await userEvent.keyboard("{ArrowDown}{Enter}");
+
+    expect(onAdd).toHaveBeenCalledWith("alpha", NAMES);
+  });
+
+  it("R-009-04 Enter without a chosen suggestion adds the typed text and chooses none", async () => {
+    const { onAdd } = renderBox();
+    await suggest();
+
+    await userEvent.keyboard("{Enter}");
+
+    expect(onAdd).toHaveBeenCalledWith("a", NAMES);
+    expect(box().getAttribute("aria-activedescendant")).toBeNull();
+  });
+
+  it("R-009-02 typing again leaves the chosen suggestion", async () => {
+    renderBox();
+    await suggest();
+
+    await userEvent.keyboard("{ArrowDown}l");
+
+    expect(screen.getAllByRole("option")).toHaveLength(3);
+    expect(box().getAttribute("aria-activedescendant")).toBeNull();
+  });
+
+  it("R-009-02 an emptied or blank box shows no suggestions at once", async () => {
+    renderBox();
+    await suggest();
+
+    await userEvent.clear(box());
+    expect(screen.queryAllByRole("option")).toEqual([]);
+    await userEvent.type(box(), "  ");
+    expect(screen.queryAllByRole("option")).toEqual([]);
+  });
+
+  it("R-009-02 clicking a suggestion adds it and keeps the focus in the box", async () => {
+    const { onAdd } = renderBox();
+    await suggest();
+
+    await userEvent.click(screen.getByRole("option", { name: "beta" }));
+
+    expect(onAdd).toHaveBeenCalledWith("beta", NAMES);
+    expect(document.activeElement).toBe(box());
+  });
+
+  it("R-009-02 a chosen suggestion that is no longer offered is not added", async () => {
+    const { onAdd, setTags } = renderBox();
+    await suggest();
+    await userEvent.keyboard("{ArrowUp}");
+
+    setTags(NAMES);
+    expect(box().getAttribute("aria-expanded")).toBe("false");
+    expect(box().getAttribute("aria-activedescendant")).toBeNull();
+
+    setTags(["gamma"]);
+    await userEvent.keyboard("{Enter}");
+    expect(onAdd).toHaveBeenCalledWith("a", NAMES);
   });
 });

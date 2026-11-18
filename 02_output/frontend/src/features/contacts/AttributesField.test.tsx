@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../../api/apiClient";
 import { ApiError } from "../../api/problem";
 import i18n from "../../i18n";
+import { attributeControlId, AttributesField } from "./AttributesField";
 import { emptyFields } from "./contactFields";
 import { EditContactPage } from "./EditContactPage";
 import { NewContactPage } from "./NewContactPage";
@@ -217,5 +218,84 @@ describe("WF-08 Attributes of a Contact (US-008)", () => {
     await save();
 
     await waitFor(() => expect(sent("POST")).toEqual([[{ key: "kompetenca", value: "java" }]]));
+  });
+});
+
+describe("WF-08 Attributes section on its own (US-008, UI-13)", () => {
+  const rows = [
+    { id: 1, key: "kompetenca", value: "java" },
+    { id: 2, key: "opis", value: "x" },
+  ];
+
+  function renderSection(errors: Record<string, string> = {}) {
+    const onChange = vi.fn();
+    render(
+      <AttributesField
+        idPrefix="p"
+        rows={rows}
+        onChange={onChange}
+        errorOf={(field) => new Map(Object.entries(errors)).get(field)}
+      />,
+    );
+    return onChange;
+  }
+
+  it("UI-13 a control's id names its Attribute and part", () => {
+    expect(attributeControlId("p", "attributes[1].key")).toBe("p-attributes-1-key");
+    renderSection();
+
+    expect(screen.getAllByLabelText("Key").map((box) => box.id)).toEqual([
+      "p-attributes-0-key",
+      "p-attributes-1-key",
+    ]);
+    expect(screen.getByRole("button", { name: "Add an Attribute" }).id).toBe("p-attributes");
+  });
+
+  it("AC-008-02 typing changes only the value of its row", async () => {
+    const onChange = renderSection();
+
+    await userEvent.type(screen.getAllByLabelText("Value").at(1) as HTMLElement, "y");
+
+    expect(onChange).toHaveBeenLastCalledWith([rows[0], { id: 2, key: "opis", value: "xy" }]);
+  });
+
+  it("AC-008-04 Remove takes out only its row", async () => {
+    const onChange = renderSection();
+
+    await userEvent.click(screen.getAllByRole("button", { name: "Remove" }).at(1) as HTMLElement);
+
+    expect(onChange).toHaveBeenCalledWith([rows[0]]);
+  });
+
+  it("R-008-01 Add an Attribute appends an empty row", async () => {
+    const onChange = renderSection();
+
+    await userEvent.click(screen.getByRole("button", { name: "Add an Attribute" }));
+
+    const next = onChange.mock.calls.at(0)?.[0] as { key: string; value: string }[];
+    expect(next.slice(0, 2)).toEqual(rows);
+    expect(next.at(2)).toMatchObject({ key: "", value: "" });
+  });
+
+  it("UI-13 an Attribute's error marks its box and describes it", () => {
+    renderSection({ "attributes[1].key": "The key Opis is used twice." });
+
+    const key = screen.getAllByLabelText("Key").at(1) as HTMLElement;
+    expect(key.getAttribute("aria-invalid")).toBe("true");
+    const describedBy = key.getAttribute("aria-describedby") ?? "";
+    expect(describedBy).toBe(key.getAttribute("aria-errormessage"));
+    expect(document.getElementById(describedBy)?.textContent).toBe("The key Opis is used twice.");
+    expect(screen.getAllByLabelText("Key").at(0)?.getAttribute("aria-invalid")).toBeNull();
+  });
+
+  it("R-008-05 the error of all Attributes describes Add an Attribute", () => {
+    renderSection({ attributes: "A Contact may have at most 50 Attributes." });
+
+    const add = screen.getByRole("button", { name: "Add an Attribute" });
+    const describedBy = add.getAttribute("aria-describedby") ?? "";
+    expect(describedBy).toBe("p-attributes-error");
+    expect(document.getElementById(describedBy)?.textContent).toBe(
+      "A Contact may have at most 50 Attributes.",
+    );
   });
 });

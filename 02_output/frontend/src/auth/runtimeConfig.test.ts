@@ -25,7 +25,7 @@ describe("runtime configuration /config.json (ADR-05, runtime-config.schema.json
 
     const config = await loadRuntimeConfig();
 
-    expect(fetchMock.mock.calls[0]?.[0]).toBe("/config.json");
+    expect(fetchMock).toHaveBeenCalledWith("/config.json", { cache: "no-store" });
     expect(config).toEqual({
       firebaseApiKey: "fake-api-key",
       firebaseAuthDomain: "localhost",
@@ -50,5 +50,22 @@ describe("runtime configuration /config.json (ADR-05, runtime-config.schema.json
     serve({}, 404);
 
     await expect(loadRuntimeConfig()).rejects.toThrow();
+  });
+
+  it("rejects an emulator URL that does not start with http:// or https://", async () => {
+    serve({
+      firebaseApiKey: "k",
+      firebaseAuthDomain: "d",
+      firebaseProjectId: "p",
+      authEmulatorUrl: "javascript:alert(1)//http://localhost",
+    });
+
+    await expect(loadRuntimeConfig()).rejects.toThrow();
+  });
+
+  it("rejects a valid configuration that /config.json answers with an error status", async () => {
+    serve({ firebaseApiKey: "k", firebaseAuthDomain: "d", firebaseProjectId: "p" }, 503);
+
+    await expect(loadRuntimeConfig()).rejects.toThrow("/config.json answered 503");
   });
 });

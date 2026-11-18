@@ -4,7 +4,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../../api/apiClient";
 import i18n from "../../i18n";
-import { rememberGroup } from "./currentGroup";
+import { lastGroupId, rememberGroup } from "./currentGroup";
 import { GroupRoute } from "./GroupRoute";
 import { GroupStart } from "./GroupStart";
 
@@ -13,10 +13,12 @@ vi.mock("../../api/apiClient", () => ({ apiRequest: vi.fn() }));
 const marko = { id: "u-marko", displayName: "Marko Horvat", language: "en" };
 const alfa = { id: "g2", name: "Podjetje Alfa", role: "VIEWER" };
 
-function renderAt(path: string, groups: unknown[]) {
-  vi.mocked(apiRequest).mockImplementation(async (_method: string, p: string) =>
-    p === "/groups" ? groups : marko,
-  );
+function renderAt(
+  path: string,
+  groups: unknown[],
+  answer: (p: string) => Promise<unknown> = async (p) => (p === "/groups" ? groups : marko),
+) {
+  vi.mocked(apiRequest).mockImplementation((_method: string, p: string) => answer(p));
   const router = createMemoryRouter(
     [
       { path: "/", element: <GroupStart /> },
@@ -69,5 +71,38 @@ describe("Group routes (R-002-05, BR-02)", () => {
 
     expect(await screen.findByText("This page cannot be found.")).toBeTruthy();
     expect(router.state.location.pathname).toBe("/groups/g9/contacts");
+  });
+  it("UI-14 while the Groups load the Group is neither refused nor remembered", async () => {
+    renderAt("/groups/g2/contacts", [], (p) =>
+      p === "/groups" ? new Promise(() => undefined) : Promise.resolve(marko),
+    );
+
+    await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", "/me"));
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(screen.queryByText("This page cannot be found.")).toBeNull();
+    expect(lastGroupId(marko.id)).toBeNull();
+  });
+
+  it("UI-14 another Group waits for the User before it is refused", async () => {
+    renderAt("/groups/g9/contacts", [alfa], (p) =>
+      p === "/groups" ? Promise.resolve([alfa]) : new Promise(() => undefined),
+    );
+
+    await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", "/groups"));
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(screen.queryByText("This page cannot be found.")).toBeNull();
+  });
+
+  it("UI-14 the start waits for the User before it opens a Group", async () => {
+    renderAt("/", [alfa], (p) =>
+      p === "/groups" ? Promise.resolve([alfa]) : new Promise(() => undefined),
+    );
+
+    await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", "/groups"));
+    await new Promise((resolve) => setTimeout(resolve, 50));
+    expect(screen.getByRole("status")).toBeTruthy();
+    expect(screen.queryByText("contact list")).toBeNull();
   });
 });

@@ -51,6 +51,18 @@ describe("apiClient (ADR-06, R-001-02)", () => {
     expect(new Headers(init.headers).get("Content-Type")).toBe("application/json");
   });
 
+  it("asks for JSON and sends no body and no Content-Type without a body", async () => {
+    const fetchMock = respond(200, {});
+
+    await apiRequest("GET", "/me");
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    const headers = new Headers(init.headers);
+    expect(headers.get("Accept")).toBe("application/json");
+    expect(headers.has("Content-Type")).toBe(false);
+    expect(init.body).toBeUndefined();
+  });
+
   it("returns undefined for 204", async () => {
     respond(204, undefined);
 
@@ -114,5 +126,36 @@ describe("apiDownload (US-016, ADR-09)", () => {
       status: 409,
       code: "export.tooMany",
     });
+  });
+
+  function download(headers: Record<string, string>) {
+    const fetchMock = vi.fn().mockResolvedValue(new Response("PK", { status: 200, headers }));
+    vi.stubGlobal("fetch", fetchMock);
+    return fetchMock;
+  }
+
+  it("ADR-09 accepts any file type", async () => {
+    const fetchMock = download({});
+
+    await apiDownload("/groups/g1/exports", {});
+
+    const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
+    expect(new Headers(init.headers).get("Accept")).toBe("*/*");
+  });
+
+  it("ADR-09 without a UTF-8 file name the quoted file name is used", async () => {
+    download({ "Content-Disposition": 'attachment; filename="kontakti-2026-03-05.csv"' });
+
+    const file = await apiDownload("/groups/g1/exports", {});
+
+    expect(file.fileName).toBe("kontakti-2026-03-05.csv");
+  });
+
+  it("ADR-09 an answer without a file name has an empty file name", async () => {
+    download({ "Content-Disposition": "attachment" });
+
+    const file = await apiDownload("/groups/g1/exports", {});
+
+    expect(file.fileName).toBe("");
   });
 });

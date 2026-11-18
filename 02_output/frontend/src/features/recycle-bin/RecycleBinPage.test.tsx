@@ -146,6 +146,75 @@ describe("WF-11 Recycle bin (US-012)", () => {
 
     expect(await screen.findByRole("row", { name: /Janez Novak/ })).toBeTruthy();
   });
+  it("R-012-02 explains how long Contacts stay and names the columns", async () => {
+    renderPage();
+
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    expect(
+      screen.getByText(
+        "Deleted Contacts stay here for 30 days, then they are removed for good. Newest first.",
+      ),
+    ).toBeTruthy();
+    expect(screen.getAllByRole("columnheader").map((header) => header.textContent)).toEqual([
+      "Name",
+      "Deleted by",
+      "Deleted at",
+      "Removal date",
+      "Actions",
+    ]);
+    expect(row.textContent).toContain("Deleted by Marko Kranjc");
+    expect(row.textContent).toContain("Deleted at 05.03.2026 11:00");
+    expect(row.textContent).toContain("Removal date 04.04.2026 12:00");
+  });
+
+  it("UI-14 a refusal other than forbidden shows the error with Try again", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+      path === "/groups"
+        ? Promise.resolve([])
+        : Promise.reject(new ApiError(500, { code: "internal" })),
+    );
+    renderPage();
+
+    expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 1, name: "Recycle bin" })).toBeTruthy();
+  });
+
+  it("UI-14 a restore that fails without a problem: Something went wrong.", async () => {
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+    await userEvent.click(within(row).getByRole("button", { name: "Restore" }));
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+  });
+
+  it("R-012-03 while one Contact is restored every action waits, the restored one is busy", async () => {
+    const petra = { ...JANEZ, contact: { id: "c2", name: "Petra Horvat" } };
+    answer([JANEZ, petra], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    const other = screen.getByRole("row", { name: /Petra Horvat/ });
+    expect(within(row).getByRole("button", { name: "Restore" }).getAttribute("aria-busy")).toBe(
+      "false",
+    );
+    expect(
+      within(other).getByRole<HTMLButtonElement>("button", { name: "Delete permanently" }).disabled,
+    ).toBe(false);
+    vi.mocked(apiRequest).mockImplementation(() => new Promise(() => undefined));
+
+    await userEvent.click(within(row).getByRole("button", { name: "Restore" }));
+
+    const busy = within(row).getByRole<HTMLButtonElement>("button", { name: "Restore" });
+    const waiting = within(other).getByRole<HTMLButtonElement>("button", { name: "Restore" });
+    expect(busy.disabled).toBe(true);
+    expect(busy.getAttribute("aria-busy")).toBe("true");
+    expect(waiting.disabled).toBe(true);
+    expect(waiting.getAttribute("aria-busy")).toBe("false");
+    expect(
+      within(other).getByRole<HTMLButtonElement>("button", { name: "Delete permanently" }).disabled,
+    ).toBe(true);
+  });
 });
 
 describe("WF-11 Delete permanently (US-013)", () => {

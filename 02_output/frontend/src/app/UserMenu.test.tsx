@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -130,5 +130,67 @@ describe("language (R-020-01, R-020-02)", () => {
 
     expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
     expect(i18n.language).toBe("en");
+  });
+});
+
+describe("user menu items (UI-10, UI-23)", () => {
+  it("UI-10 until GET /me answers, the button is named User menu", async () => {
+    vi.mocked(apiRequest).mockImplementation(() => new Promise(() => undefined));
+    renderMenu();
+
+    expect(screen.getByRole("button", { name: "User menu" })).toBeTruthy();
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(i18n.language).toBe("en");
+  });
+
+  it("R-020-02 the languages form a group named Language", async () => {
+    renderMenu();
+    await userEvent.click(await screen.findByRole("button", { name: "Ana Kovač" }));
+
+    const group = screen.getByRole("group", { name: "Language" });
+    expect(within(group).getByRole("button", { name: "English" })).toBeTruthy();
+    expect(within(group).getByRole("button", { name: "Slovenščina" })).toBeTruthy();
+  });
+
+  it("R-001-06 the menu closes when the User signs out", async () => {
+    renderMenu();
+    const button = await screen.findByRole("button", { name: "Ana Kovač" });
+    await userEvent.click(button);
+
+    await userEvent.click(screen.getByRole("button", { name: "Sign out" }));
+
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("UI-23 only Escape closes the menu, other keys keep it open", async () => {
+    renderMenu();
+    const button = await screen.findByRole("button", { name: "Ana Kovač" });
+    await userEvent.click(button);
+
+    await userEvent.keyboard("a");
+
+    expect(button.getAttribute("aria-expanded")).toBe("true");
+  });
+
+  it("US-021 opening Account closes the menu", async () => {
+    renderMenu();
+    const button = await screen.findByRole("button", { name: "Ana Kovač" });
+    await userEvent.click(button);
+
+    await userEvent.click(screen.getByRole("link", { name: "Account" }));
+
+    expect(button.getAttribute("aria-expanded")).toBe("false");
+  });
+
+  it("R-003-04 opening Deleted Groups closes the menu", async () => {
+    renderMenu();
+    const button = await screen.findByRole("button", { name: "Ana Kovač" });
+    await userEvent.click(button);
+
+    const link = screen.getByRole("link", { name: "Deleted Groups" });
+    expect(link.getAttribute("href")).toBe("/deleted-groups");
+    await userEvent.click(link);
+
+    expect(button.getAttribute("aria-expanded")).toBe("false");
   });
 });

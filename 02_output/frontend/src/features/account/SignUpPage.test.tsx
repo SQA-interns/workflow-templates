@@ -66,4 +66,11 @@ describe("WF-02 Create an account (US-001)", () => {
 
     expect(router.state.location.pathname).toBe("/sign-in");
   });
+  it("WF-02 asks who already has an account and links to Sign in", () => {
+    renderAt("/sign-up");
+
+    expect(screen.getByRole("link", { name: "Sign in" }).parentElement?.textContent).toBe(
+      "Already have an account? Sign in",
+    );
+  });
 });

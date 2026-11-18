@@ -164,4 +164,22 @@ describe("WF-09 History (R-010-01)", () => {
 
     expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
   });
+  it("UI-14 a Contact that cannot be read shows the error state although the History was read", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+      path.endsWith("/versions")
+        ? Promise.resolve(HISTORY)
+        : Promise.reject(new ApiError(500, { code: "internal" })),
+    );
+    renderPage();
+
+    expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
+  });
+
+  it("R-010-01 says the order and the time zone", async () => {
+    renderPage();
+
+    expect(
+      await screen.findByText("Newest first. Times in Europe/Ljubljana (dd.mm.yyyy HH:mm)."),
+    ).toBeTruthy();
+  });
 });

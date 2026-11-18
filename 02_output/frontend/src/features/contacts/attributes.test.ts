@@ -54,4 +54,8 @@ describe("Attributes of a Contact (specification §3, R-008-02 … R-008-05)", (
       { field: "attributes", code: "attribute.tooMany" },
     ]);
   });
+
+  it("EX-008-01 a key of one character is accepted", () => {
+    expect(checkAttributes(rows("k", "v")).problems).toEqual([]);
+  });
 });

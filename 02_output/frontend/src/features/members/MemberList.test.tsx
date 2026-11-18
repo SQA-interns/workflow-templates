@@ -159,4 +159,80 @@ describe("WF-13 Members (US-005)", () => {
 
     expect(getCalls().length).toBeGreaterThan(1);
   });
+  it("R-005-01 names the columns and offers Editor and Viewer", async () => {
+    renderList();
+    const marko = await row("Marko Kranjc");
+
+    expect(screen.getAllByRole("columnheader").map((header) => header.textContent)).toEqual([
+      "Name",
+      "E-mail",
+      "Role",
+      "Actions",
+    ]);
+    expect(
+      within(within(marko).getByRole("combobox"))
+        .getAllByRole("option")
+        .map((option) => option.textContent),
+    ).toEqual(["Editor", "Viewer"]);
+  });
+
+  it("R-005-02 while a Role changes every Role waits, the changed one is busy", async () => {
+    renderList();
+    const marko = await row("Marko Kranjc");
+    const petra = await row("Petra Horvat");
+    expect(within(marko).getByRole("combobox").getAttribute("aria-busy")).toBe("false");
+    vi.mocked(apiRequest).mockImplementation(() => new Promise(() => undefined));
+
+    await userEvent.selectOptions(within(marko).getByRole("combobox"), "Viewer");
+
+    const busy = within(marko).getByRole<HTMLSelectElement>("combobox");
+    const waiting = within(petra).getByRole<HTMLSelectElement>("combobox");
+    expect(busy.disabled).toBe(true);
+    expect(busy.getAttribute("aria-busy")).toBe("true");
+    expect(waiting.disabled).toBe(true);
+    expect(waiting.getAttribute("aria-busy")).toBe("false");
+  });
+
+  it("UI-14 a Role change that fails without a problem: Something went wrong.", async () => {
+    renderList();
+    const marko = await row("Marko Kranjc");
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+    await userEvent.selectOptions(within(marko).getByRole("combobox"), "Viewer");
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+  });
+
+  it("R-005-03 the confirmation says what the removal means", async () => {
+    const user = userEvent.setup();
+    renderList();
+    const marko = await row("Marko Kranjc");
+
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+
+    expect(
+      within(await screen.findByRole("alertdialog")).getByText(
+        "Marko Kranjc will no longer see this Group. The Versions they made keep their name.",
+      ),
+    ).toBeTruthy();
+  });
+
+  it("R-005-05 a refused removal is forgotten when the confirmation opens again", async () => {
+    const user = userEvent.setup();
+    renderList();
+    const marko = await row("Marko Kranjc");
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+    vi.mocked(apiRequest).mockRejectedValueOnce(
+      new ApiError(409, { code: "member.ownerRequired" }),
+    );
+    const dialog = await screen.findByRole("alertdialog");
+    await user.click(within(dialog).getByRole("button", { name: "Remove from Group" }));
+    await within(dialog).findByRole("alert");
+
+    await user.click(within(dialog).getByRole("button", { name: "Cancel" }));
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+    await user.click(within(marko).getByRole("button", { name: "Remove from Group" }));
+
+    expect(within(await screen.findByRole("alertdialog")).queryByRole("alert")).toBeNull();
+  });
 });

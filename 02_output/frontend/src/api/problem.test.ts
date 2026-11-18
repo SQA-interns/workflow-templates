@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import i18n from "../i18n";
-import { ApiError, messageKey } from "./problem";
+import { ApiError, messageKey, toApiError } from "./problem";
 
 describe("problem codes → catalog (ADR-06, UI-30)", () => {
   it("R-001-05 the code auth.emailNotVerified has the story's text", () => {
@@ -47,5 +47,26 @@ describe("problem codes → catalog (ADR-06, UI-30)", () => {
       "Contact was changed by Deleted user, reload",
     );
     await i18n.changeLanguage("sl");
+  });
+
+  it("is an Error named ApiError with the code as its message", () => {
+    const error = new ApiError(404, { code: "notFound" });
+
+    expect(error).toBeInstanceOf(Error);
+    expect(error.name).toBe("ApiError");
+    expect(error.message).toBe("notFound");
+    expect(new ApiError(500, {}).message).toBe("internal");
+  });
+
+  it("SB-07 an answer that is not JSON is not read as a problem", async () => {
+    const response = new Response("<html>Bad Gateway</html>", {
+      status: 502,
+      headers: { "Content-Type": "text/html" },
+    });
+
+    const error = await toApiError(response);
+
+    expect(error.status).toBe(502);
+    expect(error.code).toBe("internal");
   });
 });

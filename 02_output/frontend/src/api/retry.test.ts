@@ -13,4 +13,11 @@ describe("asking again after a failure (UI-14)", () => {
     expect(retryUnlessClientError(2, new TypeError("Failed to fetch"))).toBe(true);
     expect(retryUnlessClientError(3, new TypeError("Failed to fetch"))).toBe(false);
   });
+
+  it("UI-14 only an ApiError of 400 … 499 is final", () => {
+    const foreign = Object.assign(new Error("Not found"), { status: 404 });
+    expect(retryUnlessClientError(0, foreign)).toBe(true);
+    expect(retryUnlessClientError(0, new ApiError(304, {}))).toBe(true);
+    expect(retryUnlessClientError(0, new ApiError(499, {}))).toBe(false);
+  });
 });

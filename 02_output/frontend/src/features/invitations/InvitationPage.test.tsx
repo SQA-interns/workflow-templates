@@ -7,6 +7,7 @@ import { apiRequest } from "../../api/apiClient";
 import { ApiError } from "../../api/problem";
 import { routes } from "../../app/routes";
 import { type AuthState, useAuth } from "../../auth/AuthProvider";
+import { returnTo } from "../../auth/returnTo";
 import i18n from "../../i18n";
 
 vi.mock("../../auth/AuthProvider", () => ({ useAuth: vi.fn() }));
@@ -166,5 +167,40 @@ describe("WF-16 Invitation (US-004)", () => {
     const router = renderAt("/sign-in");
 
     expect(router.state.location.pathname).toBe("/");
+  });
+  it("UI-14 shows Loading … while the Invitation is read", async () => {
+    answer(() => new Promise(() => undefined));
+    renderAt(PATH);
+
+    expect((await screen.findByRole("status")).textContent).toBe("Loading …");
+  });
+
+  it("R-004-05 a refused Invitation offers no Try again", async () => {
+    answer(refused(403, "invitation.otherEmail"));
+    renderAt(PATH);
+
+    await screen.findByRole("alert");
+    expect(screen.queryByRole("button", { name: "Try again" })).toBeNull();
+  });
+
+  it("UI-14 a server error offers Try again, which reads the Invitation again", async () => {
+    answer(refused(500, "internal"));
+    renderAt(PATH);
+
+    const invitationReads = () =>
+      vi.mocked(apiRequest).mock.calls.filter(([, path]) => path === `/invitations/${TOKEN}`);
+    await userEvent.click(await screen.findByRole("button", { name: "Try again" }));
+
+    await waitFor(() => expect(invitationReads()).toHaveLength(2));
+  });
+
+  it("R-004-07 opening another Invitation while signed out remembers that one", async () => {
+    const other = "/invitations/OtherTokenAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA";
+    const router = renderAt(PATH, { status: "signedOut" });
+    expect(returnTo()).toBe(PATH);
+
+    await router.navigate(other);
+
+    await waitFor(() => expect(returnTo()).toBe(other));
   });
 });

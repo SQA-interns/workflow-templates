@@ -79,4 +79,52 @@ describe("one Field of WF-08 (UI-13, UI-19)", () => {
 
     expect(onChange).toHaveBeenCalledWith("SI");
   });
+
+  it("UI-13 the hint is shown under the box with the id that describes it", () => {
+    renderField("firstName", { label: "First name", hint: "At most 100 characters" });
+
+    expect(document.getElementById("f-hint")?.textContent).toBe("At most 100 characters");
+    expect(screen.getByLabelText("First name").getAttribute("aria-describedby")).toBe("f-hint");
+  });
+
+  it("UI-13 without a hint, notice or error nothing is shown under the box", () => {
+    renderField("firstName", { label: "First name" });
+
+    expect(document.getElementById("f-hint")).toBeNull();
+    expect(document.getElementById("f-error")).toBeNull();
+    expect(screen.queryByRole("status")).toBeNull();
+  });
+
+  it("R-006-06 a notice is announced politely and describes the box", () => {
+    renderField("email", { label: "E-mail", notice: "A Contact with this e-mail already exists." });
+
+    const notice = document.getElementById("f-notice");
+    expect(notice?.textContent).toBe("A Contact with this e-mail already exists.");
+    expect(screen.getByRole("status").contains(notice)).toBe(true);
+    expect(screen.getByLabelText("E-mail").getAttribute("aria-describedby")).toBe("f-notice");
+  });
+
+  it("R-006-06 an empty notice keeps the polite region but shows nothing", () => {
+    renderField("email", { label: "E-mail", notice: "" });
+
+    expect(screen.getByRole("status").textContent).toBe("");
+    expect(document.getElementById("f-notice")).toBeNull();
+    expect(screen.getByLabelText("E-mail").getAttribute("aria-describedby")).toBeNull();
+  });
+
+  it("R-006-01 the other Fields are plain text boxes", () => {
+    renderField("city", { label: "City" });
+
+    expect(screen.getByLabelText("City").getAttribute("type")).toBe("text");
+  });
+
+  it("R-006-05 the country names follow a change of language", () => {
+    const props = { id: "f", label: "Country", value: "", onChange: vi.fn() };
+    const { rerender } = render(<ContactFieldInput name="country" language="en" props={props} />);
+    expect(screen.getByRole("option", { name: "Slovenia" })).toBeTruthy();
+
+    rerender(<ContactFieldInput name="country" language="sl" props={props} />);
+
+    expect(screen.getByRole("option", { name: "Slovenija" })).toBeTruthy();
+  });
 });

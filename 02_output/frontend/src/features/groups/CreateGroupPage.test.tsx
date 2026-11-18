@@ -109,4 +109,12 @@ describe("WF-04 Create a Group (R-002-01, R-002-02)", () => {
     expect(router.state.location.pathname).toBe("/");
     expect(apiRequest).not.toHaveBeenCalled();
   });
+  it("R-002-02 the name field is described by its rule and valid until a check fails", async () => {
+    renderPage();
+
+    const field = screen.getByLabelText(/Group name/);
+    expect(field.getAttribute("aria-invalid")).toBe("false");
+    const hint = document.getElementById(field.getAttribute("aria-describedby") ?? "");
+    expect(hint?.textContent).toBe("1 to 100 characters, e.g. a project or a company.");
+  });
 });

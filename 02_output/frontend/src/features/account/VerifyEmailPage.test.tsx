@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -77,5 +77,28 @@ describe("WF-03 Confirm your e-mail (R-001-05)", () => {
     const router = renderAs({ status: "signedOut" });
 
     expect(router.state.location.pathname).toBe("/sign-in");
+  });
+  it("UI-14 while the account is read it shows Loading …", () => {
+    const router = renderAs({ status: "loading" });
+
+    expect(screen.getByRole("status").textContent).toBe("Loading …");
+    expect(router.state.location.pathname).toBe("/verify-email");
+  });
+
+  it("UI-12 I confirmed my e-mail waits while the account is read, then is available again", async () => {
+    let finish: () => void = () => undefined;
+    refresh.mockReturnValueOnce(
+      new Promise<undefined>((resolve) => {
+        finish = () => resolve(undefined);
+      }),
+    );
+    renderAs(unverified);
+    const button = screen.getByRole<HTMLButtonElement>("button", { name: "I confirmed my e-mail" });
+
+    await userEvent.click(button);
+
+    expect(button.disabled).toBe(true);
+    finish();
+    await waitFor(() => expect(button.disabled).toBe(false));
   });
 });

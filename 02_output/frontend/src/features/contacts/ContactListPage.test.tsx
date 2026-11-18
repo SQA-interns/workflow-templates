@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -371,5 +371,211 @@ describe("WF-06 Export and Checked contacts (US-016)", () => {
     expect(await screen.findByText("No Contacts match.")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Export" }).hasAttribute("disabled")).toBe(true);
     expect(screen.getByText("Nothing to export.")).toBeTruthy();
+  });
+});
+
+describe("WF-06 Contact list states and paging (US-014)", () => {
+  it("UI-14 the loading state is named Loading …", () => {
+    vi.mocked(apiRequest).mockImplementation(() => new Promise(() => undefined));
+    renderPage();
+
+    expect(screen.getByRole("status", { name: "Loading …" })).toBeTruthy();
+  });
+
+  it("R-014-04 the search box hints what it searches and Order offers Ascending", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+
+    const search = await screen.findByLabelText("Search");
+    expect(search.getAttribute("placeholder")).toBe("Name, e-mail, phone, company or city");
+    expect(
+      within(screen.getByLabelText("Order")).getByRole("option", { name: "Ascending" }),
+    ).toBeTruthy();
+  });
+
+  it("UI-17 an Owner gets Add a Contact in the header and in the mobile action bar", async () => {
+    answer("OWNER", () => pageOf(THREE));
+    renderPage();
+
+    await screen.findByText("3 Contacts");
+    expect(screen.getAllByRole("button", { name: "Add a Contact" })).toHaveLength(2);
+  });
+
+  it("AC-014-05 the Pages are a navigation named Pages; Previous goes back one Page", async () => {
+    answer("VIEWER", (path) => pageOf(THREE, 120, Number(/page=(\d+)/.exec(path)?.[1])));
+    const router = renderPage(`${LIST}?page=2`);
+
+    const pages = await screen.findByRole("navigation", { name: "Pages" });
+    expect(within(pages).getByText("Page 2 of 3")).toBeTruthy();
+    const previous = within(pages).getByRole("button", { name: "Previous" }) as HTMLButtonElement;
+    expect(previous.disabled).toBe(false);
+    await userEvent.click(previous);
+
+    expect(await screen.findByText("Page 1 of 3")).toBeTruthy();
+    expect(router.state.location.search).toBe("");
+    expect(listCalls()).toContain(`${LIST}?q=&sort=name&dir=asc&page=1`);
+  });
+
+  it("AC-014-05 Next is disabled on the last Page", async () => {
+    answer("VIEWER", (path) => pageOf(THREE, 120, Number(/page=(\d+)/.exec(path)?.[1])));
+    renderPage(`${LIST}?page=3`);
+
+    expect(await screen.findByText("Page 3 of 3")).toBeTruthy();
+    expect((screen.getByRole("button", { name: "Next" }) as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it("AC-014-02 an unchanged search box never resets the Page", async () => {
+    answer("VIEWER", (path) => pageOf(THREE, 120, Number(/page=(\d+)/.exec(path)?.[1])));
+    const router = renderPage(`${LIST}?page=2`);
+    await screen.findByText("Page 2 of 3");
+
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    expect(router.state.location.search).toBe("?page=2");
+  });
+
+  it("AC-014-02 typing asks only for the whole search, not for every letter", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage();
+
+    await userEvent.type(await screen.findByLabelText("Search"), "cuk");
+
+    await waitFor(() => expect(router.state.location.search).toBe("?q=cuk"));
+    expect(listCalls().filter((path) => path.includes("q=c&") || path.includes("q=cu&"))).toEqual(
+      [],
+    );
+  });
+});
+
+describe("WF-06 filter panel and chips, details (US-015)", () => {
+  async function openFilters() {
+    await userEvent.click(await screen.findByRole("button", { name: "Filters" }));
+  }
+
+  it("R-015-03 a value without a key is no filter", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage();
+    await openFilters();
+
+    await userEvent.type(screen.getByLabelText("Attribute key"), "   ");
+    await userEvent.type(screen.getByLabelText("Attribute value"), "SPLETNO");
+    await userEvent.click(screen.getByRole("button", { name: "Apply" }));
+
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: "Filters" }).getAttribute("aria-expanded")).toBe(
+        "false",
+      ),
+    );
+    expect(router.state.location.search).not.toContain("attributeValue");
+    expect(listCalls().some((path) => path.includes("attributeValue"))).toBe(false);
+  });
+
+  it("R-015-01 the panel is a region named Filters; each Tag picker says what it filters", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+    await openFilters();
+
+    expect(screen.getByRole("region", { name: "Filters" })).toBeTruthy();
+    const hint = (label: string) => {
+      const id = screen.getByLabelText(label).getAttribute("aria-describedby") ?? "";
+      return document.getElementById(id)?.textContent;
+    };
+    expect(hint("has Tags")).toBe("Contacts with all of these Tags");
+    expect(hint("without Tags")).toBe("Contacts with none of these Tags");
+    for (const label of ["has Tags", "without Tags", "Country"]) {
+      expect(
+        within(screen.getByLabelText(label)).getByRole("option", { name: "Select …" }),
+      ).toBeTruthy();
+    }
+  });
+
+  it("R-015-01 nothing chosen: the Tag pickers show no chips", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+    await openFilters();
+
+    expect(within(screen.getByRole("region", { name: "Filters" })).queryAllByRole("list")).toEqual(
+      [],
+    );
+  });
+
+  it("R-015-01 a chosen Tag is no longer offered, and taking one out keeps the others", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage();
+    await openFilters();
+
+    await userEvent.selectOptions(await screen.findByLabelText("has Tags"), "udelezenec2025");
+    await userEvent.selectOptions(screen.getByLabelText("has Tags"), "neObvescaj");
+    expect(
+      within(screen.getByLabelText("has Tags"))
+        .getAllByRole("option")
+        .map((option) => option.textContent),
+    ).toEqual(["Select …"]);
+    await userEvent.click(screen.getByRole("button", { name: "Remove udelezenec2025" }));
+
+    expect(screen.getByRole("button", { name: "Remove neObvescaj" })).toBeTruthy();
+    expect(
+      within(screen.getByLabelText("has Tags"))
+        .getAllByRole("option")
+        .map((option) => option.textContent),
+    ).toEqual(["Select …", "udelezenec2025"]);
+  });
+
+  it("R-015-05 a Tag of the URL that the Group does not have reads …", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    renderPage(`${LIST}?hasTagIds=t9`);
+
+    expect(await screen.findByText("has Tags: …")).toBeTruthy();
+    await openFilters();
+    expect(screen.getByRole("button", { name: "Remove …" })).toBeTruthy();
+  });
+
+  it("R-015-01 until the Tags are read, the Tag pickers offer no Tag", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) => {
+      if (path === "/groups") {
+        return Promise.resolve([{ id: "g1", name: "Konferenca 2025", role: "VIEWER" }]);
+      }
+      if (path === "/groups/g1/tags") return new Promise(() => undefined);
+      return Promise.resolve(pageOf(THREE));
+    });
+    renderPage();
+    await openFilters();
+
+    expect(within(screen.getByLabelText("has Tags")).getAllByRole("option")).toHaveLength(1);
+  });
+
+  it("R-015-06 an Attribute key alone is shown as its key, and its chip removes key and value", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?attributeKey=jezik&company=Alfa`);
+
+    expect(await screen.findByText("Attribute: jezik")).toBeTruthy();
+    await userEvent.click(screen.getByRole("button", { name: "Remove filter Attribute" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe("?company=Alfa"));
+  });
+
+  it("R-015-06 removing the Attribute chip removes its value too", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?attributeKey=jezik&attributeValue=sl&country=SI`);
+
+    await userEvent.click(await screen.findByRole("button", { name: "Remove filter Attribute" }));
+
+    await waitFor(() => expect(router.state.location.search).toBe("?country=SI"));
+  });
+
+  it("R-015-06 the without Tags, Company and Country chips each remove only their filter", async () => {
+    answer("VIEWER", () => pageOf(THREE));
+    const router = renderPage(`${LIST}?withoutTagIds=t1&company=Alfa&country=SI`);
+
+    await userEvent.click(
+      await screen.findByRole("button", { name: "Remove filter without Tags" }),
+    );
+    await waitFor(() => expect(router.state.location.search).toBe("?company=Alfa&country=SI"));
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove filter Company" }));
+    await waitFor(() => expect(router.state.location.search).toBe("?country=SI"));
+
+    await userEvent.click(screen.getByRole("button", { name: "Remove filter Country" }));
+    await waitFor(() => expect(router.state.location.search).toBe(""));
   });
 });

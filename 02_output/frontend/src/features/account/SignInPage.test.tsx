@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
@@ -88,5 +88,33 @@ describe("WF-01 Sign in (US-001)", () => {
   it("D-37 the page has a single textbox, the e-mail", () => {
     renderAt("/sign-in");
     expect(screen.getAllByRole("textbox")).toHaveLength(1);
+  });
+  it("WF-01 names the e-mail form and asks who has no account yet", () => {
+    renderAt("/sign-in");
+
+    expect(screen.getByRole("heading", { level: 2, name: "Sign in with e-mail" })).toBeTruthy();
+    expect(screen.getByRole("link", { name: "Create an account" }).parentElement?.textContent).toBe(
+      "No account yet? Create an account",
+    );
+  });
+
+  it("UI-12 both sign-in buttons wait while signing in, then are available again", async () => {
+    let finish: () => void = () => undefined;
+    vi.mocked(signInWithEmail).mockReturnValue(
+      new Promise<void>((resolve) => {
+        finish = resolve;
+      }),
+    );
+    renderAt("/sign-in");
+
+    await submit("ana.kovac@example.si", "Kontakti#2026");
+
+    const submitButton = screen.getByRole<HTMLButtonElement>("button", { name: "Sign in" });
+    const google = screen.getByRole<HTMLButtonElement>("button", { name: "Sign in with Google" });
+    expect(submitButton.disabled).toBe(true);
+    expect(google.disabled).toBe(true);
+    finish();
+    await waitFor(() => expect(submitButton.disabled).toBe(false));
+    expect(google.disabled).toBe(false);
   });
 });

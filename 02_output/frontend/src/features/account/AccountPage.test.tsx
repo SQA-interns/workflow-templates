@@ -49,6 +49,7 @@ function renderPage() {
       <RouterProvider router={router} />
     </QueryClientProvider>,
   );
+  return router;
 }
 
 const confirmLabel = "Type your e-mail address to confirm";
@@ -130,5 +131,61 @@ describe("WF-19 Account (US-020, US-021)", () => {
     renderPage();
 
     expect(await screen.findByRole("button", { name: "Try again" })).toBeTruthy();
+  });
+  it("WF-19 names the page and its sections and describes the language choice", async () => {
+    renderPage();
+
+    expect(await screen.findByRole("heading", { level: 1, name: "Account" })).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 2, name: "Language" })).toBeTruthy();
+    expect(screen.getByRole("heading", { level: 2, name: "Delete my account" })).toBeTruthy();
+    expect(
+      screen.getByText(
+        'Your account and your Memberships are deleted. Versions you made show "Deleted user".',
+      ),
+    ).toBeTruthy();
+    const language = screen.getByRole("combobox", { name: "Language" });
+    const hint = document.getElementById(language.getAttribute("aria-describedby") ?? "");
+    expect(hint?.textContent).toBe("Slovenščina · English");
+    expect(screen.queryByRole("alert")).toBeNull();
+  });
+
+  it("UI-14 a language change that fails shows Something went wrong.", async () => {
+    const user = userEvent.setup();
+    renderPage();
+    const language = await screen.findByRole("combobox", { name: "Language" });
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("offline"));
+
+    await user.selectOptions(language, "Slovenščina");
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+  });
+
+  it("AC-021-01 the sign-in screen replaces the Account page", async () => {
+    const user = userEvent.setup();
+    const router = renderPage();
+    await user.type(
+      await screen.findByLabelText(confirmLabel, { exact: false }),
+      "marko.kranjc@gmail.com",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+
+    expect(await screen.findByText("Sign-in screen")).toBeTruthy();
+    expect(router.state.historyAction).toBe("REPLACE");
+  });
+
+  it("UI-14 a deletion that fails without a problem shows Something went wrong.", async () => {
+    answer(new Error("offline"));
+    const user = userEvent.setup();
+    renderPage();
+    await user.type(
+      await screen.findByLabelText(confirmLabel, { exact: false }),
+      "marko.kranjc@gmail.com",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+    expect(signOutAccount).not.toHaveBeenCalled();
   });
 });

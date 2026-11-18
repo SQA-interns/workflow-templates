@@ -260,4 +260,40 @@ describe("WF-08 Add a Contact (US-006)", () => {
 
     expect(vi.mocked(apiRequest).mock.calls.filter(([method]) => method === "GET")).toEqual([]);
   });
+
+  it("AC-006-05 every Contact with the e-mail is named", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+      Promise.resolve(
+        path.includes("email-matches")
+          ? [
+              { id: "c1", name: "Janez Novak" },
+              { id: "c2", name: "Podjetje d.o.o." },
+            ]
+          : [],
+      ),
+    );
+    renderPage();
+
+    await fill("E-mail", "info@example.si");
+    await userEvent.tab();
+
+    expect(
+      await screen.findByText(
+        "A Contact with this e-mail already exists: Janez Novak, Podjetje d.o.o..",
+      ),
+    ).toBeTruthy();
+  });
+
+  it("R-006-06 no warning is shown while the e-mail is still looked up", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) =>
+      path.includes("email-matches") ? new Promise(() => undefined) : Promise.resolve([]),
+    );
+    renderPage();
+
+    await fill("E-mail", "maja.zupan@example.si");
+    await userEvent.tab();
+    await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", expect.any(String)));
+
+    expect(screen.getByRole("status").textContent).toBe("");
+  });
 });

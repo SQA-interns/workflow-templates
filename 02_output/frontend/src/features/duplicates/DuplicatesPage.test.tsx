@@ -84,6 +84,18 @@ describe("WF-17 Possible duplicates (US-017)", () => {
     expect(await screen.findByText("No possible duplicates found.")).toBeTruthy();
   });
 
+  it("R-017-05 explains that the list changes nothing until a merge", async () => {
+    vi.mocked(apiRequest).mockResolvedValue([]);
+
+    renderPage();
+
+    expect(
+      await screen.findByText(
+        "Pairs of Contacts that may be the same person or company. Nothing changes until you merge.",
+      ),
+    ).toBeTruthy();
+  });
+
   it("UI-14 shows loading, then an error with Try again", async () => {
     vi.mocked(apiRequest).mockRejectedValue(new Error("down"));
 

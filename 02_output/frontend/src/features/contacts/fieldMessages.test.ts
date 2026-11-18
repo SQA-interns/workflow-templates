@@ -84,4 +84,64 @@ describe("texts of Field problems (specification §5)", () => {
       params: {},
     });
   });
+
+  it("R-006-03 field.tooLong without a maximum shows the catalog text", () => {
+    expect(problemText(i18n.t, "en", { field: "note", code: "field.tooLong" })).toBe(
+      i18n.t("errors.field.tooLong"),
+    );
+  });
+
+  it("D-23 another code with a maximum still shows its own text", () => {
+    expect(
+      problemText(i18n.t, "en", {
+        field: "phone",
+        code: "field.phoneInvalid",
+        params: { max: 30 },
+      }),
+    ).toBe("Enter a valid phone number.");
+  });
+
+  it("SB-01 a name problem and a Tag problem of a 400 answer go to their places", () => {
+    const error = new ApiError(400, {
+      code: "validation",
+      errors: [
+        { field: "name", code: "contact.nameRequired" },
+        { field: "tags[0]", code: "tag.invalid" },
+      ],
+    });
+
+    expect(problemsOfError(error)).toStrictEqual({
+      fields: [{ field: "name", code: "contact.nameRequired", params: undefined }],
+      attributes: [],
+      tags: ["tag.invalid"],
+      general: null,
+      params: {},
+    });
+  });
+
+  it("R-008-04 an Attribute problem keeps the key its text names, and only a text key", () => {
+    const error = new ApiError(400, {
+      code: "validation",
+      errors: [
+        { field: "attributes[1].key", code: "attribute.keyTwice", params: { key: "Kompetenca" } },
+        { field: "attributes[2].key", code: "attribute.keyTwice", params: { key: 7 } },
+      ],
+    });
+
+    expect(problemsOfError(error).attributes).toStrictEqual([
+      { field: "attributes[1].key", code: "attribute.keyTwice", params: { key: "Kompetenca" } },
+      { field: "attributes[2].key", code: "attribute.keyTwice", params: undefined },
+    ]);
+  });
+
+  it("R-006-03 a Field problem keeps only a numeric maximum", () => {
+    const error = new ApiError(400, {
+      code: "validation",
+      errors: [{ field: "note", code: "field.tooLong", params: { max: "2000" } }],
+    });
+
+    expect(problemsOfError(error).fields).toStrictEqual([
+      { field: "note", code: "field.tooLong", params: undefined },
+    ]);
+  });
 });

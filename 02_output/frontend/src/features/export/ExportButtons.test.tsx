@@ -104,6 +104,7 @@ describe("Export buttons of WF-06 (US-016)", () => {
     renderButtons(10_000);
 
     expect(exportButton().hasAttribute("disabled")).toBe(false);
+    expect(screen.queryByText("Nothing to export.")).toBeNull();
   });
 
   it("R-016-05 a refused Export shows the message of the problem and saves nothing", async () => {

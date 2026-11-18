@@ -34,4 +34,8 @@ describe("Tags of a Contact (specification §3, R-009-03 … R-009-06)", () => {
   it("EX-009-03 a name the Contact already has is not added again", () => {
     expect(addTag(["vip"], "VIP", [])).toEqual(["vip"]);
   });
+
+  it("EX-009-01 a name of one character is accepted", () => {
+    expect(checkTagName("a")).toEqual({ name: "a" });
+  });
 });

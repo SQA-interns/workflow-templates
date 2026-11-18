@@ -5,6 +5,7 @@ import { createMemoryRouter, RouterProvider } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { apiRequest } from "../api/apiClient";
 import { type AuthState, useAuth } from "../auth/AuthProvider";
+import { emptyFields } from "../features/contacts/contactFields";
 import { rememberGroup } from "../features/groups/currentGroup";
 import { routes } from "./routes";
 
@@ -317,5 +318,118 @@ describe("routes and header of US-017", () => {
 
     expect(await screen.findByRole("heading", { level: 1, name: "Možni dvojniki" })).toBeTruthy();
     expect(await screen.findByText("Ni najdenih možnih dvojnikov.")).toBeTruthy();
+  });
+});
+
+describe("header and not found page (UI-10, BR-02)", () => {
+  it("UI-10 the header shows the product name and the navigation links to the Contacts", () => {
+    renderAt("/");
+
+    const banner = screen.getByRole("banner");
+    const navigation = within(banner).getByRole("navigation", { name: "Glavna navigacija" });
+    expect(within(navigation).getByRole("link", { name: "Kontakti" }).getAttribute("href")).toBe(
+      "/",
+    );
+    const productName = within(banner)
+      .getAllByText("Kontakti")
+      .filter((element) => element.closest("a") === null);
+    expect(productName).toHaveLength(1);
+  });
+
+  it("R-017-01 outside a Group there is no Possible duplicates link", async () => {
+    renderAt("/");
+
+    await screen.findByRole("heading", { level: 1, name: "Nimate še nobene skupine." });
+    expect(screen.queryByRole("link", { name: "Možni dvojniki" })).toBeNull();
+    expect(screen.queryByRole("link", { name: "Koš" })).toBeNull();
+  });
+
+  it("BR-02 the not found page leads back to the Contacts", () => {
+    renderAt("/no-such-page");
+
+    expect(screen.getByRole("link", { name: "Nazaj na kontakte" }).getAttribute("href")).toBe("/");
+  });
+});
+
+const janez = {
+  id: "c1",
+  versionNumber: 2,
+  state: "active",
+  fields: { ...emptyFields(), firstName: "Janez", lastName: "Novak" },
+  attributes: [],
+  tags: [],
+  createdAt: "2026-03-05T09:00:00Z",
+  updatedAt: "2026-07-01T08:00:00Z",
+  mergedFrom: [],
+  mergedInto: null,
+};
+const versionOne = {
+  number: 1,
+  kind: "created",
+  changedBy: "Ana Kovač",
+  changedAt: "2026-03-05T09:00:00Z",
+  changes: [],
+  snapshot: { fields: janez.fields, attributes: [], tags: [] },
+};
+
+/** Answers the reads of the Contact screens of Group g1 with Janez. */
+function answerContacts() {
+  vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
+    if (path === "/groups") return [konferenca];
+    if (path === "/me") return ana;
+    if (path.endsWith("/versions")) return [versionOne];
+    if (path.endsWith("/versions/1")) return versionOne;
+    if (path.startsWith("/groups/g1/contacts/c")) return { ...janez, id: path.slice(-2) };
+    return [];
+  });
+}
+
+describe("routes of the Contact screens (US-001, US-021, US-008 … US-018)", () => {
+  it("US-021 /account shows WF-19 Account", async () => {
+    vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) =>
+      path === "/groups" ? [] : { ...ana, email: "ana.kovac@example.si", emailVerified: true },
+    );
+    renderAt("/account");
+    expect(await screen.findByRole("heading", { level: 1, name: "Račun" })).toBeTruthy();
+  });
+
+  it("R-008-01 /groups/:groupId/contacts/new shows Add a Contact", async () => {
+    answerContacts();
+    renderAt("/groups/g1/contacts/new");
+    expect(await screen.findByRole("heading", { level: 1, name: "Dodaj kontakt" })).toBeTruthy();
+  });
+
+  it("R-009-01 /groups/:groupId/contacts/:contactId shows the Contact details", async () => {
+    answerContacts();
+    renderAt("/groups/g1/contacts/c1");
+    expect(await screen.findByRole("heading", { level: 1, name: "Janez Novak" })).toBeTruthy();
+  });
+
+  it("R-010-01 /groups/:groupId/contacts/:contactId/edit shows Edit Contact", async () => {
+    answerContacts();
+    renderAt("/groups/g1/contacts/c1/edit");
+    expect(await screen.findByRole("heading", { level: 1, name: "Uredi kontakt" })).toBeTruthy();
+  });
+
+  it("R-015-01 /groups/:groupId/contacts/:contactId/history shows the History", async () => {
+    answerContacts();
+    renderAt("/groups/g1/contacts/c1/history");
+    expect(
+      await screen.findByRole("heading", { level: 1, name: "Zgodovina: Janez Novak" }),
+    ).toBeTruthy();
+  });
+
+  it("R-015-02 /groups/:groupId/contacts/:contactId/history/:number shows the Version", async () => {
+    answerContacts();
+    renderAt("/groups/g1/contacts/c1/history/1");
+    expect(
+      await screen.findByRole("heading", { level: 1, name: /Različica 1: Janez Novak/ }),
+    ).toBeTruthy();
+  });
+
+  it("R-018-01 /groups/:groupId/merge shows Merge", async () => {
+    answerContacts();
+    renderAt("/groups/g1/merge?first=c1&second=c2");
+    expect(await screen.findByRole("heading", { level: 1, name: "Združi" })).toBeTruthy();
   });
 });

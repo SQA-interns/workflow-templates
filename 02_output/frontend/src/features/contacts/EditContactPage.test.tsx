@@ -185,4 +185,23 @@ describe("WF-08 Edit Contact (US-007)", () => {
 
     expect(await screen.findByText("This page cannot be found.")).toBeTruthy();
   });
+
+  it("UI-14 another failure to read the Contact shows the error, not the not-found page", async () => {
+    vi.mocked(apiRequest).mockRejectedValue(new ApiError(403, { code: "auth.forbidden" }));
+    renderPage();
+
+    expect(await screen.findByText("Something went wrong.")).toBeTruthy();
+    expect(screen.queryByText("This page cannot be found.")).toBeNull();
+  });
+
+  it("UI-12 Cancel returns to the Contact's details without saving", async () => {
+    answer(() => janez(1));
+    const router = renderPage();
+    await screen.findByDisplayValue("Janez");
+
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+    expect(router.state.location.pathname).toBe(DETAILS);
+    expect(puts()).toEqual([]);
+  });
 });

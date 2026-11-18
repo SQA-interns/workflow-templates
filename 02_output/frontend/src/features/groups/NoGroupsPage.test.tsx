@@ -24,6 +24,7 @@ describe("WF-05 No Groups yet (R-001-07)", () => {
     render(<RouterProvider router={router} />);
 
     expect(screen.getByRole("heading", { level: 1, name: "You have no Groups yet." })).toBeTruthy();
+    expect(screen.getByText("A Group keeps the Contacts of one project or company.")).toBeTruthy();
     await userEvent.click(screen.getByRole("button", { name: "Create a Group" }));
 
     expect(router.state.location.pathname).toBe("/groups/new");

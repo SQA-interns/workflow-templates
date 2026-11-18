@@ -204,4 +204,44 @@ describe("WF-10 Restore this Version (US-011)", () => {
     await waitFor(() => expect(apiRequest).toHaveBeenCalledWith("GET", "/groups"));
     expect(screen.queryByRole("button", { name: "Restore this Version" })).toBeNull();
   });
+  it("UI-15 the confirmation shows no error before a restore", async () => {
+    renderPage();
+
+    fireEvent.click(await screen.findByRole("button", { name: "Restore this Version" }));
+
+    expect(within(await screen.findByRole("alertdialog")).queryByRole("alert")).toBeNull();
+  });
+
+  it("UI-14 a restore that fails without a problem shows Something went wrong., forgotten on reopening", async () => {
+    answer(VERSION_1, "EDITOR", new Error("offline"));
+    renderPage();
+
+    await confirmRestore();
+    expect((await screen.findByRole("alert")).textContent).toBe("Something went wrong.");
+    fireEvent.click(
+      within(screen.getByRole("alertdialog")).getByRole("button", { name: "Cancel" }),
+    );
+    await waitFor(() => expect(screen.queryByRole("alertdialog")).toBeNull());
+    fireEvent.click(screen.getByRole("button", { name: "Restore this Version" }));
+
+    expect(within(await screen.findByRole("alertdialog")).queryByRole("alert")).toBeNull();
+  });
+
+  it("BR-06 Restore waits until the current Version number is read", async () => {
+    vi.mocked(apiRequest).mockImplementation((_method: string, path: string) => {
+      if (path === "/groups")
+        return settle([{ id: "g1", name: "Konferenca 2025", role: "EDITOR" }]);
+      if (path === "/groups/g1/contacts/c1") return new Promise(() => undefined);
+      return settle(VERSION_1);
+    });
+    renderPage();
+
+    fireEvent.click(await screen.findByRole("button", { name: "Restore this Version" }));
+    const dialog = await screen.findByRole("alertdialog");
+
+    expect(
+      within(dialog).getByRole<HTMLButtonElement>("button", { name: "Restore this Version" })
+        .disabled,
+    ).toBe(true);
+  });
 });

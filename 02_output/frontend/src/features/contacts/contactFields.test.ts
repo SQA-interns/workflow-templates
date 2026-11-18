@@ -1,10 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
   checkFields,
+  contactName,
   countryOptions,
   emptyFields,
   FIELD_NAMES,
   type FieldValues,
+  isEmailAddress,
 } from "./contactFields";
 
 function fields(values: Partial<FieldValues>): FieldValues {
@@ -94,5 +96,44 @@ describe("Contact Fields (specification §3, R-006-02 … R-006-05, R-006-07)", 
     expect(sl.findIndex((c) => c.name === "Češka")).toBeLessThan(
       sl.findIndex((c) => c.name === "Danska"),
     );
+  });
+
+  it.each([
+    ["lastName", 100],
+    ["email", 254],
+    ["phone", 30],
+    ["company", 200],
+    ["jobTitle", 100],
+    ["street", 200],
+    ["postalCode", 20],
+    ["city", 100],
+  ] as const)("R-006-03 %s may have %i characters, not one more", (field, max) => {
+    const fill = field === "phone" ? "1" : "a";
+    const atMax = fill.repeat(max);
+    const valid = field === "email" ? `${"a".repeat(max - 7)}@ex.com` : atMax;
+    expect(checkFields(fields({ firstName: "Janez", [field]: valid })).problems).toEqual([]);
+    expect(checkFields(fields({ firstName: "Janez", [field]: `${valid}a` })).problems).toEqual([
+      { field, code: "field.tooLong", params: { max } },
+    ]);
+  });
+
+  it.each(["janez@example.si x", "janez@example.si@x"])(
+    "R-006-04 %s with a trailing part is not a valid e-mail address",
+    (email) => {
+      expect(isEmailAddress(email)).toBe(false);
+      expect(isEmailAddress("janez@example.si")).toBe(true);
+    },
+  );
+
+  it("R-006-05 the countries are sorted by name, not by code", () => {
+    const en = countryOptions("en");
+    expect(en.at(0)?.name).toBe("Afghanistan");
+    expect(en.findIndex((c) => c.code === "FR")).toBeLessThan(en.findIndex((c) => c.code === "DE"));
+  });
+
+  it("R-014-01 a Contact without a name part or company has an empty name", () => {
+    expect(contactName({ firstName: null, lastName: null, company: null })).toBe("");
+    expect(contactName({ firstName: null, lastName: "Novak", company: "Podjetje" })).toBe("Novak");
+    expect(contactName({ firstName: null, lastName: null, company: "Podjetje" })).toBe("Podjetje");
   });
 });
