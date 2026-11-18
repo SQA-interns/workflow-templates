@@ -68,7 +68,7 @@ describe("WF-19 Account (US-020, US-021)", () => {
     const user = userEvent.setup();
     renderPage();
     const typed = await screen.findByLabelText(confirmLabel, { exact: false });
-    const deleteButton = screen.getByRole("button", { name: "Delete", exact: true });
+    const deleteButton = screen.getByRole("button", { name: "Delete" });
 
     expect((deleteButton as HTMLButtonElement).disabled).toBe(true);
     await user.type(typed, "marko@example.si");
@@ -87,7 +87,7 @@ describe("WF-19 Account (US-020, US-021)", () => {
       "marko.kranjc@gmail.com",
     );
 
-    await user.click(screen.getByRole("button", { name: "Delete", exact: true }));
+    await user.click(screen.getByRole("button", { name: "Delete" }));
 
     expect(await screen.findByText("Sign-in screen")).toBeTruthy();
     expect(apiRequest).toHaveBeenCalledWith("DELETE", "/me", {
@@ -105,7 +105,7 @@ describe("WF-19 Account (US-020, US-021)", () => {
       "marko.kranjc@gmail.com",
     );
 
-    await user.click(screen.getByRole("button", { name: "Delete", exact: true }));
+    await user.click(screen.getByRole("button", { name: "Delete" }));
 
     expect((await screen.findByRole("alert")).textContent).toBe(
       "Delete your Groups first: Konferenca 2025.",
