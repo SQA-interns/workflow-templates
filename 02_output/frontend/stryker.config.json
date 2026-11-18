@@ -6,11 +6,17 @@
     "src/**/*.{ts,tsx}",
     "!src/**/*.test.{ts,tsx}",
     "!src/components/ui/**",
+    "!src/styles/**",
     "!src/test/**",
     "!src/main.tsx"
   ],
   "reporters": ["clear-text", "html", "json"],
-  "htmlReporter": { "fileName": "reports/mutation/index.html" },
-  "jsonReporter": { "fileName": "reports/mutation/mutation.json" },
-  "coverageAnalysis": "perTest"
+  "htmlReporter": {
+    "fileName": "reports/mutation/index.html"
+  },
+  "jsonReporter": {
+    "fileName": "reports/mutation/mutation.json"
+  },
+  "coverageAnalysis": "perTest",
+  "concurrency": 4
 }

@@ -13,11 +13,21 @@ export default defineConfig({
     environment: "jsdom",
     globals: false,
     setupFiles: ["src/test/setup.ts"],
+    // TagsField tests take ~1.4 s each under coverage and hit the 5 s default under load (quality gate).
+    testTimeout: 15000,
     include: ["src/**/*.test.{ts,tsx}"],
     coverage: {
       provider: "v8",
       include: ["src/**/*.{ts,tsx}"],
-      exclude: ["src/components/ui/**", "src/main.tsx", "src/test/**", "src/**/*.test.{ts,tsx}"],
+      // Measurement exclusions (docs/03_test-strategy.md).
+      exclude: [
+        "src/components/ui/**",
+        "src/main.tsx",
+        "src/test/**",
+        "src/styles/**",
+        "src/i18n/*.json",
+        "src/**/*.test.{ts,tsx}",
+      ],
       reporter: ["text-summary", "html", "json-summary"],
     },
   },
