@@ -18,14 +18,30 @@ const JANEZ = {
   removalAt: "2026-04-04T10:00:00Z",
 };
 
+/** A Contact of the Group as `GET /contacts/{id}` answers it, with only its Merge links. */
+function contact(id: string, mergedFrom: { id: string; name: string; undone?: boolean }[] = []) {
+  return {
+    id,
+    mergedFrom: mergedFrom.map((m, i) => ({
+      mergeId: `m-${id}-${i}`,
+      contact: { id: m.id, name: m.name },
+      undone: m.undone ?? false,
+    })),
+  };
+}
+
 /**
- * GET answers the User's Groups with the Role, and the recycle bin with the given entries; POST
- * answers the restored Contact; DELETE answers nothing.
+ * GET answers the User's Groups with the Role, a Contact from the given ones (else one without
+ * Merges), and the recycle bin with the given entries; POST answers the restored Contact; DELETE
+ * answers nothing.
  */
-function answer(entries: unknown[], role = "EDITOR") {
+function answer(entries: unknown[], role = "EDITOR", contacts: ReturnType<typeof contact>[] = []) {
   vi.mocked(apiRequest).mockImplementation((method: string, path: string) => {
     if (method === "GET") {
-      return Promise.resolve(path === "/groups" ? [{ id: "g1", name: "K", role }] : entries);
+      if (path === "/groups") return Promise.resolve([{ id: "g1", name: "K", role }]);
+      const id = /^\/groups\/g1\/contacts\/([^/]+)$/.exec(path)?.[1];
+      if (id) return Promise.resolve(contacts.find((c) => c.id === id) ?? contact(id));
+      return Promise.resolve(entries);
     }
     return Promise.resolve(method === "POST" ? { id: "c1", state: "active" } : undefined);
   });
@@ -169,6 +185,71 @@ describe("WF-11 Delete permanently (US-013)", () => {
 
     expect(apiRequest).not.toHaveBeenCalledWith("DELETE", expect.anything());
     expect(screen.getByRole("row", { name: /Janez Novak/ })).toBeTruthy();
+  });
+
+  it("D-21 the confirmation names the Contacts merged into it, also those merged into them", async () => {
+    answer([JANEZ], "OWNER", [
+      contact("c1", [
+        { id: "c2", name: "J. Novak" },
+        { id: "c3", name: "Maja Z.", undone: true },
+        { id: "c4", name: "Janez N." },
+      ]),
+      contact("c4", [{ id: "c5", name: "Novak Janez" }]),
+    ]);
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+
+    const dialog = await screen.findByRole("alertdialog");
+    expect(
+      (await within(dialog).findByText(/^Also deleted: the Contacts merged into it:/)).textContent,
+    ).toBe("Also deleted: the Contacts merged into it: J. Novak, Janez N., Novak Janez.");
+  });
+
+  it("D-21 without merged Contacts the confirmation names none", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+
+    const dialog = await screen.findByRole("alertdialog");
+    expect(
+      await within(dialog).findByRole("button", { name: "Delete permanently" }),
+    ).toHaveProperty("disabled", false);
+    expect(within(dialog).queryByText(/Also deleted/)).toBeNull();
+  });
+
+  it("D-21 Delete permanently waits until the merged Contacts are read", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    vi.mocked(apiRequest).mockImplementationOnce(() => new Promise(() => undefined));
+
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+
+    const dialog = await screen.findByRole("alertdialog");
+    expect(within(dialog).getByRole("button", { name: "Delete permanently" })).toHaveProperty(
+      "disabled",
+      true,
+    );
+  });
+
+  it("D-21 a failed read of the merged Contacts shows the error and keeps Delete off", async () => {
+    answer([JANEZ], "OWNER");
+    renderPage();
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    vi.mocked(apiRequest).mockRejectedValueOnce(new Error("down"));
+
+    await userEvent.click(await within(row).findByRole("button", { name: "Delete permanently" }));
+
+    const dialog = await screen.findByRole("alertdialog");
+    expect((await within(dialog).findByRole("alert")).textContent).toBe("Something went wrong.");
+    expect(within(dialog).getByRole("button", { name: "Delete permanently" })).toHaveProperty(
+      "disabled",
+      true,
+    );
   });
 
   it("R-013-03 a refused delete shows its message in the confirmation", async () => {

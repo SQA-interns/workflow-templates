@@ -334,6 +334,7 @@
       "action": "Delete permanently",
       "title": "Delete {{name}} permanently?",
       "description": "Delete permanently. This cannot be undone.",
+      "alsoDeleted": "Also deleted: the Contacts merged into it: {{names}}.",
       "cancel": "Cancel"
     }
   },

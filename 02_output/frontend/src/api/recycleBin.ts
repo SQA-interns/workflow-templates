@@ -20,6 +20,26 @@ export function useRecycleBin(groupId: string) {
 }
 
 /**
+ * The names of the Contacts a permanent delete of the Contact also deletes: those merged into it
+ * and not undone, and those merged into one of them (D-21). Read with `GET /contacts/{id}`, which
+ * answers a Contact in the recycle bin too; asked only while `enabled`.
+ */
+export function useMergedIntoNames(groupId: string, contactId: string, enabled: boolean) {
+  return useQuery({
+    queryKey: ["groups", groupId, "contacts", contactId, "merged-into"],
+    queryFn: () => mergedIntoNames(groupId, contactId),
+    enabled,
+  });
+}
+
+async function mergedIntoNames(groupId: string, contactId: string): Promise<string[]> {
+  const read = await apiRequest<Contact>("GET", `/groups/${groupId}/contacts/${contactId}`);
+  const merged = read.mergedFrom.filter((link) => !link.undone).map((link) => link.contact);
+  const deeper = await Promise.all(merged.map((ref) => mergedIntoNames(groupId, ref.id)));
+  return [...merged.map((ref) => ref.name), ...deeper.flat()];
+}
+
+/**
  * Restores a Contact from the recycle bin with the Version number read (R-012-03, BR-06). The
  * recycle bin, the Contact and the lists are read again, also after a refusal (R-012-04).
  */

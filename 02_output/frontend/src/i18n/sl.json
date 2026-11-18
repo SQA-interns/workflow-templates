@@ -336,6 +336,7 @@
       "action": "Trajno izbriši",
       "title": "Želite trajno izbrisati {{name}}?",
       "description": "Trajno izbriši. Tega ni mogoče razveljaviti.",
+      "alsoDeleted": "Izbrisani bodo tudi kontakti, združeni vanj: {{names}}.",
       "cancel": "Prekliči"
     }
   },
