@@ -35,4 +35,17 @@ describe("problem codes → catalog (ADR-06, UI-30)", () => {
     });
     expect(error.params).toEqual({});
   });
+
+  it("R-021-03 a problem naming a deleted User names Deleted user", async () => {
+    await i18n.changeLanguage("en");
+    const error = new ApiError(409, {
+      code: "version.conflict",
+      params: { changedBy: "user.deleted" },
+    });
+
+    expect(i18n.t(messageKey(error.code), error.params)).toBe(
+      "Contact was changed by Deleted user, reload",
+    );
+    await i18n.changeLanguage("sl");
+  });
 });

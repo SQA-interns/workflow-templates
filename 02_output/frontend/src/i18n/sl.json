@@ -421,5 +421,8 @@
       "signIn": "Prijava",
       "signUp": "Ustvari račun"
     }
+  },
+  "user": {
+    "deleted": "Izbrisan uporabnik"
   }
 }

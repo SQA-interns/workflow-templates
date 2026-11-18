@@ -9,6 +9,7 @@ import {
   useRestoreFromRecycleBin,
 } from "../../api/recycleBin";
 import { formatDateTime } from "../../i18n/format";
+import { userName } from "../../i18n/userName";
 import { GroupsPending } from "../groups/GroupsPending";
 import { DeletePermanently } from "./DeletePermanently";
 
@@ -95,7 +96,7 @@ function EntryTable({
             <td className={`${cell} font-semibold`}>{entry.contact.name}</td>
             <td className={`${cell} max-md:text-text-muted`}>
               <span className="md:hidden">{t("recycleBin.card.deletedBy")} </span>
-              {entry.deletedBy}
+              {userName(entry.deletedBy)}
             </td>
             <td className={`${cell} max-md:text-text-muted`}>
               <span className="md:hidden">{t("recycleBin.card.deletedAt")} </span>

@@ -8,6 +8,7 @@ import { useHistory, type VersionSummary } from "../../api/history";
 import { ApiError } from "../../api/problem";
 import { NotFoundPage } from "../../app/pages";
 import { formatDateTime } from "../../i18n/format";
+import { userName } from "../../i18n/userName";
 import { contactName } from "../contacts/contactFields";
 import { GroupsPending } from "../groups/GroupsPending";
 import { changeText } from "./changes";
@@ -55,7 +56,7 @@ function VersionCard({ version, path }: { version: VersionSummary; path: string 
             ...(version.restoredFrom ? [t("history.from", { number: version.restoredFrom })] : []),
           ].join(" · ")}
         </Badge>
-        <span>{version.changedBy}</span>
+        <span>{userName(version.changedBy)}</span>
         <span className="text-text-muted">{formatDateTime(version.changedAt)}</span>
         <Link
           to={`${path}/${version.number}`}

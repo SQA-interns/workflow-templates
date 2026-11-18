@@ -419,5 +419,8 @@
       "signIn": "Sign in",
       "signUp": "Create an account"
     }
+  },
+  "user": {
+    "deleted": "Deleted user"
   }
 }

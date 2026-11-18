@@ -75,6 +75,14 @@ afterEach(async () => {
 });
 
 describe("WF-09 History (R-010-01)", () => {
+  it("R-021-03 a Version of a deleted User shows Deleted user", async () => {
+    answer([{ ...HISTORY[0], changedBy: "user.deleted" }, HISTORY[1]]);
+    renderPage();
+
+    const version2 = within(await screen.findByRole("region", { name: "Version 2" }));
+    expect(version2.getByText("Deleted user")).toBeTruthy();
+  });
+
   it("AC-011-01 a restored Version names the Version it restored", async () => {
     answer([
       {

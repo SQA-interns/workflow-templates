@@ -1,4 +1,5 @@
 import i18n from "../i18n";
+import { userName } from "../i18n/userName";
 
 /** One invalid field of a 400 problem (specification §3, §5). */
 export interface FieldError {
@@ -25,9 +26,19 @@ export class ApiError extends Error {
     this.name = "ApiError";
     this.status = status;
     this.code = body.code ?? "internal";
-    this.params = body.params ?? {};
+    this.params = shownNames(body.params ?? {});
     this.errors = body.errors ?? [];
   }
+}
+
+/** A User named in a problem (e.g. `changedBy`) who deleted the account is "Deleted user". */
+function shownNames(params: Record<string, unknown>): Record<string, unknown> {
+  return Object.fromEntries(
+    Object.entries(params).map(([key, value]) => [
+      key,
+      typeof value === "string" ? userName(value) : value,
+    ]),
+  );
 }
 
 /** Reads the problem of a failed answer; an answer without one counts as `internal` (SB-07). */

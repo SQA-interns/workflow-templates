@@ -55,6 +55,15 @@ afterEach(async () => {
 });
 
 describe("WF-11 Recycle bin (US-012)", () => {
+  it("R-021-03 a Contact deleted by a deleted User shows Deleted user", async () => {
+    answer([{ ...JANEZ, deletedBy: "user.deleted" }]);
+    renderPage();
+
+    const row = await screen.findByRole("row", { name: /Janez Novak/ });
+    expect(row.textContent).toContain("Deleted user");
+    expect(row.textContent).not.toContain("user.deleted");
+  });
+
   it("AC-012-01 lists name, deleted by, deleted at and removal date in Europe/Ljubljana", async () => {
     renderPage();
 

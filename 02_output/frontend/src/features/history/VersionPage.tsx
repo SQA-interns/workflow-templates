@@ -16,6 +16,7 @@ import { useRestoreVersion, useVersion } from "../../api/history";
 import { ApiError, messageKey } from "../../api/problem";
 import { NotFoundPage } from "../../app/pages";
 import { formatDateTime } from "../../i18n/format";
+import { userName } from "../../i18n/userName";
 import { AttributesSection, FieldsSection, TagsSection } from "../contacts/ContactContent";
 import { contactName } from "../contacts/contactFields";
 import { GroupsPending } from "../groups/GroupsPending";
@@ -54,7 +55,7 @@ export function VersionPage() {
       <p className="text-text-muted">
         {[
           t(`history.kind.${kind}`),
-          changedBy,
+          userName(changedBy),
           formatDateTime(changedAt),
           t("history.readOnly"),
         ].join(" · ")}
