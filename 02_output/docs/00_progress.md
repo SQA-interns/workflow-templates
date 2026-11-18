@@ -5,19 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S5 /implement US-021 (fix-only, D-78 (a))
-- Result: blocked
+- Session: S5 /implement US-021 D-80: 1 (fix-only, D-78 (a))
+- Result: done
 - Gate: phase 4 (INC-2 DoD-I) passed
 - Notes for the next session:
-  - F-06 (US-021 part) fixed in 983123a: from 768 px the user-menu trigger no longer shrinks; from 768 to 1023 px it shows the icon only and keeps the display name as its accessible name. Evidence in f6ae79a (`out/logs/implement-us021-f06-*`, screens `out/logs/screens/WF-19_account/f06_*`). Frozen UI tests of US-001, US-002, US-020 and US-021: 18/18. Frontend: 359/359.
-  - F-02 is not fixed. It waits for D-80, a `Block` topic: what an account deletion does when Firebase or the commit fails. Answer with `/implement US-021 D-80: <option>`, then fix F-02 only (one `fix:` commit), then hand over to `/implement US-002`.
-  - The US-002 part of F-06 is still open: at 768 px the Group switcher is squeezed to its icon and the navigation wraps (wireframe WF-06 tablet: two rows).
-  - `frontend/README.md` fails `prettier --check` (since 381c42f, not this session).
-  - Local stack: `APP_HOST_PORT=8090`; its frontend image has the F-06 fix. Only Chromium is installed for Playwright on the host.
+  - F-02 fixed in 58affcd (D-80 option 1). `DELETE /me` commits the database part first, then deletes the Firebase account. A Firebase failure keeps the deletion, and each later request with that account deletes the Firebase account again. The `TransactionOperations` bean is Spring Boot's `TransactionTemplate`. Backend 471 unit + 270 IT (Us021 5/5), static and secret scan clean; UI US-021 and US-001 9/9 (`out/logs/implement-us021-f02-*`).
+  - F-06 (US-021 part) fixed in 983123a, evidence in f6ae79a.
+  - D-78 (a) order continues: `/implement US-002` fixes F-05 and the header part of F-06. At 768 px the Group switcher is squeezed to its icon and the navigation wraps; wireframe WF-06 tablet has two rows. Then `/implement US-021 T-36..T-43 T-53`, then `/design`.
+  - `frontend/README.md` fails `prettier --check` (since 381c42f).
+  - Local stack: `APP_HOST_PORT=8090`; its images have both fixes. Only Chromium is installed for Playwright.
 
 ## Next
-- Command: /implement US-021
-- Waiting for: D-80
+- Command: /implement US-002
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
@@ -42,4 +42,4 @@ The handover between sessions. Every session reads it first and updates it last.
 | US-018 | INC-2 | done | met (API 10/10, UI 4/4; WF-17, WF-18, WF-07 at three widths, axe clean); DoD-S-07 see D-72 (j), D-74 (c); F-01 fixed (8021943, D-79) |
 | US-019 | INC-2 | done | met (API 5/5, UI 3/3; WF-07 Undo merge at three widths, axe clean); DoD-S-07 see D-75 (i) |
 | US-020 | INC-1 | done | DoD-S-01 met after D-65 (UI 4/4, D-69); US-010 part of D-44 passes; D-48 fixed; others met |
-| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a); F-02 waits for D-80 |
+| US-021 | INC-2 | done | met (API 5/5, UI 3/3 after D-77; WF-19 at three widths, axe clean); DoD-S-07 see D-76 (i); F-06 fixed (983123a); F-02 fixed (58affcd, D-80) |
