@@ -28,7 +28,11 @@ export function setup() {
   if (tags.length < 10) {
     throw new Error("perf Tags missing: load perf/seed-10k.sql first");
   }
-  return { groupId, tagIds: tags.map((t) => t.id), tokens: viewers(VIRTUAL_USERS, groupId, ana) };
+  return {
+    groupId,
+    tagIds: tags.map((t) => t.id),
+    tokens: viewers(VIRTUAL_USERS, groupId, ana),
+  };
 }
 
 /** List (sorted, paged), search and filter queries of US-014 and US-015. */
@@ -55,9 +59,15 @@ export default function (data) {
   const token = data.tokens[(__VU - 1) % data.tokens.length];
   const all = queries(data.tagIds);
   const query = all[Math.floor(Math.random() * all.length)];
-  const res = api("GET", `/groups/${data.groupId}/contacts?${query}`, token, null, {
-    tags: { name: "listContacts" },
-  });
+  const res = api(
+    "GET",
+    `/groups/${data.groupId}/contacts?${query}`,
+    token,
+    null,
+    {
+      tags: { name: "listContacts" },
+    },
+  );
   check(res, { "list answers 200": (r) => r.status === 200 });
   sleep(1);
 }

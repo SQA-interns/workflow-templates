@@ -47,10 +47,19 @@ export function signIn(email, displayName) {
 
 /** A request to the Contacts API as the token's User. */
 export function api(method, path, token, body, params = {}) {
-  return http.request(method, `${BASE_URL}/api/v1${path}`, body ? JSON.stringify(body) : null, {
-    ...params,
-    headers: { ...JSON_HEADERS, Authorization: `Bearer ${token}`, ...(params.headers || {}) },
-  });
+  return http.request(
+    method,
+    `${BASE_URL}/api/v1${path}`,
+    body ? JSON.stringify(body) : null,
+    {
+      ...params,
+      headers: {
+        ...JSON_HEADERS,
+        Authorization: `Bearer ${token}`,
+        ...(params.headers || {}),
+      },
+    },
+  );
 }
 
 /** The id of "Konferenca 2025" as Ana sees it (seed/seed.sql). */
@@ -58,7 +67,9 @@ export function groupIdOf(token) {
   const res = api("GET", "/groups", token);
   const group = res.json().find((g) => g.name === GROUP_NAME);
   if (!group) {
-    throw new Error(`no Group ${GROUP_NAME}: load seed/seed.sql and perf/seed-10k.sql first`);
+    throw new Error(
+      `no Group ${GROUP_NAME}: load seed/seed.sql and perf/seed-10k.sql first`,
+    );
   }
   return group.id;
 }
@@ -80,7 +91,11 @@ export function viewers(count, groupId, ownerToken) {
     });
     if (invited.status === 201) {
       const link = invited.json().link;
-      api("POST", `/invitations/${link.substring(link.lastIndexOf("/") + 1)}/accept`, token);
+      api(
+        "POST",
+        `/invitations/${link.substring(link.lastIndexOf("/") + 1)}/accept`,
+        token,
+      );
     }
     tokens.push(token);
   }
