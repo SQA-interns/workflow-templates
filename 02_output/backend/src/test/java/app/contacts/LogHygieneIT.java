@@ -29,6 +29,8 @@ import tools.jackson.databind.node.ObjectNode;
 @ExtendWith(OutputCaptureExtension.class)
 class LogHygieneIT extends AcceptanceTest {
 
+  private static final String CANARY = "log-hygiene-capture-canary";
+
   /** Contact Field values of the stories (US-006, US-014, E2E-04). */
   private static final List<String> FIELD_VALUES =
       List.of(
@@ -53,16 +55,18 @@ class LogHygieneIT extends AcceptanceTest {
 
     ListAppender<ILoggingEvent> events = attachToRootLogger();
     try {
+      LoggerFactory.getLogger(LogHygieneIT.class).info(CANARY);
       serveTheStoriesFlows(team);
     } finally {
       rootLogger().detachAppender(events);
       events.stop();
     }
 
-    // Standard output plus every logging event: the redirect of System.out alone sees nothing when
-    // other tests in the same JVM started the logging system first (mutation testing).
+    // Standard output plus every logging event while the flows ran. The application logs little
+    // once its context runs, so the canary proves the capture works whether or not the context
+    // started inside this test (under PIT it is already cached).
     String log = output.getAll() + format(events);
-    assertThat(log).as("captured log").isNotEmpty();
+    assertThat(log).as("captured log").contains(CANARY);
     for (String secret : secrets) {
       assertThat(log).as("log holds no personal data or token (SR-08)").doesNotContain(secret);
     }
