@@ -7,9 +7,9 @@ export function PublicLayout() {
   const { t } = useTranslation();
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="border-b bg-surface">
+      <header className="border-b bg-surface-raised shadow-sm">
         <div className="mx-auto flex max-w-[1200px] items-center px-4 py-2 md:px-6">
-          <span className="rounded-md border px-2 py-1 text-lg font-semibold">
+          <span className="rounded-md px-2 py-1 text-lg font-semibold text-primary">
             {t("app.productName")}
           </span>
         </div>

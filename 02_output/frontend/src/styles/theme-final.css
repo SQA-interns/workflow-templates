@@ -1,18 +1,46 @@
-/* Final theme (UI-04 … UI-07): neutral greys with one indigo-600 accent; light mode only (ui-design.md). Activated in /design. */
+/* Final theme (UI-04 … UI-07), /design D-84: teal-700 accent on warm stone greys, "more structured"
+   (grey page, white cards and header, visible borders); light and dark mode follow the system (UI-05).
+   Every text pair is at least 4.5:1, borders of controls at least 3:1 (WCAG 2.2 AA). */
 :root {
   --font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --background: #ffffff;
-  --surface: #f5f5f5;
+  --background: #f5f5f4;
+  --surface: #fafaf9;
   --surface-raised: #ffffff;
-  --border: #e5e5e5;
+  --border: #d6d3d1;
   --border-style: solid;
-  --text: #171717;
-  --text-muted: #525252;
-  --primary: #4f46e5;
+  --input-border: #78716c;
+  --text: #1c1917;
+  --text-muted: #57534e;
+  --primary: #0f766e;
   --primary-foreground: #ffffff;
+  --primary-subtle: #ccfbf1;
+  --primary-subtle-foreground: #115e59;
   --success: #15803d;
   --warning: #b45309;
   --danger: #b91c1c;
-  --focus-ring: #4f46e5;
-  --shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --focus-ring: #0f766e;
+  --overlay: rgb(28 25 23 / 0.5);
+  --shadow: 0 1px 3px 0 rgb(28 25 23 / 0.08), 0 1px 2px -1px rgb(28 25 23 / 0.08);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --surface: #292524;
+    --surface-raised: #1c1917;
+    --border: #44403c;
+    --input-border: #78716c;
+    --text: #f5f5f4;
+    --text-muted: #a8a29e;
+    --primary: #2dd4bf;
+    --primary-foreground: #042f2e;
+    --primary-subtle: #134e4a;
+    --primary-subtle-foreground: #99f6e4;
+    --success: #4ade80;
+    --warning: #fbbf24;
+    --danger: #f87171;
+    --focus-ring: #5eead4;
+    --overlay: rgb(0 0 0 / 0.6);
+    --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.5);
+  }
 }

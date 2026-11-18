@@ -125,7 +125,7 @@ function InvitationLink({ link }: { link: string }) {
         <strong>{t("invitations.invite.linkTitle")}</strong> {t("invitations.invite.linkHint")}
       </p>
       <div className="flex w-full flex-wrap items-center gap-2">
-        <code className="min-w-0 flex-1 basis-52 rounded-md border border-input bg-background px-3 py-2 text-sm break-all">
+        <code className="min-w-0 flex-1 basis-52 rounded-md border border-input bg-surface-raised px-3 py-2 text-sm break-all">
           {link}
         </code>
         <Button type="button" variant="secondary" onClick={copy}>

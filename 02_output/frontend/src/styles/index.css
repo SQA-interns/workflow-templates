@@ -13,6 +13,9 @@
   --color-text-muted: var(--text-muted);
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
+  --color-primary-subtle: var(--primary-subtle);
+  --color-primary-subtle-foreground: var(--primary-subtle-foreground);
+  --color-overlay: var(--overlay);
   --color-success: var(--success);
   --color-warning: var(--warning);
   --color-danger: var(--danger);
@@ -30,7 +33,7 @@
   --color-accent: var(--surface);
   --color-accent-foreground: var(--text);
   --color-destructive: var(--danger);
-  --color-input: var(--border);
+  --color-input: var(--input-border);
   --color-ring: var(--focus-ring);
 
   /* UI-06 typography, UI-07 radius and shadow */
@@ -54,7 +57,8 @@
     border-style: var(--border-style);
   }
   html {
-    color-scheme: light; /* ui-design.md overrides UI-05: light mode only */
+    color-scheme: light dark; /* UI-05: follows the system setting (D-84) */
+    accent-color: var(--primary);
   }
   body {
     background: var(--background);
@@ -66,6 +70,24 @@
   :focus-visible {
     outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
+  }
+  /* Tables (UI-16, D-84): a raised panel with a tinted header row from 768 px; stacked cards below. */
+  @media (width >= 768px) {
+    table {
+      background: var(--surface-raised);
+      border: 1px solid var(--border);
+    }
+    thead tr {
+      background: var(--surface);
+    }
+    tbody tr:hover {
+      background: var(--surface);
+    }
+  }
+  @media (width < 768px) {
+    tbody tr {
+      background: var(--surface-raised);
+    }
   }
   @media (prefers-reduced-motion: reduce) {
     *,

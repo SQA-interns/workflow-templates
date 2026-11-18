@@ -18,7 +18,8 @@ import { UserMenu } from "./UserMenu";
  * with US-021.
  */
 /** A navigation item never wraps (UI-24). */
-const navItem = "rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap";
+const navItem =
+  "rounded-md px-3 py-2 text-sm font-semibold whitespace-nowrap hover:bg-surface aria-[current=page]:bg-primary-subtle aria-[current=page]:text-primary-subtle-foreground";
 
 export function AppLayout() {
   const { t } = useTranslation();
@@ -30,9 +31,9 @@ export function AppLayout() {
 
   return (
     <div className="flex min-h-dvh flex-col">
-      <header className="relative border-b bg-surface">
+      <header className="relative border-b bg-surface-raised shadow-sm">
         <div className="mx-auto flex max-w-[1200px] flex-wrap items-center gap-2 px-4 py-2 md:gap-x-4 md:px-6 xl:flex-nowrap">
-          <span className="rounded-md border px-2 py-1 text-lg font-semibold">
+          <span className="rounded-md px-2 py-1 text-lg font-semibold text-primary">
             {t("app.productName")}
           </span>
           <GroupSwitcher />
@@ -50,7 +51,7 @@ export function AppLayout() {
             <nav
               id="main-navigation"
               aria-label={t("app.mainNavigation")}
-              className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
+              className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
             >
               <NavLink to="/" className={navItem}>
                 {t("nav.contacts")}

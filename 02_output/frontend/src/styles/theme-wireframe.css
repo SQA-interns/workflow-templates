@@ -6,13 +6,17 @@
   --surface-raised: #ffffff;
   --border: #9ca3af;
   --border-style: dashed;
+  --input-border: #9ca3af;
   --text: #1f2937;
   --text-muted: #4b5563;
   --primary: #374151;
   --primary-foreground: #ffffff;
+  --primary-subtle: #f3f4f6;
+  --primary-subtle-foreground: #1f2937;
   --success: #4b5563;
   --warning: #4b5563;
   --danger: #374151;
   --focus-ring: #111827;
+  --overlay: rgb(31 41 55 / 0.4);
   --shadow: none;
 }
