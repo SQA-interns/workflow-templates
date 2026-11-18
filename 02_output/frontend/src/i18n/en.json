@@ -87,6 +87,9 @@
       "alreadyUndone": "This Merge was already undone.",
       "changedAfter": "The Contact changed after the Merge. Restore the Versions you need instead.",
       "restoreFirst": "Restore the Contact from the recycle bin first."
+    },
+    "account": {
+      "ownsGroups": "Delete your Groups first: {{names}}."
     }
   },
   "account": {
@@ -116,6 +119,16 @@
       "title": "Confirm your e-mail",
       "sentTo": "Sent to {{email}}",
       "confirmed": "I confirmed my e-mail"
+    },
+    "settings": {
+      "title": "Account",
+      "languageHint": "Slovenščina · English",
+      "delete": {
+        "title": "Delete my account",
+        "description": "Your account and your Memberships are deleted. Versions you made show \"Deleted user\".",
+        "confirm": "Type your e-mail address to confirm",
+        "action": "Delete"
+      }
     }
   },
   "groups": {

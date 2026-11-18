@@ -1,5 +1,6 @@
 import type { RouteObject } from "react-router";
 import { GuestOnly, RequireAuth } from "../auth/RequireAuth";
+import { AccountPage } from "../features/account/AccountPage";
 import { SignInPage } from "../features/account/SignInPage";
 import { SignUpPage } from "../features/account/SignUpPage";
 import { VerifyEmailPage } from "../features/account/VerifyEmailPage";
@@ -63,6 +64,7 @@ export const routes: RouteObject[] = [
       { index: true, element: <GroupStart /> },
       { path: "/groups/new", element: <CreateGroupPage /> },
       { path: "/deleted-groups", element: <DeletedGroupsPage /> },
+      { path: "/account", element: <AccountPage /> },
       {
         path: "/groups/:groupId",
         element: <GroupRoute />,

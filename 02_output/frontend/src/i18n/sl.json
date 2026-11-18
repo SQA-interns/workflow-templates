@@ -87,6 +87,9 @@
       "alreadyUndone": "Ta združitev je že razveljavljena.",
       "changedAfter": "Kontakt se je po združitvi spremenil. Namesto tega obnovite različice, ki jih potrebujete.",
       "restoreFirst": "Najprej obnovite kontakt iz koša."
+    },
+    "account": {
+      "ownsGroups": "Najprej izbrišite svoje skupine: {{names}}."
     }
   },
   "account": {
@@ -116,6 +119,16 @@
       "title": "Potrdite svoj e-poštni naslov",
       "sentTo": "Poslano na {{email}}",
       "confirmed": "E-poštni naslov je potrjen"
+    },
+    "settings": {
+      "title": "Račun",
+      "languageHint": "Slovenščina · English",
+      "delete": {
+        "title": "Izbriši moj račun",
+        "description": "Vaš račun in vaša članstva bodo izbrisani. Pri različicah, ki ste jih naredili, bo pisalo »Izbrisan uporabnik«.",
+        "confirm": "Za potrditev vpišite svoj e-poštni naslov",
+        "action": "Izbriši"
+      }
     }
   },
   "groups": {

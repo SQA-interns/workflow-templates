@@ -25,3 +25,13 @@ export function useChangeLanguage() {
     onSuccess: (me) => queryClient.setQueryData(meQueryKey, me),
   });
 }
+
+/**
+ * Deletes the signed-in User's account after the typed e-mail (R-021-01); 409
+ * `account.ownsGroups` for an Owner (R-021-02).
+ */
+export function useDeleteAccount() {
+  return useMutation({
+    mutationFn: (confirmEmail: string) => apiRequest<void>("DELETE", "/me", { confirmEmail }),
+  });
+}

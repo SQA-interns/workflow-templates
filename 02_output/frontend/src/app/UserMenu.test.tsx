@@ -59,6 +59,13 @@ describe("user menu (R-001-04, R-001-06)", () => {
     expect(client.getQueryData(["me"])).toBeUndefined();
   });
 
+  it("US-021 the menu links to WF-19 Account", async () => {
+    renderMenu();
+    await userEvent.click(await screen.findByRole("button", { name: "Ana Kovač" }));
+
+    expect(screen.getByRole("link", { name: "Account" }).getAttribute("href")).toBe("/account");
+  });
+
   it("UI-23 the menu opens and closes with its button and Escape", async () => {
     renderMenu();
     const button = await screen.findByRole("button", { name: "Ana Kovač" });
