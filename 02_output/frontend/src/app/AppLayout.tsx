@@ -82,7 +82,7 @@ export function AppLayout() {
               </>
             )}
           </nav>
-          <div className="min-w-0 md:ml-auto">
+          <div className="min-w-0 md:ml-auto md:shrink-0">
             <UserMenu />
           </div>
         </div>
