@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 /** Memberships; read across Groups for the Group switcher, so exempt from AR-04 (ADR-02). */
@@ -59,4 +60,14 @@ public interface MembershipRepository extends JpaRepository<Membership, Membersh
           """,
       nativeQuery = true)
   List<MemberRow> findMembers(UUID groupId);
+
+  /**
+   * Deletes every Membership of the User, in any Group (R-021-01).
+   *
+   * @param userId the User
+   * @return how many Memberships were deleted
+   */
+  @Modifying
+  @Query("DELETE FROM Membership m WHERE m.id.userId = :userId")
+  int deleteAllOfUser(UUID userId);
 }

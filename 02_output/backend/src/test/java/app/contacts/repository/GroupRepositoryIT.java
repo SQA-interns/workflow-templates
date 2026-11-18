@@ -120,6 +120,33 @@ class GroupRepositoryIT {
         .isZero();
   }
 
+  @Test
+  void r02102NamesTheGroupsTheUserOwnsInAnyStateSortedByNameInSlovenian() {
+    group(ana, "Drevo");
+    UUID inBin = group(ana, "Čebela");
+    group(ana, "Cesta");
+    UUID markos = group(marko, "Podjetje Beta");
+    memberships.saveAndFlush(Membership.of(markos, ana.getId(), Role.EDITOR));
+    moveToRecycleBin(inBin, NOW);
+
+    assertThat(groups.findNamesOwnedBy(ana.getId())).containsExactly("Cesta", "Čebela", "Drevo");
+    assertThat(groups.findNamesOwnedBy(UUID.randomUUID())).isEmpty();
+  }
+
+  @Test
+  void r02101DeletesEveryMembershipOfTheUserAndNoOther() {
+    UUID beta = group(marko, "Podjetje Beta");
+    memberships.saveAndFlush(Membership.of(beta, ana.getId(), Role.EDITOR));
+    UUID gamma = group(marko, "Gama");
+    memberships.saveAndFlush(Membership.of(gamma, ana.getId(), Role.VIEWER));
+
+    int deleted = memberships.deleteAllOfUser(ana.getId());
+
+    assertThat(deleted).isEqualTo(2);
+    assertThat(jdbc.queryForObject("SELECT count(*) FROM membership", Integer.class)).isEqualTo(2);
+    assertThat(memberships.findActiveRole(beta, marko.getId())).contains(Role.OWNER);
+  }
+
   private void moveToRecycleBin(UUID groupId, Instant at) {
     jdbc.update(
         "UPDATE contact_group SET state = 'inRecycleBin', deleted_at = ? WHERE id = ?",
