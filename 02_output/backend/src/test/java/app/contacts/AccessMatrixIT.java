@@ -198,7 +198,7 @@ class AccessMatrixIT extends AcceptanceTest {
     String groupId = team.groupId();
     String janez = contact(team.ana(), groupId, "firstName", "Janez", "lastName", "Novak");
     edited(team.ana(), groupId, janez, field("email", JANEZ_EMAIL));
-    String jNovak =
+    final String initialNovak =
         contact(team.ana(), groupId, "firstName", "J.", "lastName", "Novak", "email", JANEZ_EMAIL);
     String alfa = contact(team.ana(), groupId, "company", "Podjetje Alfa");
     String beta = contact(team.ana(), groupId, "company", "Podjetje Beta");
@@ -226,9 +226,9 @@ class AccessMatrixIT extends AcceptanceTest {
             team.path() + "/duplicates",
             contactPath(groupId, janez),
             contactPath(groupId, janez) + "/versions",
-            contactPath(groupId, jNovak),
+            contactPath(groupId, initialNovak),
             contactPath(groupId, alfa));
-    return new Fixture(team, janez, jNovak, maja, mergeId, alfa, invitationId, watched);
+    return new Fixture(team, janez, initialNovak, maja, mergeId, alfa, invitationId, watched);
   }
 
   // ----------------------------------------------------------- Assertions

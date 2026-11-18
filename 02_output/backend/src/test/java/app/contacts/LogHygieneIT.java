@@ -66,7 +66,7 @@ class LogHygieneIT extends AcceptanceTest {
             "company", "Podjetje d.o.o.",
             "street", "Slovenska cesta 1");
     String janez = contact(team.marko(), group, janezBody);
-    String other =
+    final String other =
         contact(
             team.marko(),
             group,
