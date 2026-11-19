@@ -984,3 +984,14 @@
 - Resolution: 1 — pending review. Both components meet the gate with option 1 (`docs/03_test-strategy.md`, phase 5): backend line `all` 99.53 %, mutation 95.29 % (PIT, 708/743, first and only full run); frontend line 99.95 % (unit = all), mutation 95.13 % (Stryker, 3,044/3,200, after one survivor round; first run 74.13 %). No equivalent mutant is claimed (adjusted = raw). Scope, exclusions and thresholds unchanged; JaCoCo and PIT exclude only `ContactsApplication`, as the phase 3 exclusions say. Harness changes: Vitest `testTimeout` 15 s and Testing Library `asyncUtilTimeout` 4 s (08b3a05); `LogHygieneIT` also reads logging events and asserts a canary (2ebc541, 7d9582b). Stryker ran with 6 runners in round 1 (4 in the first run); timeouts count as killed (9 of 3,044).
 - Overrides: none
 - Commit: 08b3a05, 2ebc541, 7d9582b, d061901
+
+## D-90: Firefox and WebKit are not installed, so NFR-06 cannot be checked
+- Timestamp: 2026-11-19T08:50+01:00
+- Session: S7 /verify (run 1)
+- Class: block
+- Type: blocking
+- Trigger: `npx playwright test` (`out/logs/s7-browser-all.txt`): every Firefox and WebKit test (200) fails with "Executable doesn't exist" under `~/.cache/ms-playwright/`; Chromium passes 152/152. NFR-06 (spec §8) passes only when the e2e suite passes in chromium, firefox and webkit. D-38 (d) left Firefox and WebKit to "where installed"; the agent does not install software on the host (AGENTS.md). Finding F-39.
+- Options: 1. You install the two browsers of the pinned Playwright 1.56.1 yourself (`cd 02_output/frontend && npx playwright install firefox webkit`; it downloads into `~/.cache/ms-playwright`, no system packages) and the next `/verify` runs all three browsers (default). 2. Accept Chromium-only evidence for this run as a known limitation; NFR-06 for Firefox, Edge and Safari is listed in the release notes for a manual check on staging. 3. Other (state it).
+- Human response: none
+- Resolution: pending
+- Overrides: none
