@@ -5,18 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S7 /verify (run 1, stopped at step 3)
-- Result: blocked
-- Gate: phase 6 not passed (hidden suite not evaluated)
+- Session: S7 /verify (run 1)
+- Result: done
+- Gate: phase 6 not passed (F-35, F-36 High; F-37 … F-39 Medium; F-40 … F-46 Low; D-90)
 - Notes for the next session:
-  - Step 2 done at e5a42c5: input (166), acceptance (63) and hidden (10) manifests all match; recompute again in run 1 since HEAD will move.
-  - `docs/06_hidden-evaluation.md` does not exist, so no hidden evaluation at HEAD; the human must run `node system/run.mjs --hidden-eval`, then start `/verify` again.
-  - No `## Run 1` section written yet; nothing else of the procedure was run.
-  - Still open from S6: browser suites not re-run since 820480b; gitleaks not on the PATH; "Contacts" nav item never tinted on the list; D-83 (h) focus after "Add an Attribute".
+  - Report: `docs/06_verification-report.md` "Run 1"; raw output `out/logs/s7-*`. Hidden suite 123/123 at c56a1af; manifests match.
+  - Fix order: F-35, F-36 (images; rebuild without cache, guava ≥ 33.7.2; a new base-image tag is a tech-stack change, so a blocking decision), F-37 (removal job < 60 s + the spec §8 NFR-05 integration test), F-38 (nginx `access_log` without paths/query), then F-40 … F-45. F-46 cannot be fixed (no history rewrite): needs an acceptance decision.
+  - Local stack runs with `APP_HOST_PORT=8090` (8080 is taken on the host); `export APP_HOST_PORT=8090` before any `docker compose` call or the backend is recreated with the wrong `APP_PUBLIC_URL`.
+  - The stack now holds the capacity seed; browser tests reset it themselves.
+  - F-39 / D-90: Firefox and WebKit can only run after the human installs them; until then re-verify NFR-06 in Chromium only.
+  - DoD-R-09, DoD-R-10, DoD-P04 (README part) belong to /release; DoD-P02, P03 (staging), P05 need a staging host (Q-39 OPEN).
 
 ## Next
-- Command: /verify
-- Waiting for: hidden evaluation at HEAD (`node system/run.mjs --hidden-eval`)
+- Command: /fix
+- Waiting for: D-90 (for the next /verify; /fix can start)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
