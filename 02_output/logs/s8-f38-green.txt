@@ -1,0 +1,2 @@
+access log lines since 2026-11-19T11:28:34Z: 6
+PASS: no e-mail, search text or Invitation token in the access log

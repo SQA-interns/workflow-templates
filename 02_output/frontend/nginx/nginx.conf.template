@@ -14,7 +14,14 @@ http {
   sendfile on;
   gzip on;
   gzip_types text/css application/javascript application/json;
-  access_log /dev/stdout;
+  # SB-07, SR-08, SR-05 (F-38): the access log carries ids only. No query string (e-mails, search
+  # text), no referrer or user agent, no client address; the Invitation token in a path is replaced.
+  map $uri $log_path {
+    "~^(?<invitation>/(api/v1/)?invitations/)[^/]+(?<rest>.*)$" "${invitation}<token>${rest}";
+    default $uri;
+  }
+  log_format ids_only '[$time_iso8601] "$request_method $log_path" $status $body_bytes_sent $request_time';
+  access_log /dev/stdout ids_only;
   error_log /dev/stderr warn;
 
   server {

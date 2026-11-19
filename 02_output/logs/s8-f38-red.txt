@@ -1,0 +1,5 @@
+access log lines since 2026-11-19T11:28:15Z: 6
+FAIL: the access log contains <marker>@example.si
+FAIL: the access log contains <marker>name
+FAIL: the access log contains <marker>Tok3nAbCdEfGhIjKlMnOpQr
+FAIL: the access log contains <marker>
