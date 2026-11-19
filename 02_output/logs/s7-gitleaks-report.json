@@ -1,0 +1,23 @@
+[
+ {
+  "RuleID": "generic-api-key",
+  "Description": "Detected a Generic API Key, potentially exposing access to various services and sensitive operations.",
+  "StartLine": 362,
+  "EndLine": 362,
+  "StartColumn": 220,
+  "EndColumn": 264,
+  "Match": "token: \"REDACTED\"",
+  "Secret": "REDACTED",
+  "File": "02_output/docs/decisions-log.md",
+  "SymlinkFile": "",
+  "Commit": "6e6bfbf59704a02cdaef8c6908bd6a94554fca6e",
+  "Link": "https://github.com/SQA-interns/workflow-templates/blob/6e6bfbf59704a02cdaef8c6908bd6a94554fca6e/02_output/docs/decisions-log.md?plain=1#L362",
+  "Entropy": 3.8355055,
+  "Author": "TjanKazar",
+  "Email": "tjan.kazar3@gmail.com",
+  "Date": "2026-11-16T09:34:45Z",
+  "Message": "docs: record gitleaks false positive approval (D-33)\n\nCo-Authored-By: Claude Opus 5.5 \u003cnoreply@anthropic.com\u003e",
+  "Tags": [],
+  "Fingerprint": "6e6bfbf59704a02cdaef8c6908bd6a94554fca6e:02_output/docs/decisions-log.md:generic-api-key:362"
+ }
+]

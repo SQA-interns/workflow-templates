@@ -1,0 +1,7 @@
+clean clone of HEAD c56a1af into scratchpad
+c56a1af docs: hand over /verify (blocked: hidden evaluation not run at HEAD)
+backend build (README: ./mvnw -B -DskipTests package) EXIT 0
+target/contacts-backend.jar
+frontend npm ci EXIT 0
+frontend build (README: npm ci && npm run build) EXIT 0
+frontend check EXIT 1

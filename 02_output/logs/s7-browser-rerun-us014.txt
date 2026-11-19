@@ -1,0 +1,24 @@
+
+Running 5 tests using 1 worker
+
+[1A[2K[1/5] [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+
+
+[1A[2K[2/5] [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+
+
+[1A[2K[3/5] [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+
+
+[1A[2K[4/5] [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+
+
+[1A[2K[5/5] [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+
+
+[1A[2K  5 passed (7.2s)

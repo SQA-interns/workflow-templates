@@ -1,0 +1,2 @@
+ERROR:  duplicate key value violates unique constraint "app_user_email_uq"
+DETAIL:  Key (lower(email::text))=(ana.kovac@example.si) already exists.

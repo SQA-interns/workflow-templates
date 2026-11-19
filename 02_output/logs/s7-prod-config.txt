@@ -1,0 +1,9 @@
+production-profile backend (no SPRING_PROFILES_ACTIVE, no emulator host), started in ~12 s
+health: {"groups":["liveness","readiness"],"status":"UP"}
+user: app
+emulator-signed ID token (valid on the local stack) -> 401
+no token -> 401
+openapi without token -> 401
+swagger-ui -> 401
+actuator env -> 401
+2026-11-19T07:45:34.408Z  WARN 1 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the pro

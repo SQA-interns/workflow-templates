@@ -1,0 +1,8 @@
+restart policy: unless-stopped
+health before: {"groups":["liveness","readiness"],"status":"UP"}
+ Container kontakti-backend-1 Restarting 
+ Container kontakti-backend-1 Started 
+restarted at 07:23:54Z
+health after: {"groups":["liveness","readiness"],"status":"UP"}
+recovery: 12 s (limit 60 s)
+PASS: NFR-04

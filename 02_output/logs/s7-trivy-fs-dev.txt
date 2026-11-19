@@ -1,0 +1,88 @@
+2026-11-19T07:29:34Z	INFO	[vuln] Vulnerability scanning is enabled
+2026-11-19T07:29:34Z	WARN	[pom] Dependency version cannot be determined. Child dependencies will not be found.	details="https://trivy.dev/v0.67/docs/coverage/language/java#empty-dependency-version"
+2026-11-19T07:29:39Z	INFO	Number of language-specific files	num=2
+2026-11-19T07:29:39Z	INFO	[npm] Detecting vulnerabilities...
+2026-11-19T07:29:39Z	INFO	[pom] Detecting vulnerabilities...
+
+Report Summary
+
+┌────────────────────────────┬──────┬─────────────────┐
+│           Target           │ Type │ Vulnerabilities │
+├────────────────────────────┼──────┼─────────────────┤
+│ backend/pom.xml            │ pom  │        0        │
+├────────────────────────────┼──────┼─────────────────┤
+│ frontend/package-lock.json │ npm  │       14        │
+└────────────────────────────┴──────┴─────────────────┘
+Legend:
+- '-': Not scanned
+- '0': Clean (no security findings detected)
+
+
+frontend/package-lock.json (npm)
+================================
+Total: 14 (UNKNOWN: 0, LOW: 1, MEDIUM: 8, HIGH: 3, CRITICAL: 2)
+
+┌────────────────┬─────────────────┬──────────┬────────┬───────────────────┬─────────────────────────────────────────────────────────┬──────────────────────────────────────────────────────────────┐
+│    Library     │  Vulnerability  │ Severity │ Status │ Installed Version │                      Fixed Version                      │                            Title                             │
+├────────────────┼─────────────────┼──────────┼────────┼───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ @babel/core    │ CVE-2026-49356  │ LOW      │ fixed  │ 7.28.6            │ 8.0.0-rc.6, 7.29.6                                      │ @babel/core: @babel/core: Arbitrary file read via            │
+│                │                 │          │        │                   │                                                         │ sourceMappingURL comment                                     │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-49356                   │
+├────────────────┼─────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ @vitest/mocker │ CVE-2026-112949 │ MEDIUM   │        │ 3.2.7             │ 4.1.12, 5.0.3                                           │ vitest: Vitest: Cross-site scripting via unescaped mock      │
+│                │                 │          │        │                   │                                                         │ module URL                                                   │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-112949                  │
+│                ├─────────────────┤          │        │                   ├─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2026-84373  │          │        │                   │ 4.1.11, 5.0.0-rc.2                                      │ vitest: Vitest: Arbitrary File Read via Path Traversal in    │
+│                │                 │          │        │                   │                                                         │ HMR WebSocket                                                │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-84373                   │
+├────────────────┼─────────────────┤          │        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ ajv            │ CVE-2025-69873  │          │        │ 8.17.1            │ 8.18.0, 6.14.0                                          │ ajv: ReDoS via $data reference                               │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2025-69873                   │
+├────────────────┼─────────────────┤          │        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ glob           │ CVE-2026-118773 │          │        │ 10.5.0            │ 14.0.2                                                  │ glob: glob: Denial of Service (DoS) via incomplete traversal │
+│                │                 │          │        │                   │                                                         │ cancellation                                                 │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-118773                  │
+├────────────────┼─────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ minimatch      │ CVE-2026-26996  │ HIGH     │        │ 10.0.3            │ 10.2.1, 9.0.6, 8.0.5, 7.4.7, 6.2.1, 5.1.7, 4.2.4, 3.1.3 │ minimatch: minimatch: Denial of Service via specially        │
+│                │                 │          │        │                   │                                                         │ crafted glob patterns                                        │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-26996                   │
+│                ├─────────────────┤          │        │                   ├─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2026-27903  │          │        │                   │ 10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.3 │ minimatch: minimatch: Denial of Service due to unbounded     │
+│                │                 │          │        │                   │                                                         │ recursive backtracking via crafted...                        │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-27903                   │
+│                ├─────────────────┤          │        │                   ├─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2026-27904  │          │        │                   │ 10.2.3, 9.0.7, 8.0.6, 7.4.8, 6.2.2, 5.1.8, 4.2.5, 3.1.4 │ minimatch: Minimatch: Denial of Service via catastrophic     │
+│                │                 │          │        │                   │                                                         │ backtracking in glob expressions                             │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-27904                   │
+│                ├─────────────────┼──────────┤        │                   ├─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2026-118764 │ MEDIUM   │        │                   │ 11.0.1                                                  │ minimatch: minimatch: Denial of Service via crafted glob     │
+│                │                 │          │        │                   │                                                         │ pattern expansion                                            │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-118764                  │
+│                │                 │          │        ├───────────────────┤                                                         │                                                              │
+│                │                 │          │        │ 10.2.6            │                                                         │                                                              │
+│                │                 │          │        │                   │                                                         │                                                              │
+│                │                 │          │        │                   │                                                         │                                                              │
+│                │                 │          │        ├───────────────────┤                                                         │                                                              │
+│                │                 │          │        │ 9.0.9             │                                                         │                                                              │
+│                │                 │          │        │                   │                                                         │                                                              │
+│                │                 │          │        │                   │                                                         │                                                              │
+├────────────────┼─────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ tinypool       │ CVE-2026-104848 │ CRITICAL │        │ 1.1.1             │ 2.1.1                                                   │ tinypool: tinypool: arbitrary code execution via prototype   │
+│                │                 │          │        │                   │                                                         │ pollution in worker options                                  │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-104848                  │
+│                ├─────────────────┤          │        │                   ├─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│                │ CVE-2026-104849 │          │        │                   │ 2.1.2                                                   │ tinypool: Tinypool: Prototype Pollution Gadget to RCE in     │
+│                │                 │          │        │                   │                                                         │ run() options                                                │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-104849                  │
+├────────────────┼─────────────────┼──────────┤        ├───────────────────┼─────────────────────────────────────────────────────────┼──────────────────────────────────────────────────────────────┤
+│ vitest         │ CVE-2026-84373  │ MEDIUM   │        │ 3.2.7             │ 4.1.11, 5.0.0-rc.2                                      │ vitest: Vitest: Arbitrary File Read via Path Traversal in    │
+│                │                 │          │        │                   │                                                         │ HMR WebSocket                                                │
+│                │                 │          │        │                   │                                                         │ https://avd.aquasec.com/nvd/cve-2026-84373                   │
+└────────────────┴─────────────────┴──────────┴────────┴───────────────────┴─────────────────────────────────────────────────────────┴──────────────────────────────────────────────────────────────┘
+
+📣 [34mNotices:[0m
+  - Version 0.76.2 of Trivy is now available, current version is 0.67.2
+
+To suppress version checks, run Trivy scans with the --skip-version-check flag
+

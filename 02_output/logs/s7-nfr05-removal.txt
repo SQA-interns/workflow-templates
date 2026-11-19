@@ -1,0 +1,7 @@
+NFR-05 runtime measurement 2026-11-19T07:24:35Z on the local stack (capacity seed)
+moved to recycle bin 31 days ago: 10003
+rows before: contact 10003, contact_version 10003
+backend started at 07:24:37
+FAIL: 10003 left after 180.117641418 s
+contact rows of the Group: 10003
+backend-1  | 2026-11-19T07:24:48.326Z  INFO 1 --- [contacts-backend] [           main] app.contacts.ContactsApplication         : Started ContactsApplication in 9.747 seconds (process running for 10.6
