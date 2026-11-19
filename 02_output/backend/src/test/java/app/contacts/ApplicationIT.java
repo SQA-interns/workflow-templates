@@ -64,6 +64,34 @@ class ApplicationIT {
     assertThat(health.headers().allValues("Set-Cookie")).isEmpty();
   }
 
+  @Test
+  void sr09PreflightFromTheFrontendOriginIsAllowed() throws Exception {
+    HttpResponse<String> response = preflight("http://localhost:8080");
+    assertThat(response.statusCode()).isEqualTo(200);
+    assertThat(response.headers().firstValue("Access-Control-Allow-Origin"))
+        .contains("http://localhost:8080");
+    assertThat(response.headers().firstValue("Access-Control-Allow-Headers").orElse(""))
+        .containsIgnoringCase("authorization");
+  }
+
+  @Test
+  void sr09PreflightFromAnotherOriginIsRefused() throws Exception {
+    HttpResponse<String> response = preflight("https://andere.example.si");
+    assertThat(response.statusCode()).isEqualTo(403);
+    assertThat(response.headers().firstValue("Access-Control-Allow-Origin")).isEmpty();
+  }
+
+  private HttpResponse<String> preflight(String origin) throws Exception {
+    HttpRequest request =
+        HttpRequest.newBuilder(URI.create("http://localhost:" + port + "/api/v1/groups"))
+            .method("OPTIONS", HttpRequest.BodyPublishers.noBody())
+            .header("Origin", origin)
+            .header("Access-Control-Request-Method", "PUT")
+            .header("Access-Control-Request-Headers", "authorization, content-type")
+            .build();
+    return http.send(request, HttpResponse.BodyHandlers.ofString());
+  }
+
   private HttpResponse<String> get(String path) throws Exception {
     HttpRequest request =
         HttpRequest.newBuilder(URI.create("http://localhost:" + port + path)).GET().build();

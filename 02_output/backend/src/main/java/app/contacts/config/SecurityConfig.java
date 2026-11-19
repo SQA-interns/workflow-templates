@@ -5,6 +5,7 @@ import app.contacts.auth.ProblemEntryPoint;
 import app.contacts.auth.RateLimitFilter;
 import app.contacts.auth.TokenVerifier;
 import app.contacts.service.UserService;
+import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -12,10 +13,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * Stateless API security: only the health check is public (SR-01); every other request needs a
- * valid Firebase ID token (ADR-03, R-001-02, R-001-03).
+ * valid Firebase ID token (ADR-03, R-001-02, R-001-03); browsers may call it only from the
+ * frontend's origin (SR-09).
  */
 @Configuration
 public class SecurityConfig {
@@ -35,6 +40,7 @@ public class SecurityConfig {
       HttpSecurity http, TokenVerifier verifier, UserService users, AppProperties properties)
       throws Exception {
     http.csrf(csrf -> csrf.disable())
+        .cors(cors -> cors.configurationSource(corsSource(properties.publicUrl())))
         .httpBasic(basic -> basic.disable())
         .formLogin(form -> form.disable())
         .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -50,6 +56,24 @@ public class SecurityConfig {
                     .anyRequest()
                     .authenticated());
     return http.build();
+  }
+
+  /**
+   * CORS: only the frontend's origin may call the API from a browser (SR-09); its preflight is
+   * answered without a token, any other origin is refused.
+   *
+   * @param publicUrl the product URL ({@code APP_PUBLIC_URL})
+   * @return the CORS settings for every path
+   */
+  static CorsConfigurationSource corsSource(String publicUrl) {
+    CorsConfiguration cors = new CorsConfiguration();
+    cors.setAllowedOrigins(List.of(publicUrl.replaceAll("/+$", "")));
+    cors.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE"));
+    cors.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+    cors.setExposedHeaders(List.of("Content-Disposition", "Retry-After"));
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", cors);
+    return source;
   }
 
   /**

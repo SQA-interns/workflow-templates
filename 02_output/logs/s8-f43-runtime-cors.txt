@@ -1,0 +1,2 @@
+preflight from http://localhost:8090: 200, Access-Control-Allow-Origin: http://localhost:8090
+preflight from https://andere.example.si: 403, 
