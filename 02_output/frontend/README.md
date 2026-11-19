@@ -13,23 +13,23 @@ React single-page application in Slovenian and English, served by nginx, talking
 
 Runtime settings come from `/config.json` (contract `docs/02_contracts/runtime-config.schema.json`, ADR-05). Locally `public/config.json` points at the Auth emulator; the container writes it at start from:
 
-| Variable | Purpose | Source |
-|---|---|---|
-| `FIREBASE_WEB_API_KEY` | Firebase web API key (not secret) | environment; local `fake-api-key` |
-| `FIREBASE_AUTH_DOMAIN` | Firebase auth domain | environment; local `localhost` |
-| `FIREBASE_PROJECT_ID` | Firebase project | environment; local `demo-contacts` |
-| `AUTH_EMULATOR_URL` | Auth emulator for the browser; empty on staging and production | local `http://localhost:9199` |
+| Variable               | Purpose                                                        | Source                             |
+| ---------------------- | -------------------------------------------------------------- | ---------------------------------- |
+| `FIREBASE_WEB_API_KEY` | Firebase web API key (not secret)                              | environment; local `fake-api-key`  |
+| `FIREBASE_AUTH_DOMAIN` | Firebase auth domain                                           | environment; local `localhost`     |
+| `FIREBASE_PROJECT_ID`  | Firebase project                                               | environment; local `demo-contacts` |
+| `AUTH_EMULATOR_URL`    | Auth emulator for the browser; empty on staging and production | local `http://localhost:9199`      |
 
 ## Commands (ES-05)
 
-| Task | Command |
-|---|---|
-| build | `npm ci && npm run build` (type check, then `dist/`) |
-| test | `npm test` (Vitest with coverage in `coverage/`) |
-| check | `npm run check` (Prettier, ESLint with zero warnings, TypeScript) |
-| run | `npm run dev` (Vite on port 5173, `/api` proxied to `localhost:8081`) |
-| browser tests | `npm run e2e` (against `http://localhost:8080` or `E2E_BASE_URL`) |
-| mutation | `npm run mutation` (Stryker, report in `reports/mutation/`) |
+| Task          | Command                                                               |
+| ------------- | --------------------------------------------------------------------- |
+| build         | `npm ci && npm run build` (type check, then `dist/`)                  |
+| test          | `npm test` (Vitest with coverage in `coverage/`)                      |
+| check         | `npm run check` (Prettier, ESLint with zero warnings, TypeScript)     |
+| run           | `npm run dev` (Vite on port 5173, `/api` proxied to `localhost:8081`) |
+| browser tests | `npm run e2e` (against `http://localhost:8080` or `E2E_BASE_URL`)     |
+| mutation      | `npm run mutation` (Stryker, report in `reports/mutation/`)           |
 
 ## Structure
 
