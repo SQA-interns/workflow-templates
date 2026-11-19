@@ -10,6 +10,8 @@ import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,7 +61,8 @@ public class PermanentDeleteService {
     if (!Contact.IN_RECYCLE_BIN.equals(contact.getState())) {
       throw new ConflictException("contact.notInRecycleBin", Map.of());
     }
-    for (Contact merged : mergedInto(groupId, contactId)) {
+    for (Contact merged :
+        mergedInto(contactId, id -> contacts.findByGroupIdAndMergedInto(groupId, id))) {
       permanentlyDeleteOne(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, merged.getId());
     }
     permanentlyDeleteOne(groupId, userId, AuditEntry.CONTACT_PERMANENTLY_DELETED, contactId);
@@ -75,9 +78,16 @@ public class PermanentDeleteService {
    */
   @Transactional
   public int permanentlyDeleteDue(UUID groupId, Instant cutoff) {
-    for (Contact contact : contacts.findDueForRemoval(groupId, cutoff)) {
+    List<Contact> due = contacts.findDueForRemoval(groupId, cutoff);
+    // One read of the merged Contacts instead of one query per Contact (NFR-05): each query would
+    // flush and dirty-check every Contact read above.
+    Map<UUID, List<Contact>> mergedByPrimary =
+        contacts.findByGroupIdAndState(groupId, Contact.MERGED).stream()
+            .collect(Collectors.groupingBy(Contact::getMergedInto));
+    for (Contact contact : due) {
       UUID movedBy = contact.getUpdatedBy();
-      for (Contact merged : mergedInto(groupId, contact.getId())) {
+      for (Contact merged :
+          mergedInto(contact.getId(), id -> mergedByPrimary.getOrDefault(id, List.of()))) {
         permanentlyDeleteOne(groupId, movedBy, AuditEntry.CONTACT_REMOVED, merged.getId());
       }
       audit.record(groupId, movedBy, AuditEntry.CONTACT_REMOVED, contact.getId());
@@ -94,12 +104,16 @@ public class PermanentDeleteService {
   /**
    * The Contacts merged into the Contact, directly or into one merged into it, deepest first so
    * that none is deleted before a Contact merged into it (D-21).
+   *
+   * @param contactId the Primary contact
+   * @param mergedIntoOne the Contacts merged directly into a Contact
    */
-  private List<Contact> mergedInto(UUID groupId, UUID contactId) {
+  private static List<Contact> mergedInto(
+      UUID contactId, Function<UUID, List<Contact>> mergedIntoOne) {
     List<Contact> found = new ArrayList<>();
     Deque<UUID> open = new ArrayDeque<>(List.of(contactId));
     while (!open.isEmpty()) {
-      for (Contact merged : contacts.findByGroupIdAndMergedInto(groupId, open.pop())) {
+      for (Contact merged : mergedIntoOne.apply(open.pop())) {
         found.add(merged);
         open.push(merged.getId());
       }

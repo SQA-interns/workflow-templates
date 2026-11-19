@@ -146,11 +146,36 @@ class PermanentDeleteServiceTest {
   }
 
   @Test
+  void r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst() {
+    Contact janez = janez(true);
+    Contact maja = janez(true);
+    Contact other = mergedInto(janez, "J.");
+    Contact older = mergedInto(other, "Jani");
+    Instant cutoff = MOVED_AT;
+    when(contacts.findDueForRemoval(GROUP_ID, cutoff)).thenReturn(List.of(janez, maja));
+    when(contacts.findByGroupIdAndState(GROUP_ID, Contact.MERGED))
+        .thenReturn(List.of(other, older));
+
+    service.permanentlyDeleteDue(GROUP_ID, cutoff);
+
+    verify(contacts).findByGroupIdAndState(GROUP_ID, Contact.MERGED);
+    verify(contacts, never()).findByGroupIdAndMergedInto(any(), any());
+    InOrder deletes = inOrder(contacts);
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, older.getId());
+    deletes.verify(contacts).permanentlyDelete(GROUP_ID, other.getId());
+    deletes.verify(contacts).permanentlyDeleteDue(GROUP_ID, cutoff);
+    for (Contact removed : List.of(older, other, janez, maja)) {
+      verify(audit).record(GROUP_ID, MARKO, AuditEntry.CONTACT_REMOVED, removed.getId());
+    }
+  }
+
+  @Test
   void d21RemovingDuePrimaryContactAlsoRemovesTheContactsMergedIntoIt() {
     Contact janez = janez(true);
     Contact other = mergedInto(janez, "J.");
     Instant cutoff = MOVED_AT;
     when(contacts.findDueForRemoval(GROUP_ID, cutoff)).thenReturn(List.of(janez));
+    when(contacts.findByGroupIdAndState(GROUP_ID, Contact.MERGED)).thenReturn(List.of(other));
 
     service.permanentlyDeleteDue(GROUP_ID, cutoff);
 

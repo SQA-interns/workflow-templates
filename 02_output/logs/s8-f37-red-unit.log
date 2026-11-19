@@ -1,0 +1,138 @@
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+WARNING: A Java agent has been loaded dynamically (/home/tjan-kazar/.m2/repository/net/bytebuddy/byte-buddy-agent/1.18.15/byte-buddy-agent-1.18.15.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+[ERROR] Tests run: 8, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 1.348 s <<< FAILURE! -- in app.contacts.service.PermanentDeleteServiceTest
+[ERROR] app.contacts.service.PermanentDeleteServiceTest.r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst -- Time elapsed: 0.025 s <<< FAILURE!
+Wanted but not invoked:
+contactRepository.findByGroupIdAndState(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    "merged"
+);
+-> at app.contacts.service.PermanentDeleteServiceTest.r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst(PermanentDeleteServiceTest.java:161)
+
+However, there were exactly 8 interactions with this mock:
+contactRepository.findDueForRemoval(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    2026-03-05T10:00:00Z
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteDue(PermanentDeleteService.java:78)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c0f9e18f-8d8c-4268-abad-61d29e5adb8d
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    f864e0cb-5afe-4b18-af1f-e59f010d307b
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c2c36e8a-94ca-4997-a2a5-48b5347cafe1
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.permanentlyDelete(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c2c36e8a-94ca-4997-a2a5-48b5347cafe1
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteOne(PermanentDeleteService.java:90)
+
+contactRepository.permanentlyDelete(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    f864e0cb-5afe-4b18-af1f-e59f010d307b
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteOne(PermanentDeleteService.java:90)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    30fe8d85-266f-4e4d-b1d6-da00e25dac3a
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.permanentlyDeleteDue(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    2026-03-05T10:00:00Z
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteDue(PermanentDeleteService.java:85)
+
+
+	at app.contacts.service.PermanentDeleteServiceTest.r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst(PermanentDeleteServiceTest.java:161)
+
+[ERROR] Failures: 
+[ERROR]   PermanentDeleteServiceTest.r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst:161 
+Wanted but not invoked:
+contactRepository.findByGroupIdAndState(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    "merged"
+);
+-> at app.contacts.service.PermanentDeleteServiceTest.r01205DueRemovalReadsTheMergedContactsOnceAndDeletesThemDeepestFirst(PermanentDeleteServiceTest.java:161)
+
+However, there were exactly 8 interactions with this mock:
+contactRepository.findDueForRemoval(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    2026-03-05T10:00:00Z
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteDue(PermanentDeleteService.java:78)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c0f9e18f-8d8c-4268-abad-61d29e5adb8d
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    f864e0cb-5afe-4b18-af1f-e59f010d307b
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c2c36e8a-94ca-4997-a2a5-48b5347cafe1
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.permanentlyDelete(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    c2c36e8a-94ca-4997-a2a5-48b5347cafe1
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteOne(PermanentDeleteService.java:90)
+
+contactRepository.permanentlyDelete(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    f864e0cb-5afe-4b18-af1f-e59f010d307b
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteOne(PermanentDeleteService.java:90)
+
+contactRepository.findByGroupIdAndMergedInto(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    30fe8d85-266f-4e4d-b1d6-da00e25dac3a
+);
+-> at app.contacts.service.PermanentDeleteService.mergedInto(PermanentDeleteService.java:102)
+
+contactRepository.permanentlyDeleteDue(
+    c8908f52-b4c7-411c-a3e4-94d2028b813d,
+    2026-03-05T10:00:00Z
+);
+-> at app.contacts.service.PermanentDeleteService.permanentlyDeleteDue(PermanentDeleteService.java:85)
+
+
+[ERROR] Tests run: 8, Failures: 1, Errors: 0, Skipped: 0
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-surefire-plugin:3.5.4:test (default-test) on project contacts-backend: There are test failures.
+[ERROR] 
+[ERROR] See /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/backend/target/surefire-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException

@@ -64,6 +64,16 @@ public interface ContactRepository extends Repository<Contact, UUID>, GroupOwned
   List<Contact> findByGroupIdAndMergedInto(UUID groupId, UUID mergedInto);
 
   /**
+   * The Group's Contacts in a state, e.g. every Contact merged into another (D-21), read once by
+   * the removal job instead of once per Contact (NFR-05).
+   *
+   * @param groupId the Group
+   * @param state the state, a constant of {@link Contact}
+   * @return the Contacts
+   */
+  List<Contact> findByGroupIdAndState(UUID groupId, String state);
+
+  /**
    * A Contact of the Group in any state, locked until the transaction ends so that two saves of it
    * run one after the other (specification §4, BR-06).
    *

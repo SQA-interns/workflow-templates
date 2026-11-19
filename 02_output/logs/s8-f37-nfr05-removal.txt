@@ -1,0 +1,5 @@
+NFR-05 runtime measurement 2026-11-19T11:33:48Z on the local stack (capacity seed), after F-37
+due: 10003
+backend started at 11:33:50
+rows left: 0 after 22.588977391 s (includes backend start-up)
+job (first to last Audit entry): 00:00:00.652743
