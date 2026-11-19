@@ -1,3 +1,5 @@
 # gitleaks findings accepted as false positives, one fingerprint per line, each with its decision.
 # D-33: documentation example App Check debug token in a frozen input skill file.
 d95d8fbd9094e3549415025a63deebee53792207:.claude/skills/firebase-ai-logic-basics/SKILL.md:generic-api-key:232
+# F-41 (D-33): the record D-33 quotes the same documentation example token (same value, checked by hash).
+6e6bfbf59704a02cdaef8c6908bd6a94554fca6e:02_output/docs/decisions-log.md:generic-api-key:362
