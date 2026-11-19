@@ -995,3 +995,14 @@
 - Human response: none
 - Resolution: pending
 - Overrides: none
+
+## D-91: Human answer to D-90
+- Timestamp: 2026-11-19T09:05+01:00
+- Session: S7 /verify (D-90 answer)
+- Class: allow
+- Type: non-blocking
+- Trigger: `/verify D-90: 1`.
+- Options: none (records the answer).
+- Human response: D-90 option 1; 2026-11-19.
+- Resolution: D-90 → the human installs Firefox and WebKit of Playwright 1.56.1 (`npx playwright install firefox webkit` in `02_output/frontend`); the next `/verify` runs the browser suites in all three browsers (NFR-06, F-39). At the time of this record the browsers are not yet in `~/.cache/ms-playwright` (only Chromium).
+- Overrides: none

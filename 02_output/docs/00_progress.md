@@ -13,12 +13,12 @@ The handover between sessions. Every session reads it first and updates it last.
   - Fix order: F-35, F-36 (images; rebuild without cache, guava ≥ 33.7.2; a new base-image tag is a tech-stack change, so a blocking decision), F-37 (removal job < 60 s + the spec §8 NFR-05 integration test), F-38 (nginx `access_log` without paths/query), then F-40 … F-45. F-46 cannot be fixed (no history rewrite): needs an acceptance decision.
   - Local stack runs with `APP_HOST_PORT=8090` (8080 is taken on the host); `export APP_HOST_PORT=8090` before any `docker compose` call or the backend is recreated with the wrong `APP_PUBLIC_URL`.
   - The stack now holds the capacity seed; browser tests reset it themselves.
-  - F-39 / D-90: Firefox and WebKit can only run after the human installs them; until then re-verify NFR-06 in Chromium only.
+  - F-39 / D-90 answered (D-91, option 1): the human installs Firefox and WebKit (`npx playwright install firefox webkit` in `02_output/frontend`); not installed yet. The next /verify runs all three browsers.
   - DoD-R-09, DoD-R-10, DoD-P04 (README part) belong to /release; DoD-P02, P03 (staging), P05 need a staging host (Q-39 OPEN).
 
 ## Next
 - Command: /fix
-- Waiting for: D-90 (for the next /verify; /fix can start)
+- Waiting for: browser install of D-91 (for the next /verify; /fix can start)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
