@@ -121,6 +121,18 @@ describe("WF-08 Attributes of a Contact (US-008)", () => {
     );
   });
 
+  it("R-008-01 after Add an Attribute the Key of the new row has the focus (UI-19)", async () => {
+    answer(() => janez([{ key: "kompetenca", value: "mobilnoProgramiranje" }]));
+    renderAt(`${DETAILS}/edit`);
+    await screen.findByDisplayValue("kompetenca");
+
+    await userEvent.click(screen.getByRole("button", { name: "Add an Attribute" }));
+
+    const keys = screen.getAllByLabelText("Key");
+    expect(keys).toHaveLength(2);
+    await waitFor(() => expect(document.activeElement).toBe(keys[1]));
+  });
+
   it("AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent", async () => {
     answer(() => janez([{ key: "kompetenca", value: "mobilnoProgramiranje" }]));
     renderAt(`${DETAILS}/edit`);

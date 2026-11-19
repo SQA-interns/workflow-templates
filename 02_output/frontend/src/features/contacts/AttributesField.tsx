@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -37,6 +38,15 @@ export function AttributesField({ idPrefix, rows, onChange, errorOf }: Attribute
   const { t } = useTranslation();
   const listError = errorOf("attributes");
   const listErrorId = attributeControlId(idPrefix, "attributes-error");
+  // The row added by "Add an Attribute"; its Key gets the focus once it is shown, so that the
+  // keyboard continues there and not after the button (UI-19, F-45).
+  const added = useRef<number | null>(null);
+  useEffect(() => {
+    const index = rows.findIndex((row) => row.id === added.current);
+    if (index < 0) return;
+    added.current = null;
+    document.getElementById(attributeControlId(idPrefix, `attributes[${index}].key`))?.focus();
+  }, [rows, idPrefix]);
 
   function inputOf(index: number, part: keyof AttributeRow, value: string) {
     const field = `attributes[${index}].${part}`;
@@ -82,7 +92,11 @@ export function AttributesField({ idPrefix, rows, onChange, errorOf }: Attribute
         variant="secondary"
         className="self-start"
         aria-describedby={listError ? listErrorId : undefined}
-        onClick={() => onChange([...rows, editable()])}
+        onClick={() => {
+          const row = editable();
+          added.current = row.id;
+          onChange([...rows, row]);
+        }}
       >
         {t("contacts.attributes.add")}
       </Button>

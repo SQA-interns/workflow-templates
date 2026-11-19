@@ -1,0 +1,127 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ✓ src/features/contacts/ContactFieldInput.test.tsx (12 tests) 4192ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country is chosen by name and reported as its ISO code  1957ms
+   ✓ one Field of WF-08 (UI-13, UI-19) > R-006-05 the country names follow a change of language  1844ms
+ ✓ src/features/contacts/EditContactPage.test.tsx (8 tests) 4001ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-01 the form shows the Contact; saving sends the Fields with the Version read  1434ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-02 a stale Version shows who changed it; Reload shows the current Version  945ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-03 clearing every name part shows the error and sends nothing  513ms
+   ✓ WF-08 Edit Contact (US-007) > AC-007-04 saving without changes: No changes to save.  436ms
+   ✓ WF-08 Edit Contact (US-007) > EX-007-03 a Contact in the recycle bin: This Contact is in the recycle bin.  375ms
+ ✓ src/features/contacts/ContactForm.test.tsx (12 tests) 4965ms
+   ✓ WF-08 Contact form (UI-13) > WF-08 the form shows the way back, its sections and the hints of the limits  1034ms
+   ✓ WF-08 Contact form (UI-13) > R-006-03 a Field problem of the last save stands at its Field  369ms
+   ✓ WF-08 Contact form (UI-13) > R-006-02 the form's own problem replaces the problems of the last save and is focused  605ms
+   ✓ WF-08 Contact form (UI-13) > R-006-04 the first Field with a problem is focused  627ms
+   ✓ WF-08 Contact form (UI-13) > R-008-02 an Attribute problem of the form replaces the problems of the last save  456ms
+   ✓ WF-08 Contact form (UI-13) > R-009-05 a Tag problem of the form is shown after a failed save  486ms
+   ✓ WF-08 Contact form (UI-13) > R-009-01 spaces left in the Tag box are not a Tag and do not stop the save  342ms
+ ✓ src/features/contacts/contactFields.test.ts (27 tests) 91ms
+ ✓ src/features/contacts/ContactTable.test.tsx (9 tests) 1356ms
+   ✓ Contact table of WF-06 (R-014-01) > R-014-01 has the columns Name, Company, E-mail, Phone and Tags  475ms
+ ✓ src/features/contacts/AttributesField.test.tsx (17 tests) 8143ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  933ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  1617ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  898ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 after Add an Attribute the Key of the new row has the focus (UI-19)  386ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  820ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  561ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty  547ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row  412ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  750ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  718ms
+ ✓ src/features/contacts/NewContactPage.test.tsx (15 tests) 8311ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-01 saving sends every Field trimmed and opens the Contact list  2622ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-02 only a company is saved, the other Fields empty  317ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-03 only an e-mail: Enter a first name, last name or company. and nothing is sent  546ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-04 an invalid e-mail is shown next to the field and nothing is sent  549ms
+   ✓ WF-08 Add a Contact (US-006) > EX-006-02 a first name of 101 characters: First name may have at most 100 characters.  366ms
+   ✓ WF-08 Add a Contact (US-006) > D-23 a phone with a dot: Enter a valid phone number.  480ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-06 the API's refusal is shown and the values are kept  355ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-03 a Field problem of the API is shown next to its field  350ms
+   ✓ WF-08 Add a Contact (US-006) > R-006-05 the country is chosen from a list; empty by default  963ms
+   ✓ WF-08 Add a Contact (US-006) > AC-006-05 leaving an existing e-mail warns with its Contact and saving still works  495ms
+ ✓ src/features/contacts/useSelection.test.ts (4 tests) 69ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-01 Undo merge, confirmed, undoes the Merge with the Version read
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > EX-019-03 Cancel closes the confirmation and undoes nothing
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > R-019-02 a refused undo shows its message in the confirmation
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/contacts/fieldMessages.test.ts (11 tests) 29ms
+stderr | src/features/contacts/ContactDetailsPage.test.tsx > WF-07 Contact details (R-014-06) > US-019 Undo merge > UI-14 an undo that fails without a reason shows Something went wrong.
+`AlertDialogContent` requires a description for the component to be accessible for screen reader users.
+
+You can add a description to the `AlertDialogContent` by passing a `AlertDialogDescription` component as a child, which also benefits sighted users by adding visible context to the dialog.
+
+Alternatively, you can use your own component as a description by assigning it an `id` and passing the same value to the `aria-describedby` prop in `AlertDialogContent`. If the description is confusing or duplicative for sighted users, you can use the `@radix-ui/react-visually-hidden` primitive as a wrapper around your description component.
+
+For more information, see https://radix-ui.com/primitives/docs/components/alert-dialog
+
+ ✓ src/features/contacts/tags.test.ts (9 tests) 9ms
+ ✓ src/features/contacts/listQuery.test.ts (9 tests) 18ms
+ ✓ src/features/contacts/ContactDetailsPage.test.tsx (25 tests) 3664ms
+   ✓ WF-07 Contact details (R-014-06) > R-014-06 shows the Contact's name and its Fields with their labels  465ms
+ ✓ src/features/contacts/attributes.test.ts (8 tests) 9ms
+ ✓ src/features/contacts/ContactListPage.test.tsx (39 tests) 11932ms
+   ✓ WF-06 Contact list (US-014) > AC-014-01 shows the count and the rows of the first Page by name  811ms
+   ✓ WF-06 Contact list (US-014) > AC-014-02 typing a search asks for the matching Contacts from Page 1  676ms
+   ✓ WF-06 filter panel and chips (US-015) > AC-015-01 has Tags is applied, shown as a chip and the panel closes  607ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 … R-015-04 every filter of the panel goes to the query  1339ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-01 a chosen Tag can be taken out of the panel again  516ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-06 Clear filters in the panel removes every filter  324ms
+   ✓ WF-06 filter panel and chips (US-015) > R-015-07 applying keeps the sort and starts at Page 1  389ms
+   ✓ WF-06 Export and Checked contacts (US-016) > D-24 (b) checks stay across Pages and are cleared when the search changes  749ms
+   ✓ WF-06 Contact list states and paging (US-014) > AC-014-02 an unchanged search box never resets the Page  458ms
+   ✓ WF-06 Contact list states and paging (US-014) > AC-014-02 typing asks only for the whole search, not for every letter  414ms
+   ✓ WF-06 filter panel and chips, details (US-015) > R-015-03 a value without a key is no filter  620ms
+   ✓ WF-06 filter panel and chips, details (US-015) > R-015-01 the panel is a region named Filters; each Tag picker says what it filters  847ms
+   ✓ WF-06 filter panel and chips, details (US-015) > R-015-01 a chosen Tag is no longer offered, and taking one out keeps the others  385ms
+ ✓ src/features/contacts/TagsField.test.tsx (24 tests) 18827ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 the form shows the Contact's Tags with the hint  830ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-01 an added Tag is shown and sent with the Fields  1077ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-04 removing a Tag takes it out of the save  310ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-02 typing part of a Tag suggests the Group's Tag  2928ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 choosing a suggestion adds it  2799ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 the arrow keys choose a suggestion and Enter adds it  2391ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-02 a Tag the Contact has is not suggested  1946ms
+   ✓ WF-08 Tags of a Contact (US-009) > AC-009-03 a name in other case takes the spelling of the suggested Tag  1700ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-05 an invalid name left in the box stops the save  646ms
+   ✓ WF-08 Tags of a Contact (US-009) > R-009-01 a new Contact is added with its Tags  310ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > D-52 suggestions are asked once for the trimmed text after typing stops  331ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 ArrowUp walks the suggestions from the last and wraps; Escape leaves them  485ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 Enter adds the first suggestion when it is chosen  349ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-04 Enter without a chosen suggestion adds the typed text and chooses none  350ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 typing again leaves the chosen suggestion  359ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 an emptied or blank box shows no suggestions at once  378ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 clicking a suggestion adds it and keeps the focus in the box  364ms
+   ✓ WF-08 Tag box on its own (US-009, ARIA combobox) > R-009-02 a chosen suggestion that is no longer offered is not added  369ms
+
+ Test Files  15 passed (15)
+      Tests  229 passed (229)
+   Start at  12:48:07
+   Duration  22.36s (transform 1.87s, setup 6.00s, collect 9.54s, tests 65.62s, environment 16.67s, prepare 2.70s)
+

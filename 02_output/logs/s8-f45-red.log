@@ -1,0 +1,380 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ❯ src/features/contacts/AttributesField.test.tsx (17 tests | 1 failed) 8277ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-06 the form shows the saved Attributes in the order read  465ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-01 an added Attribute is sent trimmed with the Fields  731ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-02 a changed value is sent  395ms
+   × WF-08 Attributes of a Contact (US-008) > R-008-01 after Add an Attribute the Key of the new row has the focus (UI-20) 4233ms
+     → expected <button …(3)></button> to be <input …(4)></input> // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mlang[39m=[32m"en"[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [33mnovalidate[39m=[32m""[39m
+      [36m>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mContacts[0m
+        [36m</a>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold"[39m
+        [36m>[39m
+          [0mEdit Contact[0m
+        [36m</h1>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-firstName"[39m
+              [36m>[39m
+                [0mFirst name[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33maria-describedby[39m=[32m":r3:-firstName-hint"[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-firstName"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m"Janez"[39m
+              [36m/>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-text-muted"[39m
+                [33mid[39m=[32m":r3:-firstName-hint"[39m
+              [36m>[39m
+                [0mAt most 100 characters[0m
+              [36m</p>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-lastName"[39m
+              [36m>[39m
+                [0mLast name[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-lastName"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m"Novak"[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-email"[39m
+              [36m>[39m
+                [0mE-mail[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-email"[39m
+                [33mtype[39m=[32m"email"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-phone"[39m
+              [36m>[39m
+                [0mPhone[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33maria-describedby[39m=[32m":r3:-phone-hint"[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-phone"[39m
+                [33mtype[39m=[32m"tel"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-text-muted"[39m
+                [33mid[39m=[32m":r3:-phone-hint"[39m
+              [36m>[39m
+                [0mDigits, spaces and + - ( ) /[0m
+              [36m</p>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-company"[39m
+              [36m>[39m
+                [0mCompany[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-company"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m...
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-03 the same key twice: The key Kompetenca is used twice. and nothing is sent  488ms
+   ✓ WF-08 Attributes of a Contact (US-008) > AC-008-04 Remove takes the Attribute out of the save 171ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-02 a key of only spaces: A key must have 1 to 50 characters.  366ms
+   ✓ WF-08 Attributes of a Contact (US-008) > EX-008-04 an empty value is sent as empty 292ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-03 an Attribute problem of the API stands at its row 232ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-05 the API's limit of 50 Attributes stands in the Attributes section  390ms
+   ✓ WF-08 Attributes of a Contact (US-008) > R-008-01 a new Contact is sent with its Attributes  375ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > UI-13 a control's id names its Attribute and part 20ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > AC-008-02 typing changes only the value of its row 23ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > AC-008-04 Remove takes out only its row 31ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > R-008-01 Add an Attribute appends an empty row 32ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > UI-13 an Attribute's error marks its box and describes it 9ms
+   ✓ WF-08 Attributes section on its own (US-008, UI-13) > R-008-05 the error of all Attributes describes Add an Attribute 21ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/features/contacts/AttributesField.test.tsx > WF-08 Attributes of a Contact (US-008) > R-008-01 after Add an Attribute the Key of the new row has the focus (UI-20)
+AssertionError: expected <button …(3)></button> to be <input …(4)></input> // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mlang[39m=[32m"en"[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<form[39m
+        [33mclass[39m=[32m"flex flex-col gap-4"[39m
+        [33mnovalidate[39m=[32m""[39m
+      [36m>[39m
+        [36m<a[39m
+          [33mclass[39m=[32m"inline-flex min-h-11 items-center gap-1 self-start underline"[39m
+          [33mdata-discover[39m=[32m"true"[39m
+          [33mhref[39m=[32m"/groups/g1/contacts/c1"[39m
+        [36m>[39m
+          [36m<svg[39m
+            [33maria-hidden[39m=[32m"true"[39m
+            [33mclass[39m=[32m"lucide lucide-arrow-left size-4"[39m
+            [33mfill[39m=[32m"none"[39m
+            [33mheight[39m=[32m"24"[39m
+            [33mstroke[39m=[32m"currentColor"[39m
+            [33mstroke-linecap[39m=[32m"round"[39m
+            [33mstroke-linejoin[39m=[32m"round"[39m
+            [33mstroke-width[39m=[32m"2"[39m
+            [33mviewBox[39m=[32m"0 0 24 24"[39m
+            [33mwidth[39m=[32m"24"[39m
+            [33mxmlns[39m=[32m"http://www.w3.org/2000/svg"[39m
+          [36m>[39m
+            [36m<path[39m
+              [33md[39m=[32m"m12 19-7-7 7-7"[39m
+            [36m/>[39m
+            [36m<path[39m
+              [33md[39m=[32m"M19 12H5"[39m
+            [36m/>[39m
+          [36m</svg>[39m
+          [0mContacts[0m
+        [36m</a>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"text-2xl font-semibold"[39m
+        [36m>[39m
+          [0mEdit Contact[0m
+        [36m</h1>[39m
+        [36m<section[39m
+          [33mclass[39m=[32m"rounded-lg border bg-card p-4 text-card-foreground shadow-sm flex flex-col gap-4"[39m
+        [36m>[39m
+          [36m<h2[39m
+            [33mclass[39m=[32m"text-xl font-semibold"[39m
+          [36m>[39m
+            [0mFields[0m
+          [36m</h2>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"grid gap-4 md:grid-cols-2"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-firstName"[39m
+              [36m>[39m
+                [0mFirst name[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33maria-describedby[39m=[32m":r3:-firstName-hint"[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-firstName"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m"Janez"[39m
+              [36m/>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-text-muted"[39m
+                [33mid[39m=[32m":r3:-firstName-hint"[39m
+              [36m>[39m
+                [0mAt most 100 characters[0m
+              [36m</p>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-lastName"[39m
+              [36m>[39m
+                [0mLast name[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-lastName"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m"Novak"[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-email"[39m
+              [36m>[39m
+                [0mE-mail[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-email"[39m
+                [33mtype[39m=[32m"email"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-phone"[39m
+              [36m>[39m
+                [0mPhone[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33maria-describedby[39m=[32m":r3:-phone-hint"[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-phone"[39m
+                [33mtype[39m=[32m"tel"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"text-sm text-text-muted"[39m
+                [33mid[39m=[32m":r3:-phone-hint"[39m
+              [36m>[39m
+                [0mDigits, spaces and + - ( ) /[0m
+              [36m</p>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m<label[39m
+                [33mclass[39m=[32m"text-sm font-semibold"[39m
+                [33mfor[39m=[32m":r3:-company"[39m
+              [36m>[39m
+                [0mCompany[0m
+              [36m</label>[39m
+              [36m<input[39m
+                [33mautocomplete[39m=[32m"off"[39m
+                [33mclass[39m=[32m"min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+                [33mid[39m=[32m":r3:-company"[39m
+                [33mtype[39m=[32m"text"[39m
+                [33mvalue[39m=[32m""[39m
+              [36m/>[39m
+            [36m</div>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"flex flex-col gap-1"[39m
+            [36m>[39m
+              [36m...
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- <input[39m
+[32m-   autocomplete="off"[39m
+[32m-   class="min-h-11 w-full rounded-md border border-input bg-surface-raised px-3 text-base text-text placeholder:text-text-muted aria-invalid:border-danger"[39m
+[32m-   id=":r3:-attributes-1-key"[39m
+[32m-   value=""[39m
+[32m- />[39m
+[31m+ <button[39m
+[31m+   class="inline-flex min-h-11 items-center justify-center gap-2 rounded-md border px-4 text-sm font-semibold whitespace-nowrap transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 border-border bg-surface text-text hover:bg-surface-raised self-start"[39m
+[31m+   id=":r3:-attributes"[39m
+[31m+   type="button"[39m
+[31m+ >[39m
+[31m+   Add an Attribute[39m
+[31m+ </button>[39m
+
+ ❯ src/features/contacts/AttributesField.test.tsx:133:56
+    131|     const keys = screen.getAllByLabelText("Key");
+    132|     expect(keys).toHaveLength(2);
+    133|     await waitFor(() => expect(document.activeElement).toBe(keys[1]));
+       |                                                        ^
+    134|   });
+    135| 
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 16 passed (17)
+   Start at  12:47:43
+   Duration  10.22s (transform 257ms, setup 186ms, collect 638ms, tests 8.28s, environment 684ms, prepare 101ms)
+

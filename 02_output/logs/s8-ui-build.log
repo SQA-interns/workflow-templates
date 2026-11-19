@@ -1,0 +1,99 @@
+
+> contacts-frontend@0.1.0 build
+> tsc --noEmit -p tsconfig.json && vite build
+
+vite v7.3.8 building client environment for production...
+transforming...
+node_modules/zod/v4/core/util.js (400:0): A comment
+
+"// Wrapped in a `@__PURE__` IIFE: esbuild never tree-shakes a top-level initializer that contains a member access on `Number`, so the bare object literal survived into every bundle."
+
+in "node_modules/zod/v4/core/util.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+node_modules/zod/v4/core/regexes.js (74:0): A comment
+
+"/** Anchors a pattern source. The interpolation lives here rather than at the call site because
+ * esbuild will not drop a `@__PURE__` call whose own argument interpolates a variable, but it
+ * will drop `anchor(dateSource)`. Keeping it inline pinned `date` into every bundle. */"
+
+in "node_modules/zod/v4/core/regexes.js" contains an annotation that Rollup cannot interpret due to the position of the comment. The comment will be removed to avoid issues.
+✓ 2059 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:   0.26 kB
+dist/assets/index-Cc5n18XR.css   22.82 kB │ gzip:   5.46 kB
+dist/assets/index-DhnETr3d.js   685.22 kB │ gzip: 209.75 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 9.69s
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 581B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:1.30.7-alpine
+#2 ...
+
+#3 [auth] library/nginx:pull token for registry-1.docker.io
+#3 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/library/nginx:1.30.7-alpine
+#2 DONE 1.4s
+
+#4 [internal] load .dockerignore
+#4 transferring context: 118B done
+#4 DONE 0.0s
+
+#5 [1/5] FROM docker.io/library/nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598
+#5 resolve docker.io/library/nginx:1.30.7-alpine@sha256:bef154735288bc38d99fac41ae63730684bcc661503673a04a0f9bc526ba8598 0.0s done
+#5 DONE 0.0s
+
+#6 [internal] load build context
+#6 transferring context: 709.14kB 0.0s done
+#6 DONE 0.1s
+
+#7 [2/5] RUN apk upgrade --no-cache  && rm -f /etc/nginx/conf.d/default.conf  && chown -R nginx:nginx /usr/share/nginx/html /var/cache/nginx
+#7 CACHED
+
+#8 [3/5] COPY --chown=nginx:nginx dist/ /usr/share/nginx/html/
+#8 DONE 0.1s
+
+#9 [4/5] COPY nginx/nginx.conf.template /etc/nginx/nginx.conf.template
+#9 DONE 0.1s
+
+#10 [5/5] COPY --chmod=0755 nginx/start.sh /start.sh
+#10 DONE 0.1s
+
+#11 exporting to image
+#11 exporting layers
+#11 exporting layers 0.2s done
+#11 exporting manifest sha256:01b5745acee0e8b71f2b6069697b1f95d56d0659f7fcf538b351d955e67d30bd 0.1s done
+#11 exporting config sha256:3e379fb3a2c518e199f3fd176903ebd834725b363c25ea8c2c74170f1faa7015 0.0s done
+#11 exporting attestation manifest sha256:f838b42c0624c7981568d2caffe8aebc413cf41fdb5d3b2f31bdc0a512a7bfbe 0.0s done
+#11 exporting manifest list sha256:88dcb80f1179cff3a5236f0dc4841b8fe0fb75b7821601530f57ff34b168891d
+#11 exporting manifest list sha256:88dcb80f1179cff3a5236f0dc4841b8fe0fb75b7821601530f57ff34b168891d 0.0s done
+#11 naming to docker.io/library/contacts-frontend:local done
+#11 unpacking to docker.io/library/contacts-frontend:local 0.1s done
+#11 DONE 0.5s
+ Container kontakti-firebase-emulator-1 Running 
+ Container kontakti-postgres-1 Running 
+ Container kontakti-backend-1 Running 
+ Container kontakti-frontend-1 Recreate 
+ Container kontakti-frontend-1 Recreated 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-postgres-1 Healthy 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-frontend-1 Starting 
+ Container kontakti-frontend-1 Started 
+ Container kontakti-frontend-1 Waiting 
+ Container kontakti-postgres-1 Waiting 
+ Container kontakti-firebase-emulator-1 Waiting 
+ Container kontakti-backend-1 Waiting 
+ Container kontakti-frontend-1 Healthy 
+ Container kontakti-firebase-emulator-1 Healthy 
+ Container kontakti-backend-1 Healthy 
+ Container kontakti-postgres-1 Healthy 

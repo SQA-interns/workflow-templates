@@ -1,0 +1,606 @@
+
+Running 192 tests using 1 worker
+
+[1A[2K[1/192] [chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K[2/192] [chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K[3/192] [chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K[4/192] [chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[chromium] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K[5/192] [chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+
+
+[1A[2K[6/192] [chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+
+
+[1A[2K[7/192] [chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+
+
+[1A[2K[8/192] [chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+
+
+[1A[2K[9/192] [chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+[1A[2K[chromium] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+
+
+[1A[2K[10/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+[1A[2K[chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+
+
+[1A[2K[11/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-02 sign-up: no Critical or Serious violation at the three widths
+[1A[2K[12/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-03 confirm-email: no Critical or Serious violation at the three widths
+[1A[2K[13/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-04 create-group: no Critical or Serious violation at the three widths
+[1A[2K[14/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-05 no-groups: no Critical or Serious violation at the three widths
+[1A[2K[15/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-06 contact-list: no Critical or Serious violation at the three widths
+[1A[2K[16/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-07 contact-details: no Critical or Serious violation at the three widths
+[1A[2K[17/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-08 contact-form: no Critical or Serious violation at the three widths
+[1A[2K[18/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-09 history: no Critical or Serious violation at the three widths
+[1A[2K[19/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-10 version: no Critical or Serious violation at the three widths
+[1A[2K[20/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-11 recycle-bin: no Critical or Serious violation at the three widths
+[1A[2K[21/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-13 members: no Critical or Serious violation at the three widths
+[1A[2K[22/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-14 group-settings: no Critical or Serious violation at the three widths
+[1A[2K[23/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-15 deleted-groups: no Critical or Serious violation at the three widths
+[1A[2K[24/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-16 invitation: no Critical or Serious violation at the three widths
+[1A[2K[25/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-17 possible-duplicates: no Critical or Serious violation at the three widths
+[1A[2K[26/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-18 merge: no Critical or Serious violation at the three widths
+[1A[2K[27/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-19 account: no Critical or Serious violation at the three widths
+[1A[2K[28/192] [chromium] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-20 not-found: no Critical or Serious violation at the three widths
+[1A[2K[29/192] [chromium] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+[1A[2K[chromium] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+
+
+[1A[2K[30/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+[1A[2K[chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+
+
+[1A[2K[31/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-02 sign-up in sl
+[1A[2K[32/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-03 confirm-email in sl
+[1A[2K[33/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-04 create-group in sl
+[1A[2K[34/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-05 no-groups in sl
+[1A[2K[35/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-06 contact-list in sl
+[1A[2K[36/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-07 contact-details in sl
+[1A[2K[37/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-08 contact-form in sl
+[1A[2K[38/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-09 history in sl
+[1A[2K[39/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-10 version in sl
+[1A[2K[40/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-11 recycle-bin in sl
+[1A[2K[41/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-13 members in sl
+[1A[2K[42/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-14 group-settings in sl
+[1A[2K[43/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-15 deleted-groups in sl
+[1A[2K[44/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-16 invitation in sl
+[1A[2K[45/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-17 possible-duplicates in sl
+[1A[2K[46/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-18 merge in sl
+[1A[2K[47/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-19 account in sl
+[1A[2K[48/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-20 not-found in sl
+[1A[2K[49/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-04 create-group in en
+[1A[2K[50/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-05 no-groups in en
+[1A[2K[51/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-06 contact-list in en
+[1A[2K[52/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-07 contact-details in en
+[1A[2K[53/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-08 contact-form in en
+[1A[2K[54/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-09 history in en
+[1A[2K[55/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-10 version in en
+[1A[2K[56/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-11 recycle-bin in en
+[1A[2K[57/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-13 members in en
+[1A[2K[58/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-14 group-settings in en
+[1A[2K[59/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-15 deleted-groups in en
+[1A[2K[60/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-16 invitation in en
+[1A[2K[61/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-17 possible-duplicates in en
+[1A[2K[62/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-18 merge in en
+[1A[2K[63/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-19 account in en
+[1A[2K[64/192] [chromium] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-20 not-found in en
+[1A[2K[65/192] [firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K[66/192] [firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K[67/192] [firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K[68/192] [firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[firefox] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K[69/192] [firefox] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+[1A[2K[firefox] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+
+
+[1A[2K[70/192] [firefox] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+[1A[2K[firefox] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+
+
+[1A[2K[71/192] [firefox] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+[1A[2K[firefox] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+
+
+[1A[2K[72/192] [firefox] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+[1A[2K[firefox] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+
+
+[1A[2K[73/192] [firefox] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+[1A[2K[firefox] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+
+
+[1A[2K[74/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+[1A[2K[firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+
+
+[1A[2K[75/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-02 sign-up: no Critical or Serious violation at the three widths
+[1A[2K[76/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-03 confirm-email: no Critical or Serious violation at the three widths
+[1A[2K[77/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-04 create-group: no Critical or Serious violation at the three widths
+[1A[2K[78/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-05 no-groups: no Critical or Serious violation at the three widths
+[1A[2K[79/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-06 contact-list: no Critical or Serious violation at the three widths
+[1A[2K[80/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-07 contact-details: no Critical or Serious violation at the three widths
+[1A[2K[81/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-08 contact-form: no Critical or Serious violation at the three widths
+[1A[2K[82/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-09 history: no Critical or Serious violation at the three widths
+[1A[2K[83/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-10 version: no Critical or Serious violation at the three widths
+[1A[2K[84/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-11 recycle-bin: no Critical or Serious violation at the three widths
+[1A[2K[85/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-13 members: no Critical or Serious violation at the three widths
+[1A[2K[86/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-14 group-settings: no Critical or Serious violation at the three widths
+[1A[2K[87/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-15 deleted-groups: no Critical or Serious violation at the three widths
+[1A[2K[88/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-16 invitation: no Critical or Serious violation at the three widths
+[1A[2K[89/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-17 possible-duplicates: no Critical or Serious violation at the three widths
+[1A[2K[90/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-18 merge: no Critical or Serious violation at the three widths
+[1A[2K[91/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-19 account: no Critical or Serious violation at the three widths
+[1A[2K[92/192] [firefox] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-20 not-found: no Critical or Serious violation at the three widths
+[1A[2K[93/192] [firefox] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+[1A[2K[firefox] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+
+
+[1A[2K[94/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+[1A[2K[firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+
+
+[1A[2K[95/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-02 sign-up in sl
+[1A[2K[96/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-03 confirm-email in sl
+[1A[2K[97/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-04 create-group in sl
+[1A[2K[98/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-05 no-groups in sl
+[1A[2K[99/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-06 contact-list in sl
+[1A[2K[100/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-07 contact-details in sl
+[1A[2K[101/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-08 contact-form in sl
+[1A[2K[102/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-09 history in sl
+[1A[2K[103/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-10 version in sl
+[1A[2K[104/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-11 recycle-bin in sl
+[1A[2K[105/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-13 members in sl
+[1A[2K[106/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-14 group-settings in sl
+[1A[2K[107/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-15 deleted-groups in sl
+[1A[2K[108/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-16 invitation in sl
+[1A[2K[109/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-17 possible-duplicates in sl
+[1A[2K[110/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-18 merge in sl
+[1A[2K[111/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-19 account in sl
+[1A[2K[112/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-20 not-found in sl
+[1A[2K[113/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-04 create-group in en
+[1A[2K[114/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-05 no-groups in en
+[1A[2K[115/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-06 contact-list in en
+[1A[2K[116/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-07 contact-details in en
+[1A[2K[117/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-08 contact-form in en
+[1A[2K[118/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-09 history in en
+[1A[2K[119/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-10 version in en
+[1A[2K[120/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-11 recycle-bin in en
+[1A[2K[121/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-13 members in en
+[1A[2K[122/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-14 group-settings in en
+[1A[2K[123/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-15 deleted-groups in en
+[1A[2K[124/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-16 invitation in en
+[1A[2K[125/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-17 possible-duplicates in en
+[1A[2K[126/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-18 merge in en
+[1A[2K[127/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-19 account in en
+[1A[2K[128/192] [firefox] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-20 not-found in en
+[1A[2K[129/192] [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value
+
+
+[1A[2K  1) [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-81402-ts-kompetenca-empty-→-value-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[130/192] [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new
+
+
+[1A[2K  2) [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-b8ec9--value-kompetenca-old-→-new-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[131/192] [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice.
+
+
+[1A[2K  3) [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-6cde2-y-Kompetenca-is-used-twice--webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[132/192] [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+[1A[2K[webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed)
+
+
+[1A[2K  4) [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us008-attribute-f3ead-kompetenca-value-→-removed--webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[133/192] [webkit] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+[1A[2K[webkit] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown
+
+
+[1A[2K  5) [webkit] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-1cc16-he-recycle-bin-is-not-shown-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-1cc16-he-recycle-bin-is-not-shown-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[134/192] [webkit] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+[1A[2K[webkit] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search
+
+
+[1A[2K  6) [webkit] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-15f7d-cts-match-with-Clear-search-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-15f7d-cts-match-with-Clear-search-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[135/192] [webkit] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+[1A[2K[webkit] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk
+
+
+[1A[2K  7) [webkit] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-04467-ing-cuk-shows-only-Žiga-Čuk-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-04467-ing-cuk-shows-only-Žiga-Čuk-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[136/192] [webkit] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+[1A[2K[webkit] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact
+
+
+[1A[2K  8) [webkit] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-53fdb-acts-yet-with-Add-a-Contact-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-53fdb-acts-yet-with-Add-a-Contact-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[137/192] [webkit] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+[1A[2K[webkit] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History
+
+
+[1A[2K  9) [webkit] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/acceptance-us014-contact-l-64dd4-s-and-a-link-to-the-History-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/acceptance-us014-contact-l-64dd4-s-and-a-link-to-the-History-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[138/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+[1A[2K[webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths
+
+
+[1A[2K  10) [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/e2e-accessibility-NFR-07-a-7845d-olation-at-the-three-widths-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/e2e-accessibility-NFR-07-a-7845d-olation-at-the-three-widths-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[139/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-02 sign-up: no Critical or Serious violation at the three widths
+[1A[2K[140/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-03 confirm-email: no Critical or Serious violation at the three widths
+[1A[2K[141/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-04 create-group: no Critical or Serious violation at the three widths
+[1A[2K[142/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-05 no-groups: no Critical or Serious violation at the three widths
+[1A[2K[143/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-06 contact-list: no Critical or Serious violation at the three widths
+[1A[2K[144/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-07 contact-details: no Critical or Serious violation at the three widths
+[1A[2K[145/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-08 contact-form: no Critical or Serious violation at the three widths
+[1A[2K[146/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-09 history: no Critical or Serious violation at the three widths
+[1A[2K[147/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-10 version: no Critical or Serious violation at the three widths
+[1A[2K[148/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-11 recycle-bin: no Critical or Serious violation at the three widths
+[1A[2K[149/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-13 members: no Critical or Serious violation at the three widths
+[1A[2K[150/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-14 group-settings: no Critical or Serious violation at the three widths
+[1A[2K[151/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-15 deleted-groups: no Critical or Serious violation at the three widths
+[1A[2K[152/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-16 invitation: no Critical or Serious violation at the three widths
+[1A[2K[153/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-17 possible-duplicates: no Critical or Serious violation at the three widths
+[1A[2K[154/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-18 merge: no Critical or Serious violation at the three widths
+[1A[2K[155/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-19 account: no Critical or Serious violation at the three widths
+[1A[2K[156/192] [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-20 not-found: no Critical or Serious violation at the three widths
+[1A[2K[157/192] [webkit] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+[1A[2K[webkit] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only
+
+
+[1A[2K  11) [webkit] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only 
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/e2e-accessibility-NFR-07-k-624d4-file-with-the-keyboard-only-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/e2e-accessibility-NFR-07-k-624d4-file-with-the-keyboard-only-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[158/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+[1A[2K[webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl
+
+
+[1A[2K  12) [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl ────
+
+    Error: browserType.launch: 
+    ╔══════════════════════════════════════════════════════╗
+    ║ Host system is missing dependencies to run browsers. ║
+    ║ Please install them with the following command:      ║
+    ║                                                      ║
+    ║     sudo npx playwright install-deps                 ║
+    ║                                                      ║
+    ║ Alternatively, use apt:                              ║
+    ║     sudo apt-get install libwoff1                    ║
+    ║                                                      ║
+    ║ <3 Playwright Team                                   ║
+    ╚══════════════════════════════════════════════════════╝
+
+    attachment #1: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/e2e-languages-NFR-08-scree-2070c--NFR-08-WF-01-sign-in-in-sl-webkit/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/e2e-languages-NFR-08-scree-2070c--NFR-08-WF-01-sign-in-in-sl-webkit/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+
+[1A[2K[159/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-02 sign-up in sl
+[1A[2K[160/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-03 confirm-email in sl
+[1A[2K[161/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-04 create-group in sl
+[1A[2K[162/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-05 no-groups in sl
+[1A[2K[163/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-06 contact-list in sl
+[1A[2K[164/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-07 contact-details in sl
+[1A[2K[165/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-08 contact-form in sl
+[1A[2K[166/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-09 history in sl
+[1A[2K[167/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-10 version in sl
+[1A[2K[168/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-11 recycle-bin in sl
+[1A[2K[169/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-13 members in sl
+[1A[2K[170/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-14 group-settings in sl
+[1A[2K[171/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-15 deleted-groups in sl
+[1A[2K[172/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-16 invitation in sl
+[1A[2K[173/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-17 possible-duplicates in sl
+[1A[2K[174/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-18 merge in sl
+[1A[2K[175/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-19 account in sl
+[1A[2K[176/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-20 not-found in sl
+[1A[2K[177/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-04 create-group in en
+[1A[2K[178/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-05 no-groups in en
+[1A[2K[179/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-06 contact-list in en
+[1A[2K[180/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-07 contact-details in en
+[1A[2K[181/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-08 contact-form in en
+[1A[2K[182/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-09 history in en
+[1A[2K[183/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-10 version in en
+[1A[2K[184/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-11 recycle-bin in en
+[1A[2K[185/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-13 members in en
+[1A[2K[186/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-14 group-settings in en
+[1A[2K[187/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-15 deleted-groups in en
+[1A[2K[188/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-16 invitation in en
+[1A[2K[189/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-17 possible-duplicates in en
+[1A[2K[190/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-18 merge in en
+[1A[2K[191/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-19 account in en
+[1A[2K[192/192] [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in en › NFR-08 WF-20 not-found in en
+[1A[2K  12 failed
+    [webkit] › acceptance/us008-attributes.spec.ts:20:1 › AC-008-01 an added Attribute is shown; Version 2 lists kompetenca: (empty) → value 
+    [webkit] › acceptance/us008-attributes.spec.ts:40:1 › AC-008-02 a changed value: kompetenca: old → new 
+    [webkit] › acceptance/us008-attributes.spec.ts:58:1 › AC-008-03 the same key twice: The key Kompetenca is used twice. 
+    [webkit] › acceptance/us008-attributes.spec.ts:74:1 › AC-008-04 a removed Attribute: kompetenca: value → (removed) 
+    [webkit] › acceptance/us014-contact-list.spec.ts:31:1 › AC-014-01 3 Contacts in the order Čuk, Novak, Zupan; the one in the recycle bin is not shown 
+    [webkit] › acceptance/us014-contact-list.spec.ts:51:1 › AC-014-04 a search without matches: No Contacts match. with Clear search 
+    [webkit] › acceptance/us014-contact-list.spec.ts:66:1 › AC-014-02 searching cuk shows only Žiga Čuk 
+    [webkit] › acceptance/us014-contact-list.spec.ts:79:1 › EX-014-02 an empty Group: No Contacts yet. with Add a Contact 
+    [webkit] › acceptance/us014-contact-list.spec.ts:89:1 › R-014-06 opening a row shows the details with Attributes, Tags and a link to the History 
+    [webkit] › e2e/accessibility.spec.ts:20:5 › NFR-07 axe on every screen › NFR-07 WF-01 sign-in: no Critical or Serious violation at the three widths 
+    [webkit] › e2e/accessibility.spec.ts:39:3 › NFR-07 keyboard walk-through of E2E-01 › NFR-07 E2E-01 from sign-up to an Excel file with the keyboard only 
+    [webkit] › e2e/languages.spec.ts:30:7 › NFR-08 screens in sl › NFR-08 WF-01 sign-in in sl ──────
+  52 did not run
+  128 passed (7.1m)
