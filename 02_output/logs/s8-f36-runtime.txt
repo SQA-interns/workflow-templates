@@ -1,0 +1,39 @@
+signed in: Owner (Ana), Editor (Marko), Viewer (Petra), outsider (new verified account)
+PASS | frontend GET / serves the SPA | HTTP 200
+PASS | header content-security-policy | default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-s
+PASS | header x-frame-options | DENY
+PASS | header x-content-type-options | nosniff
+PASS | header referrer-policy | strict-origin-when-cross-origin
+PASS | header permissions-policy | camera=(), microphone=(), geolocation=()
+PASS | CSP frame-ancestors 'none' | 
+PASS | API errors also carry nosniff | HTTP 401
+PASS | SR-01 no token -> 401 | HTTP 401 b'{"type":"about:blank","title":"Unauthorized","status":401,"code":"auth.unauthenticated"}'
+PASS | SR-01 tampered token -> 401 | HTTP 401
+PASS | SR-01 garbage token -> 401 | HTTP 401
+PASS | GET /me as Owner | HTTP 200 language=sl
+PASS | GET /groups as Owner | HTTP 200, 1 Groups: ['Konferenca 2025']
+PASS | list Contacts (Editor) | HTTP 200, total=10003, keys=['items', 'total', 'page', 'pageSize']
+PASS | search+sort in 10,000 Contacts | HTTP 200 in 35 ms
+PASS | add a Contact with Attribute and Tag (Editor) | HTTP 201 version=1 tags=['s7verify']
+PASS | edit the Contact -> Version 2 | HTTP 200
+PASS | BR-06 stale Version -> 409 | HTTP 409 b'{"type":"about:blank","title":"Conflict","status":409,"code":"version.conflict","params":{"changedBy":"Marko Kranjc"}}'
+PASS | BR-03 Viewer edits -> 403 | HTTP 403
+PASS | BR-02 non-Member reads -> 404 | HTTP 404
+PASS | BR-02 non-Member lists -> 404 | HTTP 404
+PASS | History (Viewer) | HTTP 200, 2 Versions, kinds=['edited', 'created']
+PASS | restore Version 1 -> Version 3 | HTTP 200
+PASS | Export .xlsx of the checked Contact | HTTP 200, attachment; filename="kontakti-Konferenca 2025-2026-11-19.xlsx"; filename*=UTF-8''kontakti-Konferenca%202025-2026-11-19.xlsx
+PASS | SR-07 '=1+1' is not a formula | no <f> element; '=1+1' stored as text
+PASS | move to recycle bin | HTTP 200 b'{"id":"b01a66ee-ab02-4883-9dee-26a912dbc98a","versionNumber":4,"state":"inRecycleBin","fields":{"fir'
+PASS | recycle bin lists it | HTTP 200
+PASS | restore from recycle bin | HTTP 200 b'{"id":"b01a66ee-ab02-4883-9dee-26a912dbc98a","versionNumber":5,"state":"active","fields":{"firstName'
+PASS | error body without internals | HTTP 400 b'{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[]}'
+PASS | error body without internals | HTTP 404 b'{"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}'
+PASS | error body without internals | HTTP 400 b'{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[{"field":"name","code":"contact.nameRequired"},{"fiel'
+PASS | error body without internals | HTTP 400 b'{"type":"about:blank","title":"Bad Request","status":400,"code":"validation","errors":[]}'
+PASS | error body without internals | HTTP 404 b'{"type":"about:blank","title":"Not Found","status":404,"code":"notFound"}'
+PASS | 3 MB body rejected (nginx 2 MB) | HTTP 413
+PASS | CORS refuses a foreign origin | HTTP 401, ACAO=None
+PASS | SR-03 request 102 within a minute -> 429 + Retry-After | first 429 at request 99, Retry-After=59
+
+36/36 checks passed
