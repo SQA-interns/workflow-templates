@@ -1,6 +1,8 @@
 # Backend image (architecture.md deploys_as; ADR-11). Build the jar first: ./mvnw -B -DskipTests package
 FROM eclipse-temurin:21.0.13_9-jre
-RUN groupadd --system app && useradd --system --gid app --no-create-home app
+# F-35: the base image's pebble service manager (Go stdlib with High advisories) is never started
+RUN rm -f /usr/bin/pebble \
+ && groupadd --system app && useradd --system --gid app --no-create-home app
 WORKDIR /app
 COPY target/contacts-backend.jar /app/app.jar
 USER app
