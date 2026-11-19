@@ -5,19 +5,18 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S6 /quality-gate
-- Result: done
-- Gate: phase 5 (quality gate) passed for both components (D-89)
+- Session: S7 /verify (run 1, stopped at step 3)
+- Result: blocked
+- Gate: phase 6 not passed (hidden suite not evaluated)
 - Notes for the next session:
-  - backend: line (all) 99.53 %, branch 95.25 %; PIT 95.29 % raw = adjusted (708/743), first full run, no survivor round. frontend: line 99.95 % (unit = all, D-89), branch 98.82 %; Stryker 95.13 % raw = adjusted (3,044/3,200) after one survivor round (first run 74.13 %). No equivalent mutants claimed. Figures and scope: `docs/03_test-strategy.md` (phase 5).
-  - D-89: frontend `nonUnit` coverage not measured and browser suites not under PIT/Stryker (not instrumented, per-mutant image rebuild infeasible); `LogHygieneIT` now asserts a canary and reads logging events (2ebc541, 7d9582b); Vitest `testTimeout` 15 s and Testing Library `asyncUtilTimeout` 4 s fix the TagsField timeouts (D-74 (d)).
-  - Tool config 08b3a05 (JaCoCo unit/nonunit/merged reports, PIT and Stryker excludes); round 1 tests d061901 (362 → 622 Vitest tests, no production code changed).
-  - Browser suites were not re-run in S6 (last 152/152 at 820480b); backend verify 476 + 276 green. gitleaks still not on the PATH.
-  - Still open for /review or /verify (from /design): the "Contacts" nav item is never tinted on the list; D-83 (h) focus after "Add an Attribute".
+  - Step 2 done at e5a42c5: input (166), acceptance (63) and hidden (10) manifests all match; recompute again in run 1 since HEAD will move.
+  - `docs/06_hidden-evaluation.md` does not exist, so no hidden evaluation at HEAD; the human must run `node system/run.mjs --hidden-eval`, then start `/verify` again.
+  - No `## Run 1` section written yet; nothing else of the procedure was run.
+  - Still open from S6: browser suites not re-run since 820480b; gitleaks not on the PATH; "Contacts" nav item never tinted on the list; D-83 (h) focus after "Add an Attribute".
 
 ## Next
 - Command: /verify
-- Waiting for: nothing
+- Waiting for: hidden evaluation at HEAD (`node system/run.mjs --hidden-eval`)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
