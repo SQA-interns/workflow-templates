@@ -5,20 +5,19 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S7 /verify (run 1)
+- Session: S8 /fix (after /verify run 1)
 - Result: done
-- Gate: phase 6 not passed (F-35, F-36 High; F-37 … F-39 Medium; F-40 … F-46 Low; D-90)
+- Gate: phase 6 not passed (re-verify needed; D-94 open)
 - Notes for the next session:
-  - Report: `docs/06_verification-report.md` "Run 1"; raw output `out/logs/s7-*`. Hidden suite 123/123 at c56a1af; manifests match.
-  - Fix order: F-35, F-36 (images; rebuild without cache, guava ≥ 33.7.2; a new base-image tag is a tech-stack change, so a blocking decision), F-37 (removal job < 60 s + the spec §8 NFR-05 integration test), F-38 (nginx `access_log` without paths/query), then F-40 … F-45. F-46 cannot be fixed (no history rewrite): needs an acceptance decision.
-  - Local stack runs with `APP_HOST_PORT=8090` (8080 is taken on the host); `export APP_HOST_PORT=8090` before any `docker compose` call or the backend is recreated with the wrong `APP_PUBLIC_URL`.
-  - The stack now holds the capacity seed; browser tests reset it themselves.
-  - F-39 / D-90 answered (D-91, option 1): the human installs Firefox and WebKit (`npx playwright install firefox webkit` in `02_output/frontend`); not installed yet. The next /verify runs all three browsers.
-  - DoD-R-09, DoD-R-10, DoD-P04 (README part) belong to /release; DoD-P02, P03 (staging), P05 need a staging host (Q-39 OPEN).
+  - F-35 … F-38, F-40 … F-45 fixed (commits in the resolution column of `docs/06_verification-report.md` Run 1); F-46 accepted (D-93); F-39 waits on D-94 (WebKit needs `libwoff1`, sudo). Version changes in D-92 (guava 33.7.2-jre, nginx 1.30.7-alpine).
+  - New checks: `RemovalJobIT` (NFR-05, spec §8), `scripts/check-access-log.sh` (F-38), CORS tests in `ApplicationIT`.
+  - Code changed in both components since phase 5: re-measure coverage and mutation once (verify step 3). Last runs: backend 477 + 279, frontend 624/624.
+  - Images on the local stack are rebuilt from these commits; stack at `APP_HOST_PORT=8090` (export it before `docker compose`), perf seed loaded.
+  - Browsers: Chromium and Firefox run; WebKit needs D-94. Under two parallel Vitest runs `GroupRoute.test.tsx` EX-002-06 failed once (`out/logs/s8-f42-stress-after.txt`); not a finding yet.
 
 ## Next
-- Command: /fix
-- Waiting for: browser install of D-91 (for the next /verify; /fix can start)
+- Command: /verify
+- Waiting for: D-94 (WebKit system library; /verify can run, NFR-06 then without WebKit)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
