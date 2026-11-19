@@ -1,0 +1,10 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+ ✓ src/app/AppLayout.test.tsx (39 tests) 2738ms
+
+ Test Files  1 passed (1)
+      Tests  39 passed (39)
+   Start at  12:47:15
+   Duration  5.43s (transform 733ms, setup 248ms, collect 1.36s, tests 2.74s, environment 659ms, prepare 116ms)
+

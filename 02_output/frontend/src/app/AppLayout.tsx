@@ -53,7 +53,9 @@ export function AppLayout() {
               aria-label={t("app.mainNavigation")}
               className={`${menuOpen ? "flex" : "hidden"} absolute top-full right-0 left-0 z-10 flex-col gap-1 border-b bg-surface-raised p-4 md:static md:flex md:flex-row md:border-0 md:p-0 xl:ml-4`}
             >
-              <NavLink to="/" className={navItem}>
+              {/* In a Group the item is the Group's Contact list, so it is marked as the
+                  current page there and on the Contact pages below it (UI-10, F-44). */}
+              <NavLink to={groupId ? `/groups/${groupId}/contacts` : "/"} className={navItem}>
                 {t("nav.contacts")}
               </NavLink>
               {canUseRecycleBin && (

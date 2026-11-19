@@ -308,6 +308,19 @@ describe("routes and header of US-017", () => {
     expect(link.getAttribute("href")).toBe("/groups/g1/duplicates");
   });
 
+  it("UI-10 on the Contact list of a Group the Contacts item is the current page", async () => {
+    answer([konferenca]);
+
+    renderAt("/groups/g1/contacts");
+
+    const navigation = screen.getByRole("navigation", { name: "Glavna navigacija" });
+    const contacts = within(navigation).getByRole("link", { name: "Kontakti" });
+    await waitFor(() => expect(contacts.getAttribute("aria-current")).toBe("page"));
+    expect(contacts.getAttribute("href")).toBe("/groups/g1/contacts");
+    const duplicates = await within(navigation).findByRole("link", { name: "Možni dvojniki" });
+    expect(duplicates.getAttribute("aria-current")).toBeNull();
+  });
+
   it("R-017-01 /groups/:groupId/duplicates shows WF-17", async () => {
     vi.mocked(apiRequest).mockImplementation(async (_method: string, path: string) => {
       if (path === "/groups") return [konferenca];

@@ -1,0 +1,270 @@
+
+ RUN  v3.2.7 /home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend
+
+stderr | src/app/AppLayout.test.tsx > routes and header of US-017 > UI-10 on the Contact list of a Group the Contacts item is the current page
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactTable.tsx:24:21)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:114:17)
+Error handled by React Router default ErrorBoundary: TypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/ContactTable.tsx:24:21[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at mountIndeterminateComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:20103:13[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21626:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26124:20[90m)[39m
+    at flushSyncCallbacks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:12042:22[90m)[39m
+TypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactTable.tsx:24:21)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at HTMLUnknownElement.callCallback (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:4164:14)
+    at HTMLUnknownElement.callTheUserObjectsOperation (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/generated/EventListener.js:26:30)
+    at innerInvokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:360:16)
+    at invokeEventListeners (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:296:3)
+    at HTMLUnknownElementImpl._dispatch (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:243:9)
+    at HTMLUnknownElementImpl.dispatchEvent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/jsdom/lib/jsdom/living/events/EventTarget-impl.js:114:17)
+Error handled by React Router default ErrorBoundary: TypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/ContactTable.tsx:24:21[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at mountIndeterminateComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:20103:13[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21626:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at recoverFromConcurrentError [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:25889:20[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26135:20[90m)[39m
+The above error occurred in the <ContactTable> component:
+
+    at ContactTable (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactTable.tsx:13:25)
+    at ListBody (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactListPage.tsx:157:21)
+    at div
+    at ContactListPage (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactListPage.tsx:38:63)
+    at RenderedRoute (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:7580:26)
+    at Outlet (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:10012:26)
+    at GroupRoute (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/groups/GroupRoute.tsx:19:58)
+    at RenderedRoute (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:7580:26)
+    at Outlet (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:10012:26)
+    at main
+    at div
+    at AppLayout (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/app/AppLayout.tsx:24:57)
+    at RequireAuth (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/auth/RequireAuth.tsx:27:24)
+    at RenderedRoute (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:7580:26)
+    at RenderErrorBoundary (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:7486:5)
+    at DataRoutes2 (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:9915:3)
+    at Router (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:10021:13)
+    at RouterProvider (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-router/dist/development/chunk-2ZBLYC7V.js:9681:3)
+    at QueryClientProvider (file:///home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js:20:3)
+
+React will try to recreate this component tree from scratch using the error boundary you provided, RenderErrorBoundary.
+React Router caught the following error during render TypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39msrc/features/contacts/ContactTable.tsx:24:21[90m)[39m
+    at renderWithHooks [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:15486:18[90m)[39m
+    at mountIndeterminateComponent [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:20103:13[90m)[39m
+    at beginWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:21626:16[90m)[39m
+    at beginWork$1 [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:27465:14[90m)[39m
+    at performUnitOfWork [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26599:12[90m)[39m
+    at workLoopSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26505:5[90m)[39m
+    at renderRootSync [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26473:7[90m)[39m
+    at recoverFromConcurrentError [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:25889:20[90m)[39m
+    at performSyncWorkOnRoot [90m(/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/[39mnode_modules/[4mreact-dom[24m/cjs/react-dom.development.js:26135:20[90m)[39m
+
+ ❯ src/app/AppLayout.test.tsx (39 tests | 1 failed) 6753ms
+   ✓ base layout (UI-10, R-020-01) > R-020-01 shows the Slovenian product name by default 254ms
+   ✓ base layout (UI-10, R-020-01) > UI-23 the menu button toggles the navigation 125ms
+   ✓ base layout (UI-10, R-020-01) > BR-02 an unknown route shows the not found page 36ms
+   ✓ routes of US-001 > R-001-07 a signed-in User without Groups sees WF-05 44ms
+   ✓ routes of US-001 > R-001-03 a signed-out visitor sees the sign-in screen 53ms
+   ✓ routes of US-001 > R-001-01 /sign-up shows Create an account 24ms
+   ✓ routes of US-001 > R-001-05 /verify-email shows Confirm your e-mail 21ms
+   ✓ routes of US-001 > R-001-04 the user menu is named by the display name 92ms
+   ✓ routes of US-002 > R-002-01 /groups/new shows WF-04 Create a Group 35ms
+   ✓ routes of US-002 > AC-002-05 signing in opens the Group selected last 30ms
+   ✓ routes of US-002 > EX-002-06 a Group no longer available: the first Group of the switcher opens 23ms
+   ✓ routes of US-002 > R-002-04 the Contact list of a Group is remembered as the Group selected last 42ms
+   ✓ routes of US-002 > BR-02 a Group the User is no Member of shows the not found page 34ms
+   ✓ routes of US-002 > UI-14 the Groups cannot be read: error with Try again 55ms
+   ✓ header of US-002 > R-002-04 the header carries the Group switcher with the current Group 120ms
+   ✓ routes and header of US-012 > R-012-02 an Owner or Editor gets Recycle bin in the navigation of the Group 89ms
+   ✓ routes and header of US-012 > R-012-02 a Viewer gets no Recycle bin in the navigation 138ms
+   ✓ routes and header of US-012 > R-012-02 /groups/:groupId/recycle-bin shows WF-11 55ms
+   ✓ routes and header of US-003 > BR-04 only the Owner gets Settings in the navigation of the Group 83ms
+   ✓ routes and header of US-003 > BR-04 an Editor gets no Settings in the navigation 75ms
+   ✓ routes and header of US-003 > R-003-01 /groups/:groupId/settings shows WF-14 59ms
+   ✓ routes and header of US-003 > R-003-04 the user menu opens WF-15 Deleted Groups 194ms
+   ✓ routes and header of US-004 > BR-04 only the Owner gets Members in the navigation of the Group 78ms
+   ✓ routes and header of US-004 > BR-04 an Editor gets no Members in the navigation 66ms
+   ✓ routes and header of US-004 > R-004-08 /groups/:groupId/members shows WF-13 with the Invitations for the Owner 79ms
+   ✓ routes and header of US-004 > BR-04 an Editor at /groups/:groupId/members sees Tega ne smete storiti. 31ms
+   ✓ routes and header of US-017 > R-017-01 every Member, also a Viewer, gets Possible duplicates in the navigation 61ms
+   × routes and header of US-017 > UI-10 on the Contact list of a Group the Contacts item is the current page 4046ms
+     → expected null to be 'page' // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mlang[39m=[32m"sl"[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<h2>[39m
+        [0mUnexpected Application Error![0m
+      [36m</h2>[39m
+      [36m<h3[39m
+        [33mstyle[39m=[32m"font-style: italic;"[39m
+      [36m>[39m
+        [0mCannot read properties of undefined (reading 'map')[0m
+      [36m</h3>[39m
+      [36m<pre[39m
+        [33mstyle[39m=[32m"padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"[39m
+      [36m>[39m
+        [0mTypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactTable.tsx:24:21)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at beginWork$1 (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:25889:20)
+    at performSyncWorkOnRoot (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26135:20)[0m
+      [36m</pre>[39m
+      [36m<p>[39m
+        [0m💿 Hey developer 👋[0m
+      [36m</p>[39m
+      [36m<p>[39m
+        [0mYou can provide a way better UX than this when your app throws errors by providing your own [0m
+        [36m<code[39m
+          [33mstyle[39m=[32m"padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"[39m
+        [36m>[39m
+          [0mErrorBoundary[0m
+        [36m</code>[39m
+        [0m or[0m
+        [0m [0m
+        [36m<code[39m
+          [33mstyle[39m=[32m"padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"[39m
+        [36m>[39m
+          [0merrorElement[0m
+        [36m</code>[39m
+        [0m prop on your route.[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+   ✓ routes and header of US-017 > R-017-01 /groups/:groupId/duplicates shows WF-17 62ms
+   ✓ header and not found page (UI-10, BR-02) > UI-10 the header shows the product name and the navigation links to the Contacts 50ms
+   ✓ header and not found page (UI-10, BR-02) > R-017-01 outside a Group there is no Possible duplicates link 45ms
+   ✓ header and not found page (UI-10, BR-02) > BR-02 the not found page leads back to the Contacts 28ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > US-021 /account shows WF-19 Account 52ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-008-01 /groups/:groupId/contacts/new shows Add a Contact 140ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-009-01 /groups/:groupId/contacts/:contactId shows the Contact details 61ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-010-01 /groups/:groupId/contacts/:contactId/edit shows Edit Contact 107ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-015-01 /groups/:groupId/contacts/:contactId/history shows the History 50ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-015-02 /groups/:groupId/contacts/:contactId/history/:number shows the Version 65ms
+   ✓ routes of the Contact screens (US-001, US-021, US-008 … US-018) > R-018-01 /groups/:groupId/merge shows Merge 47ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/app/AppLayout.test.tsx > routes and header of US-017 > UI-10 on the Contact list of a Group the Contacts item is the current page
+AssertionError: expected null to be 'page' // Object.is equality
+
+Ignored nodes: comments, script, style
+[36m<html[39m
+  [33mlang[39m=[32m"sl"[39m
+[36m>[39m
+  [36m<head />[39m
+  [36m<body>[39m
+    [36m<div>[39m
+      [36m<h2>[39m
+        [0mUnexpected Application Error![0m
+      [36m</h2>[39m
+      [36m<h3[39m
+        [33mstyle[39m=[32m"font-style: italic;"[39m
+      [36m>[39m
+        [0mCannot read properties of undefined (reading 'map')[0m
+      [36m</h3>[39m
+      [36m<pre[39m
+        [33mstyle[39m=[32m"padding: 0.5rem; background-color: rgba(200, 200, 200, 0.5);"[39m
+      [36m>[39m
+        [0mTypeError: Cannot read properties of undefined (reading 'map')
+    at ContactTable (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/src/features/contacts/ContactTable.tsx:24:21)
+    at renderWithHooks (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:15486:18)
+    at mountIndeterminateComponent (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:20103:13)
+    at beginWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:21626:16)
+    at beginWork$1 (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:27465:14)
+    at performUnitOfWork (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26599:12)
+    at workLoopSync (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26505:5)
+    at renderRootSync (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26473:7)
+    at recoverFromConcurrentError (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:25889:20)
+    at performSyncWorkOnRoot (/home/tjan-kazar/storage/Work/lab/agentic_lab/workflow-templates/02_output/frontend/node_modules/react-dom/cjs/react-dom.development.js:26135:20)[0m
+      [36m</pre>[39m
+      [36m<p>[39m
+        [0m💿 Hey developer 👋[0m
+      [36m</p>[39m
+      [36m<p>[39m
+        [0mYou can provide a way better UX than this when your app throws errors by providing your own [0m
+        [36m<code[39m
+          [33mstyle[39m=[32m"padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"[39m
+        [36m>[39m
+          [0mErrorBoundary[0m
+        [36m</code>[39m
+        [0m or[0m
+        [0m [0m
+        [36m<code[39m
+          [33mstyle[39m=[32m"padding: 2px 4px; background-color: rgba(200, 200, 200, 0.5);"[39m
+        [36m>[39m
+          [0merrorElement[0m
+        [36m</code>[39m
+        [0m prop on your route.[0m
+      [36m</p>[39m
+    [36m</div>[39m
+  [36m</body>[39m
+[36m</html>[39m
+
+[32m- Expected:[39m 
+"page"
+
+[31m+ Received:[39m 
+null
+
+ ❯ ContactTable src/features/contacts/ContactTable.tsx:24:21
+     22| export function ContactTable({ groupId, items, selection }: ContactTab…
+     23|   const { t } = useTranslation();
+     24|   const ids = items.map((contact) => contact.id);
+       |                     ^
+     25|   const allChecked = ids.length > 0 && ids.every(selection.isChecked);
+     26|   return (
+ ❯ renderWithHooks node_modules/react-dom/cjs/react-dom.development.js:15486:18
+ ❯ mountIndeterminateComponent node_modules/react-dom/cjs/react-dom.development.js:20103:13
+ ❯ beginWork node_modules/react-dom/cjs/react-dom.development.js:21626:16
+ ❯ beginWork$1 node_modules/react-dom/cjs/react-dom.development.js:27465:14
+ ❯ performUnitOfWork node_modules/react-dom/cjs/react-dom.development.js:26599:12
+ ❯ workLoopSync node_modules/react-dom/cjs/react-dom.development.js:26505:5
+ ❯ renderRootSync node_modules/react-dom/cjs/react-dom.development.js:26473:7
+ ❯ recoverFromConcurrentError node_modules/react-dom/cjs/react-dom.development.js:25889:20
+ ❯ src/app/AppLayout.test.tsx:318:71
+ ❯ runWithExpensiveErrorDiagnosticsDisabled node_modules/@testing-library/dom/dist/config.js:47:12
+ ❯ checkCallback node_modules/@testing-library/dom/dist/wait-for.js:124:77
+ ❯ Timeout.checkRealTimersCallback node_modules/@testing-library/dom/dist/wait-for.js:118:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 38 passed (39)
+   Start at  12:46:59
+   Duration  9.59s (transform 726ms, setup 268ms, collect 1.34s, tests 6.75s, environment 703ms, prepare 107ms)
+
