@@ -1006,3 +1006,36 @@
 - Human response: D-90 option 1; 2026-11-19.
 - Resolution: D-90 → the human installs Firefox and WebKit of Playwright 1.56.1 (`npx playwright install firefox webkit` in `02_output/frontend`); the next `/verify` runs the browser suites in all three browsers (NFR-06, F-39). At the time of this record the browsers are not yet in `~/.cache/ms-playwright` (only Chromium).
 - Overrides: none
+
+## D-92: Versions changed to fix F-35 and F-36
+- Timestamp: 2026-11-19T12:40+01:00
+- Session: S8 /fix
+- Class: allow
+- Type: non-blocking
+- Trigger: F-35, F-36 (`docs/06_verification-report.md` Run 1). `com.google.guava:guava` is not listed in `tech-stack.md` (transitive of `firebase-admin` 9.5.0, 33.4.0-jre with CVE-2026-102554 High); the rule "a dependency not listed here may be added only with an exact version and a non-blocking decision record" applies. `nginx` 1.30.6-alpine (D-11, D-12) → 1.30.7-alpine is the latest patch of the same minor with no Critical/High finding (`general/rules/decisions.md`: non-blocking). `/usr/bin/pebble` is part of the Ubuntu 26.04 base image of `eclipse-temurin:21.0.13_9-jre` (not a Debian package), never started by the backend (`ENTRYPOINT java`).
+- Options: 1. Pin `guava` 33.7.2-jre in the backend `dependencyManagement` (Apache-2.0, same major); build the frontend on `nginx:1.30.7-alpine`; delete `/usr/bin/pebble` in the backend Dockerfile (default). 2. Lower the findings with evidence (approval needed).
+- Human response: none
+- Resolution: 1 — pending review. Commits `d90d1ce` (F-35), `47a9f9b` (F-36); both images 0 Critical/High with `--ignore-unfixed`; backend verify 476 + 276 green with guava 33.7.2.
+- Overrides: `tech-stack.md` container `nginx` 1.30.6-alpine (D-11) → 1.30.7-alpine; adds `com.google.guava:guava` 33.7.2-jre (runtime, backend, Apache-2.0)
+
+## D-93: F-46 accepted: stories without a feat commit naming the US id
+- Timestamp: 2026-11-19T12:40+01:00
+- Session: S8 /fix
+- Class: open
+- Type: non-blocking
+- Trigger: F-46 (Low, DoD-R-12): US-001, US-003, US-004, US-011, US-016, US-019, US-020 have `feat` commits that name their R, AC, EX or T ids (11 … 50 per story, `out/logs/s7-traceability.txt`) but none names the `US` id. `general/rules/commits.md` forbids rewriting history, so no commit can be changed.
+- Options: 1. Accept as a known limitation: traceability holds through the R/AC/EX ids (DoD-R-07 met); listed in the release notes; later runs name the `US` id in `feat` commits (default). 2. Add empty commits naming the ids (adds no evidence; not chosen).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-94: WebKit needs a system library the agent may not install
+- Timestamp: 2026-11-19T12:40+01:00
+- Session: S8 /fix
+- Class: block
+- Type: blocking
+- Trigger: after D-91 the human installed Firefox and WebKit. Firefox runs: Chromium and Firefox pass 128/128 for accessibility, languages, US-008 and US-014 (`out/logs/s8-ui-browser.txt`). WebKit does not start: "Host system is missing dependencies to run browsers … sudo apt-get install libwoff1" (or `sudo npx playwright install-deps webkit`). Installing system packages needs sudo and belongs to the human (AGENTS.md). NFR-06 (F-39) needs all three browsers.
+- Options: 1. You run `sudo apt-get install libwoff1` (or `sudo npx playwright install-deps webkit` in `02_output/frontend`) before the next `/verify`, which then runs all three browsers (default). 2. Accept Chromium and Firefox as the evidence for this run; Safari (WebKit) is listed in the release notes for a manual check on staging.
+- Human response: none
+- Resolution: pending
+- Overrides: none
