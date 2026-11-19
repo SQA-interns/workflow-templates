@@ -95,8 +95,13 @@ function sentTags(method: "PUT" | "POST") {
 }
 
 /** A suggested Tag; it is asked 300 ms after the last key, so a busy run may need longer. */
+/**
+ * Waits up to 10 s, within the 15 s test timeout (D-89): on a busy machine one render of the whole
+ * form plus the 300 ms suggestion delay took more than the 3 s and 4 s tried before (F-42). A
+ * suggestion that is there is found at once.
+ */
 function suggestion(name: string) {
-  return screen.findByRole("option", { name }, { timeout: 3000 });
+  return screen.findByRole("option", { name }, { timeout: 10_000 });
 }
 
 function tagsSection() {
