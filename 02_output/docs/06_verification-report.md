@@ -182,3 +182,105 @@ Full table in `out/logs/s7-traceability.txt` (id, test files, commits).
 | F-44 | Low | screenshots (UI-10) | On the Contact list the header item "Contacts" is not marked as the current page, while "Recycle bin" is on its page (light and dark, all widths). || fixed `69fb305`: "Contacts" links to the Group's list and is marked current |
 | F-45 | Low | WF-08, keyboard (D-83 (h)) | After "Add an Attribute" the focus stays on the button; the new Key field is 24 Tab presses away (`AttributesField.tsx:85` does not move the focus). || fixed `f13e8a1`: the new Key gets the focus (0 Tab in the walk-through) |
 | F-46 | Low | `git log` (DoD-R-12) | US-001, US-003, US-004, US-011, US-016, US-019, US-020 have no `feat` commit naming the `US` id (their `feat` commits name R/AC/EX/T ids). History must not be rewritten, so this needs acceptance. || accepted: D-93 (history must not be rewritten; traceability through R/AC/EX ids) |
+
+## Run 2
+
+Self-check in a separate session (S9 `/verify`, 2026-11-19 … 20), not an independent review. Commit under test `71dcc9c` (fixes of F-35 … F-45 since Run 1). Local stack rebuilt from `71dcc9c` with `scripts/up.sh` at `http://localhost:8090` (`APP_HOST_PORT=8090`), emulator at `9199`. Raw output in `out/logs/s9-*`. Between the runtime checks and the mutation runs the host ran out of memory (the first mutation run was stopped), then restarted and upgraded the JDK in place (21.0.13 → 21.0.13.1, unattended upgrade; a second attempt failed on the spawn helper and was repeated after the upgrade finished). The local stack was stopped for the mutation runs (human's choice).
+
+Result: **phase 6 gate passed**: no finding open; F-35 … F-45 closed, F-46 accepted (D-93). Records still to complete (not findings): the `Human response` of D-94 and the host JDK patch change (handover notes).
+
+### Definition of Done
+
+| DoD | Result | Evidence |
+|---|---|---|
+| DoD-R-01 | met | backend `./mvnw -B verify` 477 unit + 279 integration, 0 failures (`s9-backend-verify.log`); frontend Vitest 624/624 (`s9-frontend-test.log`); browser suites 456/456 in one run: Chromium 152, Firefox 152, WebKit 152 (`s9-browser-all.txt`); input (166) and acceptance (63) manifests match (`sha256sum -c`); hidden manifest: the runner reports "Manifest: ok" at `71dcc9c` (the vault is not readable by this session), and `docs/03_hidden-manifest.sha256` is unchanged since the freeze `983e512` |
+| DoD-R-02 | met | backend `spotless:check checkstyle:check spotbugs:check`: 0 Checkstyle violations, 0 SpotBugs bugs (`s9-backend-check.log`); frontend `npm run check`: Prettier, ESLint 0 warnings, `tsc` 0 errors (`s9-frontend-check.log`) |
+| DoD-R-03 | met | re-measured once, both components changed since phase 5. Backend JaCoCo all levels 99.53 % lines (1,908/1,917), 95.25 % branches (481/505); unit 92.12 %, non-unit 95.88 %. Frontend Vitest 99.95 % lines (4,402/4,404), 98.83 % branches. Mutation: backend PIT 1.20.3 **97.07 % raw / 97.07 % adjusted** (729 killed of 751; 20 survived, 2 no coverage; `scoreCovered` 97.33 %; equivalent 0; whole JUnit suite, 2,605 test runs, 51 min 42 s; JDK 21.0.13.1) (`s9-pit.log`, `backend/target/pit-reports/`); frontend Stryker 9.2.0 **94.87 % raw / 94.87 % adjusted** (3,045 killed + 4 timed out of 3,214; 137 survived, 28 no coverage; `scoreCovered` 95.70 %; equivalent 0; Vitest suite, 620 tests in the dry run; Node 22.23.3; 68 min) (`s9-stryker.log`, `frontend/reports/mutation/`). Thresholds: lines >= 95 %, mutation adjusted >= 90 %: both components meet them. Scope and tools as `docs/03_test-strategy.md` |
+| DoD-R-04 | met | `ArchitectureTest` passes in the backend suite (AR rules, SR-04, no cycles) |
+| DoD-R-05 | met | review reports have no open Critical/High; F-35 and F-36 fixed: images `contacts-backend:local` and `contacts-frontend:local` 0 fixable Critical/High (`s9-trivy-image-*-fixable.json`); Trivy `fs` 0 Critical/High; gitleaks no leaks |
+| DoD-R-06 | met | runtime demonstration below: 43/43 checks (`s9-runtime-api.txt`) |
+| DoD-R-07 | met | 324 R/AC/EX ids of US-001 … US-021 (R 112, AC 94, EX 118): 302 named in a test; each of the other 22 R ids is named in 1 … 3 AC/EX rows of its story, which are named in tests; every id has a commit naming it or its story (`s9-traceability.txt`) |
+| DoD-R-08 | met | 19 screens × 3 widths, light (Chromium, Firefox, WebKit) and dark (Chromium): axe no Critical/Serious, no sideways scrolling, both languages (`s9-browser-all.txt`, `s9-browser-dark.txt`; screenshots `out/logs/screens/verify-run2-light/`, `verify-run2-dark/`, 105 each); F-44 and F-45 fixed (below) |
+| DoD-R-09 | partly; rest at `/release` | clean clone of `71dcc9c`: backend build and check, frontend `npm ci`, build and `npm run check` all exit 0 with the README commands (`s9-clean-clone.txt`). Root `README.md` is written in phase 7 |
+| DoD-R-10 | at `/release` | `docs/release-notes.md` is written in phase 7 |
+| DoD-R-11 | met, one record to complete | D-01 … D-94: each has a resolution, a later record with the human answer, or is pending review, except D-94 (blocking, no `Human response`). Its option 1 has been carried out by the human: `libwoff1` is installed (`dpkg -s`) and WebKit runs 152/152. The `Human response` of D-94 is still to be recorded (see "Next"). Input and acceptance manifests match |
+| DoD-R-12 | met with D-93 | the 18 commits since Run 1 follow `commits.md`: subjects 51 … 71 characters with IDs, each at most 15 files and 400 lines without logs; F-46 accepted (D-93) |
+| DoD-R-13 | met | `docs/06_hidden-evaluation.md` Run 2: commit `71dcc9c`, manifest ok, 123/123 passed |
+| DoD-R-14 | met (NFR-09 human) | NFR table below |
+| DoD-R-15 | met (local run) | no CI run exists (branch not pushed, no local runner pinned); every command of `.github/workflows/ci.yml` passes locally: backend check, verify, package; frontend `npm ci`, check, test, build; Trivy `fs` 0 Critical/High (`s9-trivy-fs.txt`); gitleaks 476 commits, no leaks (`s9-gitleaks.txt`); `actionlint 1.7.8` clean (`s9-actionlint.txt`) |
+| DoD-R-16 | partly; rest at `/release` | images build from `71dcc9c` (`s9-stack-up.log`); backend with production configuration (default profile, no emulator) healthy as user `app`, rejects the emulator-signed token that the local stack accepts (`s9-prod-config.txt`); frontend without `AUTH_EMULATOR_URL`: no emulator setting, CSP, user `nginx`, nginx 1.30.7 (`s9-prod-config-frontend.txt`). Staging/production compose files are written at `/release` (ADR-11, Q-39 OPEN). Threat table below: every threat checked except TLS (staging) |
+| DoD-P01 | met | E2E-01 … E2E-08 pass in Chromium, Firefox and WebKit (`s9-browser-all.txt`) |
+| DoD-P02 | human, staging | needs a staging host (Q-39 OPEN); listed for the release notes |
+| DoD-P03 | partly | all 21 stories done; staging part needs a host (Q-39 OPEN) |
+| DoD-P04 | partly; rest at `/release` | `docs/02_contracts/openapi.yaml`; `OpenApiContractIT` passes in the backend suite; deployment steps in the root README at `/release` |
+| DoD-P05 | human, staging | restore of a backup on staging (Q-39 OPEN); listed for the release notes |
+
+### UI and accessibility
+
+| Screen | Widths and modes | Baseline result | Accessibility violations |
+|---|---|---|---|
+| WF-01 … WF-05, WF-16, WF-20 | 375, 768, 1440 px; light (three browsers), dark (Chromium); sl (en where signed in) | as Run 1; no sideways scrolling | none Critical/Serious |
+| WF-06 Contact list | same | "Contacts" is marked as the current page (F-44 fixed; screenshots light and dark) | none Critical/Serious |
+| WF-07 … WF-11, WF-13 … WF-15, WF-17 … WF-19 | same | as wireframes; WF-08: the new Key gets the focus after "Add an Attribute" (F-45 fixed, `AttributesField.test.tsx`) | none Critical/Serious |
+| Keyboard walk-through of E2E-01 (NFR-07) | Chromium, Firefox, WebKit; dark Chromium | passes | — |
+
+### NFR
+
+| NFR | Measured | Pass value | Result |
+|---|---|---|---|
+| NFR-01 | `http_req_duration{scenario:contact_list}` p(95) 93.32 ms; checks 2,315/2,315 (`s9-nfr01-contact-list.txt`; the 20 failed requests of 2,454 are set-up Invitations of existing Members, as in Run 1) | p(95) < 500 ms | pass |
+| NFR-02 | Export 1.13 s; 10,000 data rows (`s9-nfr02-export.txt`) | < 10 s, 10,000 rows | pass |
+| NFR-03 | 50 Groups, 200 Users: list p(95) 140.62 ms; Export 1.51 s, 10,000 rows (`s9-nfr03-capacity.txt`) | NFR-01, NFR-02 hold | pass |
+| NFR-04 | health UP, `restart: unless-stopped`, UP again 13 s after `docker compose restart backend` (`s9-nfr04-recovery.txt`) | < 60 s | pass |
+| NFR-05 | `RemovalJobIT`: 10,000 Contacts with `deletedAt` 31 days ago, `RemovalJob.run()` 7.14 s; 0 due Contacts, Versions, Attributes, Tag links left, the one not yet due kept (`s9-backend-verify.log`) | < 60 s, 0 rows | pass (F-37 fixed) |
+| NFR-06 | 456/456: Chromium 152, Firefox 152, WebKit 152 (`s9-browser-all.txt`) | all pass in three browsers | pass (F-39 closed) |
+| NFR-07 | axe on 19 screens × 3 widths in three browsers and dark Chromium: no Critical/Serious; keyboard walk-through passes | none; walk-through recorded | pass |
+| NFR-08 | `catalogs.test.ts` passes; screenshots of every screen in sl and en at three widths | test passes; screenshots exist | pass |
+| NFR-09 | — | under 2 minutes (human, staging) | human (DoD-P02) |
+
+### Threats and controls
+
+Rows not listed are unchanged from Run 1 and were re-checked by the same tests (all pass in this run) and runtime checks (`s9-runtime-api.txt`): forged, tampered and garbage tokens 401; non-Member 404; Viewer 403; stale Version 409; rate limit 429 with `Retry-After`; 3 MB body 413; `=1+1` exported as text without `<f>`; error bodies `application/problem+json` without internals; headers CSP with `frame-ancestors 'none'`, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`, `Permissions-Policy`.
+
+| Threat | Control | How checked | Result |
+|---|---|---|---|
+| I: personal data in logs or errors | SB-07, SR-08 | `LogHygieneIT`; `scripts/check-access-log.sh` passes (`s9-access-log.txt`); whole session: frontend access log without query strings, 485 Invitation requests logged as `<token>`; backend log without e-mails, names, search text, tokens or stack traces (`s9-backend-runtime.log`, `s9-prod-backend.log`) | controlled (F-38 fixed) |
+| I: Invitation e-mail or token leaks | SR-05 hashed token | `InvitationTokenTest`, `InvitationRepositoryIT`; access log as above | controlled (F-38 fixed) |
+| SB-04, SR-09 TLS and CORS | reverse proxy TLS; CORS for `APP_PUBLIC_URL` | CORS: preflight from `APP_PUBLIC_URL` 200 with `Access-Control-Allow-Origin`, from another origin 403 without it (runtime); CORS tests in `ApplicationIT`. TLS: staging only (Q-39 OPEN, `/release`) | CORS controlled (F-43 fixed); TLS not checkable here |
+| SB-08 dependencies | Trivy | `fs` (CI form) 0 Critical/High; images with `--ignore-unfixed`: backend 0, frontend 0; postgres 27 in `gosu` (Go stdlib; D-11/D-12: Low); emulator 38 (local and test only, never deployed, D-29) | controlled (F-35, F-36 fixed) |
+| SB-09 static analysis and secrets | SpotBugs/FindSecBugs, ESLint security, gitleaks | 0, 0; gitleaks no leaks (F-41 fixed) | controlled |
+| I: emulator settings reach production | unset outside test/local | production-profile backend rejects an emulator token that the local stack accepts (401 vs 200); production-style `config.json` without `authEmulatorUrl` | controlled; staging check at `/release` |
+| SB-11 least privilege | non-root images | backend `app`, frontend `nginx` | controlled |
+
+Scanner output: `s9-trivy-fs.txt`, `s9-trivy-image-{contacts-backend,contacts-frontend,contacts-postgres,contacts-firebase-emulator}-fixable.json`, `s9-gitleaks.txt`, `s9-actionlint.txt`.
+
+### CI and deployment
+
+- CI (`.github/workflows/ci.yml`): no run exists for this branch and no local runner is pinned. Every job command runs locally and passes: `backend` (check, verify, package), `frontend` (`npm ci`, check, test, build), `scan` (Trivy `fs`, gitleaks). `actionlint 1.7.8` clean.
+- Deployment: images `contacts-backend:local`, `contacts-frontend:local`, `contacts-postgres:16.15` built from `71dcc9c` and started healthy (`s9-stack-up.log`); production configuration checked per image (DoD-R-16). Staging and production compose files: `/release` (ADR-11, Q-39).
+
+### Runtime demonstration
+
+| Component | Environment | Flows exercised | Result |
+|---|---|---|---|
+| all four containers | local stack from `71dcc9c`, `perf/load-seed.sh` (seed + 10,000 Contacts) | SPA and headers; sign-in through the emulator as Owner, Editor, Viewer and a non-Member; no, garbage and tampered token; Group list; search and sort in 10,000 Contacts; invalid sort 400; add with Attribute and Tag; edit; stale Version 409; Viewer 403; non-Member 404 (read, list); e-mail match; History; restore Version 1; Export of a checked Contact (file name R-016-06, `=1+1` as text); recycle bin move, list, restore; Invitation create, view, accept, new Viewer reads and gets 403 on edit; 413; validation and 404 bodies; CORS own and other origin; rate limit (`s9-runtime-api.txt`) | 43/43 |
+| backend | production configuration (default profile), compose database | health UP, user `app`, emulator token 401, OpenAPI, Swagger UI and actuator closed without token (`s9-prod-config.txt`) | pass |
+| frontend | production-style settings | `config.json` without emulator, CSP, user `nginx`, SPA route (`s9-prod-config-frontend.txt`) | pass |
+| backend | restart (NFR-04) | see NFR | pass |
+| browser | Chromium, Firefox, WebKit; dark Chromium | 456 browser tests incl. E2E-01 … 08, axe, languages; 55 dark | pass |
+
+Logs and errors (step 8): see the threat rows above. `.env` leak check: no tracked or untracked file and no commit message contains a `.env` value (5 values checked; file names only, none listed; commits `0`).
+
+### Traceability
+
+Full table in `out/logs/s9-traceability.txt` (id, test files, commits).
+
+| R / AC / EX | Tests | Commits |
+|---|---|---|
+| 324 ids of US-001 … US-021 (R 112, AC 94, EX 118) | 302 named in backend tests, frontend unit tests or browser specs; 22 R covered through the AC/EX rows that name them | every id: a commit naming it or its story |
+
+### Findings
+
+No new finding in this run.
+
+Run 1 findings: F-35 … F-38, F-40 … F-45 re-checked and closed by this run (evidence above); F-39 closed (WebKit runs, NFR-06 passes); F-46 accepted (D-93).

@@ -1,0 +1,10 @@
+frontend image, production-style settings (no AUTH_EMULATOR_URL), commit 71dcc9c
+config.json: {
+  "firebaseApiKey": "prod-check-key",
+  "firebaseAuthDomain": "contacts-prod.firebaseapp.com",
+  "firebaseProjectId": "contacts-prod"
+}
+CSP: Content-Security-Policy: default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com ; frame-src https://contacts-prod.firebaseapp.com ; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+user: nginx
+SPA route /groups/x -> 200
+nginx: nginx version: nginx/1.30.7

@@ -1,0 +1,7 @@
+clean clone of HEAD 71dcc9c into scratchpad
+backend build (README: ./mvnw -B -DskipTests package) EXIT 0
+target/contacts-backend.jar
+frontend npm ci EXIT 0
+frontend build (README: npm ci && npm run build) EXIT 0
+frontend check EXIT 0
+backend check EXIT 0

@@ -1,0 +1,10 @@
+production-profile backend (no SPRING_PROFILES_ACTIVE, no emulator host), commit 71dcc9c, health status after 16 s: healthy
+health: {"groups":["liveness","readiness"],"status":"UP"}
+user: app
+profiles: 0 SPRING_PROFILES_ACTIVE entries
+emulator-signed ID token (valid on the local stack) -> 401
+no token -> 401
+openapi without token -> 401
+swagger-ui -> 401
+actuator env -> 401
+local stack, same token -> 200

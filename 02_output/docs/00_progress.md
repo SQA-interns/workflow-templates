@@ -5,19 +5,21 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S8 /fix (after /verify run 1)
+- Session: S9 /verify (run 2)
 - Result: done
-- Gate: phase 6 not passed (re-verify needed; D-94 open)
+- Gate: phase 6 passed
 - Notes for the next session:
-  - F-35 … F-38, F-40 … F-45 fixed (commits in the resolution column of `docs/06_verification-report.md` Run 1); F-46 accepted (D-93); F-39 waits on D-94 (WebKit needs `libwoff1`, sudo). Version changes in D-92 (guava 33.7.2-jre, nginx 1.30.7-alpine).
-  - New checks: `RemovalJobIT` (NFR-05, spec §8), `scripts/check-access-log.sh` (F-38), CORS tests in `ApplicationIT`.
-  - Code changed in both components since phase 5: re-measure coverage and mutation once (verify step 3). Last runs: backend 477 + 279, frontend 624/624.
-  - Images on the local stack are rebuilt from these commits; stack at `APP_HOST_PORT=8090` (export it before `docker compose`), perf seed loaded.
-  - Browsers: Chromium and Firefox run; WebKit needs D-94. Under two parallel Vitest runs `GroupRoute.test.tsx` EX-002-06 failed once (`out/logs/s8-f42-stress-after.txt`); not a finding yet.
+  - Run 2 in `docs/06_verification-report.md`: no finding open; F-35 … F-45 closed, F-46 accepted (D-93). Hidden evaluation Run 2 at `71dcc9c`: 123/123, manifest ok.
+  - D-94 has no `Human response` yet, but its option 1 was carried out: `libwoff1` is installed and WebKit passes 152/152. Record the human's answer (`/release D-94: 1`) before closing the decision.
+  - The host JDK was upgraded in place by unattended-upgrades on 2026-11-20 (21.0.13 → 21.0.13.1; D-01 pins 21.0.13). Pinned tool reporting another version: record a non-blocking decision. PIT ran on 21.0.13.1; the other backend runs used 21.0.13.
+  - After the host restart, background shells used the system Node 18; Node 22.23.3 (D-07) comes from nvm. Check `node -v` first.
+  - The local stack (`kontakti`) is stopped (it was stopped for the mutation runs to free memory). Start it with `APP_HOST_PORT=8090 scripts/up.sh`.
+  - Mutation: backend 97.07 %, frontend 94.87 % (raw = adjusted). `docs/03_test-strategy.md` still shows the phase 5 figures.
+  - Release work: staging (Q-39 OPEN) for DoD-P02, DoD-P03, DoD-P05, TLS; root README, release notes, staging/production compose files (ADR-11).
 
 ## Next
-- Command: /verify
-- Waiting for: D-94 (WebKit system library; /verify can run, NFR-06 then without WebKit)
+- Command: /release
+- Waiting for: D-94 (Human response only; option 1 already done)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |

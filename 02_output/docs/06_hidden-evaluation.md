@@ -14,3 +14,14 @@ Results of the held-out suite, run by the runner on a copy of the project. Failu
 
 | Rule | Case category |
 |---|---|
+
+## Run 2
+
+- Commit: 71dcc9c
+- Date: 2026-11-19T12:20:44.950Z
+- Manifest: ok
+- Tests: 123, passed: 123, failed: 0
+- Exit code: 0
+
+| Rule | Case category |
+|---|---|

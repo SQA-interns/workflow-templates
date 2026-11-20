@@ -1,0 +1,81 @@
+backend-1  | 
+backend-1  |   .   ____          _            __ _ _
+backend-1  |  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+backend-1  | ( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+backend-1  |  \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+backend-1  |   '  |____| .__|_| |_|_| |_\__, | / / / /
+backend-1  |  =========|_|==============|___/=/_/_/_/
+backend-1  | 
+backend-1  |  :: Spring Boot ::                (v4.1.2)
+backend-1  | 
+backend-1  | 2026-11-19T12:30:55.397Z  INFO 1 --- [contacts-backend] [           main] app.contacts.ContactsApplication         : Starting ContactsApplication v0.1.0 using Java 21.0.13 with PID 1 (/app/app.jar started by app in /app)
+backend-1  | 2026-11-19T12:30:55.403Z  INFO 1 --- [contacts-backend] [           main] app.contacts.ContactsApplication         : The following 1 profile is active: "local"
+backend-1  | 2026-11-19T12:30:57.119Z  INFO 1 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+backend-1  | 2026-11-19T12:30:57.248Z  INFO 1 --- [contacts-backend] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 114 ms. Found 11 JPA repository interfaces.
+backend-1  | 2026-11-19T12:30:58.455Z  INFO 1 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat initialized with port 8080 (http)
+backend-1  | 2026-11-19T12:30:58.477Z  INFO 1 --- [contacts-backend] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+backend-1  | 2026-11-19T12:30:58.477Z  INFO 1 --- [contacts-backend] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/11.0.27]
+backend-1  | 2026-11-19T12:30:58.519Z  INFO 1 --- [contacts-backend] [           main] b.w.c.s.WebApplicationContextInitializer : Root WebApplicationContext: initialization completed in 3022 ms
+backend-1  | 2026-11-19T12:30:59.243Z  INFO 1 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+backend-1  | 2026-11-19T12:30:59.573Z  INFO 1 --- [contacts-backend] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1115be8c
+backend-1  | 2026-11-19T12:30:59.575Z  INFO 1 --- [contacts-backend] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+backend-1  | 2026-11-19T12:30:59.605Z  INFO 1 --- [contacts-backend] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://postgres:5432/contacts (PostgreSQL 16.16)
+backend-1  | 2026-11-19T12:30:59.749Z  INFO 1 --- [contacts-backend] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 1 migration (execution time 00:00.047s)
+backend-1  | 2026-11-19T12:30:59.768Z  INFO 1 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 1
+backend-1  | 2026-11-19T12:30:59.772Z  INFO 1 --- [contacts-backend] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+backend-1  | 2026-11-19T12:30:59.929Z  INFO 1 --- [contacts-backend] [           main] org.hibernate.orm.jpa                    : HHH008540: Processing PersistenceUnitInfo [name: default]
+backend-1  | 2026-11-19T12:31:00.048Z  INFO 1 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000001: Hibernate ORM core version 7.4.13.Final
+backend-1  | 2026-11-19T12:31:00.863Z  INFO 1 --- [contacts-backend] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+backend-1  | 2026-11-19T12:31:00.976Z  INFO 1 --- [contacts-backend] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+backend-1  | 	Database JDBC URL [jdbc:postgresql://postgres:5432/contacts]
+backend-1  | 	Database driver: PostgreSQL JDBC Driver
+backend-1  | 	Database dialect: PostgreSQLDialect
+backend-1  | 	Database version: 16.16
+backend-1  | 	Default catalog/schema: contacts/public
+backend-1  | 	Autocommit mode: undefined/unknown
+backend-1  | 	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+backend-1  | 	JDBC fetch size: none
+backend-1  | 	Pool: DataSourceConnectionProvider
+backend-1  | 	Minimum pool size: undefined/unknown
+backend-1  | 	Maximum pool size: undefined/unknown
+backend-1  | 2026-11-19T12:31:02.297Z  INFO 1 --- [contacts-backend] [           main] org.hibernate.orm.core                   : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+backend-1  | 2026-11-19T12:31:02.358Z  INFO 1 --- [contacts-backend] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+backend-1  | 2026-11-19T12:31:02.507Z  INFO 1 --- [contacts-backend] [           main] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+backend-1  | 2026-11-19T12:31:04.737Z  INFO 1 --- [contacts-backend] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noLocalUsers
+backend-1  | 2026-11-19T12:31:05.845Z  INFO 1 --- [contacts-backend] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+backend-1  | 2026-11-19T12:31:05.959Z  INFO 1 --- [contacts-backend] [           main] o.s.boot.tomcat.TomcatWebServer          : Tomcat started on port 8080 (http) with context path '/'
+backend-1  | 2026-11-19T12:31:05.989Z  INFO 1 --- [contacts-backend] [           main] app.contacts.ContactsApplication         : Started ContactsApplication in 11.422 seconds (process running for 12.459)
+backend-1  | 2026-11-19T12:31:06.120Z  WARN 1 --- [contacts-backend] [           main] o.s.core.events.SpringDocAppInitializer  : SpringDoc /api/v1/openapi.json endpoint is enabled by default. To disable it in production, set the property 'springdoc.api-docs.enabled=false'
+backend-1  | 2026-11-19T12:31:08.818Z  INFO 1 --- [contacts-backend] [omcat-handler-0] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+backend-1  | 2026-11-19T12:31:08.818Z  INFO 1 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+backend-1  | 2026-11-19T12:31:08.820Z  INFO 1 --- [contacts-backend] [omcat-handler-0] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+backend-1  | 2026-11-19T12:31:32.515Z  WARN 1 --- [contacts-backend] [omcat-handler-7] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:31:32.515Z  WARN 1 --- [contacts-backend] [omcat-handler-7] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(sElcizueCM9QW2aEzocQNSX64otg) already exists.
+backend-1  | 2026-11-19T12:34:45.206Z  WARN 1 --- [contacts-backend] [at-handler-4333] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:34:45.206Z  WARN 1 --- [contacts-backend] [at-handler-4333] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(dPCIShSP5L0bkGSzhh44CQZOqbAA) already exists.
+backend-1  | 2026-11-19T12:34:47.918Z  WARN 1 --- [contacts-backend] [at-handler-4370] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:34:47.919Z  WARN 1 --- [contacts-backend] [at-handler-4370] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(SbeiUIw4GYPIsm6gVeOtPOCFMWsf) already exists.
+backend-1  | 2026-11-19T12:36:31.387Z  WARN 1 --- [contacts-backend] [at-handler-5688] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:36:31.387Z  WARN 1 --- [contacts-backend] [at-handler-5688] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(Ei5Ujmigbk2IBhayf3laAr9pBNz1) already exists.
+backend-1  | 2026-11-19T12:42:27.161Z  WARN 1 --- [contacts-backend] [t-handler-10097] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:42:27.161Z  WARN 1 --- [contacts-backend] [t-handler-10097] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(eAxAYvhjtgwbtDE6hUk5Sf5h4Iyl) already exists.
+backend-1  | 2026-11-19T12:42:32.400Z  WARN 1 --- [contacts-backend] [t-handler-10135] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:42:32.401Z  WARN 1 --- [contacts-backend] [t-handler-10135] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(PpO1LbK4xdxcXSHpFPoag6m9jRUv) already exists.
+backend-1  | 2026-11-19T12:45:23.368Z  WARN 1 --- [contacts-backend] [t-handler-11431] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:45:23.368Z  WARN 1 --- [contacts-backend] [t-handler-11431] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(e61ZaC9dhuaXyuRhzrm0A3q1EWVw) already exists.
+backend-1  | 2026-11-19T12:52:20.356Z  WARN 1 --- [contacts-backend] [t-handler-15404] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:52:20.357Z  WARN 1 --- [contacts-backend] [t-handler-15404] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(n9sqb7AGC27D29P7vHcBlfia7IRC) already exists.
+backend-1  | 2026-11-19T12:52:28.668Z  WARN 1 --- [contacts-backend] [t-handler-15444] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:52:28.669Z  WARN 1 --- [contacts-backend] [t-handler-15444] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(KiYFZLe2lb9ipyoIsaDfWE7fMsY7) already exists.
+backend-1  | 2026-11-19T12:57:14.418Z  WARN 1 --- [contacts-backend] [t-handler-16938] org.hibernate.orm.jdbc.error             : HHH000247: ErrorCode: 0, SQLState: 23505
+backend-1  | 2026-11-19T12:57:14.418Z  WARN 1 --- [contacts-backend] [t-handler-16938] org.hibernate.orm.jdbc.error             : ERROR: duplicate key value violates unique constraint "app_user_firebase_uid_key"
+backend-1  |   Detail: Key (firebase_uid)=(WrmIQzwQPs3zn12kJYJtLdeHNnyY) already exists.

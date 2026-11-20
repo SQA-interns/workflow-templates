@@ -1,0 +1,328 @@
+id | test files | examples | commits naming the id | commits naming id or story
+R-001-01 | 5 | AppLayout.test.tsx, AuthProvider.test.tsx, firebase.test.ts | 4 | 13
+R-001-02 | 1 | apiClient.test.ts | 2 | 11
+R-001-03 | 2 | AppLayout.test.tsx, AuthProvider.test.tsx | 2 | 11
+R-001-04 | 2 | AppLayout.test.tsx, UserMenu.test.tsx | 4 | 13
+R-001-05 | 7 | FirebaseTokenFilterTest.java, apiClient.test.ts, problem.test.ts | 6 | 15
+R-001-06 | 5 | apiClient.test.ts, UserMenu.test.tsx, AuthProvider.test.tsx | 3 | 12
+R-001-07 | 3 | AppLayout.test.tsx, GroupSwitcher.test.tsx, NoGroupsPage.test.tsx | 2 | 11
+AC-001-01 | 3 | Us001SignInAcceptanceIT.java, us001-sign-in.spec.ts, NoGroupsPage.test.tsx | 1 | 10
+AC-001-02 | 2 | Us001SignInAcceptanceIT.java, us001-sign-in.spec.ts | 2 | 11
+AC-001-03 | 1 | Us001SignInAcceptanceIT.java | 1 | 10
+AC-001-04 | 1 | Us001SignInAcceptanceIT.java | 1 | 10
+AC-001-05 | 3 | Us001SignInAcceptanceIT.java, us001-sign-in.spec.ts, VerifyEmailPage.test.tsx | 2 | 11
+AC-001-06 | 2 | Us001SignInAcceptanceIT.java, us001-sign-in.spec.ts | 1 | 10
+EX-001-01 | 3 | us001-sign-in.spec.ts, firebase.test.ts, SignInPage.test.tsx | 2 | 11
+EX-001-02 | 1 | Us001SignInAcceptanceIT.java | 1 | 10
+EX-001-03 | 1 | Us001SignInAcceptanceIT.java | 1 | 10
+EX-001-04 | 1 | Us001SignInAcceptanceIT.java | 0 | 9
+EX-001-05 | 3 | us001-sign-in.spec.ts, firebase.test.ts, SignUpPage.test.tsx | 2 | 11
+R-002-01 | 4 | groups.test.tsx, AppLayout.test.tsx, CreateGroupPage.test.tsx | 5 | 19
+R-002-02 | 2 | CreateGroupPage.test.tsx, groupName.test.ts | 5 | 19
+R-002-03 | 2 | groups.test.tsx, GroupSwitcher.test.tsx | 2 | 16
+R-002-04 | 2 | AppLayout.test.tsx, GroupSwitcher.test.tsx | 2 | 16
+R-002-05 | 3 | GroupRoute.test.tsx, GroupSwitcher.test.tsx, currentGroup.test.ts | 4 | 16
+AC-002-01 | 4 | Us002GroupsAcceptanceIT.java, us002-groups.spec.ts, CreateGroupPage.test.tsx | 2 | 16
+AC-002-02 | 3 | Us002GroupsAcceptanceIT.java, us002-groups.spec.ts, GroupSwitcher.test.tsx | 1 | 15
+AC-002-03 | 1 | Us002GroupsAcceptanceIT.java | 0 | 14
+AC-002-04 | 3 | Us002GroupsAcceptanceIT.java, us002-groups.spec.ts, CreateGroupPage.test.tsx | 1 | 15
+AC-002-05 | 3 | us002-groups.spec.ts, AppLayout.test.tsx, currentGroup.test.ts | 2 | 15
+EX-002-01 | 1 | Us002GroupsAcceptanceIT.java | 0 | 14
+EX-002-02 | 2 | Us002GroupsAcceptanceIT.java, CreateGroupPage.test.tsx | 1 | 15
+EX-002-03 | 1 | Us002GroupsAcceptanceIT.java | 0 | 14
+EX-002-04 | 1 | Us002GroupsAcceptanceIT.java | 0 | 14
+EX-002-05 | 1 | Us002GroupsAcceptanceIT.java | 1 | 15
+EX-002-06 | 5 | Us002GroupsAcceptanceIT.java, us002-groups.spec.ts, AppLayout.test.tsx | 3 | 15
+R-003-01 | 3 | groups.test.tsx, AppLayout.test.tsx, GroupSettingsPage.test.tsx | 3 | 10
+R-003-02 | 2 | groups.test.tsx, GroupSettingsPage.test.tsx | 2 | 10
+R-003-03 | 0 |  | 1 | 9
+R-003-04 | 3 | groups.test.tsx, AppLayout.test.tsx, UserMenu.test.tsx | 2 | 10
+R-003-05 | 2 | groups.test.tsx, DeletedGroupsPage.test.tsx | 1 | 9
+R-003-06 | 1 | DeletedGroupsPage.test.tsx | 1 | 9
+AC-003-01 | 3 | Us003GroupLifecycleAcceptanceIT.java, us003-group-lifecycle.spec.ts, GroupSettingsPage.test.tsx | 1 | 9
+AC-003-02 | 2 | Us003GroupLifecycleAcceptanceIT.java, GroupSettingsPage.test.tsx | 2 | 10
+AC-003-03 | 4 | Us003GroupLifecycleAcceptanceIT.java, us003-group-lifecycle.spec.ts, DeletedGroupsPage.test.tsx | 2 | 10
+AC-003-04 | 3 | Us003GroupLifecycleAcceptanceIT.java, us003-group-lifecycle.spec.ts, DeletedGroupsPage.test.tsx | 1 | 9
+AC-003-05 | 1 | Us003GroupLifecycleAcceptanceIT.java | 1 | 9
+EX-003-01 | 1 | Us003GroupLifecycleAcceptanceIT.java | 0 | 8
+EX-003-02 | 1 | Us003GroupLifecycleAcceptanceIT.java | 1 | 9
+EX-003-03 | 1 | Us003GroupLifecycleAcceptanceIT.java | 0 | 8
+EX-003-04 | 2 | us003-group-lifecycle.spec.ts, GroupSettingsPage.test.tsx | 1 | 9
+EX-003-05 | 2 | Us003GroupLifecycleAcceptanceIT.java, us003-group-lifecycle.spec.ts | 1 | 9
+EX-003-06 | 2 | Us003GroupLifecycleAcceptanceIT.java, GroupSettingsPage.test.tsx | 2 | 10
+R-004-01 | 3 | AcceptanceTest.java, InvitationRepositoryIT.java, InvitationsSection.test.tsx | 5 | 12
+R-004-02 | 0 |  | 2 | 9
+R-004-03 | 1 | invitations.test.tsx | 1 | 8
+R-004-04 | 3 | AcceptanceTest.java, InvitationRepositoryIT.java, invitations.test.tsx | 1 | 8
+R-004-05 | 1 | InvitationPage.test.tsx | 3 | 10
+R-004-06 | 1 | InvitationPage.test.tsx | 2 | 9
+R-004-07 | 2 | returnTo.test.ts, InvitationPage.test.tsx | 1 | 8
+R-004-08 | 4 | InvitationRepositoryIT.java, invitations.test.tsx, AppLayout.test.tsx | 4 | 11
+R-004-09 | 2 | invitations.test.tsx, InvitationsSection.test.tsx | 2 | 9
+AC-004-01 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationsSection.test.tsx | 2 | 9
+AC-004-02 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationPage.test.tsx | 1 | 8
+AC-004-03 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationPage.test.tsx | 1 | 8
+AC-004-04 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationPage.test.tsx | 1 | 8
+AC-004-05 | 1 | Us004InvitationsAcceptanceIT.java | 0 | 7
+AC-004-06 | 2 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts | 0 | 7
+EX-004-01 | 1 | Us004InvitationsAcceptanceIT.java | 0 | 7
+EX-004-02 | 1 | Us004InvitationsAcceptanceIT.java | 1 | 8
+EX-004-03 | 1 | Us004InvitationsAcceptanceIT.java | 1 | 8
+EX-004-04 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationsSection.test.tsx | 1 | 8
+EX-004-05 | 1 | Us004InvitationsAcceptanceIT.java | 0 | 7
+EX-004-06 | 3 | Us004InvitationsAcceptanceIT.java, us004-invitations.spec.ts, InvitationsSection.test.tsx | 3 | 10
+EX-004-07 | 1 | Us004InvitationsAcceptanceIT.java | 0 | 7
+EX-004-08 | 1 | Us004InvitationsAcceptanceIT.java | 1 | 8
+R-005-01 | 4 | MembershipRepositoryIT.java, members.test.tsx, MemberList.test.tsx | 2 | 11
+R-005-02 | 2 | members.test.tsx, MemberList.test.tsx | 2 | 11
+R-005-03 | 2 | members.test.tsx, MemberList.test.tsx | 2 | 11
+R-005-04 | 0 |  | 2 | 11
+R-005-05 | 1 | MemberList.test.tsx | 3 | 12
+AC-005-01 | 4 | Us005MembersAcceptanceIT.java, AcceptanceTest.java, us005-members.spec.ts | 1 | 10
+AC-005-02 | 1 | Us005MembersAcceptanceIT.java | 0 | 9
+AC-005-03 | 1 | Us005MembersAcceptanceIT.java | 0 | 9
+AC-005-04 | 1 | Us005MembersAcceptanceIT.java | 0 | 9
+AC-005-05 | 1 | Us005MembersAcceptanceIT.java | 1 | 10
+EX-005-01 | 1 | Us005MembersAcceptanceIT.java | 1 | 10
+EX-005-02 | 1 | Us005MembersAcceptanceIT.java | 1 | 10
+EX-005-03 | 1 | Us005MembersAcceptanceIT.java | 1 | 10
+EX-005-04 | 2 | us005-members.spec.ts, MemberList.test.tsx | 1 | 10
+EX-005-05 | 1 | Us005MembersAcceptanceIT.java | 0 | 9
+R-006-01 | 1 | ContactFieldInput.test.tsx | 8 | 17
+R-006-02 | 3 | ContactForm.test.tsx, contactFields.test.ts, fieldMessages.test.ts | 4 | 12
+R-006-03 | 5 | ContactFieldInput.test.tsx, ContactForm.test.tsx, NewContactPage.test.tsx | 3 | 11
+R-006-04 | 5 | LogHygieneIT.java, ContactFieldInput.test.tsx, ContactForm.test.tsx | 2 | 10
+R-006-05 | 3 | ContactFieldInput.test.tsx, NewContactPage.test.tsx, contactFields.test.ts | 3 | 12
+R-006-06 | 3 | contacts.test.tsx, ContactFieldInput.test.tsx, NewContactPage.test.tsx | 5 | 13
+R-006-07 | 1 | contactFields.test.ts | 3 | 12
+AC-006-01 | 3 | Us006AddContactAcceptanceIT.java, us006-add-contact.spec.ts, NewContactPage.test.tsx | 2 | 11
+AC-006-02 | 2 | Us006AddContactAcceptanceIT.java, NewContactPage.test.tsx | 2 | 11
+AC-006-03 | 3 | Us006AddContactAcceptanceIT.java, us006-add-contact.spec.ts, NewContactPage.test.tsx | 2 | 11
+AC-006-04 | 4 | Us006AddContactAcceptanceIT.java, us006-add-contact.spec.ts, NewContactPage.test.tsx | 2 | 11
+AC-006-05 | 3 | Us006AddContactAcceptanceIT.java, us006-add-contact.spec.ts, NewContactPage.test.tsx | 2 | 11
+AC-006-06 | 2 | Us006AddContactAcceptanceIT.java, NewContactPage.test.tsx | 2 | 11
+EX-006-01 | 2 | Us006AddContactAcceptanceIT.java, contactFields.test.ts | 1 | 10
+EX-006-02 | 3 | Us006AddContactAcceptanceIT.java, NewContactPage.test.tsx, contactFields.test.ts | 2 | 11
+EX-006-03 | 2 | Us006AddContactAcceptanceIT.java, contactFields.test.ts | 1 | 10
+EX-006-04 | 1 | Us006AddContactAcceptanceIT.java | 0 | 9
+EX-006-05 | 2 | Us006AddContactAcceptanceIT.java, contactFields.test.ts | 1 | 10
+EX-006-06 | 1 | Us006AddContactAcceptanceIT.java | 0 | 9
+EX-006-07 | 1 | Us006AddContactAcceptanceIT.java | 0 | 9
+EX-006-08 | 2 | Us006AddContactAcceptanceIT.java, us006-add-contact.spec.ts | 0 | 9
+EX-006-09 | 1 | Us006AddContactAcceptanceIT.java | 0 | 9
+R-007-01 | 1 | contacts.test.tsx | 1 | 10
+R-007-02 | 0 |  | 1 | 10
+R-007-03 | 1 | ContactForm.test.tsx | 3 | 12
+R-007-04 | 0 |  | 1 | 10
+AC-007-01 | 3 | Us007EditContactAcceptanceIT.java, us007-edit-contact.spec.ts, EditContactPage.test.tsx | 1 | 10
+AC-007-02 | 3 | Us007EditContactAcceptanceIT.java, us007-edit-contact.spec.ts, EditContactPage.test.tsx | 2 | 11
+AC-007-03 | 3 | Us007EditContactAcceptanceIT.java, us007-edit-contact.spec.ts, EditContactPage.test.tsx | 1 | 10
+AC-007-04 | 3 | Us007EditContactAcceptanceIT.java, us007-edit-contact.spec.ts, EditContactPage.test.tsx | 1 | 10
+AC-007-05 | 1 | Us007EditContactAcceptanceIT.java | 1 | 10
+EX-007-01 | 1 | Us007EditContactAcceptanceIT.java | 1 | 10
+EX-007-02 | 1 | Us007EditContactAcceptanceIT.java | 1 | 10
+EX-007-03 | 2 | Us007EditContactAcceptanceIT.java, EditContactPage.test.tsx | 2 | 11
+EX-007-04 | 1 | Us007EditContactAcceptanceIT.java | 1 | 10
+EX-007-05 | 2 | Us007EditContactAcceptanceIT.java, EditContactPage.test.tsx | 2 | 11
+R-008-01 | 4 | AttributeRepositoryIT.java, AppLayout.test.tsx, AttributesField.test.tsx | 7 | 18
+R-008-02 | 3 | ContactValidatorAttributesTest.java, ContactForm.test.tsx, attributes.test.ts | 4 | 16
+R-008-03 | 1 | AttributesField.test.tsx | 1 | 13
+R-008-04 | 1 | fieldMessages.test.ts | 0 | 12
+R-008-05 | 3 | ContactValidatorAttributesTest.java, AttributesField.test.tsx, attributes.test.ts | 1 | 13
+R-008-06 | 1 | AttributesField.test.tsx | 2 | 13
+AC-008-01 | 4 | Us008AttributesAcceptanceIT.java, us008-attributes.spec.ts, AttributesField.test.tsx | 2 | 14
+AC-008-02 | 3 | Us008AttributesAcceptanceIT.java, us008-attributes.spec.ts, AttributesField.test.tsx | 1 | 13
+AC-008-03 | 4 | Us008AttributesAcceptanceIT.java, us008-attributes.spec.ts, AttributesField.test.tsx | 2 | 14
+AC-008-04 | 4 | Us008AttributesAcceptanceIT.java, us008-attributes.spec.ts, AttributesField.test.tsx | 2 | 14
+EX-008-01 | 2 | Us008AttributesAcceptanceIT.java, attributes.test.ts | 1 | 13
+EX-008-02 | 3 | Us008AttributesAcceptanceIT.java, AttributesField.test.tsx, attributes.test.ts | 2 | 14
+EX-008-03 | 2 | Us008AttributesAcceptanceIT.java, attributes.test.ts | 1 | 13
+EX-008-04 | 3 | Us008AttributesAcceptanceIT.java, AttributesField.test.tsx, attributes.test.ts | 2 | 14
+EX-008-05 | 2 | Us008AttributesAcceptanceIT.java, attributes.test.ts | 1 | 13
+EX-008-06 | 1 | Us008AttributesAcceptanceIT.java | 0 | 12
+EX-008-07 | 1 | Us008AttributesAcceptanceIT.java | 0 | 12
+R-009-01 | 4 | TagRepositoryIT.java, AppLayout.test.tsx, ContactForm.test.tsx | 6 | 18
+R-009-02 | 3 | AcceptanceTest.java, tags.test.tsx, TagsField.test.tsx | 4 | 16
+R-009-03 | 1 | tags.test.ts | 5 | 17
+R-009-04 | 3 | TagRepositoryIT.java, TagsField.test.tsx, tags.test.ts | 1 | 13
+R-009-05 | 4 | ContactValidatorTagsTest.java, ContactForm.test.tsx, TagsField.test.tsx | 4 | 16
+R-009-06 | 2 | ContactValidatorTagsTest.java, tags.test.ts | 4 | 16
+AC-009-01 | 4 | Us009TagsAcceptanceIT.java, us009-tags.spec.ts, TagsField.test.tsx | 2 | 14
+AC-009-02 | 3 | Us009TagsAcceptanceIT.java, us009-tags.spec.ts, TagsField.test.tsx | 2 | 14
+AC-009-03 | 3 | Us009TagsAcceptanceIT.java, us009-tags.spec.ts, TagsField.test.tsx | 1 | 13
+AC-009-04 | 4 | Us009TagsAcceptanceIT.java, us009-tags.spec.ts, TagsField.test.tsx | 2 | 14
+AC-009-05 | 4 | Us009TagsAcceptanceIT.java, us009-tags.spec.ts, TagsField.test.tsx | 2 | 14
+EX-009-01 | 2 | Us009TagsAcceptanceIT.java, tags.test.ts | 1 | 13
+EX-009-02 | 2 | Us009TagsAcceptanceIT.java, tags.test.ts | 1 | 13
+EX-009-03 | 3 | Us009TagsAcceptanceIT.java, TagsField.test.tsx, tags.test.ts | 1 | 13
+EX-009-04 | 1 | Us009TagsAcceptanceIT.java | 1 | 13
+EX-009-05 | 1 | Us009TagsAcceptanceIT.java | 1 | 13
+EX-009-06 | 1 | Us009TagsAcceptanceIT.java | 0 | 12
+EX-009-07 | 1 | Us009TagsAcceptanceIT.java | 0 | 12
+R-010-01 | 5 | ContactVersionRepositoryIT.java, history.test.tsx, AppLayout.test.tsx | 5 | 15
+R-010-02 | 4 | ContactVersionRepositoryIT.java, history.test.tsx, HistoryPage.test.tsx | 6 | 16
+R-010-03 | 0 |  | 1 | 11
+AC-010-01 | 3 | Us010HistoryAcceptanceIT.java, us010-history.spec.ts, changes.test.ts | 1 | 12
+AC-010-02 | 3 | Us010HistoryAcceptanceIT.java, us010-history.spec.ts, VersionPage.test.tsx | 1 | 12
+AC-010-03 | 2 | Us010HistoryAcceptanceIT.java, HistoryPage.test.tsx | 2 | 13
+EX-010-01 | 3 | Us010HistoryAcceptanceIT.java, us010-history.spec.ts, HistoryPage.test.tsx | 1 | 12
+EX-010-02 | 1 | Us010HistoryAcceptanceIT.java | 0 | 11
+EX-010-03 | 1 | Us010HistoryAcceptanceIT.java | 2 | 12
+EX-010-04 | 2 | Us010HistoryAcceptanceIT.java, HistoryPage.test.tsx | 1 | 12
+EX-010-05 | 2 | Us010HistoryAcceptanceIT.java, VersionPage.test.tsx | 2 | 13
+R-011-01 | 1 | history.test.tsx | 9 | 15
+R-011-02 | 0 |  | 0 | 7
+R-011-03 | 0 |  | 2 | 9
+R-011-04 | 0 |  | 1 | 8
+AC-011-01 | 4 | Us011RestoreVersionAcceptanceIT.java, us011-restore-version.spec.ts, HistoryPage.test.tsx | 2 | 9
+AC-011-02 | 1 | Us011RestoreVersionAcceptanceIT.java | 0 | 7
+AC-011-03 | 2 | Us011RestoreVersionAcceptanceIT.java, VersionPage.test.tsx | 2 | 9
+AC-011-04 | 3 | Us011RestoreVersionAcceptanceIT.java, us011-restore-version.spec.ts, VersionPage.test.tsx | 1 | 8
+EX-011-01 | 1 | Us011RestoreVersionAcceptanceIT.java | 1 | 8
+EX-011-02 | 1 | Us011RestoreVersionAcceptanceIT.java | 0 | 7
+EX-011-03 | 2 | us011-restore-version.spec.ts, VersionPage.test.tsx | 1 | 8
+EX-011-04 | 2 | Us011RestoreVersionAcceptanceIT.java, VersionPage.test.tsx | 2 | 9
+R-012-01 | 1 | recycleBin.test.tsx | 2 | 10
+R-012-02 | 2 | AppLayout.test.tsx, RecycleBinPage.test.tsx | 4 | 12
+R-012-03 | 2 | recycleBin.test.tsx, RecycleBinPage.test.tsx | 2 | 10
+R-012-04 | 2 | recycleBin.test.tsx, RecycleBinPage.test.tsx | 2 | 10
+R-012-05 | 1 | RemovalJobIT.java | 1 | 9
+AC-012-01 | 4 | Us012RecycleBinAcceptanceIT.java, us012-recycle-bin.spec.ts, ContactDetailsPage.test.tsx | 4 | 11
+AC-012-02 | 3 | Us012RecycleBinAcceptanceIT.java, us012-recycle-bin.spec.ts, RecycleBinPage.test.tsx | 2 | 10
+AC-012-03 | 1 | Us012RecycleBinAcceptanceIT.java | 1 | 9
+AC-012-04 | 2 | Us012RecycleBinAcceptanceIT.java, ContactDetailsPage.test.tsx | 1 | 9
+AC-012-05 | 2 | Us012RecycleBinAcceptanceIT.java, RecycleBinPage.test.tsx | 2 | 10
+EX-012-01 | 1 | Us012RecycleBinAcceptanceIT.java | 1 | 9
+EX-012-02 | 1 | Us012RecycleBinAcceptanceIT.java | 1 | 9
+EX-012-03 | 2 | us012-recycle-bin.spec.ts, ContactDetailsPage.test.tsx | 1 | 9
+EX-012-04 | 1 | Us012RecycleBinAcceptanceIT.java | 1 | 9
+EX-012-05 | 1 | Us012RecycleBinAcceptanceIT.java | 0 | 8
+EX-012-06 | 2 | Us012RecycleBinAcceptanceIT.java, ContactDetailsPage.test.tsx | 2 | 10
+R-013-01 | 2 | AccessMatrixIT.java, recycleBin.test.tsx | 1 | 8
+R-013-02 | 0 |  | 1 | 8
+R-013-03 | 1 | RecycleBinPage.test.tsx | 1 | 8
+R-013-04 | 0 |  | 0 | 7
+AC-013-01 | 3 | Us013PermanentDeleteAcceptanceIT.java, us013-permanent-delete.spec.ts, RecycleBinPage.test.tsx | 2 | 9
+AC-013-02 | 1 | Us013PermanentDeleteAcceptanceIT.java | 0 | 7
+AC-013-03 | 1 | Us013PermanentDeleteAcceptanceIT.java | 0 | 7
+EX-013-01 | 2 | us013-permanent-delete.spec.ts, RecycleBinPage.test.tsx | 1 | 8
+EX-013-02 | 1 | Us013PermanentDeleteAcceptanceIT.java | 0 | 7
+EX-013-03 | 1 | Us013PermanentDeleteAcceptanceIT.java | 2 | 8
+EX-013-04 | 1 | Us013PermanentDeleteAcceptanceIT.java | 1 | 8
+R-014-01 | 4 | contacts.test.tsx, ContactTable.test.tsx, contactFields.test.ts | 8 | 18
+R-014-02 | 2 | DuplicateServiceTest.java, listQuery.test.ts | 4 | 14
+R-014-03 | 2 | ContactListPage.test.tsx, listQuery.test.ts | 4 | 14
+R-014-04 | 2 | ContactListPage.test.tsx, listQuery.test.ts | 4 | 13
+R-014-05 | 0 |  | 1 | 11
+R-014-06 | 4 | us014-contact-list.spec.ts, contacts.test.tsx, ContactDetailsPage.test.tsx | 7 | 17
+AC-014-01 | 3 | Us014ContactListAcceptanceIT.java, us014-contact-list.spec.ts, ContactListPage.test.tsx | 1 | 11
+AC-014-02 | 3 | Us014ContactListAcceptanceIT.java, us014-contact-list.spec.ts, ContactListPage.test.tsx | 1 | 11
+AC-014-03 | 1 | Us014ContactListAcceptanceIT.java | 0 | 10
+AC-014-04 | 3 | Us014ContactListAcceptanceIT.java, us014-contact-list.spec.ts, ContactListPage.test.tsx | 2 | 12
+AC-014-05 | 2 | Us014ContactListAcceptanceIT.java, ContactListPage.test.tsx | 1 | 11
+EX-014-01 | 2 | Us014ContactListAcceptanceIT.java, ContactListPage.test.tsx | 1 | 11
+EX-014-02 | 3 | Us014ContactListAcceptanceIT.java, us014-contact-list.spec.ts, ContactListPage.test.tsx | 1 | 11
+EX-014-03 | 1 | Us014ContactListAcceptanceIT.java | 1 | 11
+EX-014-04 | 2 | Us014ContactListAcceptanceIT.java, ContactTable.test.tsx | 2 | 12
+EX-014-05 | 1 | Us014ContactListAcceptanceIT.java | 2 | 12
+EX-014-06 | 1 | Us014ContactListAcceptanceIT.java | 1 | 11
+EX-014-07 | 1 | Us014ContactListAcceptanceIT.java | 0 | 10
+R-015-01 | 3 | tags.test.tsx, AppLayout.test.tsx, ContactListPage.test.tsx | 4 | 12
+R-015-02 | 1 | AppLayout.test.tsx | 0 | 9
+R-015-03 | 1 | ContactListPage.test.tsx | 0 | 9
+R-015-04 | 1 | ContactListPage.test.tsx | 1 | 10
+R-015-05 | 2 | ContactListPage.test.tsx, listQuery.test.ts | 1 | 10
+R-015-06 | 2 | ContactListPage.test.tsx, listQuery.test.ts | 3 | 12
+R-015-07 | 1 | ContactListPage.test.tsx | 2 | 11
+AC-015-01 | 3 | Us015FiltersAcceptanceIT.java, us015-filters.spec.ts, ContactListPage.test.tsx | 1 | 10
+AC-015-02 | 2 | Us015FiltersAcceptanceIT.java, us015-filters.spec.ts | 0 | 9
+AC-015-03 | 2 | Us015FiltersAcceptanceIT.java, us015-filters.spec.ts | 0 | 9
+AC-015-04 | 2 | Us015FiltersAcceptanceIT.java, us015-filters.spec.ts | 1 | 10
+AC-015-05 | 2 | Us015FiltersAcceptanceIT.java, us015-filters.spec.ts | 0 | 9
+EX-015-01 | 1 | Us015FiltersAcceptanceIT.java | 1 | 10
+EX-015-02 | 2 | Us015FiltersAcceptanceIT.java, ContactListPage.test.tsx | 1 | 10
+EX-015-03 | 1 | Us015FiltersAcceptanceIT.java | 0 | 9
+EX-015-04 | 1 | Us015FiltersAcceptanceIT.java | 2 | 11
+EX-015-05 | 1 | Us015FiltersAcceptanceIT.java | 0 | 9
+R-016-01 | 1 | exports.test.tsx | 5 | 13
+R-016-02 | 3 | ContactTable.test.tsx, useSelection.test.ts, ExportButtons.test.tsx | 4 | 13
+R-016-03 | 0 |  | 1 | 10
+R-016-04 | 0 |  | 1 | 10
+R-016-05 | 2 | apiClient.test.ts, ExportButtons.test.tsx | 2 | 11
+R-016-06 | 3 | ExportServiceTest.java, us016-export.spec.ts, apiClient.test.ts | 2 | 11
+R-016-07 | 1 | ExportButtons.test.tsx | 1 | 10
+AC-016-01 | 3 | Us016ExportAcceptanceIT.java, us016-export.spec.ts, ExportButtons.test.tsx | 1 | 10
+AC-016-02 | 4 | Us016ExportAcceptanceIT.java, us016-export.spec.ts, ContactListPage.test.tsx | 2 | 11
+AC-016-03 | 3 | Us016ExportAcceptanceIT.java, us016-export.spec.ts, ExportButtons.test.tsx | 1 | 10
+AC-016-04 | 1 | Us016ExportAcceptanceIT.java | 0 | 9
+EX-016-01 | 2 | Us016ExportAcceptanceIT.java, ExportButtons.test.tsx | 1 | 10
+EX-016-02 | 4 | Us016ExportAcceptanceIT.java, us016-export.spec.ts, ContactListPage.test.tsx | 2 | 11
+EX-016-03 | 1 | Us016ExportAcceptanceIT.java | 1 | 10
+EX-016-04 | 1 | Us016ExportAcceptanceIT.java | 0 | 9
+EX-016-05 | 1 | Us016ExportAcceptanceIT.java | 0 | 9
+EX-016-06 | 1 | Us016ExportAcceptanceIT.java | 0 | 9
+EX-016-07 | 1 | Us016ExportAcceptanceIT.java | 1 | 10
+R-017-01 | 3 | duplicates.test.tsx, AppLayout.test.tsx, DuplicatesPage.test.tsx | 4 | 11
+R-017-02 | 0 |  | 0 | 7
+R-017-04 | 0 |  | 3 | 9
+R-017-03 | 0 |  | 2 | 8
+R-017-05 | 1 | DuplicatesPage.test.tsx | 1 | 8
+AC-017-01 | 2 | Us017DuplicatesAcceptanceIT.java, us017-duplicates.spec.ts | 0 | 7
+AC-017-02 | 2 | Us017DuplicatesAcceptanceIT.java, us017-duplicates.spec.ts | 0 | 7
+AC-017-03 | 2 | Us017DuplicatesAcceptanceIT.java, us017-duplicates.spec.ts | 1 | 8
+AC-017-04 | 1 | Us017DuplicatesAcceptanceIT.java | 0 | 7
+AC-017-05 | 1 | Us017DuplicatesAcceptanceIT.java | 0 | 7
+EX-017-01 | 1 | Us017DuplicatesAcceptanceIT.java | 0 | 7
+EX-017-02 | 1 | Us017DuplicatesAcceptanceIT.java | 0 | 7
+EX-017-03 | 1 | Us017DuplicatesAcceptanceIT.java | 1 | 8
+EX-017-04 | 1 | Us017DuplicatesAcceptanceIT.java | 1 | 7
+EX-017-05 | 1 | Us017DuplicatesAcceptanceIT.java | 0 | 7
+EX-017-06 | 1 | Us017DuplicatesAcceptanceIT.java | 1 | 8
+EX-017-07 | 3 | Us017DuplicatesAcceptanceIT.java, us017-duplicates.spec.ts, DuplicatesPage.test.tsx | 1 | 8
+R-018-01 | 3 | AppLayout.test.tsx, DuplicatesPage.test.tsx, MergePage.test.tsx | 4 | 18
+R-018-02 | 2 | duplicates.test.tsx, MergePage.test.tsx | 4 | 18
+R-018-03 | 1 | mergeChoices.test.ts | 3 | 17
+R-018-04 | 0 |  | 3 | 17
+R-018-05 | 1 | ContactDetailsPage.test.tsx | 3 | 17
+R-018-06 | 0 |  | 1 | 15
+R-018-07 | 0 |  | 1 | 15
+AC-018-01 | 3 | Us018MergeAcceptanceIT.java, Us019UndoMergeAcceptanceIT.java, MergePage.test.tsx | 0 | 14
+AC-018-02 | 2 | Us018MergeAcceptanceIT.java, us018-merge.spec.ts | 2 | 16
+AC-018-03 | 3 | Us018MergeAcceptanceIT.java, us018-merge.spec.ts, MergePage.test.tsx | 1 | 15
+AC-018-04 | 1 | Us018MergeAcceptanceIT.java | 1 | 15
+AC-018-05 | 2 | us018-merge.spec.ts, MergePage.test.tsx | 2 | 16
+EX-018-01 | 3 | Us018MergeAcceptanceIT.java, MergePage.test.tsx, mergeChoices.test.ts | 1 | 15
+EX-018-02 | 1 | Us018MergeAcceptanceIT.java | 1 | 15
+EX-018-03 | 1 | Us018MergeAcceptanceIT.java | 1 | 15
+EX-018-04 | 1 | Us018MergeAcceptanceIT.java | 0 | 14
+EX-018-05 | 1 | Us018MergeAcceptanceIT.java | 2 | 16
+EX-018-06 | 2 | us018-merge.spec.ts, MergePage.test.tsx | 1 | 15
+EX-018-07 | 2 | Us018MergeAcceptanceIT.java, mergeChoices.test.ts | 1 | 15
+R-019-01 | 2 | duplicates.test.tsx, ContactDetailsPage.test.tsx | 5 | 11
+R-019-02 | 1 | ContactDetailsPage.test.tsx | 2 | 8
+R-019-03 | 1 | duplicates.test.tsx | 2 | 8
+AC-019-01 | 3 | Us019UndoMergeAcceptanceIT.java, MergeServiceTest.java, us019-undo-merge.spec.ts | 1 | 7
+AC-019-02 | 2 | Us019UndoMergeAcceptanceIT.java, us019-undo-merge.spec.ts | 0 | 6
+AC-019-03 | 1 | Us019UndoMergeAcceptanceIT.java | 1 | 7
+EX-019-01 | 1 | Us019UndoMergeAcceptanceIT.java | 2 | 8
+EX-019-02 | 1 | Us019UndoMergeAcceptanceIT.java | 1 | 7
+EX-019-03 | 2 | us019-undo-merge.spec.ts, ContactDetailsPage.test.tsx | 1 | 7
+R-020-01 | 3 | languages.spec.ts, AppLayout.test.tsx, UserMenu.test.tsx | 2 | 9
+R-020-02 | 2 | UserMenu.test.tsx, AccountPage.test.tsx | 4 | 11
+R-020-03 | 1 | format.test.ts | 1 | 8
+AC-020-01 | 2 | Us020LanguageAcceptanceIT.java, us020-language.spec.ts | 0 | 7
+AC-020-02 | 2 | Us020LanguageAcceptanceIT.java, us020-language.spec.ts | 1 | 7
+AC-020-03 | 2 | us020-language.spec.ts, format.test.ts | 1 | 8
+EX-020-01 | 1 | Us020LanguageAcceptanceIT.java | 1 | 8
+EX-020-02 | 2 | us020-language.spec.ts, format.test.ts | 2 | 8
+R-021-01 | 0 |  | 3 | 21
+R-021-02 | 0 |  | 1 | 19
+R-021-03 | 4 | problem.test.ts, HistoryPage.test.tsx, VersionPage.test.tsx | 2 | 20
+AC-021-01 | 3 | Us021DeleteAccountAcceptanceIT.java, us021-delete-account.spec.ts, AccountPage.test.tsx | 3 | 20
+AC-021-02 | 3 | Us021DeleteAccountAcceptanceIT.java, us021-delete-account.spec.ts, AccountPage.test.tsx | 2 | 19
+EX-021-01 | 3 | Us021DeleteAccountAcceptanceIT.java, us021-delete-account.spec.ts, AccountPage.test.tsx | 2 | 19
+EX-021-02 | 1 | Us021DeleteAccountAcceptanceIT.java | 1 | 19
+EX-021-03 | 1 | Us021DeleteAccountAcceptanceIT.java | 1 | 19
+
+ids: 324 {'R': 112, 'AC': 94, 'EX': 118}; named in a test: 302; not named in a test: 22 ['R-003-03', 'R-004-02', 'R-005-04', 'R-007-02', 'R-007-04', 'R-010-03', 'R-011-02', 'R-011-03', 'R-011-04', 'R-013-02', 'R-013-04', 'R-014-05', 'R-016-03', 'R-016-04', 'R-017-02', 'R-017-04', 'R-017-03', 'R-018-04', 'R-018-06', 'R-018-07', 'R-021-01', 'R-021-02']; without a commit (id or story): 0 []
+Each of the 22 R ids is named in at least one AC or EX row of its story (1 to 3 rows), and those AC/EX ids are named in tests.
