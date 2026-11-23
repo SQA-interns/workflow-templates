@@ -5,20 +5,17 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S10 /release
-- Result: done (run complete except step 4, D-98)
+- Session: S10 /release (step 4, after the runner restored the hidden suite)
+- Result: done (run complete)
 - Gate: phase 7 passed
 - Notes for the next session:
-  - Only `/release` step 4 is left: the hidden suite is not in `02_output/hidden-tests/` (D-98). Once the runner puts it back (`system/run.mjs --restore-hidden`), remove `02_output/hidden-tests/` from `.gitignore`, check it against `docs/03_hidden-manifest.sha256`, commit it (`test:`) and hand over "run complete".
-  - D-94 answered (D-95, option 1). D-96 records the host JDK 21.0.13.1. D-97: host-neutral deploy files in `deploy/` with an nginx 1.30.7 TLS proxy (Caddy dropped: fixable High). Q-39 is still open.
-  - READMEs checked from a clean clone (`out/logs/s10-clean-clone.txt`); deploy smoke test and backup/restore rehearsal: `s10-deploy-smoke.txt`, `s10-backup-restore.txt`.
-  - Manual tests M-01 … M-10 and the decisions pending review: `docs/release-notes.md`.
-  - `.gitignore` gained `02_output/deploy/*.env` (environment files hold secrets).
-  - Local stack `kontakti` is stopped; images `contacts-*:5cedfcc`/`a2d05cf` built locally.
+  - Hidden suite committed in `b3b4dc0`: the 10 files match `docs/03_hidden-manifest.sha256`; `hidden-tests/target/` (run output) stays ignored. D-98 closed. The commit has 2,772 lines, over the 400-line limit of `commits.md`, because the frozen suite is one unit and must not be changed.
+  - D-95 … D-97 as in the earlier handover: D-94 answered, JDK 21.0.13.1, host-neutral deploy files in `deploy/` (nginx TLS proxy; Q-39 still open).
+  - What remains is for humans: manual tests M-01 … M-10 and the decisions pending review in `docs/release-notes.md`.
 
 ## Next
-- Command: /release (step 4 only)
-- Waiting for: the runner to restore the hidden suite (D-98)
+- Command: none (run complete)
+- Waiting for: nothing
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
