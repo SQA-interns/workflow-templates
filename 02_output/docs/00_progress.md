@@ -5,21 +5,20 @@
 The handover between sessions. Every session reads it first and updates it last.
 
 ## Last session
-- Session: S9 /verify (run 2)
-- Result: done
-- Gate: phase 6 passed
+- Session: S10 /release
+- Result: done (run complete except step 4, D-98)
+- Gate: phase 7 passed
 - Notes for the next session:
-  - Run 2 in `docs/06_verification-report.md`: no finding open; F-35 … F-45 closed, F-46 accepted (D-93). Hidden evaluation Run 2 at `71dcc9c`: 123/123, manifest ok.
-  - D-94 has no `Human response` yet, but its option 1 was carried out: `libwoff1` is installed and WebKit passes 152/152. Record the human's answer (`/release D-94: 1`) before closing the decision.
-  - The host JDK was upgraded in place by unattended-upgrades on 2026-11-20 (21.0.13 → 21.0.13.1; D-01 pins 21.0.13). Pinned tool reporting another version: record a non-blocking decision. PIT ran on 21.0.13.1; the other backend runs used 21.0.13.
-  - After the host restart, background shells used the system Node 18; Node 22.23.3 (D-07) comes from nvm. Check `node -v` first.
-  - The local stack (`kontakti`) is stopped (it was stopped for the mutation runs to free memory). Start it with `APP_HOST_PORT=8090 scripts/up.sh`.
-  - Mutation: backend 97.07 %, frontend 94.87 % (raw = adjusted). `docs/03_test-strategy.md` still shows the phase 5 figures.
-  - Release work: staging (Q-39 OPEN) for DoD-P02, DoD-P03, DoD-P05, TLS; root README, release notes, staging/production compose files (ADR-11).
+  - Only `/release` step 4 is left: the hidden suite is not in `02_output/hidden-tests/` (D-98). Once the runner puts it back (`system/run.mjs --restore-hidden`), remove `02_output/hidden-tests/` from `.gitignore`, check it against `docs/03_hidden-manifest.sha256`, commit it (`test:`) and hand over "run complete".
+  - D-94 answered (D-95, option 1). D-96 records the host JDK 21.0.13.1. D-97: host-neutral deploy files in `deploy/` with an nginx 1.30.7 TLS proxy (Caddy dropped: fixable High). Q-39 is still open.
+  - READMEs checked from a clean clone (`out/logs/s10-clean-clone.txt`); deploy smoke test and backup/restore rehearsal: `s10-deploy-smoke.txt`, `s10-backup-restore.txt`.
+  - Manual tests M-01 … M-10 and the decisions pending review: `docs/release-notes.md`.
+  - `.gitignore` gained `02_output/deploy/*.env` (environment files hold secrets).
+  - Local stack `kontakti` is stopped; images `contacts-*:5cedfcc`/`a2d05cf` built locally.
 
 ## Next
-- Command: /release
-- Waiting for: D-94 (Human response only; option 1 already done)
+- Command: /release (step 4 only)
+- Waiting for: the runner to restore the hidden suite (D-98)
 
 ## Stories
 | Story | Increment | Status (ready, in progress, done) | DoD-S |
