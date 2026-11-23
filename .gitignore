@@ -3,8 +3,8 @@
 .env.*
 !.env.example
 
-# Held-out tests: written by /acceptance-tests, never committed or read by implementers
-02_output/hidden-tests/
+# Held-out tests: committed at /release (hashes in 02_output/docs/03_hidden-manifest.sha256); their run output is not
+02_output/hidden-tests/target/
 
 # Backend build output
 02_output/backend/target/
