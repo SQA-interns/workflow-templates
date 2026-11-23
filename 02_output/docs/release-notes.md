@@ -15,7 +15,7 @@ All 21 stories are done and meet their DoD-S. Exceptions are listed per story in
 
 Evidence at `71dcc9c`:
 - Backend: 477 unit and 279 integration tests. Frontend: 624 unit tests. Browser: 456 tests across Chromium, Firefox and WebKit, including E2E-01 … E2E-08.
-- Held-out tests: 123/123 (`docs/06_hidden-evaluation.md`).
+- Held-out tests: 123/123 (`docs/06_hidden-evaluation.md`). The held-out suite is committed in `02_output/hidden-tests/` (`b3b4dc0`) and matches `docs/03_hidden-manifest.sha256`.
 - Line coverage: 99.53 % backend, 99.95 % frontend. Mutation score: 97.07 % backend, 94.87 % frontend.
 - NFR-01 … NFR-08 pass.
 - API contract: `docs/02_contracts/openapi.yaml` (DoD-P04).
@@ -31,7 +31,6 @@ Evidence at `71dcc9c`:
 | Retention is partly assumed | The Invitation and Audit retention, and the controller/processor roles, are assumptions until the customer confirms them (Q-32, Q-33 OPEN) | `project/02_design/security-requirements.md` |
 | Audit entries not in the UI | Only the Operator sees them, in the database | security-requirements.md (assumption) |
 | Postgres image | 27 findings in `gosu` (Go stdlib), rated Low because `gosu` runs only at container start | D-11, D-12 |
-| Hidden suite not yet committed | `/release` step 4 is waiting for the runner to put the suite back in `02_output/hidden-tests/` | D-98 |
 | Host toolchain | Builds and tests used host JDK 21.0.13 and 21.0.13.1; the image and CI pin 21.0.13 | D-01, D-96 |
 
 ## Must be tested manually by a human
@@ -62,7 +61,7 @@ Every blocking decision has a human answer in a later record: D-07, D-12, D-27, 
 | Tests and test environment | D-36, D-38, D-39, D-44, D-46, D-49, D-67, D-89 |
 | UI behaviour | D-48 |
 | Performance | D-82 |
-| Process | D-93 (F-46), D-98 (hidden suite) |
+| Process | D-93 (F-46), D-98 (hidden suite, closed by `b3b4dc0`) |
 | Approval asked earlier and still open in the log | D-40, D-41 (answered in D-43), D-51, D-64 (answered in D-65); the records keep `pending` as written |
 
 ## Data retention duties
