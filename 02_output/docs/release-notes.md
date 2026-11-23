@@ -26,7 +26,7 @@ Evidence at `71dcc9c`:
 |---|---|---|
 | F-46 accepted | Seven stories (US-001, US-003, US-004, US-011, US-016, US-019, US-020) have no `feat` commit naming the `US` id. Traceability holds through the R/AC/EX ids | D-93 |
 | No CI run | `.github/workflows/ci.yml` has never run because the branch is not pushed. Every job command passes locally | verification report, DoD-R-15 |
-| No staging environment | Host and operator are not decided (Q-39). DoD-P02, the staging part of DoD-P03, DoD-P05, NFR-09 and TLS on a real host are unchecked; the deployment files are host-neutral | D-97 |
+| No staging environment | For now the product is hosted locally on the developer's machine (D-100); a staging and production host is not decided (Q-39). DoD-P02, the staging part of DoD-P03, DoD-P05, NFR-09 and TLS on a real host are unchecked; the deployment files are host-neutral | D-97 |
 | TLS certificate renewal | The proxy uses certificate files. Renewal (e.g. certbot) and restarting the proxy are the operator's job. Caddy (automatic HTTPS) was rejected: its latest image has a fixable High | D-97, `out/logs/s10-trivy-caddy.txt` |
 | Retention is partly assumed | The Invitation and Audit retention, and the controller/processor roles, are assumptions until the customer confirms them (Q-32, Q-33 OPEN) | `project/02_design/security-requirements.md` |
 | Audit entries not in the UI | Only the Operator sees them, in the database | security-requirements.md (assumption) |
@@ -50,7 +50,7 @@ Evidence at `71dcc9c`:
 
 ## Decisions pending review
 
-Every blocking decision has a human answer in a later record: D-07, D-12, D-27, D-35, D-43, D-65, D-91, D-95, D-97. The decisions below were resolved by the agent and wait for the human's review (`Resolution: … pending review`). Each one can be overridden by recording a `Human response`.
+Every blocking decision has a human answer in a later record: D-07, D-12, D-27, D-35, D-43, D-65, D-91, D-95, D-97. The decisions below were resolved by the agent (`Resolution: … pending review`). **The human reviewed and approved all of them on 2026-11-23 (D-99).**
 
 | Area | Decisions |
 |---|---|

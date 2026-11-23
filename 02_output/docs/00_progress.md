@@ -11,6 +11,7 @@ The handover between sessions. Every session reads it first and updates it last.
 - Notes for the next session:
   - Hidden suite committed in `b3b4dc0`: the 10 files match `docs/03_hidden-manifest.sha256`; `hidden-tests/target/` (run output) stays ignored. D-98 closed. The commit has 2,772 lines, over the 400-line limit of `commits.md`, because the frozen suite is one unit and must not be changed.
   - D-95 … D-97 as in the earlier handover: D-94 answered, JDK 21.0.13.1, host-neutral deploy files in `deploy/` (nginx TLS proxy; Q-39 still open).
+  - After the run: D-99 (human approved every decision pending review), D-100 (hosted locally for now; Q-39 stays open for staging and production).
   - What remains is for humans: manual tests M-01 … M-10 and the decisions pending review in `docs/release-notes.md`.
 
 ## Next
