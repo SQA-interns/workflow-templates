@@ -1039,3 +1039,47 @@
 - Human response: none
 - Resolution: pending
 - Overrides: none
+
+## D-95: Human answer to D-94
+- Timestamp: 2026-11-23T10:00+01:00
+- Session: S10 /release
+- Class: allow
+- Type: non-blocking
+- Trigger: asked at the start of `/release` (D-94 had no `Human response`).
+- Options: none (records the answer).
+- Human response: D-94 option 1 (the human installed `libwoff1`); 2026-11-23.
+- Resolution: D-94 → option 1, already carried out: WebKit runs 152/152 (`out/logs/s9-browser-all.txt`); NFR-06 evidence covers Chromium, Firefox and WebKit. F-39 stays closed.
+- Overrides: none
+
+## D-96: Host JDK upgraded in place to 21.0.13.1
+- Timestamp: 2026-11-23T10:00+01:00
+- Session: S10 /release
+- Class: open
+- Type: non-blocking
+- Trigger: unattended-upgrades raised the host OpenJDK from 21.0.13 (D-01) to 21.0.13.1 on 2026-11-20 (`docs/06_verification-report.md` Run 2). PIT of Run 2 ran on 21.0.13.1; the other backend runs used 21.0.13. The container image stays `eclipse-temurin:21.0.13_9-jre`.
+- Options: 1. Accept the patch release on the host for builds and tests; the pin stays authoritative for the image and CI (default). 2. Downgrade the host JDK (host belongs to the human).
+- Human response: none
+- Resolution: 1 — pending review
+- Overrides: none
+
+## D-97: Deployment files without a known host (Q-39)
+- Timestamp: 2026-11-23T10:00+01:00
+- Session: S10 /release
+- Class: block
+- Type: blocking
+- Trigger: ADR-11 writes the staging/production compose and reverse proxy at `/release`; Q-39 (host and operator) is still OPEN.
+- Options: 1. Host-neutral files: one compose file for staging and production with all settings from an env file, a TLS reverse proxy, backup and restore scripts; DoD-P02, DoD-P03 (staging), DoD-P05 and TLS stay manual checks on staging (default). 2. The human names the host now. 3. No deployment files; the release notes say deployment waits for Q-39.
+- Human response: option 1; 2026-11-23 (asked at the start of `/release`; the question named Caddy as the proxy).
+- Resolution: 1, files in `02_output/deploy/`. Proxy: not Caddy. `caddy:2.11.9-alpine` (latest patch) has one fixable High in its binary (`golang.org/x/net` CVE-2026-78661, `out/logs/s10-trivy-caddy.txt`), and it is not in `tech-stack.md`. Instead, a second container of the already approved `nginx:1.30.7-alpine` (D-92, 0 Critical/High) terminates TLS with a certificate and key the operator provides (e.g. from certbot or the hosting provider). Cost: the operator renews the certificate (listed in the release notes). No new technology. Pending review.
+- Overrides: none
+
+## D-98: Hidden suite not returned to `02_output/hidden-tests/`
+- Timestamp: 2026-11-23T10:00+01:00
+- Session: S10 /release
+- Class: open
+- Type: non-blocking
+- Trigger: `/release` step 4 commits the hidden suite that the runner puts back; `02_output/hidden-tests/` does not exist (checked with `test -d`, nothing read).
+- Options: 1. Do every other step; step 4 stays open and `/release` runs again for it once the suite is back (default). 2. Wait for the suite before writing anything.
+- Human response: option 1; 2026-11-23 (asked at the start of `/release`).
+- Resolution: 1 — the handover names step 4 as the remaining item.
+- Overrides: none
