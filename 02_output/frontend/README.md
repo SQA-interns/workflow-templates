@@ -31,6 +31,10 @@ Runtime settings come from `/config.json` (contract `docs/02_contracts/runtime-c
 | browser tests | `npm run e2e` (against `http://localhost:8080` or `E2E_BASE_URL`)     |
 | mutation      | `npm run mutation` (Stryker, report in `reports/mutation/`)           |
 
+## Deploy
+
+The image `contacts-frontend:<tag>` (`Dockerfile`, nginx 1.30.7, user `nginx`, port 8080) is built by `../scripts/build-images.sh` and runs on staging and production through `../deploy/docker-compose.yml` (root `README.md`, "Deploy"), behind the TLS proxy. There it gets the Firebase web settings of the environment's project, and `AUTH_EMULATOR_URL` is empty, so `config.json` has no emulator entry and the CSP allows only Google's sign-in hosts. It proxies `/api/` to `http://backend:8080` (`BACKEND_URL`) and writes the redacted access log (F-38).
+
 ## Structure
 
 `src/app` layout and routes · `src/api` API client · `src/auth` sign-in · `src/features/<concept>` screens · `src/components/ui` shadcn/ui primitives · `src/i18n` catalogs `sl.json`, `en.json` · `src/styles` tokens: `tokens.css` imports the active theme (`theme-wireframe.css` now, `theme-final.css` from `/design`, UI-03).
@@ -38,4 +42,5 @@ Runtime settings come from `/config.json` (contract `docs/02_contracts/runtime-c
 ## Troubleshooting
 
 - `npm ci` refuses to run: Node.js must be exactly 22.23.3 (`engine-strict`).
+- Google sign-in fails on staging: add the domain to the Firebase project's authorized domains.
 - Blank page with an error state: `/config.json` is missing or invalid.
