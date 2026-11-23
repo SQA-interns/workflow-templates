@@ -1,0 +1,31 @@
+# Smoke test of deploy/docker-compose.yml on the build host, APP_DOMAIN=localhost, self-signed cert, fake service account, 2026-11-23T10:25:57+01:00
+## http redirect
+308 https://localhost/groups
+## https SPA + headers
+HTTP/2 200 
+server: nginx
+content-security-policy: default-src 'self'; script-src 'self' https://apis.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://*.googleusercontent.com; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com ; frame-src https://demo-contacts.firebaseapp.com ; frame-ancestors 'none'; base-uri 'self'; form-action 'self'
+x-frame-options: DENY
+x-content-type-options: nosniff
+referrer-policy: strict-origin-when-cross-origin
+strict-transport-security: max-age=31536000
+## TLS protocol
+2 New, TLSv1.3, Cipher is TLS_AES_256_GCM_SHA384
+## config.json (no emulator)
+{
+  "firebaseApiKey": "test-key",
+  "firebaseAuthDomain": "demo-contacts.firebaseapp.com",
+  "firebaseProjectId": "demo-contacts"
+}
+## API without token
+401 application/problem+json;charset=UTF-8
+## API with garbage token
+401
+## users in containers
+proxy: nginx
+frontend: nginx
+backend: app
+## emulator variable in backend
+0
+## proxy log lines (access log off)
+0

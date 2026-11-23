@@ -1,0 +1,70 @@
+# Staging and production (environments.md, ADR-11, D-97): the same images as the local stack, no emulator,
+# TLS at the proxy. One env file per environment: cp env.example staging.env, fill it, then
+#   docker compose --env-file staging.env up -d --wait
+# Images are built with ../scripts/build-images.sh (or loaded with docker load); see ../README.md "Deploy".
+name: kontakti-${DEPLOY_ENV:?DEPLOY_ENV missing - run with --env-file <environment>.env}
+
+services:
+  postgres:
+    image: contacts-postgres:16.15
+    environment:
+      POSTGRES_DB: contacts
+      POSTGRES_USER: contacts
+      POSTGRES_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD missing}"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U contacts -d contacts"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  backend:
+    image: contacts-backend:${RELEASE_TAG:?RELEASE_TAG missing}
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/contacts
+      DB_USER: contacts
+      DB_PASSWORD: "${DB_PASSWORD:?DB_PASSWORD missing}"
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID:?FIREBASE_PROJECT_ID missing}"
+      FIREBASE_SERVICE_ACCOUNT_FILE: /run/secrets/firebase-service-account.json
+      APP_PUBLIC_URL: https://${APP_DOMAIN:?APP_DOMAIN missing}
+      RATE_LIMIT_PER_MINUTE: "${RATE_LIMIT_PER_MINUTE:-100}"
+      LOG_LEVEL: "${LOG_LEVEL:-INFO}"
+      # FIREBASE_AUTH_EMULATOR_HOST is never set here (environments.md).
+    volumes:
+      - "${FIREBASE_SERVICE_ACCOUNT_FILE:?FIREBASE_SERVICE_ACCOUNT_FILE missing}:/run/secrets/firebase-service-account.json:ro"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    image: contacts-frontend:${RELEASE_TAG:?RELEASE_TAG missing}
+    environment:
+      FIREBASE_WEB_API_KEY: "${FIREBASE_WEB_API_KEY:?FIREBASE_WEB_API_KEY missing}"
+      FIREBASE_AUTH_DOMAIN: "${FIREBASE_AUTH_DOMAIN:?FIREBASE_AUTH_DOMAIN missing}"
+      FIREBASE_PROJECT_ID: "${FIREBASE_PROJECT_ID:?FIREBASE_PROJECT_ID missing}"
+      AUTH_EMULATOR_URL: ""
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+  proxy:
+    image: nginx:1.30.7-alpine
+    user: nginx
+    entrypoint: ["nginx", "-c", "/etc/nginx/proxy.conf", "-g", "daemon off;"]
+    volumes:
+      - ./proxy/nginx.conf:/etc/nginx/proxy.conf:ro
+      - "${TLS_DIR:?TLS_DIR missing}:/etc/nginx/tls:ro"
+    ports:
+      - "${HTTP_PORT:-80}:8080"
+      - "${HTTPS_PORT:-443}:8443"
+    depends_on:
+      frontend:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  pgdata:

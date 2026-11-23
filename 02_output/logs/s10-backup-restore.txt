@@ -1,0 +1,17 @@
+# backup.sh and restore.sh against the smoke stack, 2026-11-23T10:26:11+01:00
+migrations before: 1
+Backup written: <BACKUP_DIR>/contacts-20261123T092611Z.dump
+migrations after delete: 0
+ Container kontakti-smoke-postgres-1 Healthy 
+ Container kontakti-smoke-backend-1 Healthy 
+ Container kontakti-smoke-frontend-1 Healthy 
+ Container kontakti-smoke-proxy-1 Healthy 
+ Container kontakti-smoke-postgres-1 Healthy 
+ Container kontakti-smoke-backend-1 Healthy 
+Restored <BACKUP_DIR>/contacts-20261123T092611Z.dump
+migrations after restore: 1
+health: 401 (401 = backend up, Flyway validated)
+backend Up 17 seconds (healthy)
+frontend Up 1 second
+postgres Up About a minute (healthy)
+proxy Up 1 second

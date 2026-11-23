@@ -28,3 +28,6 @@ node_modules/
 *.log
 !02_output/logs/*.log
 firebase-debug.log
+
+# Environment files of staging and production (D-97); only env.example is committed
+02_output/deploy/*.env
