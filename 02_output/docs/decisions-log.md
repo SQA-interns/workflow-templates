@@ -1083,3 +1083,25 @@
 - Human response: option 1; 2026-11-23 (asked at the start of `/release`).
 - Resolution: 1 — the handover names step 4 as the remaining item.
 - Overrides: none
+
+## D-99: Human review of every decision pending review
+- Timestamp: 2026-11-23T11:30+01:00
+- Session: S10 /release (after the run)
+- Class: allow
+- Type: non-blocking
+- Trigger: `docs/release-notes.md` "Decisions pending review" lists the decisions resolved by the agent; the human reviewed all of them.
+- Options: none (records the answer).
+- Human response: "reviewed all the decisions. everything looks good"; 2026-11-23.
+- Resolution: every decision of D-01 … D-98 marked `pending review` is approved as resolved, including D-97 (nginx TLS proxy with certificate files), D-93 (F-46) and D-96 (host JDK 21.0.13.1). The earlier records stay as written (append-only); this record is their review.
+- Overrides: none
+
+## D-100: Q-39 answered for now: the product is hosted locally
+- Timestamp: 2026-11-23T11:30+01:00
+- Session: S10 /release (after the run)
+- Class: allow
+- Type: non-blocking
+- Trigger: Q-39 (staging and production host and operator) was OPEN; asked after the release which choices remain.
+- Options: none (records the answer).
+- Human response: "lets host local for now"; 2026-11-23.
+- Resolution: for now the product runs on the developer's machine as the local stack (`scripts/up.sh`, `docker-compose.yml`, Firebase Auth emulator), operated by the developer. No staging or production host exists yet, so the manual tests that need a real host, domain or Firebase project (M-01 … M-04, M-06 … M-08, M-10) stay open. M-05 (restore) was rehearsed locally (`out/logs/s10-backup-restore.txt`). `deploy/` stays ready for when a host is chosen. Q-39 stays open for staging and production.
+- Overrides: environments.md "staging" and "production": host OPEN → the developer's machine (local stack) until a host is chosen
